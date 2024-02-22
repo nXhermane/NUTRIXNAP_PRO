@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "NUTRIXNAP",
+    "slug": "NUTRIXNAP",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo/iconNutriApp.png",
+    "scheme": "NUTRIXNAP",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/logo/iconNutriApp.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000000",
+      "height": 150,
+      "width": 150
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "nxh.nutriXnap.nutriXcup",
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.347524790336-7au4e1o7m1i82oo6bau36sga59tdrfin"
+            ]
+          }
+        ]
+      },
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "nxh.NUTRIXNAP.nutriXcup"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6028efc6-292b-43c2-a31e-ca3d3926ddf1"
+      }
+    }
+  }
+}
