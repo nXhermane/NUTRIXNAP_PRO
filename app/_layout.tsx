@@ -1,21 +1,17 @@
 import "react-native-gesture-handler";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-    DarkTheme,
-    DefaultTheme,
-    
-} from "@react-navigation/native";
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import { ThemeProvider } from "./../theme/ThemeContext";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useColorScheme } from "@comp/useColorScheme";
 export { ErrorBoundary } from "expo-router";
-import { Text,Appearance } from "react-native";
+import { Text, Appearance } from "react-native";
 import Colors from "./../constants/Colors";
-import useTheme from '@/theme/useTheme';
+import useTheme from "@/theme/useTheme";
 export const unstable_settings = {
     initialRouteName: "index"
 };
@@ -31,10 +27,10 @@ export default function RootLayout() {
         satochi_medium: require("../assets/fonts/Satoshi-Medium.ttf"),
         beau: require("../assets/fonts/BeauRivage-Regular.ttf"),
         great: require("../assets/fonts/GreatVibes-Regular.ttf"),
-        inter:require("../assets/fonts/Inter-VariableFont_slnt,wght.ttf"),
+        inter: require("../assets/fonts/Inter-VariableFont_slnt,wght.ttf"),
         ...FontAwesome.font
     });
-  
+
     useEffect(() => {
         if (error) throw error;
     }, [error]);
@@ -53,15 +49,28 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-
     return (
-        <ThemeProvider
-          
-        >
-            <Stack>
-                <Stack.Screen name="index" options={{ headerShown: false }} />
-                <Stack.Screen name="auth" options={{ headerShown: false }} />
-            </Stack>
+        <ThemeProvider>
+            <GestureHandlerRootView style={{flex:1}}>
+                <Stack>
+                    <Stack.Screen
+                        name="index"
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="auth"
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="(drawer)"
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="search"
+                        options={{ headerShown: true }}
+                    />
+                </Stack>
+            </GestureHandlerRootView>
         </ThemeProvider>
     );
 }

@@ -1,2 +1,3 @@
-import OnbordingData,{OnbordingDataType} from "./onbording"
-export {OnbordingData,OnbordingDataType}
+//import OnbordingData,{OnbordingDataType} from "./onbording"
+import ServicesData from './services'
+export {ServicesData}

@@ -24,6 +24,7 @@ interface ButtonProps {
     fs: number;
     ff: string;
     fc: string;
+    fw: string | number;
     c: string;
     r: number;
     bw: number;
@@ -47,7 +48,8 @@ const Button: React.FC<ButtonProps> = props => {
         title = "",
         gradient = false,
         outlined = false,
-        onPress = () => {}
+        onPress = () => {},
+        children
     } = props;
     const styles = theme =>
         StyleSheet.create({
@@ -63,7 +65,9 @@ const Button: React.FC<ButtonProps> = props => {
                         ? 0
                         : theme.size.s1 / 2
                     : 0,
-                backgroundColor: gradient ? "transparent" : theme.colors.blue,
+                backgroundColor: gradient
+                    ? "transparent"
+                    : props.c || theme.colors.blue,
                 ...props.sc
             },
             btnContainerHight: {
@@ -105,9 +109,9 @@ const Button: React.FC<ButtonProps> = props => {
                 color: !outlined
                     ? props.fc || theme.colors.white
                     : props.fc || theme.colors.blue,
-                fontSize: props.props || theme.size.s5,
+                fontSize: props.fs || theme.size.s4,
                 fontFamily: props.ff || "satochi_bold",
-                fontWeight: "bold",
+                fontWeight: props.fw || "bold",
                 textTransform: props.upper ? "uppercase" : "none",
                 ...props.st
             }
@@ -168,37 +172,44 @@ const Button: React.FC<ButtonProps> = props => {
                         onPressOut={onPressOut}
                         underlayColor={theme.colors.blue}
                     >
-                        <View style={style.btnSectionContainer}>
-                            {props.iconStart && (
-                                <View style={style.iconContainer}>
-                                    {props.iconStart({
-                                        style: {
-                                            color: outlined
-                                                ? theme.colors.blue
-                                                : theme.colors.white,
-                                            size: theme.size.s6
-                                        }
-                                    })}
+                        {children ? (
+                            { children }
+                        ) : (
+                            <View style={style.btnSectionContainer}>
+                                {props.iconStart && (
+                                    <View style={style.iconContainer}>
+                                        {props.iconStart({
+                                            style: {
+                                                color: outlined
+                                                    ? theme.colors.blue
+                                                    : theme.colors.white,
+                                                size: theme.size.s6
+                                            }
+                                        })}
+                                    </View>
+                                )}
+                                <View style={style.centerContainer}>
+                                    <Text
+                                        style={style.btnText}
+                                        numberOfLines={1}
+                                    >
+                                        {title}
+                                    </Text>
                                 </View>
-                            )}
-                            <View style={style.centerContainer}>
-                                <Text style={style.btnText} numberOfLines={1}>
-                                    {title}
-                                </Text>
+                                {props.iconEnd && (
+                                    <View style={style.iconContainer}>
+                                        {props.iconEnd({
+                                            style: {
+                                                color: outlined
+                                                    ? theme.colors.blue
+                                                    : theme.colors.white,
+                                                size: theme.size.s6
+                                            }
+                                        })}
+                                    </View>
+                                )}
                             </View>
-                            {props.iconEnd && (
-                                <View style={style.iconContainer}>
-                                    {props.iconEnd({
-                                        style: {
-                                            color: outlined
-                                                ? theme.colors.blue
-                                                : theme.colors.white,
-                                            size: theme.size.s6
-                                        }
-                                    })}
-                                </View>
-                            )}
-                        </View>
+                        )}
                     </TouchableHighlight>
                 </Animated.View>
             </ButtonContainer>

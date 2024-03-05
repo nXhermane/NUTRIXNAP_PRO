@@ -9,10 +9,10 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/logo/iconNutriApp.png",
-      "resizeMode": "cover",
+      "resizeMode": "center",
       "backgroundColor": "#000000",
-      "height": 150,
-      "width": 150
+      "height": 70,
+      "width": 70
     },
     "assetBundlePatterns": [
       "**/*"
@@ -46,7 +46,13 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "The app needs to access your calendar."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

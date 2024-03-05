@@ -23,8 +23,8 @@ const index = (props: Props) => {
     );
     const redirectUri = makeRedirectUri({
         scheme: "nutriXnap",
-        path: "auth/logininfo",
-       // queryParams: userInfo
+        path: "auth/logininfo"
+        // queryParams: userInfo
     });
     const signInWithGoogle = async () => {
         try {
@@ -100,24 +100,41 @@ const index = (props: Props) => {
                 <View style={style.getStartedAction}>
                     <Button
                         gradient
-                        h={theme.size.s50 * 1}
+                        h={theme.size.s50 * 0.9}
                         w={theme.size.width * 0.85}
-                        r={theme.size.s5}
+                        r={theme.size.s5 * 2}
                         title={"Connectez-vous"}
                         ff="inter"
                         onPress={() => {
-                            promptAsync({ redirectUri });
+                            //promptAsync({ redirectUri });
+                            router.navigate({
+                                pathname: "./logininfo",
+                                params: {
+                                    user: JSON.stringify({
+                                        id: "105049269041464607468",
+                                        email: "hermanoricoby@gmail.com",
+                                        verified_email: true,
+                                        name: "Hermano Dossou",
+                                        given_name: "Hermano",
+                                        family_name: "Dossou",
+                                        picture:
+                                            "https://lh3.googleusercontent.com/a/ACg8ocL10GHjCILxoFxiWqckBVP5kUiUJ9jq7I0W20vUMk6r=s96-c",
+                                        locale: "fr"
+                                    })
+                                }
+                            });
                         }}
                     />
                     <Button
                         onPress={() => alert("fonctionnalite non inplementer")}
-                        gradient
+                        gradient={false}
                         outlined
                         ff="inter"
-                        h={theme.size.s50 * 1}
+                        h={theme.size.s50*0.9}
                         w={theme.size.width * 0.85}
-                        r={theme.size.s5}
+                        r={theme.size.s5 * 2}
                         title={"Inscrivez-vous"}
+                        outlinedBgColor={theme.colors.bg.bg1}
                     />
                 </View>
             </View>
@@ -160,15 +177,15 @@ const styles = theme =>
             fontFamily: "inter",
             textAlign: "center",
             fontWeight: "700",
-            fontSize: theme.size.s8,
+            fontSize: theme.size.s6,
             color: theme.colors.text.primary
         },
         getStartedBodyParagraph: {
             fontFamily: "inter",
             textAlign: "center",
-            fontSize: theme.size.s5,
+            fontSize: theme.size.s4,
             color: theme.colors.text.secondary,
-            lineHeight: theme.size.s9
+            lineHeight: theme.size.s6
         },
         getStartedAction: {
             gap: theme.size.s5,

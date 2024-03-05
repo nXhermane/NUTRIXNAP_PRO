@@ -17,13 +17,14 @@ const Avatars = (props: Props) => {
         letter,
         color = theme.colors.b,
         image,
-        icon
+        icon,
+        r
     } = props;
     return (
         <View
             style={[
                 style.avatars,
-                { height: s, width: s, backgroundColor: bg }
+                {borderRadius:r|| theme.size.width, height: s, width: s, backgroundColor: bg }
             ]}
         >
             {!icon && !image && letter && (
@@ -50,7 +51,7 @@ export default Avatars;
 const styles = theme =>
     StyleSheet.create({
         avatars: {
-            borderRadius: theme.size.width,
+            
             justifyContent: "center",
             alignItems: "center",
             overflow: "hidden"
