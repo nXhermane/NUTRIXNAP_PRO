@@ -1,16 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from "react-native";
 
 
 interface Props {
-  // Define your props here
+    // Define your props here
 }
 
 const patient = (props: Props) => {
-  return (
-    <View>
-      <Text>FirstTab</Text>
-    </View>
-  );
+    
+    return (
+        <View>
+            <Text>FirstTab</Text>
+        </View>
+    );
 };
 
 export default patient;

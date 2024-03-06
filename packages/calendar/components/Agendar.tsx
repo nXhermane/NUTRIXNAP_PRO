@@ -28,6 +28,9 @@ import {
     Gesture,
     GestureHandlerRootView
 } from "react-native-gesture-handler";
+import useCalendarData from "@pack/calendar/hooks/useCalendarData";
+import useCalendarNavigation from "@pack/calendar/hooks/useCalendarNavigation";
+import useCalendarInitialization from "@pack/calendar/hooks/useCalendarInitialization";
 import { day } from "../data/agendarData";
 import { days, month } from "../data/calendarData";
 import MonthlyCalendar from "./MonthlyCalendar";
@@ -37,10 +40,15 @@ import { selectorTapPositionCalculator } from "./../utils";
 interface Props {}
 
 const Agendar = (props: Props) => {
+    const [init, calendar] = useCalendarInitialization();
+    const [nav] = useCalendarNavigation(calendar);
+    const [getData] = useCalendarData(calendar);
+    const [Month, isActive] = getData["CM"]();
+
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
     const [Changed, setChanged] = useState(true);
-    const [format, setFormat] = useState(3);
+    const [format, setFormat] = useState(7);
     const demoRef = React.useRef(null);
     const [selectorIsVisible, setSelectorIsVisible] = useState(false);
     const [selectorWidth, setSelectorWidth] = useState("100%");
@@ -134,6 +142,9 @@ const Agendar = (props: Props) => {
             setScrollViewVisibleContentWidth(e.nativeEvent.layout.width);
         });
     };
+    useEffect(() => {
+        console.log("Month Update");
+    }, [Month]);
     return (
         <View style={style.agendarContainer}>
             <View style={style.agendarHeader}>
@@ -150,7 +161,7 @@ const Agendar = (props: Props) => {
                     bouncesZoom={false}
                     initialNumToRender={1}
                     keyExtractor={(item, index) => String(index + item.weekId)}
-                    data={month}
+                    data={Month}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => {
                         return (
@@ -164,7 +175,7 @@ const Agendar = (props: Props) => {
                                             style={style.dayCellValueContainer}
                                         >
                                             <Text style={style.dayCellValue}>
-                                                {day.name}
+                                                {day.value}
                                             </Text>
                                         </View>
                                     </Pressable>
@@ -219,7 +230,7 @@ const Agendar = (props: Props) => {
                                 }}
                                 showsHorizontalScrollIndicator={false}
                             >
-                                {month.map((item, n) => {
+                                {Month.map((item, n) => {
                                     return (
                                         <View
                                             key={item.weekId + "" + n}

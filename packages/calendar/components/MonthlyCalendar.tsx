@@ -3,10 +3,10 @@ import React, { useEffect, useState, useLayoutEffect } from "react";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import { days, month } from "../data/calendarData";
-export type CalendarHeaderDay = { name: string }[];
+export type CalendarHeaderDay = string[];
 export type CalendarEvent = { eventId: string; color: string };
 export type CalendarDay = {
-    name: number;
+    value: number;
     dayId: string;
     isActive: boolean;
     events: CalendarEvent[];
@@ -14,38 +14,34 @@ export type CalendarDay = {
 export type CalendarWeek = { weekId: number; days: CalendarDay[] };
 export type CalendarMonth = CalendarWeek[];
 interface Props {
-    dayName: CalendarHeaderDay;
+    daysName: CalendarHeaderDay;
     monthData: CalendarMonth;
     onPressDay: (day: CalendarDay) => void;
 }
 
 const MonthlyCalendar = ({
-    dayName = days,
+    daysName = days,
     monthData = month,
     onPressDay = () => {}
 }: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
     const [currentCalendarInfo, setCurrentCalendarInfo] = useState({
-        activeDay: { name: 2, dayId: 4, weekId: 0 },
         selectDay: {
-            name: 1,
+            value: 1,
             dayId: 0,
             weekId: 0
         }
     });
+    const [activeDayName, setActiveDayName] = useState(null);
 
     return (
         <View style={style.calendarContainerInner}>
             <View style={style.calendarHeader}>
-                {dayName.map((day, i) => (
-                    <View key={day.name + i} style={style.cell}>
-                        <Text
-                            style={style.dayNameStyle(
-                                currentCalendarInfo.activeDay.dayId === i
-                            )}
-                        >
-                            {day.name}
+                {daysName.map((day, i) => (
+                    <View key={day + i} style={style.cell}>
+                        <Text style={style.dayNameStyle(activeDayName === i)}>
+                            {day}
                         </Text>
                     </View>
                 ))}
@@ -59,41 +55,33 @@ const MonthlyCalendar = ({
                         {week.days.map((day, index) => {
                             useEffect(() => {
                                 if (day.isActive) {
-                                    setCurrentCalendarInfo(prev => ({
-                                        ...prev,
-                                        activeDay: {
-                                            name: day.name,
-                                            dayId: day.dayId,
-                                            weekId: day.weekId
-                                        }
-                                    }));
+                                    setActiveDayName(day.dayId);
                                 }
                             }, [day.isActive]);
                             const isSelect =
-                                day.name === currentCalendarInfo.selectDay.name;
-                            const isActive =
-                                day.name === currentCalendarInfo.activeDay.name;
+                                day.value ===
+                                currentCalendarInfo.selectDay.value;
+
                             return (
                                 <View key={index} style={style.cell}>
                                     <Pressable
                                         style={({ pressed }) =>
                                             style.daysPressable({
-                                                isActive,
+                                                isActive: day.isActive,
                                                 isSelect
                                             })
                                         }
                                         onPress={() => {
-                                          if(day.name===null) return 
+                                            if (day.value === null) return;
                                             setCurrentCalendarInfo(prev => ({
-                                                ...prev,
                                                 selectDay: {
-                                                    name: day.name,
+                                                    value: day.value,
                                                     dayId: day.dayId,
                                                     weekId: day.weekId
                                                 }
                                             }));
                                             onPressDay({
-                                                name: day.name,
+                                                value: day.value,
                                                 dayId: day.dayId,
                                                 isActive: day.isActive,
                                                 events: day.events
@@ -105,14 +93,15 @@ const MonthlyCalendar = ({
                                                 <Text
                                                     style={style.daysNumberStyle(
                                                         {
-                                                            isActive,
+                                                            isActive:
+                                                                day.isActive,
                                                             isSelect
                                                         }
                                                     )}
                                                 >
-                                                    {day.name}
+                                                    {day.value}
                                                 </Text>
-                                                {(!isActive && !isSelect) && (
+                                                {!day.isActive && !isSelect && (
                                                     <View
                                                         style={
                                                             style.eventDotContainer
@@ -222,7 +211,7 @@ const styles = ({ colors, size }) =>
         eventDotContainer: {
             position: "absolute",
             bottom: 0,
-            flexDirection:'row',
-            gap:size.s1
+            flexDirection: "row",
+            gap: size.s1
         }
     });
