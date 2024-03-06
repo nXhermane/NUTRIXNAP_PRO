@@ -16,7 +16,7 @@ NutriXnap Pro offre des fonctionnalités avancées pour simplifier la gestion de
 
 1. **Cloner le Référentiel:**
    ```
-   git clone https://github.com/nXhermnae/NUTRIXNAP_PRO.git
+   git clone https://github.com/nXhermane/NUTRIXNAP_PRO.git
    ```
 
 2. **Installer les Dépendances:**
