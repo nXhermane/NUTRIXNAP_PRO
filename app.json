@@ -8,9 +8,9 @@
     "scheme": "NUTRIXNAP",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/logo/iconNutriApp.png",
+      "image": "./assets/images/logo/logonutrixnapDark.gif",
       "resizeMode": "center",
-      "backgroundColor": "#000000",
+      "backgroundColor": "#ffffff",
       "height": 70,
       "width": 70
     },

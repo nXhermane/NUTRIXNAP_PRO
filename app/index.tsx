@@ -16,7 +16,8 @@ import useThemeStyles from "@/theme/useThemeStyles";
 import Logo from "@comp/basic/Logo";
 interface Props {
     // Define your props here
-}
+}    
+
 
 const index = (props: Props) => {
     const theme = useTheme();
@@ -29,7 +30,7 @@ const index = (props: Props) => {
             router.replace("./auth");
         }, 1000);
     });
-
+  
     return (
         <View style={[style.container, {}]}>
             {/*<Image

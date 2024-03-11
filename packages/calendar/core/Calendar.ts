@@ -1,12 +1,18 @@
-export default class Calendar {
-    monthInYear = 11;
-    weekInMonth = 5;
-    daysInWeek = 6;
-    Date = null;
-    currentMonth = null;
-    currentYear = null;
-    currentDay = null;
+type CalendarMarkerEvent = {
+    eventId: string;
+    color: string;
+    markedDay: string;
+};
 
+export default class Calendar {
+    private monthInYear: number = 11;
+    private weekInMonth: number = 5;
+    private daysInWeek: number = 6;
+    public Date = null;
+    public currentMonth = null;
+    public currentYear = null;
+    public currentDay = null;
+    private eventsMarkerArray: CalendarMarkerEvent[] = [];
     constructor() {
         this.initCalendar();
     }
@@ -113,12 +119,14 @@ export default class Calendar {
     getCurrentMonthDays() {
         return this.getDaysInMonth(this.currentYear, this.currentMonth);
     }
+    setEventMarkerArray(eventsMarkerArray: CalendarMarkerEvent[]) {
+        this.eventsMarkerArray = eventsMarkerArray;
+    }
     generateMonthDataForCalendar(year, month) {
         const date = new Date(year, month, 1);
         const firstDay = date.getDate();
         const firstDayType = date.getDay();
         const lastDay = new Date(year, month + 1, 0).getDate();
-
         let currentDay = firstDay;
         let monthDataArray = [];
         let isActive = false;
@@ -129,6 +137,7 @@ export default class Calendar {
                 weekId: countWeek,
                 days: []
             };
+            let weekIsNotAllNullDay = false;
             let countDays = 0;
             while (countDays <= this.daysInWeek) {
                 const localCurrentDay = new Date().toDateString();
@@ -137,13 +146,23 @@ export default class Calendar {
                     month,
                     currentDay
                 ).toDateString();
-
+                let dateString =
+                    year +
+                    "-" +
+                    (month < 10 ? "0" : "") +
+                    month +
+                    "-" +
+                    (currentDay < 10 ? "0" : "") +
+                    currentDay;
                 let day = {
                     dayId: countDays,
                     value: null,
                     isActive: false,
-
-                    events: []
+                    dateString: dateString,
+                    events: this.eventsMarkerArray.filter(
+                        (item: CalendarMarkerEvent) =>
+                            item.markedDay === dateString
+                    )
                 };
                 if (localCurrentDay === currentDate) {
                     day.isActive = true;
@@ -151,16 +170,18 @@ export default class Calendar {
                 }
                 if (countDays === firstDayType && firstPassage) {
                     day.value = currentDay;
+                    weekIsNotAllNullDay = true;
                     firstPassage = false;
                     currentDay++;
                 } else if (!firstPassage && currentDay <= lastDay) {
                     day.value = currentDay;
+                    weekIsNotAllNullDay = true;
                     currentDay++;
                 }
                 week.days.push(day);
                 countDays++;
             }
-            monthDataArray.push(week);
+            if (weekIsNotAllNullDay) monthDataArray.push(week);
             countWeek++;
         }
         return [monthDataArray, isActive];
@@ -172,8 +193,7 @@ export default class Calendar {
         );
     }
     generateYearDataForCalendar(year) {
-        const yearDataArray = {};
-
+        const yearData = {};
         let currentMonth = 0;
         while (currentMonth <= this.monthInYear) {
             const [monthArray, isActive] = this.generateMonthDataForCalendar(
@@ -183,17 +203,36 @@ export default class Calendar {
             const month = {
                 monthId: currentMonth,
                 weeks: monthArray,
-                isActive: isActive
+                isActive: isActive,
+                key: year + "-" + currentMonth,
+                dateString: this.getMonthNames()[currentMonth] + " " + year
             };
-            yearDataArray[year + "-" + currentMonth] = month;
+            yearData[year + "-" + currentMonth] = month;
             currentMonth++;
         }
-        return yearDataArray;
+
+        return yearData;
+    }
+    generateDataForCalendarFromMaxAndMinYear(minYear, maxYear) {
+        const start = Date.now();
+        let data = {};
+
+        while (minYear <= maxYear) {
+            const yearData = this.generateYearDataForCalendar(minYear);
+
+            data = { ...data, ...yearData };
+
+            minYear++;
+        }
+        const end = Date.now();
+        console.log('CALENDARDATA EsT Generer',end - start, "ms");
+        return data;
     }
     generateCurrentYearDataForCalendar() {
         return this.generateYearDataForCalendar(this.currentYear);
     }
     getDateFromStringFormat(dateString) {
+        "worklet";
         const date = dateString.split("-");
         return date.map(item => Number(item));
     }
@@ -206,7 +245,7 @@ export default class Calendar {
         const options = { month: monthNameType };
         const months = [];
         for (let month = 0; month <= this.monthInYear; month++) {
-            date.setMonth(month - 1);
+            date.setMonth(month);
             months.push(date.toLocaleDateString(localizedCode, options));
         }
         return months;

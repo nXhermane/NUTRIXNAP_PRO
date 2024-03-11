@@ -4,9 +4,23 @@ import useThemeStyles from "@/theme/useThemeStyles";
 import { router, Link } from "expo-router";
 import { ServicesData } from "../../../data";
 import DashBoardSection from "@comp/container/DashBoardSection";
+import EmptyContainerText from "@comp/basic/EmptyContainerText";
 import Avatars from "@comp/basic/Avatars";
-import { FontAwesome, Fontisto, MaterialIcons,Ionicons } from "@expo/vector-icons";
-import Reacf, { useState, useEffect } from "react";
+import {
+    FontAwesome,
+    Fontisto,
+    MaterialIcons,
+    Ionicons,
+    Feather
+} from "@expo/vector-icons";
+import Animated, {
+    withSpring,
+    useSharedValue,
+    useAnimatedStyle,
+    interpolate,
+    withDelay
+} from "react-native-reanimated";
+import React, { useState, useEffect } from "react";
 interface Props {
     // Define your props here
 }
@@ -17,126 +31,144 @@ const UpComingContainer = (props: Props) => {
     const [isConfirm, setisConfirm] = useState(null);
     return (
         <DashBoardSection
-            title={"UpComing Shedule"}
-            linkTitle={"See All"}
+            title={"À venir"}
+            linkTitle={"Voir plus"}
             linkPath={"/"}
             style={style.serviceInner}
         >
-            <Pressable style={style.container}>
-                <View style={style.header}>
-                    <Text style={style.title}>Appointment</Text>
-                    <Pressable>
-                        <FontAwesome name="edit" size={24} color={colors.white} />
-                    </Pressable>
-                </View>
-                <View style={style.body}>
-                    <View style={style.bodyInner}>
-                        <Fontisto name="date" size={24} color={colors.white} />
-                        <Text style={style.date}>1 Mars,2024</Text>
-                    </View>
-                    <View style={style.bodyInner}>
-                        <Ionicons name="time" size={24} color={colors.white} />
-                        <Text style={style.date}>08:00 AM - 08:30 AM</Text>
-                    </View>
-                </View>
-                <Pressable style={style.user}>
-                    <View style={style.userProfile}>
-                        <Avatars letter={"J"} r={size.s3} s={size.s100*0.58}/>
-                        <View style={style.userInfo}>
-                            <Text style={style.userName}>Jean Doe</Text>
-                            <Text style={style.appointementType}>Rdv</Text>
-                        </View>
-                    </View>
-                    {isConfirm === true ? (
-                        <Ionicons
-                            name="checkmark-done"
-                            size={24}
-                            color="black"
-                        />
-                    ) : isConfirm === false ? (
-                        <Ionicons name="checkmark" size={24} color="black" />
-                    ) : (
-                        <MaterialIcons
-                            name="radio-button-unchecked"
-                            size={24}
-                            color="black"
-                        />
-                    )}
-                </Pressable>
-            </Pressable>
+            <View style={style.container}>
+                <UpcomingEvents
+                    title={"Consultation avec un Patient"}
+                    dateTime={"02 mars 2024 à 12h 30"}
+                    eventId={"12"}
+                    color={colors.green100}
+                    secondColor={colors.green300}
+                />
+                <UpcomingEvents
+                    title={"Consultation avec un Patient"}
+                    dateTime={"02 mars 2024 à 12h 30"}
+                    eventId={"12"}
+                    color={colors.purple100}
+                    secondColor={colors.purple300}
+                />
+                <UpcomingEvents
+                    title={"Consultation avec un Patient"}
+                    dateTime={"02 mars 2024 à 12h 30"}
+                    eventId={"12"}
+                    color={colors.yellow100}
+                    secondColor={colors.yellow300}
+                />
+            </View>
         </DashBoardSection>
     );
 };
 
 export default UpComingContainer;
+const UpcomingEvents = ({ title, dateTime, eventId, color, secondColor }) => {
+    const { colors, size } = useTheme();
+    const style = useThemeStyles(styles);
+    const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+    const sizes = useSharedValue(0);
+    const containerStyle = useAnimatedStyle(() => ({
+        width: interpolate(
+            sizes.value,
+            [0, 1],
+            [size.width * 0.8, size.width * 0.9]
+        ),
+        height: interpolate(
+            sizes.value,
+            [0, 1],
+            [size.s100 * 0.7, size.s100 * 0.8]
+        )
+    }));
+    useEffect(() => {
+        sizes.value = withDelay(700, withSpring(1, { duration: 1000 }));
+    });
+    return (
+        <Animated.View style={[containerStyle, { marginBottom: size.s4 }]}>
+            <Pressable
+                style={[style.upComingItem(secondColor)]}
+                onPressIn={() =>
+                    (sizes.value = withSpring(0, { duration: 1000 }))
+                }
+                onPressOut={() => {
+                    sizes.value = withSpring(1, { duration: 1000 });
 
-const styles = ({ colors, size }) => StyleSheet.create({
-  container:{
-    width:size.width*0.95,
-    height:size.s100*2,
-    backgroundColor:colors.blue,
-    alignSelf:'center',
-    borderRadius:size.s5,
-    padding:size.s5,
-    gap:size.s4
-  },
-  header:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center'
-  },
-  title:{
-    fontFamily:'inter',
-    fontSize:size.s4*1.1,
-    color:colors.white,
-    fontWeight:'700'
-  },
-  body:{
-    gap:size.s4
-  },
-  bodyInner:{
-    flexDirection:'row',
-    alignItems:'center',
-    gap:size.s2
-  },
-  date:{
-    fontFamily:'inter',
-    fontSize:size.s4*0.9,
-    color:colors.white,
-    fontWeight:'bold'
-  },
-  user:{
-    width:'100%',
-    height:size.s100*0.8,
-    backgroundColor:colors.bg.bg2,
-    borderRadius:size.s3,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    paddingHorizontal:size.s4,
-    marginTop:size.s2,
-    elevation:1
-  },
-  userProfile:{
-    flexDirection:'row',
-    justifyContent:'flex-start',
-    alignItems:'center',
-    gap:size.s2
-  },
-  userInfo:{
-    gap:size.s1
-  },
-  userName:{
-    fontFamily:'inter',
-    fontSize:size.s5,
-  fontWeight:'700',
-  color:colors.blue
-  },
-  appointementType:{
-    fontFamily:'inter',
-    fontSize:size.s4,
-  fontWeight:'500',
-  color:colors.blue
-  }
-  
-});
+                    //alert("Go to detailPage")
+                }}
+            >
+                <View style={style.eventTypeIconContainer(color)}></View>
+                <View style={style.eventInfo}>
+                    <Text style={style.eventTitle}>{title}</Text>
+                    <Text style={style.eventType}>{dateTime}</Text>
+                </View>
+                <AnimatedPressable
+                    style={style.eventDateContainer(secondColor)}
+                    onPress={() => {
+                        alert("Go to edit page");
+                    }}
+                >
+                    <Feather name="edit" size={20} color={color} />
+                </AnimatedPressable>
+            </Pressable>
+        </Animated.View>
+    );
+};
+const styles = ({ colors, size }) =>
+    StyleSheet.create({
+        container: {
+            width: size.width * 0.9,
+            backgroundColor: colors.w,
+            alignSelf: "center",
+            borderRadius: size.s1,
+            gap: size.s1,
+            //borderWidth: size.s1 / 8,
+            borderColor: colors.gray100,
+            marginTop:size.s3
+            // elevation: size.s1 / 2
+        },
+        upComingItem: color => ({
+            height: size.s100 * 0.8,
+            backgroundColor: colors.w,
+            borderBottomColor: color,
+            borderBottomWidth: size.s1,
+
+            borderBottomLeftRadius: size.s4,
+            borderBottomRightRadius: size.s4,
+            flexDirection: "row",
+            gap: size.s1,
+            paddingHorizontal: size.s2,
+            paddingVertical: size.s2
+        }),
+        eventTypeIconContainer: bg => ({
+            height: size.s100 * 0.6,
+            width: size.s100 * 0.6,
+            backgroundColor: bg,
+            borderRadius: 600,
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden",
+            alignSelf: "center"
+        }),
+        eventInfo: {
+            justifyContent: "center"
+        },
+        eventTitle: {
+            fontFamily: "inter_b",
+            fontSize: size.s4,
+            color: colors.black300,
+            marginBottom: size.s2
+        },
+        eventType: {
+            fontFamily: "inter_sb",
+            color: colors.gray200
+        },
+        eventDateContainer: bg => ({
+            position: "absolute",
+            top: -size.s1,
+            right: -size.s1,
+            backgroundColor: bg,
+            padding: size.s2,
+            borderRadius: size.s10 * 2
+        })
+    });

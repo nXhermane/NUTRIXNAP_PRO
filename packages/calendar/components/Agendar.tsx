@@ -202,8 +202,6 @@ const Agendar = (props: Props) => {
                         <HourMark
                             offset={selectorOffset}
                             cell={cellHeight}
-                            //getHour={(val)=>console.log(val)}
-
                             isActive
                         />
                         <HourMark

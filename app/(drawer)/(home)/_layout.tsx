@@ -61,7 +61,7 @@ const _layout = (props: Props) => {
                 options={{
                     title: "Dashbord",
                     tabBar: ({}) => <Text>Hellk</Text>,
-                    headerShown: false,
+                    headerShown: true,
                     tabBarIcon: ({ color, size, focused }) => (
                         <MaterialIcons
                             name="space-dashboard"
@@ -75,7 +75,7 @@ const _layout = (props: Props) => {
                 name="patient"
                 options={{
                     title: "Patient",
-                    headerShown: false,
+                    headerShown: true,
                     tabBarIcon: ({ color, size, focused }) => (
                         <MaterialIcons
                             name="group"

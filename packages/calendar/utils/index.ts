@@ -65,3 +65,18 @@ export const selectorTapPositionCalculator = ({
     }
     return xPosition;
 };
+
+
+export const fixFloot = (value: number) => {
+        let flootPart = value.toString().split(".");
+
+        let around = 0;
+        if (flootPart[1]) {
+            const secontPart = Number("0." + flootPart[1]);
+            if (secontPart >= 0.5) {
+                around = 1;
+            }
+        }
+
+        return Number(flootPart[0]) + around;
+    }; 

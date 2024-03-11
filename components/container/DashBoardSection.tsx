@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React  from 'react'
+import React from "react";
 
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
@@ -8,31 +8,50 @@ interface Props {
     // Define your props here
 }
 
-const DashBoardSection:React.FC = (props: Props) => {
+const DashBoardSection: React.FC = (props: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
     return (
         <View style={style.serviceContainer}>
-            <View style={style.serviceHead}>
-                <Text style={style.title}>{props.title}</Text>
-                <Link href={props.linkPath} style={style.link}>
-                    <Text style={style.linkText}>{props.linkTitle}</Text>
-                </Link>
-            </View>
-            <View style={style.serviceInner}>
-            {props.children}
-            </View>
+            {!props.header && (
+                <View style={style.serviceHead}>
+                    {props.title && (
+                        <Text style={style.title}>{props.title}</Text>
+                    )}
+                    {props.linkPath && (
+                        <Link href={props.linkPath} style={style.link}>
+                            <Text style={style.linkText}>
+                                {props.linkTitle}
+                            </Text>
+                        </Link>
+                    )}
+                </View>
+            )}
+            {props.body && (
+                <View style={style.bodyContainer}>
+                    {<Text style={style.body}>{props.body}</Text>}
+                </View>
+            )}
+            {props.children && (
+                <View style={style.serviceInner}>{props.children}</View>
+            )}
         </View>
     );
 };
 
 export default DashBoardSection;
 
-const styles = ({size,colors}) => StyleSheet.create({
-  serviceContainer: {
-            width: "100%",
-            gap: size.s4,
-            marginTop: size.s8
+const styles = ({ size, colors }) =>
+    StyleSheet.create({
+        serviceContainer: {
+            width: "95%",
+            gap: size.s1,
+            marginTop: size.s8,
+            backgroundColor: colors.w,
+            paddingVertical: size.s4,
+            alignSelf: "center",
+            borderRadius: size.s4,
+            elevation: 1
         },
         serviceHead: {
             flexDirection: "row",
@@ -40,22 +59,29 @@ const styles = ({size,colors}) => StyleSheet.create({
             alignItems: "center",
             paddingHorizontal: size.s5
         },
+        bodyContainer: {
+            paddingHorizontal: size.s5,
+            marginBottom: size.s1
+        },
         title: {
-            fontFamily: "inter",
-            fontWeight: "700",
-            color: colors.text.primary,
+            fontFamily: "inter_eb",
+            color: colors.black300,
             fontSize: size.s5
         },
         link: {
             fontFamily: "inter"
         },
         linkText: {
-            fontFamily: "inter",
+            fontFamily: "inter_r",
             fontSize: size.s3,
-            color: colors.blue,
-            fontWeight: "600"
+            color: colors.blue300
         },
-        serviceInner:{
+        serviceInner: {
           
+        },
+        body: {
+            fontFamily: "inter_m",
+            fontSize: size.s3,
+            color: colors.gray200
         }
-});
+    });

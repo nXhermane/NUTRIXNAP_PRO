@@ -19,15 +19,13 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
     const [loaded, error] = useFonts({
-        SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-        satochi_regular: require("../assets/fonts/Satoshi-Regular.ttf"),
-        satochi_variable: require("../assets/fonts/Satoshi-Variable.ttf"),
-        satochi_bold: require("../assets/fonts/Satoshi-Bold.ttf"),
-        satochi_light: require("../assets/fonts/Satoshi-Light.ttf"),
-        satochi_medium: require("../assets/fonts/Satoshi-Medium.ttf"),
-        beau: require("../assets/fonts/BeauRivage-Regular.ttf"),
-        great: require("../assets/fonts/GreatVibes-Regular.ttf"),
         inter: require("../assets/fonts/Inter-VariableFont_slnt,wght.ttf"),
+        inter_l: require("../assets/fonts/Inter-Light.ttf"),
+        inter_r: require("../assets/fonts/Inter-Regular.ttf"),
+        inter_m: require("../assets/fonts/Inter-Medium.ttf"),
+        inter_sb: require("../assets/fonts/Inter-SemiBold.ttf"),
+        inter_b: require("../assets/fonts/Inter-Bold.ttf"),
+        inter_eb: require("../assets/fonts/Inter-ExtraBold.ttf"),
         ...FontAwesome.font
     });
 
@@ -51,7 +49,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
     return (
         <ThemeProvider>
-            <GestureHandlerRootView style={{flex:1}}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
                 <Stack>
                     <Stack.Screen
                         name="index"
@@ -63,11 +61,29 @@ function RootLayoutNav() {
                     />
                     <Stack.Screen
                         name="(drawer)"
-                        options={{ headerShown: false }}
+                        options={{
+                            headerShown: false,
+                            animation: "slide_from_bottom"
+                        }}
                     />
                     <Stack.Screen
-                        name="search"
+                        name="search/search"
                         options={{ headerShown: true }}
+                    />
+                    <Stack.Screen
+                        name="search/searchPatient"
+                        options={{
+                            headerShown: true,
+                            animation: "fade_from_bottom"
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"detailpage/[patient_Id]"}
+                      //  getId={({ params }) => String(Date.now())}
+                        options={{
+                            headerShown: true,
+                            animation: "slide_from_bottom"
+                        }}
                     />
                 </Stack>
             </GestureHandlerRootView>

@@ -9,8 +9,11 @@ import Top from "@comp/tabs/dashbord/Top";
 import ServiceContainer from "@comp/tabs/dashbord/ServiceContainer";
 import UpComingContainer from "@comp/tabs/dashbord/UpComingContainer";
 import SearchInput from "@comp/basic/SearchInput";
-import React, { iseEffect, useState } from "react";
-import { router } from "expo-router";
+import SearchBtn from "@comp/tabs/SearchBtn";
+import React, { useEffect, useState } from "react";
+import { router, Stack, Tabs } from "expo-router";
+import GeneralInfo from "@comp/tabs/dashbord/GeneralInfo";
+import DashBoardSection from "@comp/container/DashBoardSection";
 interface Props {
     // Define your props here
 }
@@ -24,54 +27,35 @@ const index = (props: Props) => {
     return (
         <SafeAreaView>
             <>
+                <Tabs.Screen
+                    options={{
+                        header: () => <HeaderTabs nav={navigation} />
+                    }}
+                />
                 <StatusBar />
                 <ScrollView
-                    //stickyHeaderIndices={[0]}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{
+                        width: theme.size.width,
+                        // height: theme.size.height,
                         paddingTop: theme.size.s50,
-                         width: theme.size.width,
-                        height: theme.size.height
+                        paddingBottom: theme.size.s50 * 1.5
                     }}
                 >
                     <View style={style.container}>
-                        <Top
-                            st={{
-                                paddingTop: theme.size.s5
-                            }}
-                        />
-                        <SearchInput
-                            w={theme.size.width * 0.85}
-                            h={theme.size.s50}
-                            v={searchValue}
-                            p={"Search..."}
-                            onChange={v => setSearchValue(v)}
-                            onFocus={() => {
-                                setIsFocus(true);
-                                router.navigate("search");
-                            }}
-                            onBlur={() => {
-                                setIsFocus(false);
-                            }}
-                            isFocus={isFocus}
-                            disableClearIcon={searchValue !== ""}
-                            onClear={() => {
-                                setSearchValue("");
-                            }}
-                            st={{
-                                alignSelf: "center",
-                                marginTop: theme.size.s8
-                            }}
-                            pC={theme.colors.gray}
-                        />
+                        <Top />
+                        <DashBoardSection header>
+                            <SearchBtn placeholder={"Rechercher..."} />
+                        </DashBoardSection>
                         <ServiceContainer />
                         <UpComingContainer />
+                        <GeneralInfo />
                     </View>
                 </ScrollView>
-                <HeaderTabs nav={navigation} />
-                <View style={style.flotBtnContainer}>
+
+                {/*<View style={style.flotBtnContainer}>
                     <FlotingBtn s={60} onPress={() => alert("oui")} />
-                </View>
+                </View>*/}
             </>
         </SafeAreaView>
     );
@@ -88,6 +72,7 @@ const styles = theme =>
             zIndex: 4000
         },
         container: {
-            flex: 1
+            flex: 1,
+            backgroundColor: theme.colors.bg.secondary
         }
     });
