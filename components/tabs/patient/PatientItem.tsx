@@ -35,7 +35,8 @@ const PatientItem = (props: Props) => {
         uri,
         index = 1,
         setSelected,
-        sexe="M"
+        sexe = "M",
+        searchItem = false
     } = props;
     let statusColor = [colors.w300, colors.w100];
     if (statusCode === 1) statusColor = [colors.yellow300, colors.yellow100];
@@ -46,14 +47,14 @@ const PatientItem = (props: Props) => {
     const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
     const AnimatedPressableStyle = useAnimatedStyle(() => ({
-        width: interpolate(
-            s.value,
-            [0, 1],
-            [size.width * 0.8, size.width * 0.9]
-        ),
+        // width: interpolate(
+        //     s.value,
+        //     [0, 1],
+        //     [size.width * 0.9, size.width * 0.9]
+        // ),
         tansform: [
             {
-                scale: interpolate(s.value, [0, 1], [1, 0.9])
+                scaleZ: interpolate(s.value, [0, 1], [1, 0.7])
             }
         ],
         opacity: interpolate(s.value, [0, 1], [0.9, 1])
@@ -62,26 +63,40 @@ const PatientItem = (props: Props) => {
     React.useEffect(() => {
         s.value = withSpring(1, { duration: index * 700 });
     });
-    const deletePatient=()=>{
-      alert('delete Pptient')
-    }
-    const editPatient=()=>{
-      alert('Edit Pptient')
-    }
+    const deletePatient = () => {
+        alert("delete Pptient");
+    };
+    const editPatient = () => {
+        alert("Edit Pptient");
+    };
     const renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
-            outputRange: [-5, 0, 0, 1]
+            outputRange: [searchItem ? 0 : -5, 0, 0, 1]
         });
 
         return (
-            <View style={style.rightAction} onPress={() => alert("press")}>
+            <View
+                style={[
+                    style.rightAction,
+                    searchItem ? { width: size.s100 } : {}
+                ]}
+                onPress={() => alert("press")}
+            >
                 <ReactNativeAnimated.View
                     style={[
                         style.actionView,
                         {
                             transform: [{ translateX: trans }]
-                        }
+                        },
+                        searchItem
+                            ? {
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                  alignItems: "flex-start",
+                                  height: size.s100 * 0.6
+                              }
+                            : {}
                     ]}
                 >
                     <Pressable style={style.deleteIcon} onPress={deletePatient}>
@@ -106,12 +121,15 @@ const PatientItem = (props: Props) => {
         <Swipeable
             renderRightActions={renderRightActions}
             dragOffsetFromRightEdge={0}
-            dragOffsetFromLeftEdge={20}
+            dragOffsetFromLeftEdge={searchItem ? 0 : 20}
+            overshootFriction={20}
         >
             <AnimatedPressable
                 style={[
                     AnimatedPressableStyle,
-                    style.container(statusColor[0], isSelected)
+                    searchItem
+                        ? style.containerForSearchItem(isSelected)
+                        : style.container(statusColor[0], isSelected)
                 ]}
                 onPressIn={() => (s.value = withSpring(0, { duration: 500 }))}
                 onPressOut={() => (s.value = withSpring(1, { duration: 500 }))}
@@ -141,16 +159,33 @@ const PatientItem = (props: Props) => {
                     }
                 }}
             >
-                <View style={style.patientInfo}>
+                <View
+                    style={
+                        searchItem
+                            ? style.patientInfoForSearchItem
+                            : style.patientInfo
+                    }
+                >
                     <View style={style.patientImage}>
                         {uri ? (
-                            <Avatars image={{ uri: uri }} s={size.s100 * 0.6} />
+                            <Avatars
+                                image={{ uri: uri }}
+                                s={
+                                    searchItem
+                                        ? size.s100 * 0.4
+                                        : size.s100 * 0.6
+                                }
+                            />
                         ) : (
                             <Avatars
                                 letter={name.slice(0, 1)}
                                 bg={statusColor[1]}
                                 color={statusColor[0]}
-                                s={size.s100 * 0.6}
+                                s={
+                                    searchItem
+                                        ? size.s100 * 0.4
+                                        : size.s100 * 0.6
+                                }
                             />
                         )}
                     </View>
@@ -159,33 +194,37 @@ const PatientItem = (props: Props) => {
                             <Text style={style.patientName}>
                                 {name}{" "}
                                 <Ionicons
-                                    name={sexe==="M"?"man":"woman"}
+                                    name={sexe === "M" ? "man" : "woman"}
                                     size={size.s4}
                                     color={statusColor[0]}
                                 />
                             </Text>
+
                             <Text style={style.patientOccupation}>
                                 {occupation}
                             </Text>
                         </View>
-                        <View style={style.systemeInfo}>
-                            <View style={style.systemeIdContainer}>
-                                <Text style={style.id}>#ID: {id}</Text>
+                        {!searchItem && (
+                            <View style={style.systemeInfo}>
+                                <View style={style.systemeIdContainer}>
+                                    <Text style={style.id}>#ID: {id}</Text>
+                                </View>
+                                <View style={style.systemeLastVisitContainer}>
+                                    <Text style={style.lastVisit}>
+                                        Last activity: {"02/03/2024"}
+                                    </Text>
+                                </View>
+                                <View style={style.sexeContainer}>
+                                    <Text style={style.sexeLabel}>Age: </Text>
+                                    <Text style={style.sexeValue}>28ans</Text>
+                                </View>
                             </View>
-                            <View style={style.systemeLastVisitContainer}>
-                                <Text style={style.lastVisit}>
-                                    Last activity: {"02/03/2024"}
-                                </Text>
-                            </View>
-                            <View style={style.sexeContainer}>
-                                <Text style={style.sexeLabel}>Age: </Text>
-                                <Text style={style.sexeValue}>28ans</Text>
-                            </View>
-                        </View>
+                        )}
                     </View>
                 </View>
-               { //<View style={style.statusColor(statusColor[0])}></View>
-               }
+                {
+                    //<View style={style.statusColor(statusColor[0])}></View>
+                }
                 {
                     // <View style={style.optionsConatiner}>
                     //     <View style={style.sexeContainer}>
@@ -225,6 +264,14 @@ const styles = ({ colors, size }) =>
             borderRightColor: colors.gray300,
             borderLeftColor: colors.gray300
         }),
+        containerForSearchItem: isSelected => ({
+            width: "100%",
+            height: size.s100 * 0.6,
+            paddingHorizontal: size.s8,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: isSelected ? colors.w : "transparent"
+        }),
         rightAction: {
             width: size.width * 0.1,
             height: size.s100 * 0.9,
@@ -240,6 +287,14 @@ const styles = ({ colors, size }) =>
             width: "100%",
             overflow: "hidden"
             //backgroundColor: "red"
+        },
+        patientInfoForSearchItem: {
+            flexDirection: "row",
+            gap: size.s3,
+            justifyContent: "flex-start",
+            alignItems: "center",
+            width: "100%",
+            overflow: "hidden"
         },
         optionsConatiner: {
             justifyContent: "center",

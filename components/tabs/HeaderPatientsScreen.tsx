@@ -38,21 +38,27 @@ const HeaderPatientsScreen = (props: Props) => {
             </View>
             <View style={style.headerRight}>
                 <Pressable
-                    style={({pressed})=>style.icon(colors.purple100,colors.purple300,pressed)}
+                    style={({ pressed }) =>
+                        style.icon(colors.w, colors.b, pressed)
+                    }
                     onPress={() => {
-                        router.navigate('search/searchPatient')
+                        router.navigate("search/searchPatient");
                     }}
                 >
                     {({ pressed }) => (
                         <Ionicons
                             name="search-sharp"
                             size={size.s5}
-                            color={pressed ? colors.purple100 : colors.purple300}
+                            color={
+                                pressed ? colors.purple100 : colors.purple300
+                            }
                         />
                     )}
                 </Pressable>
                 <Pressable
-                    style={({pressed})=>style.icon(colors.yellow100,colors.yellow300,pressed)}
+                    style={({ pressed }) =>
+                        style.icon(colors.yellow100, colors.yellow300, pressed)
+                    }
                     onPress={() => {
                         navigation.openDrawer();
                     }}
@@ -61,7 +67,9 @@ const HeaderPatientsScreen = (props: Props) => {
                         <Ionicons
                             name="person-add"
                             size={size.s5}
-                            color={pressed ? colors.yellow100 : colors.yellow300}
+                            color={
+                                pressed ? colors.yellow100 : colors.yellow300
+                            }
                         />
                     )}
                 </Pressable>
@@ -121,10 +129,9 @@ const styles = ({ colors, size }) =>
             color: colors.black300,
             textTransform: "uppercase"
         },
-        icon:(b1,b2,pressed)=>({
-          padding:size.s2,
-          backgroundColor:pressed?b2:b1,
-          borderRadius:500,
-          
+        icon: (b1, b2, pressed) => ({
+            padding: size.s2,
+            backgroundColor: pressed ? b2 : b1,
+            borderRadius: 500
         })
     });

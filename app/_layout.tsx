@@ -63,7 +63,7 @@ function RootLayoutNav() {
                         name="(drawer)"
                         options={{
                             headerShown: false,
-                            animation: "slide_from_bottom"
+                            animation: "slide_from_right"
                         }}
                     />
                     <Stack.Screen
@@ -74,12 +74,12 @@ function RootLayoutNav() {
                         name="search/searchPatient"
                         options={{
                             headerShown: true,
-                            animation: "fade_from_bottom"
+                            animation: "slide_from_right"
                         }}
                     />
                     <Stack.Screen
                         name={"detailpage/[patient_Id]"}
-                      //  getId={({ params }) => String(Date.now())}
+                        //  getId={({ params }) => String(Date.now())}
                         options={{
                             headerShown: true,
                             animation: "slide_from_bottom"
