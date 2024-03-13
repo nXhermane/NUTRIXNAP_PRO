@@ -56,14 +56,14 @@ const styles = ({ colors, size }) =>
         toggleBtnContainer: pressed => ({
             paddingVertical: size.s1,
             paddingHorizontal: size.s2,
-            borderWidth: size.s1 / 4,
+            borderWidth: pressed ? 0 : size.s1 / 4,
             borderColor: colors.gray300,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "flex-start",
             backgroundColor: pressed ? colors.blue300 : colors.bg.secondary,
             gap: size.s1,
-            borderRadius: size.s1
+            borderRadius: size.s2
         }),
         toggleBtnText: pressed => ({
             fontFamily: "inter_m",

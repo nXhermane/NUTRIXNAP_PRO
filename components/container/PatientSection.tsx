@@ -6,57 +6,96 @@ import useThemeStyles from "@/theme/useThemeStyles";
 import { router, Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 interface Props {
-    // Define your props here
+    withRight?: boolean;
+    withFilter?: boolean;
+    onPressFilter?: () => void;
+    withAddBtn?: boolean;
+    onPressAddBtn?: () => void;
+    withSearch?: boolean;
+    onPressSearch?: boolean;
+    title?: string;
+    body?: string;
+    header?: boolean;
+    children?: React.ReactNode;
 }
 
-const PatientSection: React.FC = (props: Props) => {
+const PatientSection: React.FC<Props> = ({
+    withRight = false,
+    withFilter = false,
+    withAddBtn = false,
+    withSearch = false,
+    onPressFilter = () => {},
+    onPressAddBtn = () => {},
+    onPressSearch = () => {},
+    title,
+    body,
+    header = false,
+    children
+}) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
     return (
         <View style={style.serviceContainer}>
-            {!props.header && (
+            {header && (
                 <View style={style.serviceHead}>
-                    {props.title && (
-                        <Text style={style.title}>{props.title}</Text>
+                    {title && <Text style={style.title}>{title}</Text>}
+                    {withRight && (
+                        <View style={style.sectionHeaderRight}>
+                            {withAddBtn && (
+                                <Pressable onPress={onPressAddBtn}>
+                                    {({ pressed }) => (
+                                        <Ionicons
+                                            name={"add-outline"}
+                                            color={
+                                                pressed
+                                                    ? colors.purple300
+                                                    : colors.black300
+                                            }
+                                            size={pressed ? size.s4 : size.s5}
+                                        />
+                                    )}
+                                </Pressable>
+                            )}
+                            {withSearch && (
+                                <Pressable onPress={onPressSearch}>
+                                    {({ pressed }) => (
+                                        <Ionicons
+                                            name={"search"}
+                                            color={
+                                                pressed
+                                                    ? colors.purple300
+                                                    : colors.black300
+                                            }
+                                            size={pressed ? size.s4 : size.s5}
+                                        />
+                                    )}
+                                </Pressable>
+                            )}
+                            {withFilter && (
+                                <Pressable onPress={onPressFilter}>
+                                    {({ pressed }) => (
+                                        <Ionicons
+                                            name={"filter"}
+                                            color={
+                                                pressed
+                                                    ? colors.purple300
+                                                    : colors.black300
+                                            }
+                                            size={pressed ? size.s4 : size.s5}
+                                        />
+                                    )}
+                                </Pressable>
+                            )}
+                        </View>
                     )}
-                    <View style={style.sectionHeaderRight}>
-                        <Pressable>
-                            {({ pressed }) => (
-                                <Ionicons
-                                    name={"add-outline"}
-                                    color={
-                                        pressed
-                                            ? colors.purple300
-                                            : colors.black300
-                                    }
-                                    size={pressed ? size.s4 : size.s5}
-                                />
-                            )}
-                        </Pressable>
-                        <Pressable>
-                            {({ pressed }) => (
-                                <Ionicons
-                                    name={"filter"}
-                                    color={
-                                        pressed
-                                            ? colors.purple300
-                                            : colors.black300
-                                    }
-                                    size={pressed ? size.s4 : size.s5}
-                                />
-                            )}
-                        </Pressable>
-                    </View>
                 </View>
             )}
-            {props.body && (
+            {body && (
                 <View style={style.bodyContainer}>
-                    {<Text style={style.body}>{props.body}</Text>}
+                    {<Text style={style.body}>{body}</Text>}
                 </View>
             )}
-            {props.children && (
-                <View style={style.serviceInner}>{props.children}</View>
-            )}
+            {children && <View style={style.serviceInner}>{children}</View>}
         </View>
     );
 };

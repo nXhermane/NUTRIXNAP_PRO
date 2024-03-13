@@ -7,9 +7,11 @@ import { router, useNavigation } from "expo-router";
 interface Props {
     value: string;
     onChange: (value: string) => void;
-    onFilterPress: () => void;
+    onFilterPress?: () => void;
     placeholder: string;
-    setValue:(value:string)=>void
+    setValue: (value: string) => void;
+    withFilter?: boolean;
+    withGoBack?:boolean
 }
 
 const SearchInput = ({
@@ -17,7 +19,9 @@ const SearchInput = ({
     onChange,
     onFilterPress = () => {},
     placeholder,
-    setValue
+    setValue,
+    withFilter = false,
+    withGoBack=false
 }: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
@@ -25,7 +29,7 @@ const SearchInput = ({
     const navigation = useNavigation();
     return (
         <View style={style.searchInputContainer}>
-            <View style={style.goBackIconContainer}>
+           {withGoBack&& <View style={style.goBackIconContainer}>
                 <Pressable
                     style={style.goBackBtn}
                     onPress={() => navigation.goBack()}
@@ -36,7 +40,7 @@ const SearchInput = ({
                         color={colors.black300}
                     />
                 </Pressable>
-            </View>
+            </View>}
             <View style={style.textInputContainer}>
                 <TextInput
                     placeholderTextColor={colors.gray300}
@@ -59,18 +63,20 @@ const SearchInput = ({
                     </Pressable>
                 )}
             </View>
-            <View style={style.filterBtnContainer}>
-                <Pressable
-                    style={style.filterBtn}
-                    onPress={() => onFilterPress()}
-                >
-                    <Ionicons
-                        name={"filter"}
-                        color={colors.black300}
-                        size={size.s5}
-                    />
-                </Pressable>
-            </View>
+            {withFilter && (
+                <View style={style.filterBtnContainer}>
+                    <Pressable
+                        style={style.filterBtn}
+                        onPress={() => onFilterPress()}
+                    >
+                        <Ionicons
+                            name={"filter"}
+                            color={colors.black300}
+                            size={size.s5}
+                        />
+                    </Pressable>
+                </View>
+            )}
         </View>
     );
 };

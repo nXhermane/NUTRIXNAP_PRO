@@ -4,16 +4,18 @@ import useThemeStyles from "@/theme/useThemeStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, router } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
 interface Props {
     // Define your props here
 }
 
 const HeaderPatientsScreen = (props: Props) => {
-    const { colors, size } = useTheme();
+    const { colors, size,isLightTheme } = useTheme();
     const style = useThemeStyles(styles);
     const navigation = useNavigation();
     return (
-        <View style={style.container}>
+              <BlurView experimentalBlurMethod={'dimezisBlurView'} intensity={15}
+        tint={isLightTheme?"light":"dark"} style={style.container}>
             <View style={style.headerRight}>
                 <Pressable
                     style={style.icon}
@@ -74,7 +76,7 @@ const HeaderPatientsScreen = (props: Props) => {
                     )}
                 </Pressable>
             </View>
-        </View>
+        </BlurView>
     );
 };
 

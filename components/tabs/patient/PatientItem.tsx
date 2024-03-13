@@ -119,10 +119,11 @@ const PatientItem = (props: Props) => {
     };
     return (
         <Swipeable
-            renderRightActions={renderRightActions}
+            renderRightActions={searchItem ? null : renderRightActions}
             dragOffsetFromRightEdge={0}
             dragOffsetFromLeftEdge={searchItem ? 0 : 20}
             overshootFriction={20}
+            friction={searchItem ? 1000 : 1}
         >
             <AnimatedPressable
                 style={[

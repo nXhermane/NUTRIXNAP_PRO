@@ -32,9 +32,11 @@ const patient = (props: Props) => {
                     paddingBottom: size.s50 * 1.5
                 }}
             >
-                <Top />
+                <View style={style.container}>
+                    <Top />
 
-                <PatientsList />
+                    <PatientsList />
+                </View>
             </ScrollView>
         </SafeAreaView>
     );
