@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import {ThemeInterface,useTheme,useThemeStyles} from "@/theme"
 import React, { useState, useEffect } from "react";
 import Animated, {
     useSharedValue,
@@ -57,7 +56,7 @@ const FlotingBtn = ({
 
 export default FlotingBtn;
 
-const styles = theme =>
+const styles =( theme:ThemeInterface) =>
     StyleSheet.create({
         flotBtnContainer: ({ h, w, r }) => ({
             borderRadius: r || 500,

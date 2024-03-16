@@ -1,14 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { router, Link } from "expo-router";
 interface Props {
-    // Define your props here
+    linkPath?: any;
+    linkTitle?: string;
+    header?: boolean;
+    title?: string;
+    body?: string;
+    children?: JSX.Element;
+    linkText?:string
 }
 
-const DashBoardSection: React.FC = (props: Props) => {
+const DashBoardSection: React.FC<Props> = props => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
     return (
@@ -41,7 +46,7 @@ const DashBoardSection: React.FC = (props: Props) => {
 
 export default DashBoardSection;
 
-const styles = ({ size, colors }) =>
+const styles = ({ size, colors }: ThemeInterface) =>
     StyleSheet.create({
         serviceContainer: {
             width: "95%",
@@ -76,9 +81,7 @@ const styles = ({ size, colors }) =>
             fontSize: size.s3,
             color: colors.blue300
         },
-        serviceInner: {
-          
-        },
+        serviceInner: {},
         body: {
             fontFamily: "inter_m",
             fontSize: size.s3,

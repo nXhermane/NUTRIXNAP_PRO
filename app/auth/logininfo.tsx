@@ -76,7 +76,7 @@ export default logininfo;
 const styles = theme =>
     StyleSheet.create({
         container: {
-            backgroundColor: theme.colors.bg.bg1,
+            backgroundColor: theme.colors.w,
             flex: 1
         },
         getUserInfoContainer: {

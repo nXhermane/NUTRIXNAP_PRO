@@ -42,6 +42,7 @@ const SearchInput = ({
                 </Pressable>
             </View>}
             <View style={style.textInputContainer}>
+            <Ionicons name={"search"} size={size.s5} color={colors.gray200} />
                 <TextInput
                     placeholderTextColor={colors.gray300}
                     style={style.textInput}
@@ -105,7 +106,8 @@ const styles = ({ colors, size }) =>
             borderRadius: size.s100,
             height: "70%",
             overflow: "hidden",
-            paddingHorizontal: size.s4
+            paddingHorizontal: size.s4,
+            gap:size.s2
         },
         filterBtnContainer: {
             justifyContent: "center",

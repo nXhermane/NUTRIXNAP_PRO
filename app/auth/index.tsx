@@ -145,7 +145,7 @@ const index = (props: Props) => {
 const styles = theme =>
     StyleSheet.create({
         container: {
-            backgroundColor: theme.colors.bg.bg1,
+            backgroundColor: theme.colors.w,
             justifyContent: "center",
             alignItems: "center",
             flex: 1

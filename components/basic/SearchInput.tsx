@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import {ThemeInterface,useTheme,useThemeStyles} from "@/theme"
 import { MaterialIcons } from "@expo/vector-icons";
 interface Props {
     // Define your props here
@@ -59,7 +58,7 @@ const SearchInput = (props: Props) => {
 
 export default SearchInput;
 
-const styles = ({ size, colors }) =>
+const styles = ({ size, colors }:ThemeInterface) =>
     StyleSheet.create({
         search: ({ h, w, r, bw,st }) => ({
             width: w || size.width * 0.8,

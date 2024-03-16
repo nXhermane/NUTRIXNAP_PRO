@@ -3,7 +3,8 @@ import {
     Text,
     View,
     TouchableHighlight,
-    StyleProps
+    ViewStyle,
+    TextStyle
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Animated, {
@@ -14,8 +15,7 @@ import Animated, {
     withTiming
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 
 type iconFun = { style: { color: string; size: number } };
 interface ButtonProps {
@@ -33,14 +33,15 @@ interface ButtonProps {
     outlinedBgColor: string;
     gradient: boolean;
     outlined: boolean;
-    iconStart: (confih: iconFun) => React.Nodes;
-    iconEnd: (config: iconFun) => React.Nodes;
+    iconStart: (config: iconFun) => JSX.Element;
+    iconEnd: (config: iconFun) => JSX.Element;
     upper: boolean;
     title: string;
     disableBorder: boolean;
     onPress: () => void;
-    st: StyleProps;
-    sc: StyleProps;
+    st: TextStyle;
+    sc: ViewStyle;
+    children: React.ReactNode;
 }
 const Button: React.FC<ButtonProps> = props => {
     const theme = useTheme();
@@ -51,7 +52,7 @@ const Button: React.FC<ButtonProps> = props => {
         onPress = () => {},
         children
     } = props;
-    const styles = theme =>
+    const styles = (theme: ThemeInterface) =>
         StyleSheet.create({
             btnContainer: {
                 width: props.w || theme.size.s100 * 3,
@@ -136,7 +137,10 @@ const Button: React.FC<ButtonProps> = props => {
         width.value = withSpring(1);
     };
 
-    const ButtonContainer: React.FC = ({ gradient, children }) => {
+    const ButtonContainer: React.FC<{
+        gradient: boolean;
+        children: React.ReactNode;
+    }> = ({ gradient, children }) => {
         return (
             <>
                 {gradient ? (
@@ -173,7 +177,7 @@ const Button: React.FC<ButtonProps> = props => {
                         underlayColor={theme.colors.blue}
                     >
                         {children ? (
-                            { children }
+                            children
                         ) : (
                             <View style={style.btnSectionContainer}>
                                 {props.iconStart && (

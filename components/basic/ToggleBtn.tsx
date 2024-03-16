@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import {ThemeInterface,useTheme,useThemeStyles} from "@/theme"
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 interface Props {
@@ -51,7 +50,7 @@ const ToggleBtn = (props: Props) => {
 
 export default ToggleBtn;
 
-const styles = ({ colors, size }) =>
+const styles = ({ colors, size }:ThemeInterface) =>
     StyleSheet.create({
         toggleBtnContainer: pressed => ({
             paddingVertical: size.s1,

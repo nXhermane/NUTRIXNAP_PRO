@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import React from "react";
 interface Props {
-    // Define your props here
+    children: React.ReactNode;
 }
 
 const EmptyContainerText = (props: Props) => {
@@ -16,25 +15,20 @@ const EmptyContainerText = (props: Props) => {
     );
 };
 
-
-
 export default EmptyContainerText;
 
-const styles = ({ size, colors }) =>
+const styles = ({ size, colors }: ThemeInterface) =>
     StyleSheet.create({
         container: {
-          
-          justifyContent:'center',
-          alignItems:'center',
-          backgroundColor:'red'
-          
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "red"
         },
-        textStyle:{
-          fontSize:size.s4,
-          fontFamily:'inter_b',
-          color:colors.gray200,
-          textAlign:'center',
-          textAlignVertical:'center',
-          
+        textStyle: {
+            fontSize: size.s4,
+            fontFamily: "inter_b",
+            color: colors.gray200,
+            textAlign: "center",
+            textAlignVertical: "center"
         }
     });

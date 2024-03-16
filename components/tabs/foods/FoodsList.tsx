@@ -4,19 +4,19 @@ import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import { router, Link } from "expo-router";
 import PatientSection from "@comp/container/PatientSection";
-import PatientItem from "@comp/tabs/patient/PatientItem";
+import FoodItem from "@comp/tabs/foods/FoodItem";
 import SearchInput from "@comp/search/SearchInput";
 import SearchPatientFilter, {
     searchFilterReducer,
     searchFilterInitialState
 } from "@comp/search/SearchPatientFilter";
-import { dataPatientList } from "@/data";
+import { dataFoodList } from "@/data";
 import React, { useState, useReducer } from "react";
 interface Props {
     // Define your props here
 }
 
-const PatientsList = (props: Props) => {
+const FoodsList = (props: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
     const [selectedPatient, setSelectedPatient] = useState([]);
@@ -29,9 +29,9 @@ const PatientsList = (props: Props) => {
     const [searchValue, setSearchValue] = useState<string>("");
     return (
         <PatientSection
-            title={"Liste des Patients"}
+            title={"Aliments"}
             body={
-                "Recherchez des patient par nom,occupation,email,numéro de contact ou l'#id ou Filtrez les patients"
+                "Recherchez, consultez et ajoutez de nouveaux aliments au système"
             }
             withRight
             withAddBtn
@@ -42,7 +42,7 @@ const PatientsList = (props: Props) => {
                 setFilterIsActive(prev => !prev);
             }}
             onPressAddBtn={() => {
-                router.navigate("forms/addPatientForm")
+                router.navigate('forms/addFoodForm')
             }}
             onPressSearch={() => {
                 setSearchIsActive(prev => !prev);
@@ -54,7 +54,7 @@ const PatientsList = (props: Props) => {
                         <SearchInput
                             value={searchValue}
                             setValue={setSearchValue}
-                            placeholder={"Recherchez des patients"}
+                            placeholder={"Recherchez des aliments"}
                         />
                     </View>
                 )}
@@ -67,29 +67,24 @@ const PatientsList = (props: Props) => {
                     </View>
                 )}
                 <FlatList
-                    data={dataPatientList}
+                    data={dataFoodList}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item, index }) => (
-                        <PatientItem
-                            statusCode={item.statusCode}
+                        <FoodItem
                             name={item.name}
-                            occupation={item.occupation}
+                            dbName={item.dbName}
+                            data={item.data}
                             id={item.id}
-                            lastActivity={item.lastActivity}
-                            index={index}
-                            setSelected={setSelectedPatient}
-                            selected={selectedPatient}
-                            sexe={item.sexe}
                         />
                     )}
-                    keyExtractor={item => item.id}
+                    keyExtractor={(item, index) => item.name + index}
                 />
             </View>
         </PatientSection>
     );
 };
 
-export default PatientsList;
+export default FoodsList;
 
 const styles = ({ colors, size }) =>
     StyleSheet.create({

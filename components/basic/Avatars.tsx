@@ -1,11 +1,16 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 
 interface Props {
-    // Define your props here
+    s: number;
+    bg: string;
+    letter: string;
+    color: string;
+    image: number;
+    icon: JSX.Element;
+    r: number;
 }
 
 const Avatars = (props: Props) => {
@@ -24,7 +29,12 @@ const Avatars = (props: Props) => {
         <View
             style={[
                 style.avatars,
-                {borderRadius:r|| theme.size.width, height: s, width: s, backgroundColor: bg }
+                {
+                    borderRadius: r || theme.size.width,
+                    height: s,
+                    width: s,
+                    backgroundColor: bg
+                }
             ]}
         >
             {!icon && !image && letter && (
@@ -48,10 +58,9 @@ const Avatars = (props: Props) => {
 
 export default Avatars;
 
-const styles = theme =>
+const styles = (theme: ThemeInterface) =>
     StyleSheet.create({
         avatars: {
-            
             justifyContent: "center",
             alignItems: "center",
             overflow: "hidden"

@@ -78,11 +78,42 @@ function RootLayoutNav() {
                         }}
                     />
                     <Stack.Screen
-                        name={"detailpage/[patient_Id]"}
+                        name="search/searchFoods"
+                        options={{
+                            headerShown: true,
+                            animation: "slide_from_right"
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"details/patients/[patient_Id]"}
                         //  getId={({ params }) => String(Date.now())}
                         options={{
                             headerShown: true,
                             animation: "slide_from_bottom"
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"details/foods/[food_id]"}
+                        getId={({ params }) => String(Date.now())}
+                        options={{
+                            headerShown: true,
+                            animation: "slide_from_bottom"
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"forms/addFoodForm"}
+                        getId={({ params }) => String(Date.now())}
+                        options={{
+                            headerShown: true,
+                            animation: "fade_from_bottom"
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"forms/addPatientForm"}
+                        getId={({ params }) => String(Date.now())}
+                        options={{
+                            headerShown: true,
+                            animation: "fade_from_bottom"
                         }}
                     />
                 </Stack>

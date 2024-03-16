@@ -47,11 +47,6 @@ const PatientItem = (props: Props) => {
     const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
     const AnimatedPressableStyle = useAnimatedStyle(() => ({
-        // width: interpolate(
-        //     s.value,
-        //     [0, 1],
-        //     [size.width * 0.9, size.width * 0.9]
-        // ),
         tansform: [
             {
                 scaleZ: interpolate(s.value, [0, 1], [1, 0.7])
@@ -72,7 +67,7 @@ const PatientItem = (props: Props) => {
     const renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
-            outputRange: [searchItem ? 0 : -5, 0, 0, 1]
+            outputRange: [0, 0, 0, 1]
         });
 
         return (
@@ -103,14 +98,14 @@ const PatientItem = (props: Props) => {
                         <Ionicons
                             name="trash"
                             size={size.s5}
-                            color={colors.blue100}
+                            color={colors.red300}
                         />
                     </Pressable>
-                    <Pressable style={style.modifyIcon} onPress={editPatient}>
+                    <Pressable style={style.deleteIcon} onPress={editPatient}>
                         <Ionicons
                             name="create"
                             size={size.s5}
-                            color={colors.blue100}
+                            color={colors.blue300}
                         />
                     </Pressable>
                 </ReactNativeAnimated.View>
@@ -120,10 +115,14 @@ const PatientItem = (props: Props) => {
     return (
         <Swipeable
             renderRightActions={searchItem ? null : renderRightActions}
-            dragOffsetFromRightEdge={0}
-            dragOffsetFromLeftEdge={searchItem ? 0 : 20}
-            overshootFriction={20}
+            
+            
             friction={searchItem ? 1000 : 1}
+            containerStyle={{
+                marginVertical: size.s2,
+                
+            }}
+            
         >
             <AnimatedPressable
                 style={[
@@ -136,7 +135,7 @@ const PatientItem = (props: Props) => {
                 onPressOut={() => (s.value = withSpring(1, { duration: 500 }))}
                 onPress={() => {
                     router.navigate({
-                        pathname: "detailpage/[patient_Id]",
+                        pathname: "details/patients/[patient_id]",
                         params: {
                             patient_Id: id
                         }
@@ -257,7 +256,7 @@ const styles = ({ colors, size }) =>
             borderRadius: size.s3,
             elevation: size.s1,
             paddingHorizontal: size.s2,
-            marginVertical: size.s2,
+            
             borderWidth: size.s1 / 20,
             borderBottomColor: border,
             borderBottomWidth: size.s1,
@@ -274,11 +273,13 @@ const styles = ({ colors, size }) =>
             backgroundColor: isSelected ? colors.w : "transparent"
         }),
         rightAction: {
-            width: size.width * 0.1,
-            height: size.s100 * 0.9,
+            width: size.s50,
+            
             justifyContent: "center",
             alignItems: "center",
-            marginVertical: size.s2
+            height: "100%",
+            marginRight:size.s3,
+            
         },
         patientInfo: {
             flexDirection: "row",
@@ -402,15 +403,17 @@ const styles = ({ colors, size }) =>
         },
         deleteIcon: {
             padding: size.s2,
-            backgroundColor: colors.red300,
+            backgroundColor: colors.w,
             borderRadius: size.s100
         },
-        modifyIcon: {
-            padding: size.s2,
-            backgroundColor: colors.blue300,
-            borderRadius: size.s100
-        },
+        
         actionView: {
-            gap: size.s1
+            gap: size.s2,
+            backgroundColor:colors.bg.secondary,
+            borderRadius:size.s4,
+            justifyContent:'center',
+            alignItems:'center',
+            width:'100%',
+            height:'100%'
         }
     });

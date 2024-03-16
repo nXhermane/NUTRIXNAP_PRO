@@ -1,7 +1,6 @@
 import { StyleSheet, Text, Image, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import {ThemeInterface,useTheme,useThemeStyles} from "@/theme"
 import logoDark from "@/assets/images/logo/nutriXcupDark.webp";
 import logo from "@/assets/images/logo/nutriXcup.webp";
 import logoDarkAnimate from "@/assets/images/logo/logonutrixnapDark.gif";
@@ -50,7 +49,7 @@ const Logo = (props: Props) => {
 
 export default Logo;
 
-const styles = theme =>
+const styles = (theme:ThemeInterface) =>
     StyleSheet.create({
         logo: {
             resizeMode: "contain"

@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 
-import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles";
+import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { router, Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
     withAddBtn?: boolean;
     onPressAddBtn?: () => void;
     withSearch?: boolean;
-    onPressSearch?: boolean;
+    onPressSearch?: ()=>void;
     title?: string;
     body?: string;
     header?: boolean;
@@ -102,12 +101,12 @@ const PatientSection: React.FC<Props> = ({
 
 export default PatientSection;
 
-const styles = ({ size, colors }) =>
+const styles = ({ size, colors }:ThemeInterface) =>
     StyleSheet.create({
         serviceContainer: {
             width: "95%",
             gap: size.s1,
-            marginTop: size.s2,
+            marginTop: size.s8,
             backgroundColor: colors.w,
             paddingVertical: size.s4,
             alignSelf: "center",
@@ -125,9 +124,9 @@ const styles = ({ size, colors }) =>
             marginBottom: size.s1
         },
         title: {
-            fontFamily: "inter_sb",
+            fontFamily: "inter_b",
             color: colors.black300,
-            fontSize: size.s4
+            fontSize: size.s5
         },
         link: {
             fontFamily: "inter"

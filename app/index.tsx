@@ -50,7 +50,7 @@ const styles = theme =>
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: theme.colors.bg.bg1
+            backgroundColor: theme.colors.w
         },
         logo: {
             width: SIZES.s100 * 1.2,

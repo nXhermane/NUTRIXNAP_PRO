@@ -19,14 +19,12 @@ export default [
         textColor: colors.light.red300,
         image:require("../assets/images/bases-de-donnees.png")
     },
-  
     {
         name: "Suivi des Patients",
         color: colors.light.greenBg,
         textColor: colors.light.green200,
         image:require("../assets/images/application.png")
     },
-
     {
         name: "Gestion des Données Médicales",
         color: colors.light.w100,
