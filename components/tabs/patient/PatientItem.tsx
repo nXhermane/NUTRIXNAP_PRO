@@ -137,7 +137,7 @@ const PatientItem = (props: Props) => {
                     router.navigate({
                         pathname: "details/patients/[patient_id]",
                         params: {
-                            patient_Id: id
+                            patient_id: id
                         }
                     });
                 }}

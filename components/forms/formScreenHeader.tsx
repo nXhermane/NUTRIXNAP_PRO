@@ -17,8 +17,8 @@ const formScreenHeader = ({ title, onPressSave = function () {} }: Props) => {
     return (
         <BlurView
             style={style.headerContainer}
-            experimentalBlurMethod={"dimezisBlurView"}
-            intensity={15}
+           // experimentalBlurMethod={"dimezisBlurView"}
+            //intensity={15}
             tint={isLightTheme ? "light" : "dark"}
         >
             <View style={style.headerRight}>
@@ -65,7 +65,7 @@ const styles = ({ colors, size }) =>
             right: 0,
             left: 0,
             height: size.s100,
-            backgroundColor: colors.w + "98",
+            backgroundColor: colors.w ,
             paddingTop: size.s50,
             paddingHorizontal: size.s3,
             flexDirection: "row",

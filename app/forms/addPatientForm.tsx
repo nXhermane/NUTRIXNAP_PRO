@@ -3,8 +3,8 @@ import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { router, Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormScreenHeader from "@comp/forms/formScreenHeader";
-import PatientSection from "@comp/container/PatientSection";
-import TextInput from "@comp/basic/TextInput";
+import PatientForm from "@comp/forms/PatientForm";
+
 interface Props {
     // Define your props here
 }
@@ -20,7 +20,7 @@ const addPatientForm = (props: Props) => {
                         <FormScreenHeader
                             title="Enregistrer un Patient"
                             onPressSave={() => {
-                                alert("save Patient");
+                                
                             }}
                         />
                     )
@@ -29,12 +29,11 @@ const addPatientForm = (props: Props) => {
             <ScrollView
                 contentContainerStyle={{
                     paddingTop: size.s50,
-                    width: size.width
+                    width: size.width,
+                    paddingBottom: size.s10
                 }}
             >
-                <PatientSection>
-                    <TextInput />
-                </PatientSection>
+                <PatientForm  />
             </ScrollView>
         </SafeAreaView>
     );

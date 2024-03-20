@@ -12,7 +12,7 @@ const agenda = (props: Props) => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
-                <Calendar hideHeader />
+                <Calendar  />
             </View>
         </SafeAreaView>
     );

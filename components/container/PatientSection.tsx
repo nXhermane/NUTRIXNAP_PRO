@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, ViewStyle } from "react-native";
 import React from "react";
 
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
@@ -11,11 +11,13 @@ interface Props {
     withAddBtn?: boolean;
     onPressAddBtn?: () => void;
     withSearch?: boolean;
-    onPressSearch?: ()=>void;
+    onPressSearch?: () => void;
     title?: string;
     body?: string;
     header?: boolean;
     children?: React.ReactNode;
+    contentContainerStyle: ViewStyle;
+    centerBody?: boolean;
 }
 
 const PatientSection: React.FC<Props> = ({
@@ -29,7 +31,9 @@ const PatientSection: React.FC<Props> = ({
     title,
     body,
     header = false,
-    children
+    children,
+    contentContainerStyle = {},
+    centerBody = false
 }) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
@@ -91,17 +95,21 @@ const PatientSection: React.FC<Props> = ({
             )}
             {body && (
                 <View style={style.bodyContainer}>
-                    {<Text style={style.body}>{body}</Text>}
+                    {<Text style={style.body(centerBody)}>{body}</Text>}
                 </View>
             )}
-            {children && <View style={style.serviceInner}>{children}</View>}
+            {children && (
+                <View style={[style.serviceInner, contentContainerStyle]}>
+                    {children}
+                </View>
+            )}
         </View>
     );
 };
 
 export default PatientSection;
 
-const styles = ({ size, colors }:ThemeInterface) =>
+const styles = ({ size, colors }: ThemeInterface) =>
     StyleSheet.create({
         serviceContainer: {
             width: "95%",
@@ -137,11 +145,12 @@ const styles = ({ size, colors }:ThemeInterface) =>
             color: colors.blue300
         },
         serviceInner: {},
-        body: {
+        body: (centerBody: boolean) => ({
             fontFamily: "inter_m",
             fontSize: size.s3,
-            color: colors.gray200
-        },
+            color: colors.gray200,
+            textAlign: centerBody ? "center" : "auto"
+        }),
         sectionHeaderRight: {
             justifyContent: "flex-end",
             flexDirection: "row",

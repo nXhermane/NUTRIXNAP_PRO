@@ -12,10 +12,19 @@ export { ErrorBoundary } from "expo-router";
 import { Text, Appearance } from "react-native";
 import Colors from "./../constants/Colors";
 import useTheme from "@/theme/useTheme";
+import Database, { IDatabase } from "./../core/db/db.config";
 export const unstable_settings = {
     initialRouteName: "index"
 };
 SplashScreen.preventAutoHideAsync();
+
+const db = Database.getInstance()
+    .then((db: IDatabase) => {
+        db.knex.schema.hasTable("patients").then(exist => console.log(exist));
+    })
+    .catch(e => {
+        console.log(e);
+    });
 
 export default function RootLayout() {
     const [loaded, error] = useFonts({
@@ -25,7 +34,7 @@ export default function RootLayout() {
         inter_m: require("../assets/fonts/Inter-Medium.ttf"),
         inter_sb: require("../assets/fonts/Inter-SemiBold.ttf"),
         inter_b: require("../assets/fonts/Inter-Bold.ttf"),
-        inter_eb: require("../assets/fonts/Inter-ExtraBold.ttf"),
+        // inter_eb: require("../assets/fonts/Inter-ExtraBold.ttf"),
         ...FontAwesome.font
     });
 

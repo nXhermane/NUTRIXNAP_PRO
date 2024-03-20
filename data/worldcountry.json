@@ -1,0 +1,1366 @@
+[
+  {
+    "id": 1,
+    "label": "Afghanistan",
+    "value": "+93",
+    "continent": "Asia",
+    "regex": "/^(\\+93)[\\d]{9}$/"
+  },
+  {
+    "id": 2,
+    "label": "Albania",
+    "value": "+355",
+    "continent": "Europe",
+    "regex": "/^(\\+355)[\\d]{4,9}$/"
+  },
+  {
+    "id": 3,
+    "label": "Algeria",
+    "value": "+213",
+    "continent": "Africa",
+    "regex": "/^(\\+213)[\\d]{9}$/"
+  },
+  {
+    "id": 4,
+    "label": "Andorra",
+    "value": "+376",
+    "continent": "Europe",
+    "regex": "/^(\\+376)[\\d]{6}$/"
+  },
+  {
+    "id": 5,
+    "label": "Angola",
+    "value": "+244",
+    "continent": "Africa",
+    "regex": "/^(\\+244)[\\d]{9}$/"
+  },
+  {
+    "id": 6,
+    "label": "Antigua and Barbuda",
+    "value": "+1-268",
+    "continent": "North America",
+    "regex": "/^(\\+1-268)[\\d]{7}$/"
+  },
+  {
+    "id": 7,
+    "label": "Argentina",
+    "value": "+54",
+    "continent": "South America",
+    "regex": "/^(\\+54)[\\d]{10,11}$/"
+  },
+  {
+    "id": 8,
+    "label": "Armenia",
+    "value": "+374",
+    "continent": "Asia",
+    "regex": "/^(\\+374)[\\d]{8}$/"
+  },
+  {
+    "id": 9,
+    "label": "Australia",
+    "value": "+61",
+    "continent": "Oceania",
+    "regex": "/^(\\+61)[\\d]{9}$/"
+  },
+  {
+    "id": 10,
+    "label": "Austria",
+    "value": "+43",
+    "continent": "Europe",
+    "regex": "/^(\\+43)[\\d]{4,13}$/"
+  },
+  {
+    "id": 11,
+    "label": "Azerbaijan",
+    "value": "+994",
+    "continent": "Asia",
+    "regex": "/^(\\+994)[\\d]{9}$/"
+  },
+  {
+    "id": 12,
+    "label": "Bahamas",
+    "value": "+1-242",
+    "continent": "North America",
+    "regex": "/^(\\+1-242)[\\d]{7}$/"
+  },
+  {
+    "id": 13,
+    "label": "Bahrain",
+    "value": "+973",
+    "continent": "Asia",
+    "regex": "/^(\\+973)[\\d]{8}$/"
+  },
+  {
+    "id": 14,
+    "label": "Bangladesh",
+    "value": "+880",
+    "continent": "Asia",
+    "regex": "/^(\\+880)[\\d]{10}$/"
+  },
+  {
+    "id": 15,
+    "label": "Barbados",
+    "value": "+1-246",
+    "continent": "North America",
+    "regex": "/^(\\+1-246)[\\d]{7}$/"
+  },
+  {
+    "id": 16,
+    "label": "Belarus",
+    "value": "+375",
+    "continent": "Europe",
+    "regex": "/^(\\+375)[\\d]{9}$/"
+  },
+  {
+    "id": 17,
+    "label": "Belgium",
+    "value": "+32",
+    "continent": "Europe",
+    "regex": "/^(\\+32)[\\d]{8}$/"
+  },
+  {
+    "id": 18,
+    "label": "Belize",
+    "value": "+501",
+    "continent": "North America",
+    "regex": "/^(\\+501)[\\d]{6}$/"
+  },
+  {
+    "id": 19,
+    "label": "Benin",
+    "value": "+229",
+    "continent": "Africa",
+    "regex": "/^(\\+229)[\\d]{7}$/"
+  },
+  {
+    "id": 20,
+    "label": "Bhutan",
+    "value": "+975",
+    "continent": "Asia",
+    "regex": "/^(\\+975)[\\d]{8}$/"
+  },
+  {
+    "id": 21,
+    "label": "Bolivia",
+    "value": "+591",
+    "continent": "South America",
+    "regex": "/^(\\+591)[\\d]{6,8}$/"
+  },
+  {
+    "id": 22,
+    "label": "Bosnia and Herzegovina",
+    "value": "+387",
+    "continent": "Europe",
+    "regex": "/^(\\+387)[\\d]{8}$/"
+  },
+  {
+    "id": 23,
+    "label": "Botswana",
+    "value": "+267",
+    "continent": "Africa",
+    "regex": "/^(\\+267)[\\d]{7}$/"
+  },
+  {
+    "id": 24,
+    "label": "Brazil",
+    "value": "+55",
+    "continent": "South America",
+    "regex": "/^(\\+55)[\\d]{10,11}$/"
+  },
+  {
+    "id": 25,
+    "label": "Brunei",
+    "value": "+673",
+    "continent": "Asia",
+    "regex": "/^(\\+673)[\\d]{7}$/"
+  },
+  {
+    "id": 26,
+    "label": "Bulgaria",
+    "value": "+359",
+    "continent": "Europe",
+    "regex": "/^(\\+359)[\\d]{6,9}$/"
+  },
+  {
+    "id": 27,
+    "label": "Burkina Faso",
+    "value": "+226",
+    "continent": "Africa",
+    "regex": "/^(\\+226)[\\d]{7}$/"
+  },
+  {
+    "id": 28,
+    "label": "Burundi",
+    "value": "+257",
+    "continent": "Africa",
+    "regex": "/^(\\+257)[\\d]{7}$/"
+  },
+  {
+    "id": 29,
+    "label": "Cabo Verde",
+    "value": "+238",
+    "continent": "Africa",
+    "regex": "/^(\\+238)[\\d]{7}$/"
+  },
+  {
+    "id": 30,
+    "label": "Cambodia",
+    "value": "+855",
+    "continent": "Asia",
+    "regex": "/^(\\+855)[\\d]{6,8}$/"
+  },
+  {
+    "id": 31,
+    "label": "Cameroon",
+    "value": "+237",
+    "continent": "Africa",
+    "regex": "/^(\\+237)[\\d]{8}$/"
+  },
+  {
+    "id": 32,
+    "label": "Canada",
+    "value": "+1",
+    "continent": "North America",
+    "regex": "/^(\\+1)[\\d]{10}$/"
+  },
+  {
+    "id": 33,
+    "label": "Central African Republic",
+    "value": "+236",
+    "continent": "Africa",
+    "regex": "/^(\\+236)[\\d]{8}$/"
+  },
+  {
+    "id": 34,
+    "label": "Chad",
+    "value": "+235",
+    "continent": "Africa",
+    "regex": "/^(\\+235)[\\d]{6}$/"
+  },
+  {
+    "id": 35,
+    "label": "Chile",
+    "value": "+56",
+    "continent": "South America",
+    "regex": "/^(\\+56)[\\d]{9}$/"
+  },
+  {
+    "id": 36,
+    "label": "China",
+    "value": "+86",
+    "continent": "Asia",
+    "regex": "/^(\\+86)[\\d]{11}$/"
+  },
+  {
+    "id": 37,
+    "label": "Colombia",
+    "value": "+57",
+    "continent": "South America",
+    "regex": "/^(\\+57)[\\d]{10}$/"
+  },
+  {
+    "id": 38,
+    "label": "Comoros",
+    "value": "+269",
+    "continent": "Africa",
+    "regex": "/^(\\+269)[\\d]{7}$/"
+  },
+  {
+    "id": 39,
+    "label": "Congo (Congo-Brazzaville)",
+    "value": "+242",
+    "continent": "Africa",
+    "regex": "/^(\\+242)[\\d]{7}$/"
+  },
+  {
+    "id": 40,
+    "label": "Costa Rica",
+    "value": "+506",
+    "continent": "North America",
+    "regex": "/^(\\+506)[\\d]{8}$/"
+  },
+  {
+    "id": 41,
+    "label": "Croatia",
+    "value": "+385",
+    "continent": "Europe",
+    "regex": "/^(\\+385)[\\d]{7,9}$/"
+  },
+  {
+    "id": 42,
+    "label": "Cuba",
+    "value": "+53",
+    "continent": "North America",
+    "regex": "/^(\\+53)[\\d]{8}$/"
+  },
+  {
+    "id": 43,
+    "label": "Cyprus",
+    "value": "+357",
+    "continent": "Europe",
+    "regex": "/^(\\+357)[\\d]{8}$/"
+  },
+  {
+    "id": 44,
+    "label": "Czech Republic",
+    "value": "+420",
+    "continent": "Europe",
+    "regex": "/^(\\+420)[\\d]{9}$/"
+  },
+  {
+    "id": 45,
+    "label": "Democratic Republic of the Congo",
+    "value": "+243",
+    "continent": "Africa",
+    "regex": "/^(\\+243)[\\d]{9}$/"
+  },
+  {
+    "id": 46,
+    "label": "Denmark",
+    "value": "+45",
+    "continent": "Europe",
+    "regex": "/^(\\+45)[\\d]{8}$/"
+  },
+  {
+    "id": 47,
+    "label": "Djibouti",
+    "value": "+253",
+    "continent": "Africa",
+    "regex": "/^(\\+253)[\\d]{6}$/"
+  },
+  {
+    "id": 48,
+    "label": "Dominica",
+    "value": "+1-767",
+    "continent": "North America",
+    "regex": "/^(\\+1-767)[\\d]{7}$/"
+  },
+  {
+    "id": 49,
+    "label": "Dominican Republic",
+    "value": "+1-809, +1-829, +1-849",
+    "continent": "North America",
+    "regex": "/^(\\+1-809|\\+1-829|\\+1-849)[\\d]{7}$/"
+  },
+  {
+    "id": 50,
+    "label": "East Timor (Timor-Leste)",
+    "value": "+670",
+    "continent": "Asia",
+    "regex": "/^(\\+670)[\\d]{7}$/"
+  },
+  {
+    "id": 51,
+    "label": "Ecuador",
+    "value": "+593",
+    "continent": "South America",
+    "regex": "/^(\\+593)[\\d]{9}$/"
+  },
+  {
+    "id": 52,
+    "label": "Egypt",
+    "value": "+20",
+    "continent": "Africa",
+    "regex": "/^(\\+20)[\\d]{10}$/"
+  },
+  {
+    "id": 53,
+    "label": "El Salvador",
+    "value": "+503",
+    "continent": "North America",
+    "regex": "/^(\\+503)[\\d]{8}$/"
+  },
+  {
+    "id": 54,
+    "label": "Equatorial Guinea",
+    "value": "+240",
+    "continent": "Africa",
+    "regex": "/^(\\+240)[\\d]{6}$/"
+  },
+  {
+    "id": 55,
+    "label": "Eritrea",
+    "value": "+291",
+    "continent": "Africa",
+    "regex": "/^(\\+291)[\\d]{7}$/"
+  },
+  {
+    "id": 56,
+    "label": "Estonia",
+    "value": "+372",
+    "continent": "Europe",
+    "regex": "/^(\\+372)[\\d]{5,7}$/"
+  },
+  {
+    "id": 57,
+    "label": "Ethiopia",
+    "value": "+251",
+    "continent": "Africa",
+    "regex": "/^(\\+251)[\\d]{9}$/"
+  },
+  {
+    "id": 58,
+    "label": "Fiji",
+    "value": "+679",
+    "continent": "Oceania",
+    "regex": "/^(\\+679)[\\d]{5,7}$/"
+  },
+  {
+    "id": 59,
+    "label": "Finland",
+    "value": "+358",
+    "continent": "Europe",
+    "regex": "/^(\\+358)[\\d]{5,12}$/"
+  },
+  {
+    "id": 60,
+    "label": "France",
+    "value": "+33",
+    "continent": "Europe",
+    "regex": "/^(\\+33)[\\d]{9}$/"
+  },
+  {
+    "id": 61,
+    "label": "Gabon",
+    "value": "+241",
+    "continent": "Africa",
+    "regex": "/^(\\+241)[\\d]{7}$/"
+  },
+  {
+    "id": 62,
+    "label": "Gambia",
+    "value": "+220",
+    "continent": "Africa",
+    "regex": "/^(\\+220)[\\d]{5,7}$/"
+  },
+  {
+    "id": 63,
+    "label": "Georgia",
+    "value": "+995",
+    "continent": "Asia",
+    "regex": "/^(\\+995)[\\d]{8}$/"
+  },
+  {
+    "id": 64,
+    "label": "Germany",
+    "value": "+49",
+    "continent": "Europe",
+    "regex": "/^(\\+49)[\\d]{4,14}$/"
+  },
+  {
+    "id": 65,
+    "label": "Ghana",
+    "value": "+233",
+    "continent": "Africa",
+    "regex": "/^(\\+233)[\\d]{9}$/"
+  },
+  {
+    "id": 66,
+    "label": "Greece",
+    "value": "+30",
+    "continent": "Europe",
+    "regex": "/^(\\+30)[\\d]{10}$/"
+  },
+  {
+    "id": 67,
+    "label": "Grenada",
+    "value": "+1-473",
+    "continent": "North America",
+    "regex": "/^(\\+1-473)[\\d]{7}$/"
+  },
+  {
+    "id": 68,
+    "label": "Guatemala",
+    "value": "+502",
+    "continent": "North America",
+    "regex": "/^(\\+502)[\\d]{8}$/"
+  },
+  {
+    "id": 69,
+    "label": "Guinea",
+    "value": "+224",
+    "continent": "Africa",
+    "regex": "/^(\\+224)[\\d]{9}$/"
+  },
+  {
+    "id": 70,
+    "label": "Guinea-Bissau",
+    "value": "+245",
+    "continent": "Africa",
+    "regex": "/^(\\+245)[\\d]{7}$/"
+  },
+  {
+    "id": 71,
+    "label": "Guyana",
+    "value": "+592",
+    "continent": "South America",
+    "regex": "/^(\\+592)[\\d]{6,7}$/"
+  },
+  {
+    "id": 72,
+    "label": "Haiti",
+    "value": "+509",
+    "continent": "North America",
+    "regex": "/^(\\+509)[\\d]{8}$/"
+  },
+  {
+    "id": 73,
+    "label": "Honduras",
+    "value": "+504",
+    "continent": "North America",
+    "regex": "/^(\\+504)[\\d]{8}$/"
+  },
+  {
+    "id": 74,
+    "label": "Hungary",
+    "value": "+36",
+    "continent": "Europe",
+    "regex": "/^(\\+36)[\\d]{7,9}$/"
+  },
+  {
+    "id": 75,
+    "label": "Iceland",
+    "value": "+354",
+    "continent": "Europe",
+    "regex": "/^(\\+354)[\\d]{5,7}$/"
+  },
+  {
+    "id": 76,
+    "label": "India",
+    "value": "+91",
+    "continent": "Asia",
+    "regex": "/^(\\+91)[\\d]{10}$/"
+  },
+  {
+    "id": 77,
+    "label": "Indonesia",
+    "value": "+62",
+    "continent": "Asia",
+    "regex": "/^(\\+62)[\\d]{9,13}$/"
+  },
+  {
+    "id": 78,
+    "label": "Iran",
+    "value": "+98",
+    "continent": "Asia",
+    "regex": "/^(\\+98)[\\d]{10}$/"
+  },
+  {
+    "id": 79,
+    "label": "Iraq",
+    "value": "+964",
+    "continent": "Asia",
+    "regex": "/^(\\+964)[\\d]{10}$/"
+  },
+  {
+    "id": 80,
+    "label": "Ireland",
+    "value": "+353",
+    "continent": "Europe",
+    "regex": "/^(\\+353)[\\d]{9}$/"
+  },
+  {
+    "id": 81,
+    "label": "Israel",
+    "value": "+972",
+    "continent": "Asia",
+    "regex": "/^(\\+972)[\\d]{9}$/"
+  },
+  {
+    "id": 82,
+    "label": "Italy",
+    "value": "+39",
+    "continent": "Europe",
+    "regex": "/^(\\+39)[\\d]{6,12}$/"
+  },
+  {
+    "id": 83,
+    "label": "Jamaica",
+    "value": "+1-876",
+    "continent": "North America",
+    "regex": "/^(\\+1-876)[\\d]{7}$/"
+  },
+  {
+    "id": 84,
+    "label": "Japan",
+    "value": "+81",
+    "continent": "Asia",
+    "regex": "/^(\\+81)[\\d]{9}$/"
+  },
+  {
+    "id": 85,
+    "label": "Jordan",
+    "value": "+962",
+    "continent": "Asia",
+    "regex": "/^(\\+962)[\\d]{9}$/"
+  },
+  {
+    "id": 86,
+    "label": "Kazakhstan",
+    "value": "+7",
+    "continent": "Asia",
+    "regex": "/^(\\+7)[\\d]{10}$/"
+  },
+  {
+    "id": 87,
+    "label": "Kenya",
+    "value": "+254",
+    "continent": "Africa",
+    "regex": "/^(\\+254)[\\d]{9}$/"
+  },
+  {
+    "id": 88,
+    "label": "Kiribati",
+    "value": "+686",
+    "continent": "Oceania",
+    "regex": "/^(\\+686)[\\d]{5}$/"
+  },
+  {
+    "id": 89,
+    "label": "Kosovo",
+    "value": "+383",
+    "continent": "Europe",
+    "regex": "/^(\\+383)[\\d]{5,13}$/"
+  },
+  {
+    "id": 90,
+    "label": "Kuwait",
+    "value": "+965",
+    "continent": "Asia",
+    "regex": "/^(\\+965)[\\d]{8}$/"
+  },
+  {
+    "id":91,
+    "label": "Kyrgyzstan",
+    "value": "+996",
+    "continent": "Asia",
+    "regex": "/^(\\+996)[\\d]{9}$/"
+  },
+  {
+    "id": 92,
+    "label": "Laos",
+    "value": "+856",
+    "continent": "Asia",
+    "regex": "/^(\\+856)[\\d]{9,10}$/"
+  },
+  {
+    "id": 93,
+    "label": "Latvia",
+    "value": "+371",
+    "continent": "Europe",
+    "regex": "/^(\\+371)[\\d]{7,8}$/"
+  },
+  {
+    "id": 94,
+    "label": "Lebanon",
+    "value": "+961",
+    "continent": "Asia",
+    "regex": "/^(\\+961)[\\d]{7}$/"
+  },
+  {
+    "id": 95,
+    "label": "Lesotho",
+    "value": "+266",
+    "continent": "Africa",
+    "regex": "/^(\\+266)[\\d]{7}$/"
+  },
+  {
+    "id": 96,
+    "label": "Liberia",
+    "value": "+231",
+    "continent": "Africa",
+    "regex": "/^(\\+231)[\\d]{7}$/"
+  },
+  {
+    "id": 97,
+    "label": "Libya",
+    "value": "+218",
+    "continent": "Africa",
+    "regex": "/^(\\+218)[\\d]{9}$/"
+  },
+  {
+    "id": 98,
+    "label": "Liechtenstein",
+    "value": "+423",
+    "continent": "Europe",
+    "regex": "/^(\\+423)[\\d]{5}$/"
+  },
+  {
+    "id": 99,
+    "label": "Lithuania",
+    "value": "+370",
+    "continent": "Europe",
+    "regex": "/^(\\+370)[\\d]{8}$/"
+  },
+  {
+    "id": 100,
+    "label": "Luxembourg",
+    "value": "+352",
+    "continent": "Europe",
+    "regex": "/^(\\+352)[\\d]{6,12}$/"
+  },
+  {
+    "id": 101,
+    "label": "Madagascar",
+    "value": "+261",
+    "continent": "Africa",
+    "regex": "/^(\\+261)[\\d]{9}$/"
+  },
+  {
+    "id": 102,
+    "label": "Malawi",
+    "value": "+265",
+    "continent": "Africa",
+    "regex": "/^(\\+265)[\\d]{7}$/"
+  },
+  {
+    "id": 103,
+    "label": "Malaysia",
+    "value": "+60",
+    "continent": "Asia",
+    "regex": "/^(\\+60)[\\d]{9,10}$/"
+  },
+  {
+    "id": 104,
+    "label": "Maldives",
+    "value": "+960",
+    "continent": "Asia",
+    "regex": "/^(\\+960)[\\d]{7}$/"
+  },
+  {
+    "id": 105,
+    "label": "Mali",
+    "value": "+223",
+    "continent": "Africa",
+    "regex": "/^(\\+223)[\\d]{8}$/"
+  },
+  {
+    "id": 106,
+    "label": "Malta",
+    "value": "+356",
+    "continent": "Europe",
+    "regex": "/^(\\+356)[\\d]{7}$/"
+  },
+  {
+    "id": 107,
+    "label": "Marshall Islands",
+    "value": "+692",
+    "continent": "Oceania",
+    "regex": "/^(\\+692)[\\d]{5}$/"
+  },
+  {
+    "id": 108,
+    "label": "Mauritania",
+    "value": "+222",
+    "continent": "Africa",
+    "regex": "/^(\\+222)[\\d]{8}$/"
+  },
+  {
+    "id": 109,
+    "label": "Mauritius",
+    "value": "+230",
+    "continent": "Africa",
+    "regex": "/^(\\+230)[\\d]{7}$/"
+  },
+  {
+    "id": 110,
+    "label": "Mexico",
+    "value": "+52",
+    "continent": "North America",
+    "regex": "/^(\\+52)[\\d]{10}$/"
+  },
+  {
+    "id": 111,
+    "label": "Micronesia",
+    "value": "+691",
+    "continent": "Oceania",
+    "regex": "/^(\\+691)[\\d]{5}$/"
+  },
+  {
+    "id": 112,
+    "label": "Moldova",
+    "value": "+373",
+    "continent": "Europe",
+    "regex": "/^(\\+373)[\\d]{8}$/"
+  },
+  {
+    "id": 113,
+    "label": "Monaco",
+    "value": "+377",
+    "continent": "Europe",
+    "regex": "/^(\\+377)[\\d]{5,9}$/"
+  },
+  {
+    "id": 114,
+    "label": "Mongolia",
+    "value": "+976",
+    "continent": "Asia",
+    "regex": "/^(\\+976)[\\d]{8}$/"
+  },
+  {
+    "id": 115,
+    "label": "Montenegro",
+    "value": "+382",
+    "continent": "Europe",
+    "regex": "/^(\\+382)[\\d]{5,13}$/"
+  },
+  {
+    "id": 116,
+    "label": "Morocco",
+    "value": "+212",
+    "continent": "Africa",
+    "regex": "/^(\\+212)[\\d]{9}$/"
+  },
+  {
+    "id": 117,
+    "label": "Mozambique",
+    "value": "+258",
+    "continent": "Africa",
+    "regex": "/^(\\+258)[\\d]{7,9}$/"
+  },
+  {
+    "id": 118,
+    "label": "Myanmar",
+    "value": "+95",
+    "continent": "Asia",
+    "regex": "/^(\\+95)[\\d]{8}$/"
+  },
+  {
+    "id": 119,
+    "label": "Namibia",
+    "value": "+264",
+    "continent": "Africa",
+    "regex": "/^(\\+264)[\\d]{7,9}$/"
+  },
+  {
+    "id": 120,
+    "label": "Nauru",
+    "value": "+674",
+    "continent": "Oceania",
+    "regex": "/^(\\+674)[\\d]{4}$/"
+  },
+  {
+    "id": 121,
+    "label": "Nepal",
+    "value": "+977",
+    "continent": "Asia",
+    "regex": "/^(\\+977)[\\d]{9}$/"
+  },
+  {
+    "id": 122,
+    "label": "Netherlands",
+    "value": "+31",
+    "continent": "Europe",
+    "regex": "/^(\\+31)[\\d]{9}$/"
+  },
+  {
+    "id": 123,
+    "label": "New Zealand",
+    "value": "+64",
+    "continent": "Oceania",
+    "regex": "/^(\\+64)[\\d]{8,10}$/"
+  },
+  {
+    "id": 124,
+    "label": "Nicaragua",
+    "value": "+505",
+    "continent": "North America",
+    "regex": "/^(\\+505)[\\d]{8}$/"
+  },
+  {
+    "id": 125,
+    "label": "Niger",
+    "value": "+227",
+    "continent": "Africa",
+    "regex": "/^(\\+227)[\\d]{7}$/"
+  },
+  {
+    "id": 126,
+    "label": "Nigeria",
+    "value": "+234",
+    "continent": "Africa",
+    "regex": "/^(\\+234)[\\d]{10}$/"
+  },
+  {
+    "id": 127,
+    "label": "North Korea",
+    "value": "+850",
+    "continent": "Asia",
+    "regex": "/^(\\+850)[\\d]{8}$/"
+  },
+  {
+    "id": 128,
+    "label": "North Macedonia",
+    "value": "+389",
+    "continent": "Europe",
+    "regex": "/^(\\+389)[\\d]{6,13}$/"
+  },
+  {
+    "id": 129,
+    "label": "Norway",
+    "value": "+47",
+    "continent": "Europe",
+    "regex": "/^(\\+47)[\\d]{8,12}$/"
+  },
+  {
+    "id": 130,
+    "label": "Oman",
+    "value": "+968",
+    "continent": "Asia",
+    "regex": "/^(\\+968)[\\d]{8}$/"
+  },
+  {
+    "id": 131,
+    "label": "Pakistan",
+    "value": "+92",
+    "continent": "Asia",
+    "regex": "/^(\\+92)[\\d]{10}$/"
+  },
+  {
+    "id": 132,
+    "label": "Palau",
+    "value": "+680",
+    "continent": "Oceania",
+    "regex": "/^(\\+680)[\\d]{7}$/"
+  },
+  {
+    "id": 133,
+    "label": "Palestine",
+    "value": "+970",
+    "continent": "Asia",
+    "regex": "/^(\\+970)[\\d]{7,9}$/"
+  },
+  {
+    "id": 134,
+    "label": "Panama",
+    "value": "+507",
+    "continent": "North America",
+    "regex": "/^(\\+507)[\\d]{7}$/"
+  },
+  {
+    "id": 135,
+    "label": "Papua New Guinea",
+    "value": "+675",
+    "continent": "Oceania",
+    "regex": "/^(\\+675)[\\d]{5,12}$/"
+  },
+  {
+    "id": 136,
+    "label": "Paraguay",
+    "value": "+595",
+    "continent": "South America",
+    "regex": "/^(\\+595)[\\d]{7,8}$/"
+  },
+  {
+    "id": 137,
+    "label": "Peru",
+    "value": "+51",
+    "continent": "South America",
+    "regex": "/^(\\+51)[\\d]{9}$/"
+  },
+  {
+    "id": 138,
+    "label": "Philippines",
+    "value": "+63",
+    "continent": "Asia",
+    "regex": "/^(\\+63)[\\d]{10}$/"
+  },
+  {
+    "id": 139,
+    "label": "Poland",
+    "value": "+48",
+    "continent": "Europe",
+    "regex": "/^(\\+48)[\\d]{6,12}$/"
+  },
+  {
+    "id": 140,
+    "label": "Portugal",
+    "value": "+351",
+    "continent": "Europe",
+    "regex": "/^(\\+351)[\\d]{9}$/"
+  },
+  {
+    "id": 141,
+    "label": "Qatar",
+    "value": "+974",
+    "continent": "Asia",
+    "regex": "/^(\\+974)[\\d]{7}$/"
+  },
+  {
+    "id": 142,
+    "label": "Romania",
+    "value": "+40",
+    "continent": "Europe",
+    "regex": "/^(\\+40)[\\d]{9}$/"
+  },
+  {
+    "id": 143,
+    "label": "Russia",
+    "value": "+7",
+    "continent": "Europe",
+    "regex": "/^(\\+7)[\\d]{10}$/"
+  },
+  {
+    "id": 144,
+    "label": "Rwanda",
+    "value": "+250",
+    "continent": "Africa",
+    "regex": "/^(\\+250)[\\d]{9}$/"
+  },
+  {
+    "id": 145,
+    "label": "Saint Kitts and Nevis",
+    "value": "+1-869",
+    "continent": "North America",
+    "regex": "/^(\\+1-869)[\\d]{7}$/"
+  },
+  {"id": 146,
+    "label": "Saint Lucia",
+    "value": "+1-758",
+    "continent": "North America",
+    "regex": "/^(\\+1-758)[\\d]{7}$/"
+  },
+  {
+    "id": 147,
+    "label": "Saint Vincent and the Grenadines",
+    "value": "+1-784",
+    "continent": "North America",
+    "regex": "/^(\\+1-784)[\\d]{7}$/"
+  },
+  {
+    "id": 148,
+    "label": "Samoa",
+    "value": "+685",
+    "continent": "Oceania",
+    "regex": "/^(\\+685)[\\d]{3,5}$/"
+  },
+  {
+    "id": 149,
+    "label": "San Marino",
+    "value": "+378",
+    "continent": "Europe",
+    "regex": "/^(\\+378)[\\d]{5,12}$/"
+  },
+  {
+    "id": 150,
+    "label": "Sao Tome and Principe",
+    "value": "+239",
+    "continent": "Africa",
+    "regex": "/^(\\+239)[\\d]{7}$/"
+  },
+  {
+    "id": 151,
+    "label": "Saudi Arabia",
+    "value": "+966",
+    "continent": "Asia",
+    "regex": "/^(\\+966)[\\d]{9}$/"
+  },
+  {
+    "id": 152,
+    "label": "Senegal",
+    "value": "+221",
+    "continent": "Africa",
+    "regex": "/^(\\+221)[\\d]{9}$/"
+  },
+  {
+    "id": 153,
+    "label": "Serbia",
+    "value": "+381",
+    "continent": "Europe",
+    "regex": "/^(\\+381)[\\d]{6,12}$/"
+  },
+  {
+    "id": 154,
+    "label": "Seychelles",
+    "value": "+248",
+    "continent": "Africa",
+    "regex": "/^(\\+248)[\\d]{5}$/"
+  },
+  {
+    "id": 155,
+    "label": "Sierra Leone",
+    "value": "+232",
+    "continent": "Africa",
+    "regex": "/^(\\+232)[\\d]{7}$/"
+  },
+  {
+    "id": 156,
+    "label": "Singapore",
+    "value": "+65",
+    "continent": "Asia",
+    "regex": "/^(\\+65)[\\d]{8}$/"
+  },
+  {
+    "id": 157,
+    "label": "Slovakia",
+    "value": "+421",
+    "continent": "Europe",
+    "regex": "/^(\\+421)[\\d]{9}$/"
+  },
+  {
+    "id": 158,
+    "label": "Slovenia",
+    "value": "+386",
+    "continent": "Europe",
+    "regex": "/^(\\+386)[\\d]{7,9}$/"
+  },
+  {
+    "id": 159,
+    "label": "Solomon Islands",
+    "value": "+677",
+    "continent": "Oceania",
+    "regex": "/^(\\+677)[\\d]{5}$/"
+  },
+  {
+    "id": 160,
+    "label": "Somalia",
+    "value": "+252",
+    "continent": "Africa",
+    "regex": "/^(\\+252)[\\d]{7}$/"
+  },
+  {
+    "id": 161,
+    "label": "South Africa",
+    "value": "+27",
+    "continent": "Africa",
+    "regex": "/^(\\+27)[\\d]{9}$/"
+  },
+  {
+    "id": 162,
+    "label": "South Korea",
+    "value": "+82",
+    "continent": "Asia",
+    "regex": "/^(\\+82)[\\d]{9}$/"
+  },
+  {
+    "id": 163,
+    "label": "South Sudan",
+    "value": "+211",
+    "continent": "Africa",
+    "regex": "/^(\\+211)[\\d]{9}$/"
+  },
+  {
+    "id": 164,
+    "label": "Spain",
+    "value": "+34",
+    "continent": "Europe",
+    "regex": "/^(\\+34)[\\d]{9}$/"
+  },
+  {
+    "id": 165,
+    "label": "Sri Lanka",
+    "value": "+94",
+    "continent": "Asia",
+    "regex": "/^(\\+94)[\\d]{9}$/"
+  },
+  {
+    "id": 166,
+    "label": "Sudan",
+    "value": "+249",
+    "continent": "Africa",
+    "regex": "/^(\\+249)[\\d]{9}$/"
+  },
+  {
+    "id": 167,
+    "label": "Suriname",
+    "value": "+597",
+    "continent": "South America",
+    "regex": "/^(\\+597)[\\d]{6}$/"
+  },
+  {
+    "id": 168,
+    "label": "Sweden",
+    "value": "+46",
+    "continent": "Europe",
+    "regex": "/^(\\+46)[\\d]{8,12}$/"
+  },
+  {
+    "id": 169,
+    "label": "Switzerland",
+    "value": "+41",
+    "continent": "Europe",
+    "regex": "/^(\\+41)[\\d]{9}$/"
+  },
+  {
+    "id": 170,
+    "label": "Syria",
+    "value": "+963",
+    "continent": "Asia",
+    "regex": "/^(\\+963)[\\d]{8,9}$/"
+  },
+  {
+    "id": 171,
+    "label": "Taiwan",
+    "value": "+886",
+    "continent": "Asia",
+    "regex": "/^(\\+886)[\\d]{8,10}$/"
+  },
+  {
+    "id": 172,
+    "label": "Tajikistan",
+    "value": "+992",
+    "continent": "Asia",
+    "regex": "/^(\\+992)[\\d]{9}$/"
+  },
+  {
+    "id": 173,
+    "label": "Tanzania",
+    "value": "+255",
+    "continent": "Africa",
+    "regex": "/^(\\+255)[\\d]{9}$/"
+  },
+  {
+    "id": 174,
+    "label": "Thailand",
+    "value": "+66",
+    "continent": "Asia",
+    "regex": "/^(\\+66)[\\d]{8,9}$/"
+  },
+  {
+    "id": 175,
+    "label": "Togo",
+    "value": "+228",
+    "continent": "Africa",
+    "regex": "/^(\\+228)[\\d]{8}$/"
+  },
+  {
+    "id": 176,
+    "label": "Tonga",
+    "value": "+676",
+    "continent": "Oceania",
+    "regex": "/^(\\+676)[\\d]{5}$/"
+  },
+  {
+    "id": 177,
+    "label": "Trinidad and Tobago",
+    "value": "+1-868",
+    "continent": "North America",
+    "regex": "/^(\\+1-868)[\\d]{7}$/"
+  },
+  {
+    "id": 178,
+    "label": "Tunisia",
+    "value": "+216",
+    "continent": "Africa",
+    "regex": "/^(\\+216)[\\d]{7,8}$/"
+  },
+  {
+    "id": 179,
+    "label": "Turkey",
+    "value": "+90",
+    "continent": "Asia",
+    "regex": "/^(\\+90)[\\d]{10}$/"
+  },
+  {
+    "id": 180,
+    "label": "Turkmenistan",
+    "value": "+993",
+    "continent": "Asia",
+    "regex": "/^(\\+993)[\\d]{8}$/"
+  },
+  {
+    "id": 181,
+    "label": "Tuvalu",
+    "value": "+688",
+    "continent": "Oceania",
+    "regex": "/^(\\+688)[\\d]{5}$/"
+  },
+  {
+    "id": 182,
+    "label": "Uganda",
+    "value": "+256",
+    "continent": "Africa",
+    "regex": "/^(\\+256)[\\d]{9}$/"
+  },
+  {
+    "id": 183,
+    "label": "Ukraine",
+    "value": "+380",
+    "continent": "Europe",
+    "regex": "/^(\\+380)[\\d]{9}$/"
+  },
+  {
+    "id": 184,
+    "label": "United Arab Emirates",
+    "value": "+971",
+    "continent": "Asia",
+    "regex": "/^(\\+971)[\\d]{9}$/"
+  },
+  {
+    "id": 185,
+    "label": "United Kingdom",
+    "value": "+44",
+    "continent": "Europe",
+    "regex": "/^(\\+44)[\\d]{10}$/"
+  },
+  {
+    "id": 186,
+    "label": "United States",
+    "value": "+1",
+    "continent": "North America",
+    "regex": "/^(\\+1)[\\d]{10}$/"
+  },
+  {
+    "id": 187,
+    "label": "Uruguay",
+    "value": "+598",
+    "continent": "South America",
+    "regex": "/^(\\+598)[\\d]{6,8}$/"
+  },
+  {
+    "id": 188,
+    "label": "Uzbekistan",
+    "value": "+998",
+    "continent": "Asia",
+    "regex": "/^(\\+998)[\\d]{9}$/"
+  },
+  {
+    "id": 189,
+    "label": "Vanuatu",
+    "value": "+678",
+    "continent": "Oceania",
+    "regex": "/^(\\+678)[\\d]{3,7}$/"
+  },
+  {
+    "id": 190,
+    "label": "Vatican City",
+    "value": "+379",
+    "continent": "Europe",
+    "regex": "/^(\\+379)[\\d]{5,12}$/"
+  },
+  {
+    "id": 191,
+    "label": "Venezuela",
+    "value": "+58",
+    "continent": "South America",
+    "regex": "/^(\\+58)[\\d]{10}$/"
+  },
+  {
+    "id": 192,
+    "label": "Vietnam",
+    "value": "+84",
+    "continent": "Asia",
+    "regex": "/^(\\+84)[\\d]{9,10}$/"
+  },
+  {
+    "id": 193,
+    "label": "Yemen",
+    "value": "+967",
+    "continent": "Asia",
+    "regex": "/^(\\+967)[\\d]{7,9}$/"
+  },
+  {
+    "id": 194,
+    "label": "Zambia",
+    "value": "+260",
+    "continent": "Africa",
+    "regex": "/^(\\+260)[\\d]{9}$/"
+  },
+  {
+    "id": 195,
+    "label": "Zimbabwe",
+    "value": "+263",
+    "continent": "Africa",
+    "regex": "/^(\\+263)[\\d]{9}$/"
+  }
+]
