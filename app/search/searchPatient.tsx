@@ -5,7 +5,7 @@ import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import SearchInput from "@comp/search/SearchInput";
 import SearchFilter from "@comp/search/searchFilter";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import PatientItem from "@comp/tabs/patient/PatientItem";
 import DashBoardSection from "@comp/container/DashBoardSection";
 import ToggleBtn from "@comp/basic/ToggleBtn";
@@ -14,6 +14,7 @@ import SearchPatientFilter, {
     searchFilterInitialState
 } from "@comp/search/SearchPatientFilter";
 import { dataPatientList } from "@/data";
+import { CoreContext } from "@/core/CoreProvider";
 interface Props {
     // Define your props here
 }
@@ -27,6 +28,15 @@ const searchPatient = (props: Props) => {
         searchFilterReducer,
         searchFilterInitialState
     );
+    const core = useContext(CoreContext);
+    const [searchPatientList, setSearchPatientList] = useState<any[]>([]);
+React.useEffect(() => {
+  core.patientS.searchPatient(searchValue).then((patients=>{
+    setSearchPatientList(patients)
+  }))
+  
+}, [core.patientS,searchValue])
+
     return (
         <SafeAreaView
             style={{
@@ -58,7 +68,7 @@ const searchPatient = (props: Props) => {
             </View>
             <View style={style.searchResultContainer}>
                 <FlatList
-                    data={dataPatientList}
+                    data={searchPatientList}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{
                         width: size.width,
@@ -67,15 +77,16 @@ const searchPatient = (props: Props) => {
                     }}
                     renderItem={({ item, index }) => (
                         <PatientItem
-                            statusCode={item.statusCode}
+                            statusCode={0}
                             name={item.name}
-                            occupation={item.occupation}
+                            occupation={item.occupancy}
                             id={item.id}
-                            lastActivity={item.lastActivity}
+                            lastActivity={item.createAt}
                             index={index}
                             setSelected={setSelectedPatient}
                             selected={selectedPatient}
-                            sexe={item.sexe}
+                            sexe={item.gender}
+                            uri={item.profil_img}
                             searchItem
                         />
                     )}

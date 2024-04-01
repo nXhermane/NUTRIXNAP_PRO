@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, PressEvent } from "react-native";
 
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
@@ -11,14 +11,19 @@ import SearchPatientFilter, {
     searchFilterInitialState
 } from "@comp/search/SearchPatientFilter";
 import { dataPatientList } from "@/data";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect, useContext } from "react";
+import { CoreContext } from "@/core/CoreProvider";
+import { useAppAlert } from "@pack/AppAlert";
 interface Props {
-    // Define your props here
+    onPressAddBtn: (e: PressEvent) => void;
+    openPopup?: boolean;
 }
 
 const PatientsList = (props: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
+    const Alert=useAppAlert()
+    const core = useContext(CoreContext);
     const [selectedPatient, setSelectedPatient] = useState([]);
     const [searchIsActive, setSearchIsActive] = useState<boolean>(false);
     const [filterIsActive, setFilterIsActive] = useState<boolean>(false);
@@ -26,7 +31,15 @@ const PatientsList = (props: Props) => {
         searchFilterReducer,
         searchFilterInitialState
     );
+    const [patientList, setPatientList] = useState([]);
+    const [forceUpdate, setForceUpdate] = useState<boolean>(true);
     const [searchValue, setSearchValue] = useState<string>("");
+    useEffect(() => {
+        core.patientS.searchPatient(searchValue).then(patients => {
+            setPatientList(patients);
+        });
+    }, [core.patientS, props.openPopup, forceUpdate, searchValue]);
+
     return (
         <PatientSection
             title={"Liste des Patients"}
@@ -39,10 +52,18 @@ const PatientsList = (props: Props) => {
             withSearch
             header
             onPressFilter={() => {
+            Alert.confirm('Open Filter').then(check=>{
+              if(check){
                 setFilterIsActive(prev => !prev);
+            }
+            })
+            
+            
+                
             }}
-            onPressAddBtn={() => {
-                router.navigate("forms/addPatientForm")
+            onPressAddBtn={(e: PressEvent) => {
+                props.onPressAddBtn && props.onPressAddBtn(e);
+                //router.navigate("forms/addPatientForm")
             }}
             onPressSearch={() => {
                 setSearchIsActive(prev => !prev);
@@ -67,22 +88,31 @@ const PatientsList = (props: Props) => {
                     </View>
                 )}
                 <FlatList
-                    data={dataPatientList}
+                    data={patientList}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item, index }) => (
                         <PatientItem
-                            statusCode={item.statusCode}
+                            statusCode={1}
                             name={item.name}
-                            occupation={item.occupation}
+                            occupation={item.occupancy}
                             id={item.id}
-                            lastActivity={item.lastActivity}
+                            lastActivity={item.updateAt}
                             index={index}
                             setSelected={setSelectedPatient}
                             selected={selectedPatient}
-                            sexe={item.sexe}
+                            sexe={item.gender}
+                            uri={item.profil_img}
+                            onDelete={() => {
+                                core.patientS.deletePatient(item.id);
+                                setForceUpdate(prev => !prev);
+                            }}
+                            onEdit={(e: PressEvent,id:number) => {
+                                props.onPressItemEdit &&
+                                    props.onPressItemEdit(e,id);
+                            }}
                         />
                     )}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                 />
             </View>
         </PatientSection>

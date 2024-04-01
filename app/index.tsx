@@ -14,23 +14,29 @@ import { router } from "expo-router";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import Logo from "@comp/basic/Logo";
+import { CoreContext } from "@/core/CoreProvider";
+
+import { useAppAlert } from "@pack/AppAlert";
 interface Props {
     // Define your props here
-}    
-
+}
 
 const index = (props: Props) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
+    const Core = useContext(CoreContext);
     Appearance.addChangeListener(({ colorScheme }) => {
         theme.isLight(colorScheme === "light");
     });
+    
     useEffect(() => {
+      
         setTimeout(() => {
-            router.replace("./auth");
+            if (Core.user === null) router.replace("auth");
+            else router.replace("(drawer)/(home)");
         }, 1000);
     });
-  
+
     return (
         <View style={[style.container, {}]}>
             {/*<Image

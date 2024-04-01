@@ -1,5 +1,5 @@
 import SIZES from "./../constants/Sizes";
-const screenDiagonal = (): number => {
-    return Math.sqrt(SIZES.height * SIZES.height + SIZES.width * SIZES.width);
+const screenDiagonal = (height:number,width:number): number => {
+    return Math.sqrt(height * height + width * width);
 };
 export default screenDiagonal

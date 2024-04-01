@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, ViewStyle } from "react-native";
+import { StyleSheet, Text, View, Pressable, ViewStyle,PressEvent } from "react-native";
 import React from "react";
 
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
@@ -7,11 +7,11 @@ import { Ionicons } from "@expo/vector-icons";
 interface Props {
     withRight?: boolean;
     withFilter?: boolean;
-    onPressFilter?: () => void;
+    onPressFilter?: (e:PressEvent) => void;
     withAddBtn?: boolean;
-    onPressAddBtn?: () => void;
+    onPressAddBtn?: (e:PressEvent) => void;
     withSearch?: boolean;
-    onPressSearch?: () => void;
+    onPressSearch?: (e:PressEvent) => void;
     title?: string;
     body?: string;
     header?: boolean;
@@ -25,9 +25,9 @@ const PatientSection: React.FC<Props> = ({
     withFilter = false,
     withAddBtn = false,
     withSearch = false,
-    onPressFilter = () => {},
-    onPressAddBtn = () => {},
-    onPressSearch = () => {},
+    onPressFilter = (e:PressEvent) => {},
+    onPressAddBtn = (e:PressEvent) => {},
+    onPressSearch = (e:PressEvent) => {},
     title,
     body,
     header = false,
@@ -45,7 +45,8 @@ const PatientSection: React.FC<Props> = ({
                     {withRight && (
                         <View style={style.sectionHeaderRight}>
                             {withAddBtn && (
-                                <Pressable onPress={onPressAddBtn}>
+                                <Pressable
+                                onPress={(e:PressEvent)=>onPressAddBtn(e)}>
                                     {({ pressed }) => (
                                         <Ionicons
                                             name={"add-outline"}

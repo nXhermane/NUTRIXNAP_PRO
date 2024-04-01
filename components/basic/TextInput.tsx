@@ -89,7 +89,7 @@ const TextInput = (props: Props) => {
                 </View>
                 <Pressable
                     style={style.textInputContainer(h)}
-                    onPress={() => setPopupIsVisible(true)}
+                    onPress={() => isSelection&&setPopupIsVisible(true)}
                 >
                     {icon && (
                         <View style={style.iconContainer}>

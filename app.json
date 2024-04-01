@@ -70,15 +70,16 @@
         {
           "cameraPermission": "Allow NutriXnap to access your camera",
           "microphonePermission": "Allow NutriXnap to access your microphone",
-          "recordAudioAndroid": true 
+          "recordAudioAndroid": true
         }
       ],
-            [
+      [
         "expo-barcode-scanner",
         {
           "cameraPermission": "Allow NutriXnap to access camera."
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true

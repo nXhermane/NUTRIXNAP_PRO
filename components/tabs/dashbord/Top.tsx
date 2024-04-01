@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import Avatars from "@comp/basic/Avatars";
 import useTheme from "@/theme/useTheme";
-import useThemeStyles from "@/theme/useThemeStyles"
-import DashBoardSection from '@comp/container/DashBoardSection';
+import useThemeStyles from "@/theme/useThemeStyles";
+import DashBoardSection from "@comp/container/DashBoardSection";
 import React from "react";
+import { CoreContext } from "@/core/CoreProvider";
 interface Props {
     // Define your props here
 }
@@ -13,7 +14,10 @@ const Top = (props: Props) => {
     const style = useThemeStyles(styles);
     const [date, setDate] = React.useState("");
     const [time, setTime] = React.useState("second");
+    const core = React.useContext(CoreContext);
+    
     React.useEffect(() => {
+        
         const date = new Date();
         const options = {
             month: "long",
@@ -34,29 +38,32 @@ const Top = (props: Props) => {
     });
 
     return (
-      <DashBoardSection header>
-        <View style={style.topContainer(props.st)}>
-            <View style={style.userGreeting}>
-                <Avatars
-                    image={{
-                        uri: "https://lh3.googleusercontent.com/a/ACg8ocL10GHjCILxoFxiWqckBVP5kUiUJ9jq7I0W20vUMk6r=s96-c"
-                    }}
-                    r={theme.size.s10}
-                    s={40}
-                />
-                <View style={style.userInfo}>
-                    <Text style={style.greeting}>Hi, Hermane!</Text>
-                    <Text style={style.welcome}>
-                        Welcome back for nutriXnap
-                    </Text>
+        <DashBoardSection header>
+            <View style={style.topContainer(props.st)}>
+                <View style={style.userGreeting}>
+                    <Avatars
+                        image={{
+                            uri: core.user?.profil_img
+                        }}
+                        letter={core.user?.name.slice(0, 1)}
+                        r={theme.size.s10}
+                        s={40}
+                    />
+                    <View style={style.userInfo}>
+                        <Text style={style.greeting}>
+                            {"Hi, " + core.user?.firstname + "!"}
+                        </Text>
+                        <Text style={style.welcome}>
+                            Welcome back for nutriXnap
+                        </Text>
+                    </View>
                 </View>
+                <View style={style.dateContainer}>
+                    <Text style={style.time}>{time}</Text>
+                    <Text style={style.date}>{date}</Text>
+                </View>
+                <View style={style.searchContainer}></View>
             </View>
-            <View style={style.dateContainer}>
-                <Text style={style.time}>{time}</Text>
-                <Text style={style.date}>{date}</Text>
-            </View>
-            <View style={style.searchContainer}></View>
-        </View>
         </DashBoardSection>
     );
 };
@@ -69,8 +76,8 @@ const styles = theme =>
             justifyContent: "space-between",
             alignItems: "center",
             paddingHorizontal: theme.size.s4,
-            flexDirection: "row",
-           // ...st
+            flexDirection: "row"
+            // ...st
         }),
         searchContainer: {
             position: "absolute"
@@ -87,7 +94,7 @@ const styles = theme =>
         greeting: {
             fontFamily: "inter_b",
             fontSize: theme.size.s4,
-            color: theme.colors.black300,
+            color: theme.colors.black300
         },
         welcome: {
             fontFamily: "inter_m",
@@ -98,14 +105,12 @@ const styles = theme =>
             fontFamily: "inter_sb",
             fontSize: theme.size.s3,
             color: theme.colors.black300,
-            textAlign: "right",
-            
+            textAlign: "right"
         },
         date: {
             fontFamily: "inter_m",
             fontSize: theme.size.s3,
             color: theme.colors.black200,
-            textAlign: "right",
-            
+            textAlign: "right"
         }
     });

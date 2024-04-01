@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Pressable,
+    ViewStyle,
+    TextStyle
+} from "react-native";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,7 +19,9 @@ interface Props {
     placeholder: string;
     setValue: (value: string) => void;
     withFilter?: boolean;
-    withGoBack?:boolean
+    withGoBack?: boolean;
+    st: ViewStyle;
+    inputSt:TextStyle
 }
 
 const SearchInput = ({
@@ -21,31 +31,39 @@ const SearchInput = ({
     placeholder,
     setValue,
     withFilter = false,
-    withGoBack=false
+    withGoBack = false,
+    st = {},
+    inputSt={}
 }: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
 
     const navigation = useNavigation();
     return (
-        <View style={style.searchInputContainer}>
-           {withGoBack&& <View style={style.goBackIconContainer}>
-                <Pressable
-                    style={style.goBackBtn}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Ionicons
-                        name={"arrow-back"}
-                        size={size.s5}
-                        color={colors.black300}
-                    />
-                </Pressable>
-            </View>}
+        <View style={[style.searchInputContainer, st]}>
+            {withGoBack && (
+                <View style={style.goBackIconContainer}>
+                    <Pressable
+                        style={style.goBackBtn}
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Ionicons
+                            name={"arrow-back"}
+                            size={size.s5}
+                            color={colors.black300}
+                        />
+                    </Pressable>
+                </View>
+            )}
             <View style={style.textInputContainer}>
-            <Ionicons name={"search"} size={size.s5} color={colors.gray200} />
+                <Ionicons
+                    name={"search"}
+                    size={size.s5}
+                    color={colors.gray200}
+                />
                 <TextInput
                     placeholderTextColor={colors.gray300}
-                    style={style.textInput}
+                    style={[style.textInput,inputSt]}
                     placeholder={placeholder}
                     value={value}
                     onChangeText={setValue}
@@ -107,7 +125,7 @@ const styles = ({ colors, size }) =>
             height: "70%",
             overflow: "hidden",
             paddingHorizontal: size.s4,
-            gap:size.s2
+            gap: size.s2
         },
         filterBtnContainer: {
             justifyContent: "center",
@@ -125,7 +143,7 @@ const styles = ({ colors, size }) =>
         clearIconContainer: {
             position: "absolute",
             right: size.s3,
-            padding: size.s1,
+            padding: size.s1/2,
             elevation: 1,
             backgroundColor: colors.w,
             borderRadius: size.s50

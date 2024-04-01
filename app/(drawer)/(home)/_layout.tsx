@@ -9,7 +9,7 @@ interface Props {
 const _layout = (props: Props) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
-    
+
     return (
         <Tabs
         sceneContainerStyle={{

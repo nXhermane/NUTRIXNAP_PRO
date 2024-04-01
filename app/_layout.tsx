@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import { ThemeProvider } from "./../theme/ThemeContext";
+import { CoreProvider } from "./../core/CoreProvider";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -12,19 +13,13 @@ export { ErrorBoundary } from "expo-router";
 import { Text, Appearance } from "react-native";
 import Colors from "./../constants/Colors";
 import useTheme from "@/theme/useTheme";
-import Database, { IDatabase } from "./../core/db/db.config";
+import { AppAlertProvider } from "@pack/AppAlert";
+//import Database, { IDatabase } from "./../core/db/db.config";
+
 export const unstable_settings = {
     initialRouteName: "index"
 };
 SplashScreen.preventAutoHideAsync();
-
-const db = Database.getInstance()
-    .then((db: IDatabase) => {
-        db.knex.schema.hasTable("patients").then(exist => console.log(exist));
-    })
-    .catch(e => {
-        console.log(e);
-    });
 
 export default function RootLayout() {
     const [loaded, error] = useFonts({
@@ -34,7 +29,7 @@ export default function RootLayout() {
         inter_m: require("../assets/fonts/Inter-Medium.ttf"),
         inter_sb: require("../assets/fonts/Inter-SemiBold.ttf"),
         inter_b: require("../assets/fonts/Inter-Bold.ttf"),
-        // inter_eb: require("../assets/fonts/Inter-ExtraBold.ttf"),
+        inter_eb: require("../assets/fonts/Inter-ExtraBold.ttf"),
         ...FontAwesome.font
     });
 
@@ -57,76 +52,80 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
     return (
-        <ThemeProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <Stack>
-                    <Stack.Screen
-                        name="index"
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="auth"
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="(drawer)"
-                        options={{
-                            headerShown: false,
-                            animation: "slide_from_right"
-                        }}
-                    />
-                    <Stack.Screen
-                        name="search/search"
-                        options={{ headerShown: true }}
-                    />
-                    <Stack.Screen
-                        name="search/searchPatient"
-                        options={{
-                            headerShown: true,
-                            animation: "slide_from_right"
-                        }}
-                    />
-                    <Stack.Screen
-                        name="search/searchFoods"
-                        options={{
-                            headerShown: true,
-                            animation: "slide_from_right"
-                        }}
-                    />
-                    <Stack.Screen
-                        name={"details/patients/[patient_Id]"}
-                        //  getId={({ params }) => String(Date.now())}
-                        options={{
-                            headerShown: true,
-                            animation: "slide_from_bottom"
-                        }}
-                    />
-                    <Stack.Screen
-                        name={"details/foods/[food_id]"}
-                        getId={({ params }) => String(Date.now())}
-                        options={{
-                            headerShown: true,
-                            animation: "slide_from_bottom"
-                        }}
-                    />
-                    <Stack.Screen
-                        name={"forms/addFoodForm"}
-                        getId={({ params }) => String(Date.now())}
-                        options={{
-                            headerShown: true,
-                            animation: "fade_from_bottom"
-                        }}
-                    />
-                    <Stack.Screen
-                        name={"forms/addPatientForm"}
-                        getId={({ params }) => String(Date.now())}
-                        options={{
-                            headerShown: true,
-                            animation: "fade_from_bottom"
-                        }}
-                    />
-                </Stack>
-            </GestureHandlerRootView>
-        </ThemeProvider>
+        <CoreProvider>
+            <ThemeProvider>
+                <AppAlertProvider>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                        <Stack>
+                            <Stack.Screen
+                                name="index"
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="auth"
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="(drawer)"
+                                options={{
+                                    headerShown: false,
+                                    animation: "slide_from_right"
+                                }}
+                            />
+                            <Stack.Screen
+                                name="search/search"
+                                options={{ headerShown: true }}
+                            />
+                            <Stack.Screen
+                                name="search/searchPatient"
+                                options={{
+                                    headerShown: true,
+                                    animation: "slide_from_right"
+                                }}
+                            />
+                            <Stack.Screen
+                                name="search/searchFoods"
+                                options={{
+                                    headerShown: true,
+                                    animation: "slide_from_right"
+                                }}
+                            />
+                            <Stack.Screen
+                                name={"details/patients/[patient_Id]"}
+                                //  getId={({ params }) => String(Date.now())}
+                                options={{
+                                    headerShown: true,
+                                    animation: "slide_from_bottom"
+                                }}
+                            />
+                            <Stack.Screen
+                                name={"details/foods/[food_id]"}
+                                getId={({ params }) => String(Date.now())}
+                                options={{
+                                    headerShown: true,
+                                    animation: "slide_from_bottom"
+                                }}
+                            />
+                            <Stack.Screen
+                                name={"forms/addFoodForm"}
+                                getId={({ params }) => String(Date.now())}
+                                options={{
+                                    headerShown: true,
+                                    animation: "fade_from_bottom"
+                                }}
+                            />
+                            <Stack.Screen
+                                name={"forms/addPatientForm"}
+                                getId={({ params }) => String(Date.now())}
+                                options={{
+                                    headerShown: true,
+                                    animation: "fade_from_bottom"
+                                }}
+                            />
+                        </Stack>
+                    </GestureHandlerRootView>
+                </AppAlertProvider>
+            </ThemeProvider>
+        </CoreProvider>
     );
 }

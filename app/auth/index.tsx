@@ -10,13 +10,15 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { router } from "expo-router";
+import { CoreContext } from "@/core/CoreProvider";
 interface Props {}
 WebBrowser.maybeCompleteAuthSession();
 const index = (props: Props) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
+    const core = useContext(CoreContext);
     const [userInfo, setUserInfo] = React.useState(null);
     const [request, response, promptAsync] = Google.useAuthRequest(
         API.googleAuth
@@ -70,11 +72,11 @@ const index = (props: Props) => {
             );
         }
     };
+    
+
     useEffect(() => {
         signInWithGoogle();
         if (userInfo != null) {
-            console.log(userInfo.name);
-
             router.navigate({
                 pathname: "./logininfo",
                 params: {
@@ -130,7 +132,7 @@ const index = (props: Props) => {
                         gradient={false}
                         outlined
                         ff="inter"
-                        h={theme.size.s50*0.9}
+                        h={theme.size.s50 * 0.9}
                         w={theme.size.width * 0.85}
                         r={theme.size.s5 * 2}
                         title={"Inscrivez-vous"}

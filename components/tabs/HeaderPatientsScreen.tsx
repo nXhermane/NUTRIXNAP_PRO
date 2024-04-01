@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable ,PressEvent} from "react-native";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -61,8 +61,8 @@ const HeaderPatientsScreen = (props: Props) => {
                     style={({ pressed }) =>
                         style.icon(colors.yellow100, colors.yellow300, pressed)
                     }
-                    onPress={() => {
-                        navigation.openDrawer();
+                    onPress={(e:PressEvent) => {
+                        props.onPressAddBtn&&props.onPressAddBtn(e)
                     }}
                 >
                     {({ pressed }) => (

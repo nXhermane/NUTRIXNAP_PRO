@@ -1,19 +1,40 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity,PressEvent } from "react-native";
 
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import Button from "@comp/basic/Button";
 import Avatars from "@comp/basic/Avatars";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { router, useLocalSearchParams } from "expo-router";
+import { CoreContext } from "@/core/CoreProvider";
+import { UserEntity } from "@/core/interfaces";
+import LoginModal from "@comp/auth/LoginModal";
 interface Props {}
 
 const logininfo = (props: Props) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
+    const core = useContext(CoreContext);
     const params = useLocalSearchParams();
     const { id, user } = params;
     const [userInfo, setUserInfo] = useState(JSON.parse(user));
+    const [displayLoginModal, setDisplayLoginModal] = useState<boolean>(false);
+    const [modalAninatedData, setModalAninatedData] = useState({})
+    const saveUser = async () => {
+        let user: UserEntity = {
+            name: userInfo.name,
+            email: userInfo.email,
+            profil_img: userInfo.picture,
+            lastname: userInfo.family_name,
+            firstname: userInfo.given_name,
+            country: userInfo.locale
+        };
+        const checkIfUserExist = await core.userS.checkIfUserExist();
+        if (!checkIfUserExist) {
+            const createUser = await core.userS.createUser(user);
+            core.setUser(createUser);
+        }
+    };
     useEffect(() => {}, [user]);
     return (
         <View style={style.container}>
@@ -49,16 +70,31 @@ const logininfo = (props: Props) => {
                         w={theme.size.width * 0.85}
                         r={theme.size.s5 * 2}
                         ff={"inter"}
-                        onPress={()=>{
-                          router.navigate('./../(drawer)/(home)')
+                        onPress={(e:PressEvent) => {
+                            //  saveUser()
+                            //router.navigate("./../(drawer)/(home)");
+                            
+                            setModalAninatedData({
+                              x:e.nativeEvent.pageX,
+                              y:e.nativeEvent.pageY
+                            })
+                            setDisplayLoginModal((prev: boolean) => !prev);
                         }}
                     />
+                    {displayLoginModal && (
+                        <LoginModal
+                            popupIsOpen={(val: boolean) =>
+                                setDisplayLoginModal(val)
+                            }
+                            animatedData={modalAninatedData}
+                            userInfo={userInfo}
+                        />
+                    )}
                     <Button
                         title={"Se connecter a un autre compte"}
                         outlined
-                        
                         outlinedBgColor={theme.colors.bg.bg1}
-                       // c={theme.colors.gray}
+                        // c={theme.colors.gray}
                         //fc={theme.colors.b}
                         h={theme.size.s50 * 0.9}
                         w={theme.size.width * 0.85}
@@ -86,10 +122,10 @@ const styles = theme =>
             marginTop: theme.size.s10,
             gap: theme.size.s5
         },
-        topTextContainer:{
-          justifyContent:'center',
-          alignItems:'center',
-          padding:theme.size.s4
+        topTextContainer: {
+            justifyContent: "center",
+            alignItems: "center",
+            padding: theme.size.s4
         },
         topText: {
             fontFamily: "inter",
@@ -97,10 +133,10 @@ const styles = theme =>
             fontWeight: "700",
             color: theme.colors.text.primary
         },
-        textInfoContainer:{
-          justifyContent:'center',
-          alignItems:'center',
-          padding:theme.size.s3
+        textInfoContainer: {
+            justifyContent: "center",
+            alignItems: "center",
+            padding: theme.size.s3
         },
         userInfoName: {
             fontFamily: "inter",
@@ -108,9 +144,9 @@ const styles = theme =>
             fontWeight: "700",
             color: theme.colors.text.primary
         },
-        userInfoEmail:{
-          fontFamily:'inter',
-          fontSize: theme.size.s3,
+        userInfoEmail: {
+            fontFamily: "inter",
+            fontSize: theme.size.s3,
             fontWeight: "700",
             color: theme.colors.text.primary
         },
@@ -122,15 +158,14 @@ const styles = theme =>
             alignItems: "center",
             elevation: 20,
             shadowColor: theme.colors.b,
-            shadowOffset:{height:0,weight:0},
-            shadowOpacity:1,
-            shadowRadius:20
+            shadowOffset: { height: 0, weight: 0 },
+            shadowOpacity: 1,
+            shadowRadius: 20
         },
         loginInfoActionBtnContainer: {
             width: theme.size.width,
             gap: theme.size.s4,
             justifyContent: "center",
-            alignItems: "center",
-            
+            alignItems: "center"
         }
     });

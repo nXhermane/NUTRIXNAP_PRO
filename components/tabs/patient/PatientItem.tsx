@@ -3,7 +3,7 @@ import {
     Text,
     View,
     Pressable,
-    Animated as ReactNativeAnimated
+    Animated as ReactNativeAnimated,PressEvent
 } from "react-native";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
@@ -19,6 +19,7 @@ import { RectButton } from "react-native-gesture-handler";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { CoreContext } from "@/core/CoreProvider";
 interface Props {
     // Define your props here
 }
@@ -26,6 +27,7 @@ interface Props {
 const PatientItem = (props: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
+    const core = React.useContext(CoreContext);
     const {
         statusCode = 1,
         name = "John Doe",
@@ -36,7 +38,9 @@ const PatientItem = (props: Props) => {
         index = 1,
         setSelected,
         sexe = "M",
-        searchItem = false
+        searchItem = false,
+        onDelete=()=>{},
+        onEdit=()=>{}
     } = props;
     let statusColor = [colors.w300, colors.w100];
     if (statusCode === 1) statusColor = [colors.yellow300, colors.yellow100];
@@ -59,17 +63,16 @@ const PatientItem = (props: Props) => {
         s.value = withSpring(1, { duration: index * 700 });
     });
     const deletePatient = () => {
-        alert("delete Pptient");
+        onDelete()
     };
-    const editPatient = () => {
-        alert("Edit Pptient");
+    const editPatient = (e:PressEvent) => {
+        onEdit(e,id)
     };
     const renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
             outputRange: [0, 0, 0, 1]
         });
-
         return (
             <View
                 style={[
@@ -115,14 +118,10 @@ const PatientItem = (props: Props) => {
     return (
         <Swipeable
             renderRightActions={searchItem ? null : renderRightActions}
-            
-            
             friction={searchItem ? 1000 : 1}
             containerStyle={{
-                marginVertical: size.s2,
-                
+                marginVertical: size.s2
             }}
-            
         >
             <AnimatedPressable
                 style={[
@@ -256,7 +255,7 @@ const styles = ({ colors, size }) =>
             borderRadius: size.s3,
             elevation: size.s1,
             paddingHorizontal: size.s2,
-            
+
             borderWidth: size.s1 / 20,
             borderBottomColor: border,
             borderBottomWidth: size.s1,
@@ -274,12 +273,11 @@ const styles = ({ colors, size }) =>
         }),
         rightAction: {
             width: size.s50,
-            
+
             justifyContent: "center",
             alignItems: "center",
             height: "100%",
-            marginRight:size.s3,
-            
+            marginRight: size.s3
         },
         patientInfo: {
             flexDirection: "row",
@@ -406,14 +404,14 @@ const styles = ({ colors, size }) =>
             backgroundColor: colors.w,
             borderRadius: size.s100
         },
-        
+
         actionView: {
             gap: size.s2,
-            backgroundColor:colors.bg.secondary,
-            borderRadius:size.s4,
-            justifyContent:'center',
-            alignItems:'center',
-            width:'100%',
-            height:'100%'
+            backgroundColor: colors.bg.secondary,
+            borderRadius: size.s4,
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%"
         }
     });

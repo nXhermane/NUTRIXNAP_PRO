@@ -4,7 +4,8 @@ import {
     View,
     TouchableHighlight,
     ViewStyle,
-    TextStyle
+    TextStyle,
+    PressEvent
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Animated, {
@@ -38,7 +39,7 @@ interface ButtonProps {
     upper: boolean;
     title: string;
     disableBorder: boolean;
-    onPress: () => void;
+    onPress: (e:PressEvent) => void;
     st: TextStyle;
     sc: ViewStyle;
     children: React.ReactNode;
@@ -49,7 +50,7 @@ const Button: React.FC<ButtonProps> = props => {
         title = "",
         gradient = false,
         outlined = false,
-        onPress = () => {},
+        onPress = (e:PressEvent) => {},
         children
     } = props;
     const styles = (theme: ThemeInterface) =>
@@ -171,7 +172,7 @@ const Button: React.FC<ButtonProps> = props => {
                 <Animated.View style={[style.btnContainer]}>
                     <TouchableHighlight
                         style={style.btnContainerHight}
-                        onPress={onPress}
+                        onPress={(e:PressEvent)=>onPress(e)}
                         onPressIn={onPressIn}
                         onPressOut={onPressOut}
                         underlayColor={theme.colors.blue}

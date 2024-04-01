@@ -1,12 +1,15 @@
 import * as FileSystem from "expo-file-system";
 import { Asset } from "expo-asset";
-import { openDatabaseAsync, SQLiteDatabase } from "expo-sqlite/next";
+import {
+    openDatabaseAsync,
+    SQLiteDatabase,
+    addDatabaseChangeListener,
+    DatabaseChangeEvent,
+    Subscription
+} from "expo-sqlite/next";
 import ExpoSQLiteDialect from "@expo/knex-expo-sqlite-dialect";
 import { Knex as KnexType, knex as Knex } from "knex";
-export interface IDatabase {
-    db: SQLiteDatabase | null;
-    knex: KnexType | null;
-}
+import { IDatabase } from "./../interfaces";
 
 export default class Database implements IDatabase {
     public db: SQLiteDatabase | null;
@@ -36,8 +39,10 @@ export default class Database implements IDatabase {
     private async init(): Promise<void> {
         await this.downloadDb();
         if (!this.db) {
-            this.db = await openDatabaseAsync("nutrixnap.sqlite");
-        }
+            this.db = await openDatabaseAsync("nutrixnap.sqlite", {
+                enableChangeListener: true
+            });
+        } else this.db = Database.instance.db;
         if (!this.knex)
             this.knex = Knex({
                 client: ExpoSQLiteDialect,
@@ -46,6 +51,7 @@ export default class Database implements IDatabase {
                 },
                 useNullAsDefault: true
             });
+        else this.knex = Database.instance.knex;
     }
     public static async getInstance(): Promise<IDatabase> {
         if (!Database.instance) {
@@ -54,4 +60,10 @@ export default class Database implements IDatabase {
         }
         return Database.instance;
     }
+    public static addListener(
+        listener: (events: DatabaseChangeEvent) => void
+    ): Subscription {
+        return addDatabaseChangeListener(listener);
+    }
 }
+export const db: IDatabase = Database.getInstance();
