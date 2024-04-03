@@ -14,6 +14,8 @@ import { Text, Appearance } from "react-native";
 import Colors from "./../constants/Colors";
 import useTheme from "@/theme/useTheme";
 import { AppAlertProvider } from "@pack/AppAlert";
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+
 //import Database, { IDatabase } from "./../core/db/db.config";
 
 export const unstable_settings = {
@@ -55,6 +57,7 @@ function RootLayoutNav() {
         <CoreProvider>
             <ThemeProvider>
                 <AppAlertProvider>
+                <ActionSheetProvider>
                     <GestureHandlerRootView style={{ flex: 1 }}>
                         <Stack>
                             <Stack.Screen
@@ -124,6 +127,7 @@ function RootLayoutNav() {
                             />
                         </Stack>
                     </GestureHandlerRootView>
+                    </ActionSheetProvider>
                 </AppAlertProvider>
             </ThemeProvider>
         </CoreProvider>

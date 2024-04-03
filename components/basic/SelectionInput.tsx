@@ -1,16 +1,9 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    Pressable,
-    TextInput,
-    FlatList
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
 import Fuse from "fuse.js";
 import React, { useState } from "react";
-
+import TextInput from "./TextInput";
 import GroupSelection from "./GroupSelection";
 import SearchInput from "./../search/SearchInput";
 
@@ -72,33 +65,22 @@ const SelectionInput = (props: Props) => {
 
     return (
         <View style={style.selectionInputContainer}>
-            <View style={style.labelContainer}>
-                {label && <Text style={style.label}>{label}</Text>}
-                {isRequire && (
-                    <View style={style.isRequireIconContainer}>
-                        <Text style={style.isRequireIcon}>*</Text>
-                    </View>
-                )}
-            </View>
-            <Pressable
-                style={style.inputContainer}
-                onPress={() => setDisplayPopup((prev: boolean) => !prev)}
-            >
-                <TextInput
-                    style={style.textInput}
-                    value={value}
-                    editable={false}
-                />
-                <Pressable
-                    style={style.rightIconContainer}
-                    onPress={() => setDisplayPopup((prev: boolean) => !prev)}
-                >
+            <TextInput
+                value={value}
+                isRequire={isRequire}
+                label={label}
+                editable={false}
+                st={{
+                    paddingHorizontal: 0
+                }}
+                rightIcon={(color, size) => (
                     <Ionicons
                         name={displayPopup ? "chevron-up" : "chevron-down"}
-                        color={colors.black200}
+                        color={color}
                     />
-                </Pressable>
-            </Pressable>
+                )}
+                onPress={() => setDisplayPopup((prev: boolean) => !prev)}
+            />
             {displayPopup && (
                 <View style={style.floatingSelectList}>
                     <GroupSelection
@@ -145,50 +127,9 @@ const styles = ({ colors, size }: ThemeInterface) =>
             gap: size.s2,
             paddingHorizontal: size.s2
         },
-        labelContainer: {
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center"
-        },
-        label: {
-            fontFamily: "inter_sb",
-            fontSize: size.s3 * 1.2,
-            color: colors.gray300
-        },
-        isRequireIconContainer: {
-            marginLeft: size.s1 / 2
-        },
-        isRequireIcon: {
-            fontFamily: "inter_sb",
-            fontSize: size.s4,
-            color: colors.green300,
-            textAlignVertical: "top"
-        },
-        textInput: {
-            flex: 10,
-            width: "100%",
-            height: "100%",
-            fontFamily: "inter_r",
-            color: colors.black200,
-            fontSize: size.s3 * 1.1
-        },
-        rightIconContainer: {
-            position: "absolute",
-            right: size.s3,
-            alignSelf: "center"
-        },
-        inputContainer: {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            borderColor: colors.gray200,
-            borderWidth: size.s1 / 10,
-            borderRadius: size.s100,
-            height: size.s50 * 0.8,
-            paddingHorizontal: size.s4,
-            backgroundColor: colors.bg.secondary
-        },
+
         floatingSelectList: {
-             position: "absolute",
+            position: "absolute",
             top: "110%",
             width: "100%",
             justifyContent: "center",
@@ -202,22 +143,5 @@ const styles = ({ colors, size }: ThemeInterface) =>
             marginHorizontal: size.s2,
             borderWidth: size.s1 / 10,
             borderColor: colors.gray200
-        },
-        countryItem: {
-            width: "100%",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            height: size.s50,
-            borderBottomWidth: size.s1 / 18,
-            borderBottomColor: colors.gray100,
-            paddingHorizontal: size.s4,
-            gap: size.s5
-        },
-        itemLabel: {
-            fontFamily: "inter_m",
-            color: colors.black300,
-            fontSize: size.s3
-        },
-        itemFlag: {}
+        }
     });

@@ -66,4 +66,4 @@ export default class Database implements IDatabase {
         return addDatabaseChangeListener(listener);
     }
 }
-export const db: IDatabase = Database.getInstance();
+export const db:Promise<IDatabase> = Database.getInstance();

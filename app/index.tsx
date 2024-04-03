@@ -6,7 +6,7 @@ import {
     useColorScheme,
     Appearance
 } from "react-native";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeContext } from "@react-navigation/native";
 import SIZES from "@/constants/Sizes";
 import COLORS from "@/constants/Colors";
@@ -14,7 +14,7 @@ import { router } from "expo-router";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import Logo from "@comp/basic/Logo";
-import { CoreContext } from "@/core/CoreProvider";
+import useCore from "@/hooks/useCore";
 
 import { useAppAlert } from "@pack/AppAlert";
 interface Props {
@@ -24,13 +24,12 @@ interface Props {
 const index = (props: Props) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
-    const Core = useContext(CoreContext);
+    const Core = useCore();
     Appearance.addChangeListener(({ colorScheme }) => {
         theme.isLight(colorScheme === "light");
     });
-    
+
     useEffect(() => {
-      
         setTimeout(() => {
             if (Core.user === null) router.replace("auth");
             else router.replace("(drawer)/(home)");

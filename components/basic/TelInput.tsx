@@ -1,8 +1,12 @@
-<<<<<<< HEAD
-import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
-=======
-import { StyleSheet, Text, View, Pressable, TextInput ,KeyboardAvoidingView} from "react-native";
->>>>>>> 65fe56f (After .git remove)
+import {
+    StyleSheet,
+    Text,
+    View,
+    Pressable,
+    TextInput,
+    KeyboardAvoidingView
+} from "react-native";
+
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
@@ -26,38 +30,32 @@ const TelInput = (props: Props) => {
         onChange = () => {}
     } = props;
     return (
-<<<<<<< HEAD
-=======
-      <KeyboardAvoidingView behavior={'position'}>
->>>>>>> 65fe56f (After .git remove)
-        <View style={style.selectionInputContainer}>
-            <View style={style.labelContainer}>
-                {label && <Text style={style.label}>{label}</Text>}
-                {isRequire && (
-                    <View style={style.isRequireIconContainer}>
-                        <Text style={style.isRequireIcon}>*</Text>
-                    </View>
-                )}
-            </View>
-            <View style={style.inputContainer}>
-                <View style={style.telCodeContainer}>
-                    <Text style={style.telCode}>{tel}</Text>
+        <KeyboardAvoidingView behavior={"position"}>
+            <View style={style.selectionInputContainer}>
+                <View style={style.labelContainer}>
+                    {label && <Text style={style.label}>{label}</Text>}
+                    {isRequire && (
+                        <View style={style.isRequireIconContainer}>
+                            <Text style={style.isRequireIcon}>*</Text>
+                        </View>
+                    )}
                 </View>
-                <TextInput
-                    keyboardType={"numeric"}
-                    style={style.textInput}
-                    value={value}
-                    onChangeText={(value: string) => {
-                        const interValue = Number(value);
-                        !isNaN(interValue) ? onChange(value, tel) : null;
-                    }}
-                />
+                <View style={style.inputContainer}>
+                    <View style={style.telCodeContainer}>
+                        <Text style={style.telCode}>{tel}</Text>
+                    </View>
+                    <TextInput
+                        keyboardType={"numeric"}
+                        style={style.textInput}
+                        value={value}
+                        onChangeText={(value: string) => {
+                            const interValue = Number(value);
+                            !isNaN(interValue) ? onChange(value, tel) : null;
+                        }}
+                    />
+                </View>
             </View>
-        </View>
-<<<<<<< HEAD
-=======
         </KeyboardAvoidingView>
->>>>>>> 65fe56f (After .git remove)
     );
 };
 
@@ -68,7 +66,7 @@ const styles = ({ colors, size }: ThemeInterface) =>
         selectionInputContainer: {
             width: "100%",
             gap: size.s2,
-            paddingHorizontal:size.s2
+            paddingHorizontal: size.s2
         },
         labelContainer: {
             flexDirection: "row",

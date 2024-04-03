@@ -1,12 +1,18 @@
-import { StyleSheet, Text, View, TouchableOpacity,PressEvent } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    PressEvent
+} from "react-native";
 
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import Button from "@comp/basic/Button";
 import Avatars from "@comp/basic/Avatars";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { CoreContext } from "@/core/CoreProvider";
+import useCore from "@/hooks/useCore";
 import { UserEntity } from "@/core/interfaces";
 import LoginModal from "@comp/auth/LoginModal";
 interface Props {}
@@ -14,12 +20,12 @@ interface Props {}
 const logininfo = (props: Props) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
-    const core = useContext(CoreContext);
+    const core = useCore();
     const params = useLocalSearchParams();
     const { id, user } = params;
     const [userInfo, setUserInfo] = useState(JSON.parse(user));
     const [displayLoginModal, setDisplayLoginModal] = useState<boolean>(false);
-    const [modalAninatedData, setModalAninatedData] = useState({})
+    const [modalAninatedData, setModalAninatedData] = useState({});
     const saveUser = async () => {
         let user: UserEntity = {
             name: userInfo.name,
@@ -70,14 +76,14 @@ const logininfo = (props: Props) => {
                         w={theme.size.width * 0.85}
                         r={theme.size.s5 * 2}
                         ff={"inter"}
-                        onPress={(e:PressEvent) => {
+                        onPress={(e: PressEvent) => {
                             //  saveUser()
                             //router.navigate("./../(drawer)/(home)");
-                            
+
                             setModalAninatedData({
-                              x:e.nativeEvent.pageX,
-                              y:e.nativeEvent.pageY
-                            })
+                                x: e.nativeEvent.pageX,
+                                y: e.nativeEvent.pageY
+                            });
                             setDisplayLoginModal((prev: boolean) => !prev);
                         }}
                     />

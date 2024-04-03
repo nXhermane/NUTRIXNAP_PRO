@@ -8,11 +8,13 @@ import Database, { db } from "@/core/db/db.config";
 import { Knex } from "knex";
 
 export default class PatientRepository implements IPatientRepository {
-    private db: IDatabase;
-    private knex: Knex;
+    private db: IDatabase | null;
+    private knex: Knex | null;
     private tableName: string = "patients";
 
     constructor() {
+        this.db = null;
+        this.knex = null;
         db.then(db => {
             this.db = db;
             this.knex = db.knex;
@@ -22,7 +24,7 @@ export default class PatientRepository implements IPatientRepository {
 
     private async init(): Promise<void> {
         try {
-            const hasUsersTable = await this.knex.schema.hasTable(
+            const hasUsersTable = await this.knex?.schema.hasTable(
                 this.tableName
             );
             if (!hasUsersTable) {
@@ -40,7 +42,7 @@ export default class PatientRepository implements IPatientRepository {
     }
 
     private async createUsersTable(): Promise<void> {
-        await this.knex.schema.createTable(this.tableName, table => {
+        await this.knex?.schema.createTable(this.tableName, table => {
             table.increments("id").primary();
             table.string("name", 200);
             table.enu("gender", ["M", "F", "O"]);
@@ -59,7 +61,7 @@ export default class PatientRepository implements IPatientRepository {
     async findById(id: number): Promise<PatientEntity | null> {
         try {
             const patient = await this.knex<PatientEntity>(this.tableName)
-                .select()
+                ?.select()
                 .where("id", id)
                 .first();
             return patient || null;
@@ -71,12 +73,8 @@ export default class PatientRepository implements IPatientRepository {
 
     async create(patient: PatientEntity): Promise<number | null> {
         try {
-<<<<<<< HEAD
-            const [id] = await this.knex(this.tableName)
-=======
-            const [{id}] = await this.knex(this.tableName)
->>>>>>> 65fe56f (After .git remove)
-                .insert({
+            const [{ id }] = await this.knex(this.tableName)
+                ?.insert({
                     name: patient.name,
                     gender: patient?.gender,
                     email: patient?.email,
@@ -90,11 +88,8 @@ export default class PatientRepository implements IPatientRepository {
                     updateAt: new Date().toLocaleDateString()
                 })
                 .returning("id");
-<<<<<<< HEAD
+
             return id || null;
-=======
-            return  id ||null;
->>>>>>> 65fe56f (After .git remove)
         } catch (error) {
             console.error("Error creating Patient:", error);
             return null;
@@ -105,7 +100,7 @@ export default class PatientRepository implements IPatientRepository {
         try {
             const patients = await this.knex<PatientEntity>(
                 this.tableName
-            ).select();
+            )?.select();
             return patients;
         } catch (error) {
             console.error("Error finding all Patient:", error);
@@ -115,8 +110,8 @@ export default class PatientRepository implements IPatientRepository {
 
     async update(patient: PatientEntity): Promise<PatientEntity> {
         try {
-            await this.knex(this.tableName)
-                .where("id", patient.id)
+            await this.knex<PatientEntity>(this.tableName)
+                ?.where("id", patient.id)
                 .update(patient);
             return (await this.findById(patient.id)) || patient;
         } catch (error) {
@@ -127,7 +122,7 @@ export default class PatientRepository implements IPatientRepository {
 
     async delete(id: number): Promise<void> {
         try {
-            await this.knex(this.tableName).where("id", id).del();
+            await this.knex<PatientEntity>(this.tableName)?.where("id", id).del();
         } catch (error) {
             console.error("Error deleting Patient:", error);
         }
@@ -139,7 +134,7 @@ export default class PatientRepository implements IPatientRepository {
         try {
             const value = "%" + searchValue + "%";
             let reqQuerry = this.knex<PatientEntity>(this.tableName)
-                .select()
+                ?.select()
                 .whereLike("id", value)
                 .orWhereLike("name", value)
                 .orWhereLike("tel", value)
@@ -159,8 +154,8 @@ export default class PatientRepository implements IPatientRepository {
                         .whereRaw("WEEK(createdAt) = WEEK(CURRENT_DATE())")
                         .whereRaw("YEAR(createdAt) = YEAR(CURRENT_DATE())");
             }
-            
-            return await reqQuerry
+
+            return await reqQuerry;
         } catch (error) {
             console.error("Error search  Patient:", error);
             return [];

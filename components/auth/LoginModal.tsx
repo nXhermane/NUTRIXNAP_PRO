@@ -4,16 +4,12 @@ import {
     View,
     Pressable,
     Modal,
-<<<<<<< HEAD
-    KeyboardAvoidingView
-=======
     KeyboardAvoidingView,
     PressEvent
->>>>>>> 65fe56f (After .git remove)
 } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState, useReducer, useContext } from "react";
+import React, { useState, useReducer } from "react";
 import Avatars from "@comp/basic/Avatars";
 import Button from "@comp/basic/Button";
 import TextInput from "@comp/basic/TextInput";
@@ -36,11 +32,10 @@ import {
 } from "countries-list";
 import useImagePicker from "@/hooks/useImagePicker";
 import useDownloadFile from "@/hooks/useDownloadFile";
-<<<<<<< HEAD
-=======
+
 import useCopyFile from "@/hooks/useCopyFile";
->>>>>>> 65fe56f (After .git remove)
-import { CoreContext } from "@/core/CoreProvider";
+import useCore from "@/hooks/useCore";
+
 import { Asset } from "expo-asset";
 import { router } from "expo-router";
 const COUNTRYDATA = Object.keys(countries).map((countryCode, index) => {
@@ -135,7 +130,7 @@ interface Props {
 const LoginModal = (props: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
-    const core = useContext(CoreContext);
+    const core = useCore();
     const [formInfo, dispatch] = useReducer(reducer, initialState, () => ({
         name: props.userInfo.name,
         email: props.userInfo.email,
@@ -144,18 +139,11 @@ const LoginModal = (props: Props) => {
         firstname: props.userInfo.given_name,
         country: props.userInfo.locale
     }));
-<<<<<<< HEAD
-    const [download, downloadURI, isFinish] = useDownloadFile("profil/logo");
-    const [pickImage] = useImagePicker((uri: string, type: string) => {
-        if (uri != "") {
-            dispatch({ type: "profil_img", payload: uri });
-        }
-    });
-=======
+
     const [downloadImage] = useDownloadFile();
     const [pickImage, pickUri, pickType] = useImagePicker();
     const [copyImage] = useCopyFile();
->>>>>>> 65fe56f (After .git remove)
+
     const modalSize = useSharedValue(0);
     const position = useSharedValue(props.animatedData);
     const modalAnimatedStyle = useAnimatedStyle(() => {
@@ -198,8 +186,6 @@ const LoginModal = (props: Props) => {
     React.useEffect(() => {
         animation(1);
     });
-<<<<<<< HEAD
-=======
 
     const onSubmit = (e: PressEvent) => {
         core.userS.createUser(formInfo).then(user => {
@@ -225,7 +211,7 @@ const LoginModal = (props: Props) => {
             });
         });
     };
->>>>>>> 65fe56f (After .git remove)
+
     return (
         <Modal
             transparent
@@ -247,9 +233,6 @@ const LoginModal = (props: Props) => {
                                 letter={formInfo.name.slice(0, 1) || "P"}
                                 bg={colors.yellow100}
                                 color={colors.yellow300}
-<<<<<<< HEAD
-                                onLongPress={() => pickImage()}
-=======
                                 onLongPress={() =>
                                     pickImage().then(({ uri, type }) => {
                                         if (uri != "") {
@@ -260,7 +243,6 @@ const LoginModal = (props: Props) => {
                                         }
                                     })
                                 }
->>>>>>> 65fe56f (After .git remove)
                                 st={{
                                     alignSelf: "center",
                                     borderWidth:
@@ -371,20 +353,7 @@ const LoginModal = (props: Props) => {
                                 w={size.width * 0.85}
                                 r={size.s5 * 2}
                                 ff={"inter"}
-<<<<<<< HEAD
-                                onPress={() => {
-                                    core.userS
-                                        .createUser(formInfo)
-                                        .then(id => {});
-                                    core.userS.getUser().then(user => {
-                                        core.setUser(user);
-                                        animation(0)
-                                        router.replace("(drawer)/(home)");
-                                    });
-                                }}
-=======
                                 onPress={onSubmit}
->>>>>>> 65fe56f (After .git remove)
                             />
                         </View>
                     </View>

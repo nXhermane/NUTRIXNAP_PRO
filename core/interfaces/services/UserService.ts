@@ -5,6 +5,6 @@ export default interface UserService {
     getUser(): Promise<UserEntity | null>;
     getAllUser(): Promise<UserEntity[]>;
     updateUser(user: UserEntity): Promise<UserEntity>;
-    createUser(user: UserEntity): Promise<UserEntity>;
+    createUser(user: UserEntity): Promise<UserEntity|null>;
     deleteUser(id: number): Promise<void>;
 }

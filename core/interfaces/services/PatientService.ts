@@ -3,7 +3,7 @@ export default interface PatientService {
     getPatientById(id: number): Promise<PatientEntity | null>;
     getAllPatient(): Promise<PatientEntity[]>;
     updatePatient(patient: PatientEntity): Promise<PatientEntity>;
-    createPatient(patient: PatientEntity): Promise<PatientEntity>;
+    createPatient(patient: PatientEntity): Promise<PatientEntity|null>;
     deletePatient(id: number): Promise<void>;
     searchPatient(
         searchValue: string,

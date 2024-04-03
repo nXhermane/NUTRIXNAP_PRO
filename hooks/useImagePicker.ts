@@ -21,7 +21,7 @@ export default function useImagePicker(config?: any) {
             requestPermissionMedia();
             requestPermissionCamera();
             if (statusMedia?.granted && statusCamera?.granted) {
-                //ImagePicker.launchCameraAsync(config)
+               // ImagePicker.launchCameraAsync(config)
                 ImagePicker.launchImageLibraryAsync(config || defaultConfig)
                     .then(image => {
                         setUri(image.assets[0].uri);

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import  DatePicker from "react-native-modern-datepicker";
-=======
-import DatePicker from "react-native-modern-datepicker";
->>>>>>> 65fe56f (After .git remove)
 import {
     StyleSheet,
     Text,
@@ -10,35 +5,20 @@ import {
     TextInput as RTtextInput,
     Pressable,
     Alert,
-<<<<<<< HEAD
-    Modal
-=======
     Modal,
     KeyboardAvoidingView,
-    PressEvent
->>>>>>> 65fe56f (After .git remove)
+    PressEvent,
+    ViewStyle
 } from "react-native";
 import React, { useState } from "react";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
-<<<<<<< HEAD
 
-
-import GroupSelection, {
-    Option as SelectionItem
-} from "@comp/basic/GroupSelection";
 interface Props {
     value: string;
     onChangeText?: (value: string) => void;
-    inputType: "numeric" | "text" | "password";
-    inputMode:
-=======
-interface Props {
-    value: string;
-    onChangeText?: (value: string) => void;
-    inputType?: "numeric" | "text" | "password";
+    inputType?: "numeric" | "default" | "password";
     inputMode?:
->>>>>>> 65fe56f (After .git remove)
         | "numeric"
         | "decimal"
         | "none"
@@ -53,24 +33,12 @@ interface Props {
     help?: JSX.Element;
     isRequire?: boolean;
     label?: string;
-<<<<<<< HEAD
-    isSelection?: boolean;
-    data?: SelectionItem[];
-    onChangeSelection?: (
-        value: number | number[],
-        item: SelectionItem | SelectionItem[]
-    ) => void;
-    selectionLabel?: JSX.Element;
-    multipleSelect?: boolean;
-    selectedId?: number | number[];
-    icon?: (colors: string, size: number) => JSX.Element;
-    isPicker?: boolean;
-    onChangePicker?: (value: string) => void;
-=======
     icon?: (colors: string, size: number) => JSX.Element;
     editable?: boolean;
     onPress?: (e: PressEvent) => void;
->>>>>>> 65fe56f (After .git remove)
+    rightIcon?: (colors: string, size: number) => JSX.Element;
+    onPressRightIcon?: (e: PressEvent) => void;
+    st?: ViewStyle;
 }
 
 const TextInput = (props: Props) => {
@@ -80,10 +48,7 @@ const TextInput = (props: Props) => {
         isPassword = false,
         value,
         inputMode = "text",
-<<<<<<< HEAD
-=======
-        inputType = "text",
->>>>>>> 65fe56f (After .git remove)
+        inputType = "default",
         onChangeText = (value: string) => {},
         placeholder,
         h,
@@ -91,32 +56,17 @@ const TextInput = (props: Props) => {
         displayHelp = false,
         help,
         label,
-<<<<<<< HEAD
-        isSelection = false,
-        data = [],
-        onChangeSelection = () => {},
-        selectionLabel = "",
-        multipleSelect = false,
-        selectedId = 1,
-        icon,
-        isPicker = false,
-        onChangePicker = () => {}
-    } = props;
-    const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(true);
-    const [popupIsVisible, setPopupIsVisible] = useState<boolean>(false);
-
-    return (
-        <>
-=======
         icon,
         editable = true,
-        onPress
+        onPress,
+        rightIcon,
+        onPressRightIcon,
+        st = {}
     } = props;
     const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(true);
     return (
         <KeyboardAvoidingView behavior={"position"}>
->>>>>>> 65fe56f (After .git remove)
-            <View style={style.inputContainer}>
+            <View style={[style.inputContainer, st]}>
                 <View style={style.labelContainer}>
                     {label && <Text style={style.label}>{label}</Text>}
                     {isRequire && (
@@ -127,11 +77,7 @@ const TextInput = (props: Props) => {
                 </View>
                 <Pressable
                     style={style.textInputContainer(h)}
-<<<<<<< HEAD
-                    onPress={() => isSelection&&setPopupIsVisible(true)}
-=======
                     onPress={(e: PressEvent) => onPress && onPress(e)}
->>>>>>> 65fe56f (After .git remove)
                 >
                     {icon && (
                         <View style={style.iconContainer}>
@@ -146,12 +92,8 @@ const TextInput = (props: Props) => {
                         placeholder={placeholder}
                         placeholderTextColor={colors.gray200}
                         onChangeText={onChangeText}
-<<<<<<< HEAD
-                        editable={!isSelection}
-=======
                         editable={editable}
                         keyboardType={inputType}
->>>>>>> 65fe56f (After .git remove)
                     ></RTtextInput>
                     {isPassword && (
                         <Pressable
@@ -165,88 +107,21 @@ const TextInput = (props: Props) => {
                             />
                         </Pressable>
                     )}
-<<<<<<< HEAD
-                    {isSelection && (
+                    {rightIcon && (
                         <Pressable
                             style={style.rightIconContainer}
-                            onPress={() => setPopupIsVisible(prev => !prev)}
+                            onPress={(e: PressEvent) => {
+                                if (onPressRightIcon) onPress(e);
+                                else onPressRightIcon && onPressRightIcon(e);
+                            }}
                         >
-                            <Ionicons
-                                name={
-                                    !popupIsVisible
-                                        ? "chevron-down"
-                                        : "chevron-up"
-                                }
-                                size={size.s5}
-                                color={colors.gray300}
-                            />
+                            {rightIcon(colors.black200, size.s5)}
                         </Pressable>
                     )}
-                </Pressable>
-                {popupIsVisible && (
-                    <Modal
-                        transparent
-                        onRequestClose={() => {
-                            setPopupIsVisible(false);
-                        }}
-                    >
-                        <Pressable
-                            style={style.modalInner}
-                            onPress={() => setPopupIsVisible(false)}
-                        >
-                            {isPicker ? (
-                                <View style={style.pickerContainer}>
-                                    <DatePicker
-                                        onDateChange={(date: string) => {
-                                            props.onChangePicker &&
-                                                props.onChangePicker(date);
-                                        }}
-                                        mode="calendar"
-                                        minuteInterval={30}
-                                        style={{ borderRadius: size.s3 }}
-                                        options={{
-                                            backgroundColor: colors.w,
-                                            textHeaderColor: colors.green300,
-                                            textDefaultColor: colors.black200,
-                                            selectedTextColor: colors.purple300,
-                                            mainColor: colors.black300,
-                                            textSecondaryColor: colors.blue300,
-                                            borderColor: colors.gray100 + "00",
-                                            defaultFont: "inter_m",
-                                            headerFont: "inter_sb",
-                                            textFontSize: size.s3 * 1.3,
-                                            textHeaderFontSize: size.s5
-                                        }}
-                                    />
-                                </View>
-                            ) : (
-                                <GroupSelection
-                                    data={data}
-                                    onChange={(
-                                        value: number | number[],
-                                        item: SelectionItem | SelectionItem[]
-                                    ) => {
-                                        onChangeSelection &&
-                                            onChangeSelection(value, item);
-                                    }}
-                                    optionLabel={selectionLabel}
-                                    unique={!multipleSelect}
-                                    selectedId={selectedId}
-                                />
-                            )}
-                        </Pressable>
-                    </Modal>
-                )}
-
-                {displayHelp && <View style={style.helperTextContainer}></View>}
-            </View>
-        </>
-=======
                 </Pressable>
                 {displayHelp && <View style={style.helperTextContainer}></View>}
             </View>
         </KeyboardAvoidingView>
->>>>>>> 65fe56f (After .git remove)
     );
 };
 
@@ -319,33 +194,5 @@ const styles = ({ colors, size }) =>
             fontFamily: "inter_m",
             fontSize: size.s3,
             color: colors.gray300
-<<<<<<< HEAD
-        },
-        modalView: {
-            backgroundColor: colors.w,
-            borderRadius: size.s2,
-            alignItems: "center",
-            shadowColor: colors.b,
-            shadowOffset: {
-                width: 0,
-                height: 2
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 4,
-            elevation: size.s1 / 2,
-            width: "100%",
-            // position: "absolute",
-            zIndex: 10000
-        },
-        modalInner: {
-            backgroundColor: "rgba(0,0,0,0.7)",
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center"
-        },
-        pickerContainer: {
-            width: "85%"
-=======
->>>>>>> 65fe56f (After .git remove)
         }
     });

@@ -28,39 +28,7 @@ const Alert = (props: AlertOption) => {
         alertIsOpen,
         btnMsg = { yes: "Oui", no: "Annuler" },
         onPress = () => {},
-<<<<<<< HEAD
-        msg = "Aleert Messgae",
-        custormMsgComponent,
-        custormBtn
-    } = props;
-    const animValue = useSharedValue(0);
 
-    const animStyle = useAnimatedStyle(() => ({
-        position: "absolute",
-        width: size.width,
-        height: interpolate(animValue.value, [0, 1], [0, size.height]),
-        bottom: 0,
-        overflow: "hidden"
-    }));
-    const animation = (value: number) => {
-        animValue.value = withTiming(value, { duration: 500 }, () => {
-          ;
-        });
-    };
-    useEffect(() => {
-        animation(1);
-    });
-
-    return (
-        <Modal
-            tansparent
-            onRequestClose={() => {
-                onPress && onPress(false);
-                
-                animation(0);
-                alertIsOpen(false)
-            }}
-=======
         msg = "Alert Messagae",
         custormMsgComponent,
         custormBtn
@@ -74,86 +42,18 @@ const Alert = (props: AlertOption) => {
                 alertIsOpen(false);
             }}
             animationType={"slide"}
->>>>>>> 65fe56f (After .git remove)
         >
             <Pressable
                 onPress={() => {
                     onPress && onPress(false);
-<<<<<<< HEAD
-                    animation(0);
-                    alertIsOpen(false)
-                }}
-                style={{
-                    backgroundColor: "transparent",
-=======
+
                     alertIsOpen(false);
                 }}
                 style={{
-
->>>>>>> 65fe56f (After .git remove)
                     width: "100%",
                     height: "100%"
                 }}
             >
-<<<<<<< HEAD
-
-                    <BlurView
-                        experimentalBlurMethod={"dimezisBlurView"}
-                        intensity={90}
-                        tint={isLightTheme ? "light" : "dark"}
-                        style={style.alertContainer}
-                    >
-                        <View style={style.alertInnerContainer}>
-                            <View style={style.alertMsgContainer}>
-                                {!custormMsgComponent && msg && (
-                                    <Text style={style.alertMsg}>{msg}</Text>
-                                )}
-                                {custormMsgComponent &&
-                                    custormMsgComponent(msg)}
-                            </View>
-                            <View style={style.alertBtnContainer}>
-                                {!custormBtn && btnMsg && (
-                                    <>
-                                        <Pressable
-                                            style={style.alertBtn}
-                                            onPress={() => {
-                                                onPress && onPress(false);
-                                                animation(0);
-                                                alertIsOpen(false)
-                                            }}
-                                        >
-                                            <Text style={style.alertBtnText}>
-                                                {btnMsg?.no}
-                                            </Text>
-                                        </Pressable>
-                                        <Pressable
-                                            style={style.alertBtn}
-                                            onPress={() => {
-                                                onPress && onPress(true);
-                                                animation(0);
-                                                alertIsOpen(false)
-                                            }}
-                                        >
-                                            <Text style={style.alertBtnText}>
-                                                {btnMsg?.yes}
-                                            </Text>
-                                        </Pressable>
-                                    </>
-                                )}
-                                {custormBtn &&
-                                    custormMsgComponent(
-                                        btnMsg,
-                                        (value: boolean) => {
-                                            onPress && onPress(value);
-                                            animation(0);
-                                            alertIsOpen(false)
-                                        }
-                                    )}
-                            </View>
-                        </View>
-                    </BlurView>
-
-=======
                 <BlurView
                     experimentalBlurMethod={"dimezisBlurView"}
                     intensity={50}
@@ -205,7 +105,6 @@ const Alert = (props: AlertOption) => {
                         </View>
                     </View>
                 </BlurView>
->>>>>>> 65fe56f (After .git remove)
             </Pressable>
         </Modal>
     );

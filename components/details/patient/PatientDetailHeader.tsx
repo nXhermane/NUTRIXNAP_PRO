@@ -75,6 +75,7 @@ const PatientDetailHeader = ({
     const [HeaderWidths, setHeaderWidths] = useState(headerWidths);
     const Navigation = useNavigation();
     const AnimatableAvatars = Animated.createAnimatedComponent(Avatars);
+    const [currentIndex, setcurrentIndex] = useState<number>(2);
 
     const headerTopAvatarsStyle = useAnimatedStyle(() => ({
         height: interpolate(
@@ -132,14 +133,13 @@ const PatientDetailHeader = ({
     }));
     const scroll1: SharedValue<number> = useSharedValue(0);
     useDerivedValue(() => {
+        runOnJS(setcurrentIndex)(scroll1.value);
         scrollTo(bottomScrollRef, scroll1.value * size.width, 0, true);
     });
-
     const scroll2: SharedValue<number> = useSharedValue(0);
     useDerivedValue(() => {
         scrollTo(headerScrollRef, scroll2.value, 0, true);
     });
-
     const barWidthStyle = useAnimatedStyle(() => {
         const input = [];
         const output1 = [];
@@ -149,15 +149,15 @@ const PatientDetailHeader = ({
         keys.map((key, index) => {
             input.push(size.width * index);
             const cellWidth = HeaderWidths[key];
-            output1.push(cellWidth);
-            output2.push(sumWidth);
+            output1.push(cellWidth - size.s4 * 2);
+            output2.push(sumWidth + size.s4);
             sumWidth += cellWidth;
         });
         const moveValue = interpolate(bottomScrollX.value, input, output2);
         const barWidth = interpolate(bottomScrollX.value, input, output1);
-        // next line handle auto scroll of top ScrollView
         scroll2.value = moveValue + barWidth / 2 - size.width / 2;
-
+        const newArray = output2.filter(item => item + 1 >= moveValue);
+        runOnJS(setcurrentIndex)(output2.length - newArray.length);
         return {
             width: barWidth,
             transform: [
@@ -167,14 +167,10 @@ const PatientDetailHeader = ({
             ]
         };
     });
-
-    // generate dynamic translateX of moving bar
     const barMovingStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: -headerScrollX.value }]
     }));
-
     const onPressHeader = index => {
-        // next line handle auto scroll of bottom ScrollView
         scroll1.value = index;
     };
     return (
@@ -251,17 +247,12 @@ const PatientDetailHeader = ({
                             onLayout={(e: LayoutEvent) => {
                                 e.persist();
                                 setHeaderWidths(prev => {
-                                    console.log(prev);
                                     let obj = { ...prev };
                                     obj[index] = e.nativeEvent.layout.width;
-                                    console.log(
-                                        obj[index],
-                                        e.nativeEvent.layout.width
-                                    );
                                     return obj;
                                 });
                             }}
-                            isActive={index === 0}
+                            isActive={index === currentIndex}
                             title={item}
                             key={index.toString()}
                             onPress={(e: PressEvent) => onPressHeader(index)}
@@ -379,7 +370,7 @@ const styles = ({ colors, size }: ThemeInterface) =>
             paddingVertical: size.s2
         },
         headerTitleContainer: {
-            marginHorizontal: size.s4,
+            //marginHorizontal: size.s4,
             justifyContent: "center",
             alignItems: "center",
             height: size.s8
@@ -387,13 +378,13 @@ const styles = ({ colors, size }: ThemeInterface) =>
         headerTitle: {
             fontFamily: "inter_m",
             color: colors.black200,
-            fontSize: size.s3 * 1.2
+            fontSize: size.s3 * 1.2,
+            marginHorizontal: size.s4
         },
         bar: {
             alignSelf: "flex-start",
             height: size.s1,
-            borderRadius: size.s10,
-            marginHorizontal: size.s4
+            borderRadius: size.s10
         },
         barInner: {
             backgroundColor: colors.blue300,

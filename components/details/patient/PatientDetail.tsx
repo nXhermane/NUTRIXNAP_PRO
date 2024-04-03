@@ -55,7 +55,6 @@ const PatientDetail = ({ patientId }: Props) => {
     const bottomScrollX: SharedValue<number> =
         useScrollViewOffset(bottomScrollViewRef);
 
-    
     useEffect(() => {
         core.patientS
             .getPatientById(patientId)
@@ -127,8 +126,8 @@ const styles = ({ colors, size }: ThemeInterface) =>
             height: "100%",
             width: size.width,
             //backgroundColor: "grey",
-           // borderWidth: 5,
-           // borderColor: "#fff",
+            // borderWidth: 5,
+            // borderColor: "#fff",
             alignItems: "center",
             justifyContent: "center"
         }

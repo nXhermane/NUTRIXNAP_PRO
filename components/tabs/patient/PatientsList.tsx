@@ -12,7 +12,7 @@ import SearchPatientFilter, {
 } from "@comp/search/SearchPatientFilter";
 import { dataPatientList } from "@/data";
 import React, { useState, useReducer, useEffect, useContext } from "react";
-import { CoreContext } from "@/core/CoreProvider";
+import useCore from "@/hooks/useCore";
 import { useAppAlert } from "@pack/AppAlert";
 interface Props {
     onPressAddBtn: (e: PressEvent) => void;
@@ -22,8 +22,8 @@ interface Props {
 const PatientsList = (props: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
-    const Alert=useAppAlert()
-    const core = useContext(CoreContext);
+    const Alert = useAppAlert();
+    const core = useCore();
     const [selectedPatient, setSelectedPatient] = useState([]);
     const [searchIsActive, setSearchIsActive] = useState<boolean>(false);
     const [filterIsActive, setFilterIsActive] = useState<boolean>(false);
@@ -52,14 +52,11 @@ const PatientsList = (props: Props) => {
             withSearch
             header
             onPressFilter={() => {
-            Alert.confirm('Open Filter').then(check=>{
-              if(check){
-                setFilterIsActive(prev => !prev);
-            }
-            })
-            
-            
-                
+                Alert.confirm("Open Filter").then(check => {
+                    if (check) {
+                        setFilterIsActive(prev => !prev);
+                    }
+                });
             }}
             onPressAddBtn={(e: PressEvent) => {
                 props.onPressAddBtn && props.onPressAddBtn(e);
@@ -103,12 +100,21 @@ const PatientsList = (props: Props) => {
                             sexe={item.gender}
                             uri={item.profil_img}
                             onDelete={() => {
-                                core.patientS.deletePatient(item.id);
-                                setForceUpdate(prev => !prev);
+                                Alert.confirm(
+                                    `Voulez-vous vraiment supprimer le patient ${item.name} ajouté le ${item.createdAt} ?`
+                                ).then((check: boolean) => {
+                                    if (check) {
+                                        core.patientS
+                                            .deletePatient(item.id)
+                                            .then(() => {
+                                                setForceUpdate(prev => !prev);
+                                            });
+                                    }
+                                });
                             }}
-                            onEdit={(e: PressEvent,id:number) => {
+                            onEdit={(e: PressEvent, id: number) => {
                                 props.onPressItemEdit &&
-                                    props.onPressItemEdit(e,id);
+                                    props.onPressItemEdit(e, id);
                             }}
                         />
                     )}

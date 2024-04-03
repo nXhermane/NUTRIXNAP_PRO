@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
-
+import Animated from "react-native-reanimated";
 interface Props {
     s?: number;
     bg?: string;
@@ -21,8 +21,20 @@ interface Props {
     onLongPress?: () => void;
     st?: ViewStyle;
 }
+const styles = (theme: ThemeInterface) =>
+    StyleSheet.create({
+        avatars: {
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden"
+        },
+        letter: {
+            fontFamily: "inter",
+            fontWeight: "bold"
+        }
+    });
 
-const Avatars = (props: Props) => {
+const Avatars = React.forwardRef((props: Props, ref) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
     const {
@@ -36,8 +48,9 @@ const Avatars = (props: Props) => {
         onLongPress,
         st = {}
     } = props;
+    const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
     return (
-        <Pressable
+        <AnimatedPressable
             onLongPress={() => {
                 onLongPress && onLongPress();
             }}
@@ -74,7 +87,7 @@ const Avatars = (props: Props) => {
                 </Text>
             )}
 
-            {!icon && !letter && image  && (
+            {!icon && !letter && image && (
                 <Image
                     source={image}
                     style={{ height: s, width: s }}
@@ -82,21 +95,8 @@ const Avatars = (props: Props) => {
                 />
             )}
             {!letter && !image && icon && icon}
-        </Pressable>
+        </AnimatedPressable>
     );
-};
+});
 
 export default Avatars;
-
-const styles = (theme: ThemeInterface) =>
-    StyleSheet.create({
-        avatars: {
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "hidden"
-        },
-        letter: {
-            fontFamily: "inter",
-            fontWeight: "bold"
-        }
-    });

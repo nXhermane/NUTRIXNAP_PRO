@@ -21,12 +21,7 @@ export default class UserService implements IPatientService {
     }
     async createPatient(patient: PatientEntity): Promise<PatientEntity> {
         const id = await this.repository.create(patient);
-<<<<<<< HEAD
         return await this.getPatientById(id);
-=======
-        
-        return await this.getPatientById(id)
->>>>>>> 65fe56f (After .git remove)
     }
     async deletePatient(id: number): Promise<void> {
         await this.repository.delete(id);
