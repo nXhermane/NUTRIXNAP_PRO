@@ -28,6 +28,7 @@ const Alert = (props: AlertOption) => {
         alertIsOpen,
         btnMsg = { yes: "Oui", no: "Annuler" },
         onPress = () => {},
+<<<<<<< HEAD
         msg = "Aleert Messgae",
         custormMsgComponent,
         custormBtn
@@ -59,19 +60,42 @@ const Alert = (props: AlertOption) => {
                 animation(0);
                 alertIsOpen(false)
             }}
+=======
+        msg = "Alert Messagae",
+        custormMsgComponent,
+        custormBtn
+    } = props;
+
+    return (
+        <Modal
+            transparent
+            onRequestClose={() => {
+                onPress && onPress(false);
+                alertIsOpen(false);
+            }}
+            animationType={"slide"}
+>>>>>>> 65fe56f (After .git remove)
         >
             <Pressable
                 onPress={() => {
                     onPress && onPress(false);
+<<<<<<< HEAD
                     animation(0);
                     alertIsOpen(false)
                 }}
                 style={{
                     backgroundColor: "transparent",
+=======
+                    alertIsOpen(false);
+                }}
+                style={{
+
+>>>>>>> 65fe56f (After .git remove)
                     width: "100%",
                     height: "100%"
                 }}
             >
+<<<<<<< HEAD
 
                     <BlurView
                         experimentalBlurMethod={"dimezisBlurView"}
@@ -129,6 +153,59 @@ const Alert = (props: AlertOption) => {
                         </View>
                     </BlurView>
 
+=======
+                <BlurView
+                    experimentalBlurMethod={"dimezisBlurView"}
+                    intensity={50}
+                    tint={isLightTheme ? "light" : "dark"}
+                    style={[style.alertContainer]}
+                >
+                    <View style={style.alertInnerContainer}>
+                        <View style={style.alertMsgContainer}>
+                            {!custormMsgComponent && msg && (
+                                <Text style={style.alertMsg}>{msg}</Text>
+                            )}
+                            {custormMsgComponent && custormMsgComponent(msg)}
+                        </View>
+                        <View style={style.alertBtnContainer}>
+                            {!custormBtn && btnMsg && (
+                                <>
+                                    <Pressable
+                                        style={style.alertBtn}
+                                        onPress={() => {
+                                            onPress && onPress(false);
+                                            alertIsOpen(false);
+                                        }}
+                                    >
+                                        <Text style={style.alertBtnText}>
+                                            {btnMsg?.no}
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable
+                                        style={style.alertBtn}
+                                        onPress={() => {
+                                            onPress && onPress(true);
+                                            alertIsOpen(false);
+                                        }}
+                                    >
+                                        <Text style={style.alertBtnText}>
+                                            {btnMsg?.yes}
+                                        </Text>
+                                    </Pressable>
+                                </>
+                            )}
+                            {custormBtn &&
+                                custormMsgComponent(
+                                    btnMsg,
+                                    (value: boolean) => {
+                                        onPress && onPress(value);
+                                        alertIsOpen(false);
+                                    }
+                                )}
+                        </View>
+                    </View>
+                </BlurView>
+>>>>>>> 65fe56f (After .git remove)
             </Pressable>
         </Modal>
     );

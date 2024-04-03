@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
+=======
+import { StyleSheet, Text, View, Pressable, TextInput ,KeyboardAvoidingView} from "react-native";
+>>>>>>> 65fe56f (After .git remove)
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
@@ -22,6 +26,10 @@ const TelInput = (props: Props) => {
         onChange = () => {}
     } = props;
     return (
+<<<<<<< HEAD
+=======
+      <KeyboardAvoidingView behavior={'position'}>
+>>>>>>> 65fe56f (After .git remove)
         <View style={style.selectionInputContainer}>
             <View style={style.labelContainer}>
                 {label && <Text style={style.label}>{label}</Text>}
@@ -46,6 +54,10 @@ const TelInput = (props: Props) => {
                 />
             </View>
         </View>
+<<<<<<< HEAD
+=======
+        </KeyboardAvoidingView>
+>>>>>>> 65fe56f (After .git remove)
     );
 };
 

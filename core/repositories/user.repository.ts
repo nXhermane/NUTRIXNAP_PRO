@@ -66,7 +66,11 @@ export default class UserRepository implements IUserRepository {
 
     async create(user: UserEntity): Promise<number | null> {
         try {
+<<<<<<< HEAD
             const [id] = await this.knex(this.tableName)
+=======
+            const [{id}] = await this.knex(this.tableName)
+>>>>>>> 65fe56f (After .git remove)
                 .insert({
                     name: user.name,
                     lastname: user?.lastname,

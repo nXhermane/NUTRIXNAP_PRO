@@ -71,7 +71,11 @@ export default class PatientRepository implements IPatientRepository {
 
     async create(patient: PatientEntity): Promise<number | null> {
         try {
+<<<<<<< HEAD
             const [id] = await this.knex(this.tableName)
+=======
+            const [{id}] = await this.knex(this.tableName)
+>>>>>>> 65fe56f (After .git remove)
                 .insert({
                     name: patient.name,
                     gender: patient?.gender,
@@ -86,7 +90,11 @@ export default class PatientRepository implements IPatientRepository {
                     updateAt: new Date().toLocaleDateString()
                 })
                 .returning("id");
+<<<<<<< HEAD
             return id || null;
+=======
+            return  id ||null;
+>>>>>>> 65fe56f (After .git remove)
         } catch (error) {
             console.error("Error creating Patient:", error);
             return null;

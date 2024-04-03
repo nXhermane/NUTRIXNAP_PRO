@@ -23,9 +23,15 @@ export default class UserService implements IUserService {
         const upUser = await this.repository.update(user);
         return upUser;
     }
+<<<<<<< HEAD
     async createUser(user: UserEntity): Promise<number> {
         const id = await this.repository.create(user);
         return id
+=======
+    async createUser(user: UserEntity): Promise<UserEntity> {
+        const id = await this.repository.create(user);
+        return await this.getUserById(id);
+>>>>>>> 65fe56f (After .git remove)
     }
     async deleteUser(id: number): Promise<void> {
         await this.repository.delete(id);

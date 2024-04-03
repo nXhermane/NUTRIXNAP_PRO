@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import  DatePicker from "react-native-modern-datepicker";
+=======
+import DatePicker from "react-native-modern-datepicker";
+>>>>>>> 65fe56f (After .git remove)
 import {
     StyleSheet,
     Text,
@@ -6,11 +10,18 @@ import {
     TextInput as RTtextInput,
     Pressable,
     Alert,
+<<<<<<< HEAD
     Modal
+=======
+    Modal,
+    KeyboardAvoidingView,
+    PressEvent
+>>>>>>> 65fe56f (After .git remove)
 } from "react-native";
 import React, { useState } from "react";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
+<<<<<<< HEAD
 
 
 import GroupSelection, {
@@ -21,6 +32,13 @@ interface Props {
     onChangeText?: (value: string) => void;
     inputType: "numeric" | "text" | "password";
     inputMode:
+=======
+interface Props {
+    value: string;
+    onChangeText?: (value: string) => void;
+    inputType?: "numeric" | "text" | "password";
+    inputMode?:
+>>>>>>> 65fe56f (After .git remove)
         | "numeric"
         | "decimal"
         | "none"
@@ -35,6 +53,7 @@ interface Props {
     help?: JSX.Element;
     isRequire?: boolean;
     label?: string;
+<<<<<<< HEAD
     isSelection?: boolean;
     data?: SelectionItem[];
     onChangeSelection?: (
@@ -47,6 +66,11 @@ interface Props {
     icon?: (colors: string, size: number) => JSX.Element;
     isPicker?: boolean;
     onChangePicker?: (value: string) => void;
+=======
+    icon?: (colors: string, size: number) => JSX.Element;
+    editable?: boolean;
+    onPress?: (e: PressEvent) => void;
+>>>>>>> 65fe56f (After .git remove)
 }
 
 const TextInput = (props: Props) => {
@@ -56,6 +80,10 @@ const TextInput = (props: Props) => {
         isPassword = false,
         value,
         inputMode = "text",
+<<<<<<< HEAD
+=======
+        inputType = "text",
+>>>>>>> 65fe56f (After .git remove)
         onChangeText = (value: string) => {},
         placeholder,
         h,
@@ -63,6 +91,7 @@ const TextInput = (props: Props) => {
         displayHelp = false,
         help,
         label,
+<<<<<<< HEAD
         isSelection = false,
         data = [],
         onChangeSelection = () => {},
@@ -78,6 +107,15 @@ const TextInput = (props: Props) => {
 
     return (
         <>
+=======
+        icon,
+        editable = true,
+        onPress
+    } = props;
+    const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(true);
+    return (
+        <KeyboardAvoidingView behavior={"position"}>
+>>>>>>> 65fe56f (After .git remove)
             <View style={style.inputContainer}>
                 <View style={style.labelContainer}>
                     {label && <Text style={style.label}>{label}</Text>}
@@ -89,7 +127,11 @@ const TextInput = (props: Props) => {
                 </View>
                 <Pressable
                     style={style.textInputContainer(h)}
+<<<<<<< HEAD
                     onPress={() => isSelection&&setPopupIsVisible(true)}
+=======
+                    onPress={(e: PressEvent) => onPress && onPress(e)}
+>>>>>>> 65fe56f (After .git remove)
                 >
                     {icon && (
                         <View style={style.iconContainer}>
@@ -104,7 +146,12 @@ const TextInput = (props: Props) => {
                         placeholder={placeholder}
                         placeholderTextColor={colors.gray200}
                         onChangeText={onChangeText}
+<<<<<<< HEAD
                         editable={!isSelection}
+=======
+                        editable={editable}
+                        keyboardType={inputType}
+>>>>>>> 65fe56f (After .git remove)
                     ></RTtextInput>
                     {isPassword && (
                         <Pressable
@@ -118,6 +165,7 @@ const TextInput = (props: Props) => {
                             />
                         </Pressable>
                     )}
+<<<<<<< HEAD
                     {isSelection && (
                         <Pressable
                             style={style.rightIconContainer}
@@ -193,6 +241,12 @@ const TextInput = (props: Props) => {
                 {displayHelp && <View style={style.helperTextContainer}></View>}
             </View>
         </>
+=======
+                </Pressable>
+                {displayHelp && <View style={style.helperTextContainer}></View>}
+            </View>
+        </KeyboardAvoidingView>
+>>>>>>> 65fe56f (After .git remove)
     );
 };
 
@@ -265,6 +319,7 @@ const styles = ({ colors, size }) =>
             fontFamily: "inter_m",
             fontSize: size.s3,
             color: colors.gray300
+<<<<<<< HEAD
         },
         modalView: {
             backgroundColor: colors.w,
@@ -290,5 +345,7 @@ const styles = ({ colors, size }) =>
         },
         pickerContainer: {
             width: "85%"
+=======
+>>>>>>> 65fe56f (After .git remove)
         }
     });

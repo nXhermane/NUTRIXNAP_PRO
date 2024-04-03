@@ -4,7 +4,12 @@ import {
     View,
     Pressable,
     Modal,
+<<<<<<< HEAD
     KeyboardAvoidingView
+=======
+    KeyboardAvoidingView,
+    PressEvent
+>>>>>>> 65fe56f (After .git remove)
 } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,6 +36,10 @@ import {
 } from "countries-list";
 import useImagePicker from "@/hooks/useImagePicker";
 import useDownloadFile from "@/hooks/useDownloadFile";
+<<<<<<< HEAD
+=======
+import useCopyFile from "@/hooks/useCopyFile";
+>>>>>>> 65fe56f (After .git remove)
 import { CoreContext } from "@/core/CoreProvider";
 import { Asset } from "expo-asset";
 import { router } from "expo-router";
@@ -135,12 +144,18 @@ const LoginModal = (props: Props) => {
         firstname: props.userInfo.given_name,
         country: props.userInfo.locale
     }));
+<<<<<<< HEAD
     const [download, downloadURI, isFinish] = useDownloadFile("profil/logo");
     const [pickImage] = useImagePicker((uri: string, type: string) => {
         if (uri != "") {
             dispatch({ type: "profil_img", payload: uri });
         }
     });
+=======
+    const [downloadImage] = useDownloadFile();
+    const [pickImage, pickUri, pickType] = useImagePicker();
+    const [copyImage] = useCopyFile();
+>>>>>>> 65fe56f (After .git remove)
     const modalSize = useSharedValue(0);
     const position = useSharedValue(props.animatedData);
     const modalAnimatedStyle = useAnimatedStyle(() => {
@@ -183,6 +198,34 @@ const LoginModal = (props: Props) => {
     React.useEffect(() => {
         animation(1);
     });
+<<<<<<< HEAD
+=======
+
+    const onSubmit = (e: PressEvent) => {
+        core.userS.createUser(formInfo).then(user => {
+            let imageDownloadFunc;
+            if (formInfo.profil_img.slice(0, 4).includes("http")) {
+                imageDownloadFunc = downloadImage;
+            } else {
+                imageDownloadFunc = copyImage;
+            }
+            imageDownloadFunc(
+                formInfo.profil_img,
+                "users_" + formInfo.name.split(" ").join("").toLowerCase(),
+                "profil_img." + pickType
+            ).then(({ uri }) => {
+                core.userS
+                    .updateUser({ id: user.id, profil_img: uri })
+                    .then(upUser => {
+                        core.setUser(upUser);
+                        console.log(upUser);
+                        animation(0);
+                        router.replace("(drawer)/(home)");
+                    });
+            });
+        });
+    };
+>>>>>>> 65fe56f (After .git remove)
     return (
         <Modal
             transparent
@@ -204,7 +247,20 @@ const LoginModal = (props: Props) => {
                                 letter={formInfo.name.slice(0, 1) || "P"}
                                 bg={colors.yellow100}
                                 color={colors.yellow300}
+<<<<<<< HEAD
                                 onLongPress={() => pickImage()}
+=======
+                                onLongPress={() =>
+                                    pickImage().then(({ uri, type }) => {
+                                        if (uri != "") {
+                                            dispatch({
+                                                type: "profil_img",
+                                                payload: uri
+                                            });
+                                        }
+                                    })
+                                }
+>>>>>>> 65fe56f (After .git remove)
                                 st={{
                                     alignSelf: "center",
                                     borderWidth:
@@ -315,6 +371,7 @@ const LoginModal = (props: Props) => {
                                 w={size.width * 0.85}
                                 r={size.s5 * 2}
                                 ff={"inter"}
+<<<<<<< HEAD
                                 onPress={() => {
                                     core.userS
                                         .createUser(formInfo)
@@ -325,6 +382,9 @@ const LoginModal = (props: Props) => {
                                         router.replace("(drawer)/(home)");
                                     });
                                 }}
+=======
+                                onPress={onSubmit}
+>>>>>>> 65fe56f (After .git remove)
                             />
                         </View>
                     </View>
