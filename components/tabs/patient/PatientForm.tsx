@@ -25,21 +25,13 @@ import Animated, {
     withTiming,
     runOnJS
 } from "react-native-reanimated";
-<<<<<<< HEAD
-import { continents, countries, languages } from "countries-list";
-import {
-    getCountryCode,
-    getCountryData,
-    getCountryDataList,
-    getEmojiFlag
-} from "countries-list";
-=======
+
 import { continents, countries, languages,getCountryCode,
     getCountryData,
     getCountryDataList,
     getEmojiFlag } from "countries-list";
 
->>>>>>> 65fe56f (After .git remove)
+
 import useImagePicker from "@/hooks/useImagePicker";
 import useDownloadFile from "@/hooks/useDownloadFile";
 import useCopyFile from "@/hooks/useCopyFile";
@@ -195,8 +187,7 @@ const PatientForm = (props: Props) => {
             );
         }
     };
-<<<<<<< HEAD
-=======
+
 
     const onSubmit = (e: PressEvent) => {
         if (isUpdate) {
@@ -244,7 +235,7 @@ const PatientForm = (props: Props) => {
             });
         }
     };
->>>>>>> 65fe56f (After .git remove)
+
     React.useEffect(() => {
         animation(1);
     });
@@ -271,53 +262,9 @@ const PatientForm = (props: Props) => {
                                 borderWidth: size.s1 / 8,
                                 borderRadius: 500
                             }}
-<<<<<<< HEAD
-                            onPress={(e: PressEvent) => {
-                                if (isUpdate) {
-                                    Alert.confirm(
-                                        "Voulez-vous vraiment mettre à jour ce patient ?"
-                                    ).then((check: boolean) => {
-                                        if (check) {
-                                            core.patientS
-                                                .updatePatient(formInfo)
-                                                .then(patient => {
-                                                    copyImage(
-                                                        formInfo.profil_img,
-                                                        "patients_" +
-                                                            formInfo.name
-                                                                .split(" ")
-                                                                .join("")
-                                                                .toLowerCase(),
-                                                        "profil_img." + pickType
-                                                    ).then(
-                                                        ({ uri: copyUri }) => {
-                                                            animation(0);
-                                                        }
-                                                    );
-                                                });
-                                        }
-                                    });
-                                } else {
-                                    core.patientS
-                                        .createPatient(formInfo)
-                                        .then(patient => {
-                                            copyImage(
-                                                formInfo.profil_img,
-                                                "patients_" +
-                                                    formInfo.name
-                                                        .split(" ")
-                                                        .join("")
-                                                        .toLowerCase(),
-                                                "profil_img." + pickType
-                                            ).then(({ uri: copyUri }) => {
-                                                animation(0);
-                                            });
-                                        });
-                                }
-                            }}
-=======
+
+                            
                             onPress={onSubmit}
->>>>>>> 65fe56f (After .git remove)
                         >
                             <Ionicons
                                 name="save"
@@ -466,14 +413,9 @@ const PatientForm = (props: Props) => {
                             <TextInput
                                 value={formInfo.email}
                                 onChangeText={(val: string) => {
-<<<<<<< HEAD
+
                                     dispatch({ type: "email", payload: val });
-=======
-                                    dispatch({
-                                        type: "email",
-                                        payload: val
-                                    });
->>>>>>> 65fe56f (After .git remove)
+
                                 }}
                                 label={"Adresse e-mail"}
                                 placeholder={"Ex: johndoe@gmail.com"}
