@@ -1,7 +1,7 @@
 import { IUserRepository, UserEntity, IDatabase } from "@/core/interfaces";
 import Database, { db } from "@/core/db/db.config";
 import { Knex } from "knex";
-
+import * as Crypto from 'expo-crypto';
 export default class UserRepository implements IUserRepository {
     private db: IDatabase | null;
     private knex: Knex | null;
@@ -50,6 +50,7 @@ export default class UserRepository implements IUserRepository {
             table.string("profession", 200);
             table.string("profil_img", 300);
             table.string("password", 255);
+            table.uuid('unique_id').defaultTo(Crypto.randomUUID())
         });
     }
 

@@ -1,12 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
 import Fuse from "fuse.js";
-import React, { useState } from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 import TextInput from "./TextInput";
 import GroupSelection from "./GroupSelection";
 import SearchInput from "./../search/SearchInput";
-
+import BottomSheet, {
+    BottomSheetModal,
+    BottomSheetView,
+    BottomSheetModalProvider
+} from "@gorhom/bottom-sheet";
 type Option = { label: string; id: string | number };
 interface Props {
     label: string;
@@ -46,7 +50,7 @@ const SelectionInput = (props: Props) => {
     const [searchValue, setSearchValue] = useState<string>("");
     const [selectionData, setSelectionData] = React.useState<any[]>(data);
     const [searchResult, setSearchResult] = React.useState<any[]>([]);
-    const [displayPopup, setDisplayPopup] = useState<boolean>(true);
+    const [displayPopup, setDisplayPopup] = useState<boolean>(false);
     const config = {
         keys: searchFusejsKeys || ["label"]
     };
@@ -57,12 +61,27 @@ const SelectionInput = (props: Props) => {
             setSearchResult(result.map(item => item.item));
         }
     }, [searchValue]);
-    React.useEffect(() => {
-        setTimeout(() => {
-            setDisplayPopup(false);
-        }, 1);
-    }, [data]);
+    
+    const bottomSheetRef = React.useRef<BottomSheet>(null);
+    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
+    // variables
+    const snapPoints = useMemo(() => ["25%", "35%", "50%", "75%", "90%"], []);
+    const index =
+        data.length <= 5
+            ? 0
+            : data.length <= 7
+            ? 1
+            : data.length <= 10
+            ? 2
+            : data.length <= 15
+            ? 3
+            : 4;
+    // callbacks
+    const handlePresentModalPress = useCallback(() => {
+        bottomSheetModalRef.current?.present();
+    }, []);
+    
     return (
         <View style={style.selectionInputContainer}>
             <TextInput
@@ -79,40 +98,77 @@ const SelectionInput = (props: Props) => {
                         color={color}
                     />
                 )}
-                onPress={() => setDisplayPopup((prev: boolean) => !prev)}
+                onPress={() => {
+                    setDisplayPopup((prev: boolean) => !prev);
+                    handlePresentModalPress();
+                }}
             />
             {displayPopup && (
-                <View style={style.floatingSelectList}>
-                    <GroupSelection
-                        data={searchValue.trim() != "" ? searchResult : data}
-                        unique={unique}
-                        selectedId={selectedId}
-                        onChange={(ids, data) => {
-                            onChange(ids, data);
-                        }}
-                        custormItem={custormItem}
-                        optionLabel={
-                            <View style={style.searchContainer}>
-                                {withSearch && (
-                                    <SearchInput
-                                        value={searchValue}
-                                        onChange={(value: string) =>
-                                            setSearchValue()
-                                        }
-                                        placeholder={"Rechercher..."}
-                                        setValue={setSearchValue}
-                                        st={{
-                                            height: size.s50
-                                        }}
-                                        inputSt={{
-                                            fontSize: size.s3
-                                        }}
-                                    />
-                                )}
-                            </View>
-                        }
-                    />
-                </View>
+                <Modal
+                    transparent
+                    onRequestClose={() => {
+                        setDisplayPopup((prev: boolean) => false);
+                    }}
+                    animationType={"slide"}
+                    onShow={handlePresentModalPress}
+                    statusBarTranslucent
+                >
+                    <Pressable style={style.modalContainer}>
+                        <BottomSheetModalProvider>
+                            <BottomSheetModal
+                                ref={bottomSheetModalRef}
+                                index={index}
+                                snapPoints={snapPoints}
+                                
+                                backgroundStyle={{
+                                    backgroundColor: colors.bg.primary
+                                }}
+                                handleIndicatorStyle={{
+                                    backgroundColor: colors.gray300
+                                }}
+                            >
+                                <GroupSelection
+                                    data={
+                                        searchValue.trim() != ""
+                                            ? searchResult
+                                            : data
+                                    }
+                                    unique={unique}
+                                    selectedId={selectedId}
+                                    onChange={(ids, data) => {
+                                        onChange(ids, data);
+                                    }}
+                                    onPressItem={() => {
+                                        setDisplayPopup(false);
+                                    }}
+                                    custormItem={custormItem}
+                                    optionLabel={
+                                        <View style={style.searchContainer}>
+                                            {withSearch && (
+                                                <SearchInput
+                                                    value={searchValue}
+                                                    onChange={(value: string) =>
+                                                        setSearchValue()
+                                                    }
+                                                    placeholder={
+                                                        "Rechercher..."
+                                                    }
+                                                    setValue={setSearchValue}
+                                                    st={{
+                                                        height: size.s50
+                                                    }}
+                                                    inputSt={{
+                                                        fontSize: size.s3
+                                                    }}
+                                                />
+                                            )}
+                                        </View>
+                                    }
+                                />
+                            </BottomSheetModal>
+                        </BottomSheetModalProvider>
+                    </Pressable>
+                </Modal>
             )}
         </View>
     );
@@ -143,5 +199,11 @@ const styles = ({ colors, size }: ThemeInterface) =>
             marginHorizontal: size.s2,
             borderWidth: size.s1 / 10,
             borderColor: colors.gray200
+        },
+        bottomSheetStyle: {},
+        modalContainer: {
+            backgroundColor: colors.black+40,
+            height: size.height + size.s100,
+            width: size.width
         }
     });

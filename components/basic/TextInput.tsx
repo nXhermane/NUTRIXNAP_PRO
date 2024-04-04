@@ -94,7 +94,12 @@ const TextInput = (props: Props) => {
                         onChangeText={onChangeText}
                         editable={editable}
                         keyboardType={inputType}
-                    ></RTtextInput>
+                        onFocus={({nativeEvent}) =>
+                        console.log("onFocus",nativeEvent)}
+                        onBlur={({nativeEvent}) =>
+                        console.log("onBlur",nativeEvent)}
+                        {...props}
+                    />
                     {isPassword && (
                         <Pressable
                             style={style.rightIconContainer}

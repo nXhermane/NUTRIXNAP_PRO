@@ -5,8 +5,8 @@ import {
     SearchPatientOptions
 } from "@/core/interfaces";
 import Database, { db } from "@/core/db/db.config";
-import { Knex } from "knex";
-
+import { Knex ,knex} from "knex";
+import * as Crypto from 'expo-crypto';
 export default class PatientRepository implements IPatientRepository {
     private db: IDatabase | null;
     private knex: Knex | null;
@@ -55,6 +55,7 @@ export default class PatientRepository implements IPatientRepository {
             table.string("consultationLocation", 200);
             table.date("createdAt");
             table.date("updateAt");
+            table.uuid('unique_id').defaultTo(Crypto.randomUUID())
         });
     }
 

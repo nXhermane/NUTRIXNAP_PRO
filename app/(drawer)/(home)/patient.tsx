@@ -51,7 +51,8 @@ const patient = (props: Props) => {
                     width: size.width,
                     height: size.height,
                     paddingTop: size.s50,
-                    paddingBottom: size.s50 * 1.5
+                    paddingBottom: size.s50 * 1.5,
+                    backgroundColor:colors.bg.secondary
                 }}
             >
                 <View style={style.container}>

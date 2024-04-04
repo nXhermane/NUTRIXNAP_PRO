@@ -14,7 +14,6 @@ import { Text, Appearance } from "react-native";
 import Colors from "./../constants/Colors";
 import useTheme from "@/theme/useTheme";
 import { AppAlertProvider } from "@pack/AppAlert";
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 //import Database, { IDatabase } from "./../core/db/db.config";
 
@@ -57,77 +56,77 @@ function RootLayoutNav() {
         <CoreProvider>
             <ThemeProvider>
                 <AppAlertProvider>
-                <ActionSheetProvider>
-                    <GestureHandlerRootView style={{ flex: 1 }}>
-                        <Stack>
-                            <Stack.Screen
-                                name="index"
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="auth"
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="(drawer)"
-                                options={{
-                                    headerShown: false,
-                                    animation: "slide_from_right"
-                                }}
-                            />
-                            <Stack.Screen
-                                name="search/search"
-                                options={{ headerShown: true }}
-                            />
-                            <Stack.Screen
-                                name="search/searchPatient"
-                                options={{
-                                    headerShown: true,
-                                    animation: "slide_from_right"
-                                }}
-                            />
-                            <Stack.Screen
-                                name="search/searchFoods"
-                                options={{
-                                    headerShown: true,
-                                    animation: "slide_from_right"
-                                }}
-                            />
-                            <Stack.Screen
-                                name={"details/patients/[patient_Id]"}
-                                //  getId={({ params }) => String(Date.now())}
-                                options={{
-                                    headerShown: true,
-                                    animation: "slide_from_bottom"
-                                }}
-                            />
-                            <Stack.Screen
-                                name={"details/foods/[food_id]"}
-                                getId={({ params }) => String(Date.now())}
-                                options={{
-                                    headerShown: true,
-                                    animation: "slide_from_bottom"
-                                }}
-                            />
-                            <Stack.Screen
-                                name={"forms/addFoodForm"}
-                                getId={({ params }) => String(Date.now())}
-                                options={{
-                                    headerShown: true,
-                                    animation: "fade_from_bottom"
-                                }}
-                            />
-                            <Stack.Screen
-                                name={"forms/addPatientForm"}
-                                getId={({ params }) => String(Date.now())}
-                                options={{
-                                    headerShown: true,
-                                    animation: "fade_from_bottom"
-                                }}
-                            />
-                        </Stack>
-                    </GestureHandlerRootView>
-                    </ActionSheetProvider>
+
+                        <GestureHandlerRootView style={{ flex: 1 }}>
+                            <Stack>
+                                <Stack.Screen
+                                    name="index"
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name="auth"
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name="(drawer)"
+                                    options={{
+                                        headerShown: false,
+                                        animation: "slide_from_right"
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="search/search"
+                                    options={{ headerShown: true }}
+                                />
+                                <Stack.Screen
+                                    name="search/searchPatient"
+                                    options={{
+                                        headerShown: true,
+                                        animation: "slide_from_right"
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="search/searchFoods"
+                                    options={{
+                                        headerShown: true,
+                                        animation: "slide_from_right"
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name={"details/patients/[patient_Id]"}
+                                    //  getId={({ params }) => String(Date.now())}
+                                    options={{
+                                        headerShown: true,
+                                        animation: "slide_from_bottom"
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name={"details/foods/[food_id]"}
+                                    getId={({ params }) => String(Date.now())}
+                                    options={{
+                                        headerShown: true,
+                                        animation: "slide_from_bottom"
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name={"forms/addFoodForm"}
+                                    getId={({ params }) => String(Date.now())}
+                                    options={{
+                                        headerShown: true,
+                                        animation: "fade_from_bottom"
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name={"forms/addPatientForm"}
+                                    getId={({ params }) => String(Date.now())}
+                                    options={{
+                                        headerShown: true,
+                                        animation: "fade_from_bottom"
+                                    }}
+                                />
+                            </Stack>
+                        </GestureHandlerRootView>
+
                 </AppAlertProvider>
             </ThemeProvider>
         </CoreProvider>

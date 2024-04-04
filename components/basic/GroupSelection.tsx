@@ -6,7 +6,8 @@ import {
     Pressable,
     ScrollView,
     Alert,
-    FlatList
+    FlatList,
+    ViewStyle
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
@@ -19,7 +20,7 @@ interface Props {
     unique: boolean;
     data: Option[];
     selectedId: number;
-    onChange?: (value: number | number[],data:Option|Option[]) => void;
+    onChange?: (value: number | number[], data: Option | Option[]) => void;
     optionLabel: JSX.Element;
     custormItem?: (
         label: string,
@@ -27,6 +28,8 @@ interface Props {
         onPress: () => void,
         props?: any
     ) => JSX.Element;
+    st?: ViewStyle;
+    onPressItem?: () => void;
 }
 
 const GroupSelection = ({
@@ -35,7 +38,9 @@ const GroupSelection = ({
     selectedId,
     onChange,
     optionLabel,
-    custormItem
+    custormItem,
+    st = {},
+    onPressItem
 }: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
@@ -51,7 +56,7 @@ const GroupSelection = ({
     }, [selectedIds]);
 
     return (
-        <View style={style.groupSelectionContainer}>
+        <View style={[style.groupSelectionContainer, st]}>
             {optionLabel && (
                 <View style={style.groupSelectionLabel}>
                     {typeof optionLabel === "string" ? (
@@ -70,6 +75,13 @@ const GroupSelection = ({
                             selectedIds={selectedIds}
                             setSelectedIds={setSelectedIds}
                             custormItem={custormItem}
+                            onPressItem={() => {
+                                if (onPressItem && unique) {
+                                    setTimeout(() => {
+                                        onPressItem();
+                                    }, 100);
+                                }
+                            }}
                         />
                     );
                 }}
@@ -93,12 +105,14 @@ export type SelectionItemProps = {
         onPress: () => void,
         props?: any
     ) => JSX.Element;
+    onPressItem?: () => void;
 };
 
 const SelectionItem = memo((props: SelectionItemProps) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
-    const { label, id, selectedIds, setSelectedIds, custormItem } = props;
+    const { label, id, selectedIds, setSelectedIds, custormItem, onPressItem } =
+        props;
     const isSelected =
         typeof selectedIds === "object"
             ? selectedIds.includes(id)
@@ -113,6 +127,8 @@ const SelectionItem = memo((props: SelectionItemProps) => {
                 return id;
             }
         });
+
+        onPressItem && onPressItem();
     };
     if (custormItem) {
         return custormItem(label, isSelected, onPress, { ...props });
@@ -125,17 +141,15 @@ const SelectionItem = memo((props: SelectionItemProps) => {
             }}
         >
             <View style={style.selectionLabelContainer}>
-                <Text style={style.label}>
-                    {label}
-                </Text>
-                {isSelected && (
-                    <Ionicons
-                        name={"checkmark-outline"}
-                        color={colors.green200}
-                        size={size.s5}
-                    />
-                )}
+                <Text style={style.label}>{label}</Text>
             </View>
+            {isSelected && (
+                <Ionicons
+                    name={"checkmark-outline"}
+                    color={colors.green200}
+                    size={size.s5}
+                />
+            )}
         </Pressable>
     );
 });
@@ -147,29 +161,28 @@ const styles = ({ colors, size }: ThemeInterface) =>
             width: "100%",
             paddingVertical: size.s5,
             paddingHorizontal: size.s3,
-            borderRadius: size.s2,
-            maxHeight: size.s100 * 5
+            borderRadius: size.s2
+            //maxHeight: size.s100 * 5
         },
         selectionItemContainer: (active: boolean) => ({
-            width: "100%",
             backgroundColor: active ? colors.bg.secondary : colors.w,
-            paddingVertical: size.s3,
-            borderTopColor: colors.gray200,
-            borderBottomColor: colors.gray200,
-            borderTopWidth: size.s1 / 10,
-            borderBottomWidth: size.s1 / 10
-        }),
-        selectionLabelContainer: {
             width: "100%",
             flexDirection: "row",
-            justifyContent: "center",
             alignItems: "center",
-            gap: size.s4
-        },
+
+            height: size.s50,
+            borderBottomWidth: size.s1 / 18,
+            borderBottomColor: colors.gray100,
+            paddingHorizontal: size.s4,
+            gap: size.s5,
+
+            justifyContent: "space-between"
+        }),
+        selectionLabelContainer: {},
         label: {
             fontFamily: "inter_m",
-            fontSize: size.s4,
-            color: colors.black300
+            color: colors.black300,
+            fontSize: size.s3
         },
         groupLabel: {
             fontFamily: "inter_sb",
@@ -179,5 +192,16 @@ const styles = ({ colors, size }: ThemeInterface) =>
         },
         groupSelectionLabel: {
             marginBottom: size.s2
+        },
+        countryItem: {
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            height: size.s50,
+            borderBottomWidth: size.s1 / 18,
+            borderBottomColor: colors.gray100,
+            paddingHorizontal: size.s4,
+            gap: size.s5
         }
     });

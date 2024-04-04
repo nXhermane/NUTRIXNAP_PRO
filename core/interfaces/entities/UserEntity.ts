@@ -11,4 +11,5 @@ export default interface UserEntity {
     profession?: string;
     id?: number;
     password?: string;
+    unique_id?:string
 }

@@ -4,6 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import TextInput from "./TextInput";
 import DatePicker from "react-native-modern-datepicker";
+import DateTimePicker, {
+    DateTimePickerEvent
+} from "@react-native-community/datetimepicker";
 interface Props {
     label: string;
     isRequire?: boolean;
@@ -12,7 +15,7 @@ interface Props {
     placeholder?: string;
 }
 const DateInput = (props: Props) => {
-    const { colors, size } = useTheme();
+    const { colors, size, isLightTheme } = useTheme();
     const style = useThemeStyles(styles);
     const {
         label = "Pays",
@@ -23,6 +26,14 @@ const DateInput = (props: Props) => {
     } = props;
 
     const [displayPopup, setDisplayPopup] = useState<boolean>(false);
+    const [date, setDate] = useState(new Date(1598051730000));
+
+    const onChangeDate = (event: DateTimePickerEvent, selectedDate: Date) => {
+        setDisplayPopup(false);
+        const currentDate = selectedDate;
+        onChange && onChange(selectedDate.toLocaleDateString());
+        setDate(currentDate);
+    };
 
     return (
         <View style={style.selectionInputContainer}>
@@ -43,31 +54,47 @@ const DateInput = (props: Props) => {
                     paddingHorizontal: 0
                 }}
             />
-            {displayPopup && (
-                <View style={style.floatingSelectList}>
-                    <DatePicker
-                        onDateChange={(date: string) => {
-                            onChange && onChange(date.split("/").join("-"));
-                        }}
-                        mode="calendar"
-                        minuteInterval={30}
-                        style={{ borderRadius: size.s3 }}
-                        options={{
-                            backgroundColor: colors.w,
-                            textHeaderColor: colors.green300,
-                            textDefaultColor: colors.black200,
-                            selectedTextColor: colors.purple300,
-                            mainColor: colors.black300,
-                            textSecondaryColor: colors.blue300,
-                            borderColor: colors.gray100 + "00",
-                            defaultFont: "inter_m",
-                            headerFont: "inter_sb",
-                            textFontSize: size.s3 * 1.3,
-                            textHeaderFontSize: size.s5
-                        }}
+            {
+                displayPopup && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={"date"}
+                        is24Hour={true}
+                        onChange={onChangeDate}
+                        display={"calendar"}
+                        themeVariant={isLightTheme ? "light" : "dark"}
                     />
-                </View>
-            )}
+                )
+                //             displayPopup && (
+                //                 <View style={style.floatingSelectList}>
+
+                // // <DatePicker
+                // //                         onDateChange={(date: string) => {
+                // //                             onChange && onChange(date.split("/").join("-"));
+                // //                         }}
+                // //                         mode="calendar"
+                // //                         minuteInterval={30}
+                // //                         style={{ borderRadius: size.s3 }}
+                // //                         options={{
+                // //                             backgroundColor: colors.w,
+                // //                             textHeaderColor: colors.green300,
+                // //                             textDefaultColor: colors.black200,
+                // //                             selectedTextColor: colors.purple300,
+                // //                             mainColor: colors.black300,
+                // //                             textSecondaryColor: colors.blue300,
+                // //                             borderColor: colors.gray100 + "00",
+                // //                             defaultFont: "inter_m",
+                // //                             headerFont: "inter_sb",
+                // //                             textFontSize: size.s3 * 1.3,
+                // //                             textHeaderFontSize: size.s5
+                // //                         }}
+                // //                     />
+
+                //                 </View>
+
+                //       )
+            }
         </View>
     );
 };

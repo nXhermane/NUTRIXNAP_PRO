@@ -11,4 +11,5 @@ export default interface PatientEntity {
     consultationLocation?: string;
     createdAt?: string;
     updateAt?: string;
+    unique_id?:string
 }

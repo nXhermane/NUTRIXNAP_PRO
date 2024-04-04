@@ -42,6 +42,7 @@ const Alert = (props: AlertOption) => {
                 alertIsOpen(false);
             }}
             animationType={"slide"}
+            statusBarTranslucent
         >
             <Pressable
                 onPress={() => {
@@ -50,8 +51,8 @@ const Alert = (props: AlertOption) => {
                     alertIsOpen(false);
                 }}
                 style={{
-                    width: "100%",
-                    height: "100%"
+                    width: size.width,
+                    height: size.height + size.s50
                 }}
             >
                 <BlurView
@@ -123,7 +124,7 @@ const styles = ({ colors, size }: ThemeInterface) =>
         },
         alertContainer: {
             width: size.width,
-            height: size.height
+            height: "100%"
         },
         alertInnerContainer: {
             position: "absolute",

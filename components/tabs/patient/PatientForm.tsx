@@ -10,6 +10,7 @@ import {
     PressEvent
 } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
+import { PatientEntity } from "@/core/interfaces";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useReducer } from "react";
 import Avatars from "@comp/basic/Avatars";
@@ -18,7 +19,7 @@ import TextInput from "@comp/basic/TextInput";
 import TelInput from "@comp/basic/TelInput";
 import DateInput from "@comp/basic/DateInput";
 import SelectionInput from "@comp/basic/SelectionInput";
-import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
+import { useFormik } from "formik";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -44,6 +45,7 @@ import useCore from "@/hooks/useCore";
 import { Asset } from "expo-asset";
 import { router } from "expo-router";
 import { useAppAlert } from "@pack/AppAlert";
+import { KeyboardAwareScrollView } from "@pack/KeyboardAware";
 
 import screenCenter from "./../../../utils/screenCenterPosition";
 const COUNTRYDATA = Object.keys(countries).map((countryCode, index) => {
@@ -97,44 +99,22 @@ const PROFESSIONDATA = [
     }
 ];
 
-const initialState = {
+const initialState: PatientEntity = {
     name: "",
     gender: "M",
     birthday: "",
     occupancy: "",
-    consultationLocation: "",
-    country: "",
+    consultationLocation: LOCTIONDATA[0].label,
+    country: "FR",
     tel: "",
     email: "",
     profil_img: ""
 };
-const reducer = (state: typeof initialState, action) => {
-    switch (action.type) {
-        case "name":
-            return { ...state, name: action.payload };
-        case "occupancy":
-            return { ...state, occupancy: action.payload };
-        case "gender":
-            return { ...state, gender: action.payload };
-        case "country":
-            return { ...state, country: action.payload };
-        case "email":
-            return { ...state, email: action.payload };
-        case "tel":
-            return { ...state, tel: action.payload };
-        case "birthday":
-            return { ...state, birthday: action.payload };
-        case "consultationLocation":
-            return { ...state, consultationLocation: action.payload };
-        case "profil_img":
-            return { ...state, profil_img: action.payload };
 
-        default:
-            throw new Error("Erreur lors de la manipulation du tyoe d'action");
-    }
-};
-
-interface Props {}
+interface Props {
+    patientInfo?: PatientEntity;
+    isUpdate?: boolean;
+}
 
 const PatientForm = (props: Props) => {
     const { colors, size } = useTheme();
@@ -143,9 +123,6 @@ const PatientForm = (props: Props) => {
     const Alert = useAppAlert();
     const { patientInfo = {}, isUpdate = false } = props;
 
-    const [formInfo, dispatch] = useReducer(reducer, initialState, () =>
-        isUpdate ? patientInfo : initialState
-    );
     const [displayHeader, setDisplayHeader] = useState<boolean>(true);
     const [copyImage] = useCopyFile();
     const [pickImage, pickUri, pickType] = useImagePicker();
@@ -163,11 +140,7 @@ const PatientForm = (props: Props) => {
                 [0, 0.5, 1],
                 [0, size.width, size.height]
             ),
-            borderRadius: interpolate(
-                modalSize.value,
-                [0, 0.5, 1],
-                [1000, 100, 0]
-            ),
+            borderRadius: interpolate(modalSize.value, [0, 1], [1000, 0]),
             backgroundColor: "transparent",
             justifyContent: "center",
             alignItems: "center",
@@ -181,7 +154,6 @@ const PatientForm = (props: Props) => {
         } else {
             modalSize.value = withTiming(0, { duration: 600 });
             position.value = withTiming(
-                // screenCenter(size.width, size.height),
                 props.animatedData,
                 { duration: 600 },
                 () => {
@@ -191,26 +163,21 @@ const PatientForm = (props: Props) => {
         }
     };
 
-    const onSubmit = (e: PressEvent) => {
+    const onSubmit = values => {
         if (isUpdate) {
             Alert.confirm(
                 "Voulez-vous vraiment mettre à jour ce patient ?"
             ).then((check: boolean) => {
                 if (check) {
-                    core.patientS.updatePatient(formInfo).then(patient => {
-                        let existType = formInfo.profil_img.split(".");
+                    core.patientS.updatePatient(values).then(patient => {
+                        let existType = values.profil_img.split(".");
                         existType = existType[existType.length - 1];
                         existType =
                             pickType.trim() === "" ? existType : pickType;
                         if (pickUri != "") {
-                            console.log("");
                             copyImage(
-                                formInfo.profil_img,
-                                "patients_" +
-                                    formInfo.name
-                                        .split(" ")
-                                        .join("")
-                                        .toLowerCase(),
+                                values.profil_img,
+                                "patients_" + patient.unique_id,
                                 "profil_img." + existType
                             ).then(({ uri: copyUri }) => {
                                 core.patientS
@@ -229,31 +196,47 @@ const PatientForm = (props: Props) => {
                 }
             });
         } else {
-            core.patientS.createPatient(formInfo).then(patient => {
-                copyImage(
-                    formInfo.profil_img,
-                    "patients_" +
-                        formInfo.name.split(" ").join("").toLowerCase(),
-                    "profil_img." + pickType
-                ).then(({ uri: copyUri }) => {
-                    core.patientS
-                        .updatePatient({ id: patient.id, profil_img: copyUri })
-                        .then(() => {
-                            animation(0);
-                        });
-                });
+            core.patientS.createPatient(values).then(patient => {
+                if (pickUri != "") {
+                    copyImage(
+                        values.profil_img,
+                        "patients_" + patient.unique_id,
+                        "profil_img." + pickType
+                    ).then(({ uri: copyUri }) => {
+                        core.patientS
+                            .updatePatient({
+                                id: patient.id,
+                                profil_img: copyUri
+                            })
+                            .then(() => {
+                                animation(0);
+                            });
+                    });
+                } else animation(0);
             });
         }
     };
-
+    const formik = useFormik({
+        initialValues: isUpdate ? patientInfo : initialState,
+        onSubmit
+    });
+    const {
+        values,
+        touched,
+        handleSubmit,
+        handleChange,
+        errors,
+        isSubmitting,
+        isValid
+    } = formik;
     React.useEffect(() => {
         animation(1);
     });
     Keyboard.addListener("keyboardDidShow", () => {
-        // setDisplayHeader(false);
+       // setDisplayHeader(false);
     });
     Keyboard.addListener("keyboardDidHide", () => {
-        // setDisplayHeader(true);
+       // setDisplayHeader(true);
     });
     return (
         <Modal
@@ -272,7 +255,7 @@ const PatientForm = (props: Props) => {
                                 borderWidth: size.s1 / 8,
                                 borderRadius: 500
                             }}
-                            onPress={onSubmit}
+                            onPress={handleSubmit}
                         >
                             <Ionicons
                                 name="save"
@@ -287,163 +270,131 @@ const PatientForm = (props: Props) => {
                         </View>
                     )}
 
-                        <View style={style.formContainer}>
-                            {displayHeader && (
-                                <View style={style.profilImgContainer}>
-                                    <Avatars
-                                        image={{ uri: formInfo.profil_img }}
-                                        letter={
-                                            formInfo.name?.slice(0, 1) || "P"
-                                        }
-                                        bg={colors.yellow100}
-                                        color={colors.yellow300}
-                                        onLongPress={() =>
-                                            pickImage().then(
-                                                ({ uri, type }) => {
-                                                    dispatch({
-                                                        type: "profil_img",
-                                                        payload: uri
-                                                    });
-                                                }
-                                            )
-                                        }
-                                        st={{
-                                            alignSelf: "center",
-                                            borderWidth:
-                                                formInfo.image === ""
-                                                    ? size.s1
-                                                    : 0,
-                                            borderColor: colors.yellow200
-                                        }}
-                                        s={size.s100 * 1.1}
-                                    />
-                                </View>
-                            )}
-
-                                <View style={style.formInputContainer}>
-                                    <TextInput
-                                        label={"Nom Complet"}
-                                        isRequire
-                                        value={formInfo.name}
-                                        onChangeText={(value: string) =>
-                                            dispatch({
-                                                type: "name",
-                                                payload: value
-                                            })
-                                        }
-                                        placeholder={"Ex: John Smith"}
-                                    />
-                                    <DateInput
-                                        label={"Date de naissance"}
-                                        value={formInfo.birthday}
-                                        onChange={(date: string) =>
-                                            dispatch({
-                                                type: "birthday",
-                                                payload: date
-                                            })
-                                        }
-                                        placeholder={"YYYY/MM/DD"}
-                                        isRequire
-                                    />
-                                    <SelectionInput
-                                        label={"Sexe"}
-                                        unique
-                                        data={SEXEDATA}
-                                        custormItem={CountryItem}
-                                        value={
-                                            SEXEDATA.find(
-                                                item =>
-                                                    item.code ===
-                                                    formInfo.gender
-                                            )?.label
-                                        }
-                                        selectedId={1}
-                                        onChange={(ids: number, data: any) => {
-                                            dispatch({
-                                                type: "gender",
-                                                payload: data.code
-                                            });
-                                        }}
-                                        isRequire
-                                    />
-                                    <SelectionInput
-                                        label={"Pays de résidence"}
-                                        unique
-                                        data={COUNTRYDATA}
-                                        custormItem={CountryItem}
-                                        value={
-                                            getEmojiFlag(formInfo.country) +
-                                            "  " +
-                                            getCountryData(formInfo.country)
-                                                ?.name
-                                        }
-                                        selectedId={1}
-                                        onChange={(ids: number, data: any) => {
-                                            dispatch({
-                                                type: "country",
-                                                payload: data.code
-                                            });
-                                        }}
-                                        withSearch
-                                        isRequire
-                                    />
-                                    <TextInput
-                                        label={"Occupation"}
-                                        isRequire
-                                        value={formInfo.occupancy}
-                                        onChangeText={(value: string) =>
-                                            dispatch({
-                                                type: "occupancy",
-                                                payload: value
-                                            })
-                                        }
-                                        placeholder={"Ex: Ingenieur"}
-                                    />
-                                    <SelectionInput
-                                        label={"Lieu de Consultation"}
-                                        unique
-                                        data={LOCTIONDATA}
-                                        custormItem={CountryItem}
-                                        value={formInfo.consultationLocation}
-                                        selectedId={1}
-                                        onChange={(ids: number, data: any) => {
-                                            dispatch({
-                                                type: "consultationLocation",
-                                                payload: data.label
-                                            });
-                                        }}
-                                        isRequire
-                                    />
-                                    <TelInput
-                                        label={"Numéro de portable"}
-                                        value={formInfo.tel}
-                                        tel={
-                                            "+" +
-                                            getCountryData(formInfo.country)
-                                                ?.phone
-                                        }
-                                        onChange={(value: string) => {
-                                            dispatch({
-                                                type: "tel",
-                                                payload: value
-                                            });
-                                        }}
-                                    />
-                                    <TextInput
-                                        value={formInfo.email}
-                                        onChangeText={(val: string) => {
-                                            dispatch({
-                                                type: "email",
-                                                payload: val
-                                            });
-                                        }}
-                                        label={"Adresse e-mail"}
-                                        placeholder={"Ex: johndoe@gmail.com"}
-                                    />
-                                </View>
-
-                        </View>
-
+                    <View style={style.formContainer}>
+                        {displayHeader && (
+                            <View style={style.profilImgContainer}>
+                                <Avatars
+                                    image={{ uri: values.profil_img }}
+                                    letter={values.name?.slice(0, 1) || "P"}
+                                    bg={colors.yellow100}
+                                    color={colors.yellow300}
+                                    onLongPress={() => {
+                                        pickImage().then(({ uri, type }) => {
+                                            handleChange("profil_img")(uri);
+                                        });
+                                    }}
+                                    st={{
+                                        alignSelf: "center",
+                                        borderWidth:
+                                            values.image === "" ? size.s1 : 0,
+                                        borderColor: colors.yellow200
+                                    }}
+                                    s={size.s100 * 1.1}
+                                />
+                            </View>
+                        )}
+                        <KeyboardAwareScrollView>
+                            <View style={style.formInputContainer}>
+                                <TextInput
+                                    label={"Nom Complet"}
+                                    isRequire
+                                    value={values.name}
+                                    onChangeText={(value: string) => {
+                                        handleChange("name")(value);
+                                    }}
+                                    placeholder={"Ex: John Smith"}
+                                />
+                                <DateInput
+                                    label={"Date de naissance"}
+                                    value={values.birthday}
+                                    onChange={(date: string) => {
+                                        handleChange("birthday")(date);
+                                    }}
+                                    placeholder={"YYYY/MM/DD"}
+                                    isRequire
+                                />
+                                <SelectionInput
+                                    label={"Sexe"}
+                                    unique
+                                    data={SEXEDATA}
+                                    value={
+                                        SEXEDATA.find(
+                                            item => item.code === values.gender
+                                        )?.label
+                                    }
+                                    selectedId={
+                                        SEXEDATA.find(
+                                            item => item.code === values.gender
+                                        )?.id
+                                    }
+                                    onChange={(ids: number, data: any) => {
+                                        handleChange("gender")(data.code);
+                                    }}
+                                    isRequire
+                                />
+                                <SelectionInput
+                                    label={"Pays de résidence"}
+                                    unique
+                                    data={COUNTRYDATA}
+                                    custormItem={CountryItem}
+                                    value={
+                                        getEmojiFlag(values.country) +
+                                        "  " +
+                                        getCountryData(values.country)?.name
+                                    }
+                                    selectedId={COUNTRYDATA.findIndex(
+                                        item => item.code === values.country
+                                    )}
+                                    onChange={(ids: number, data: any) => {
+                                        handleChange("country")(data.code);
+                                    }}
+                                    withSearch
+                                    isRequire
+                                />
+                                <TextInput
+                                    label={"Occupation"}
+                                    isRequire
+                                    value={values.occupancy}
+                                    onChangeText={(value: string) => {
+                                        handleChange("occupancy")(value);
+                                    }}
+                                    placeholder={"Ex: Ingenieur"}
+                                />
+                                <SelectionInput
+                                    label={"Lieu de Consultation"}
+                                    unique
+                                    data={LOCTIONDATA}
+                                    value={values.consultationLocation}
+                                    selectedId={1}
+                                    onChange={(ids: number, data: any) => {
+                                        handleChange("consultationLocation")(
+                                            data.label
+                                        );
+                                    }}
+                                    isRequire
+                                />
+                                <TelInput
+                                    label={"Numéro de portable"}
+                                    value={values.tel}
+                                    tel={
+                                        "+" +
+                                        getCountryData(values.country)?.phone
+                                    }
+                                    onChange={(value: string) => {
+                                        handleChange("tel")(value);
+                                    }}
+                                />
+                                <TextInput
+                                    value={values.email}
+                                    onChangeText={(value: string) => {
+                                        handleChange("email")(value);
+                                    }}
+                                    label={"Adresse e-mail"}
+                                    placeholder={"Ex: johndoe@gmail.com"}
+                                />
+                            </View>
+                        </KeyboardAwareScrollView>
+                    </View>
                 </View>
             </Animated.View>
         </Modal>
