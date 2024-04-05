@@ -52,6 +52,7 @@ const TelInput = (props: Props) => {
                             const interValue = Number(value);
                             !isNaN(interValue) ? onChange(value, tel) : null;
                         }}
+                        {...props}
                     />
                 </View>
             </View>

@@ -42,7 +42,7 @@ const FoodsList = (props: Props) => {
                 setFilterIsActive(prev => !prev);
             }}
             onPressAddBtn={() => {
-                router.navigate('forms/addFoodForm')
+                router.navigate("forms/addFoodForm");
             }}
             onPressSearch={() => {
                 setSearchIsActive(prev => !prev);

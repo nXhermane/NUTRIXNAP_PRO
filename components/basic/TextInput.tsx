@@ -65,8 +65,8 @@ const TextInput = (props: Props) => {
     } = props;
     const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(true);
     return (
-        <KeyboardAvoidingView behavior={"position"}>
-            <View style={[style.inputContainer, st]}>
+
+            <View style={[style.inputContainer, st]} >
                 <View style={style.labelContainer}>
                     {label && <Text style={style.label}>{label}</Text>}
                     {isRequire && (
@@ -94,10 +94,6 @@ const TextInput = (props: Props) => {
                         onChangeText={onChangeText}
                         editable={editable}
                         keyboardType={inputType}
-                        onFocus={({nativeEvent}) =>
-                        console.log("onFocus",nativeEvent)}
-                        onBlur={({nativeEvent}) =>
-                        console.log("onBlur",nativeEvent)}
                         {...props}
                     />
                     {isPassword && (
@@ -126,7 +122,7 @@ const TextInput = (props: Props) => {
                 </Pressable>
                 {displayHelp && <View style={style.helperTextContainer}></View>}
             </View>
-        </KeyboardAvoidingView>
+
     );
 };
 

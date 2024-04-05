@@ -1,0 +1,95 @@
+// RecursiveScrollView.js
+import React from 'react';
+import { ScrollView, TextInput } from 'react-native';
+
+function RecursiveScrollView({ children, onFocusProp }) {
+  const addPropsRecursively = (element) => {
+    if (React.isValidElement(element)) {
+      if (element.type === TextInput) {
+        // Ajoutez le gestionnaire d'événement OnFocus à chaque TextInput
+        const combinedOnFocus = (event) => {
+          onFocusProp(event); // Exécutez d'abord le gestionnaire d'événement hérité
+          element.props.onFocus?.(event); // Exécutez ensuite le gestionnaire d'événement défini par l'utilisateur
+        };
+        return React.cloneElement(element, { onFocus: combinedOnFocus });
+      } else if (element.props.children) {
+        // Parcourez récursivement les enfants
+        return React.cloneElement(element, {
+          children: React.Children.map(element.props.children, addPropsRecursively),
+        });
+      }
+    }
+    return element;
+  };
+
+  return (
+    <ScrollView>
+      {React.Children.map(children, addPropsRecursively)}
+    </ScrollView>
+  );
+}
+
+export default RecursiveScrollView;
+
+MyComponent=()=>{
+  
+  return <View><Text>me</Text></View>
+}
+
+RecurComp=()=><ParentComponent><MyComponent /></ParentComponent>
+
+explore(<RecurComp />)
+
+
+import { Text, View } from 'react-native';
+import React from 'react';
+
+const exploreComponentTree = (component) => {
+  // Si le composant est une fonction, exécutez-la pour obtenir le composant
+  if (typeof component.type === 'function') {
+    component = component.type();
+  }
+
+  // Vérifiez si le composant est un Text natif
+  if (component.type === Text) {
+    console.log('C\'est un Text natif :', component.props.children);
+  } else {
+    console.log('Ce n\'est pas un Text natif.');
+  }
+
+  // Si le composant a des enfants, explorez récursivement chaque enfant
+  if (React.Children.count(component.props.children) > 0) {
+    React.Children.forEach(component.props.children, child => {
+      // Si l'enfant est un composant, explorez-le récursivement
+      if (React.isValidElement(child)) {
+        exploreComponentTree(child);
+      }
+    });
+  }
+};
+
+const ParentComponent = ({ children }) => {
+  return (
+    <View>
+      {children}
+    </View>
+  );
+};
+
+const MyComponent = () => {
+  return (
+    <View>
+      <Text>me</Text>
+    </View>
+  );
+};
+
+const RecurComp = () => {
+  return (
+    <ParentComponent>
+      {MyComponent}
+    </ParentComponent>
+  );
+};
+
+exploreComponentTree(<RecurComp />);

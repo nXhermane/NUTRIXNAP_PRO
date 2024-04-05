@@ -5,7 +5,8 @@ import {
     ViewStyle,
     LayoutEvent,
     Keyboard,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    KeyboardEvent
 } from "react-native";
 import React from "react";
 
@@ -13,6 +14,8 @@ interface Props {
     onLayout: (e: LayoutEvent) => void;
     scrollable?: boolean;
     style?: ViewStyle;
+    onKeyboardDidShow?: (e: KeyboardEvent) => void;
+    onKeyboardDidHide?: (e: KeyboardEvent) => void;
 }
 
 const KeyboardAwareScrollViewContainer = React.forwardRef(
@@ -22,26 +25,34 @@ const KeyboardAwareScrollViewContainer = React.forwardRef(
             children,
             style = {},
             scrollViewProps = {},
-            onLayout
+            onLayout,
+            onKeyboardDidShow,
+            onKeyboardDidHide
         } = props;
         const [isScrollable, setIsScrollable] = React.useState<boolean>(false);
-        Keyboard.addListener("keyboardDidShow", () => {
-            setIsScrollable(false);
-        });
-        Keyboard.addListener("keyboardDidHide", () => {
+        Keyboard.addListener("keyboardDidShow", (e: KeyboardEvent) => {
+            onKeyboardDidShow && onKeyboardDidShow(e);
             setIsScrollable(true);
         });
+        Keyboard.addListener("keyboardDidHide", (e: KeyboardEvent) => {
+            onKeyboardDidHide && onKeyboardDidHide(e);
+            setIsScrollable(false);
+        });
         return (
+          <View style={style}>
             <ScrollView
                 ref={ref && ref}
-                contentContainerStyle={[styles.container, style]}
+                contentContainerStyle={[styles.container]}
                 {...scrollViewProps}
+                keyboardShouldPersistTaps={"handled"}
+                keyboardDismissMode={"none"}
+                scrollEnabled={true}
+                removeClippedSubviews
                 onLayout={onLayout && onLayout}
-                keyboardShouldPersistTaps={"always"}
-                scrollEnabled={isScrollable}
             >
                 {children}
             </ScrollView>
+            </View>
         );
     }
 );
@@ -49,7 +60,5 @@ const KeyboardAwareScrollViewContainer = React.forwardRef(
 export default KeyboardAwareScrollViewContainer;
 
 const styles = StyleSheet.create({
-    container: {
-      
-    }
+    container: {}
 });

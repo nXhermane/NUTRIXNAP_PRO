@@ -7,7 +7,9 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Keyboard,
-    PressEvent
+    PressEvent,
+    findNodeHandle,
+    UIManager
 } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { PatientEntity } from "@/core/interfaces";
@@ -233,10 +235,10 @@ const PatientForm = (props: Props) => {
         animation(1);
     });
     Keyboard.addListener("keyboardDidShow", () => {
-       // setDisplayHeader(false);
+        // setDisplayHeader(false);
     });
     Keyboard.addListener("keyboardDidHide", () => {
-       // setDisplayHeader(true);
+        // setDisplayHeader(true);
     });
     return (
         <Modal
@@ -294,105 +296,122 @@ const PatientForm = (props: Props) => {
                             </View>
                         )}
                         <KeyboardAwareScrollView>
-                            <View style={style.formInputContainer}>
-                                <TextInput
-                                    label={"Nom Complet"}
-                                    isRequire
-                                    value={values.name}
-                                    onChangeText={(value: string) => {
-                                        handleChange("name")(value);
-                                    }}
-                                    placeholder={"Ex: John Smith"}
-                                />
-                                <DateInput
-                                    label={"Date de naissance"}
-                                    value={values.birthday}
-                                    onChange={(date: string) => {
-                                        handleChange("birthday")(date);
-                                    }}
-                                    placeholder={"YYYY/MM/DD"}
-                                    isRequire
-                                />
-                                <SelectionInput
-                                    label={"Sexe"}
-                                    unique
-                                    data={SEXEDATA}
-                                    value={
-                                        SEXEDATA.find(
-                                            item => item.code === values.gender
-                                        )?.label
-                                    }
-                                    selectedId={
-                                        SEXEDATA.find(
-                                            item => item.code === values.gender
-                                        )?.id
-                                    }
-                                    onChange={(ids: number, data: any) => {
-                                        handleChange("gender")(data.code);
-                                    }}
-                                    isRequire
-                                />
-                                <SelectionInput
-                                    label={"Pays de résidence"}
-                                    unique
-                                    data={COUNTRYDATA}
-                                    custormItem={CountryItem}
-                                    value={
-                                        getEmojiFlag(values.country) +
-                                        "  " +
-                                        getCountryData(values.country)?.name
-                                    }
-                                    selectedId={COUNTRYDATA.findIndex(
-                                        item => item.code === values.country
-                                    )}
-                                    onChange={(ids: number, data: any) => {
-                                        handleChange("country")(data.code);
-                                    }}
-                                    withSearch
-                                    isRequire
-                                />
-                                <TextInput
-                                    label={"Occupation"}
-                                    isRequire
-                                    value={values.occupancy}
-                                    onChangeText={(value: string) => {
-                                        handleChange("occupancy")(value);
-                                    }}
-                                    placeholder={"Ex: Ingenieur"}
-                                />
-                                <SelectionInput
-                                    label={"Lieu de Consultation"}
-                                    unique
-                                    data={LOCTIONDATA}
-                                    value={values.consultationLocation}
-                                    selectedId={1}
-                                    onChange={(ids: number, data: any) => {
-                                        handleChange("consultationLocation")(
-                                            data.label
-                                        );
-                                    }}
-                                    isRequire
-                                />
-                                <TelInput
-                                    label={"Numéro de portable"}
-                                    value={values.tel}
-                                    tel={
-                                        "+" +
-                                        getCountryData(values.country)?.phone
-                                    }
-                                    onChange={(value: string) => {
-                                        handleChange("tel")(value);
-                                    }}
-                                />
-                                <TextInput
-                                    value={values.email}
-                                    onChangeText={(value: string) => {
-                                        handleChange("email")(value);
-                                    }}
-                                    label={"Adresse e-mail"}
-                                    placeholder={"Ex: johndoe@gmail.com"}
-                                />
-                            </View>
+                            {({ onInputFocus }) => (
+                                <View style={style.formInputContainer}>
+                                    <TextInput
+                                        label={"Nom Complet"}
+                                        isRequire
+                                        value={values.name}
+                                        onChangeText={(value: string) => {
+                                            handleChange("name")(value);
+                                        }}
+                                        placeholder={"Ex: John Smith"}
+                                        onFocus={e => {
+                                            onInputFocus(e);
+                                        }}
+                                    />
+                                    <DateInput
+                                        label={"Date de naissance"}
+                                        value={values.birthday}
+                                        onChange={(date: string) => {
+                                            handleChange("birthday")(date);
+                                        }}
+                                        placeholder={"YYYY/MM/DD"}
+                                        isRequire
+                                    />
+                                    <SelectionInput
+                                        label={"Sexe"}
+                                        unique
+                                        data={SEXEDATA}
+                                        value={
+                                            SEXEDATA.find(
+                                                item =>
+                                                    item.code === values.gender
+                                            )?.label
+                                        }
+                                        selectedId={
+                                            SEXEDATA.find(
+                                                item =>
+                                                    item.code === values.gender
+                                            )?.id
+                                        }
+                                        onChange={(ids: number, data: any) => {
+                                            handleChange("gender")(data.code);
+                                        }}
+                                        isRequire
+                                    />
+                                    <SelectionInput
+                                        label={"Pays de résidence"}
+                                        unique
+                                        data={COUNTRYDATA}
+                                        custormItem={CountryItem}
+                                        value={
+                                            getEmojiFlag(values.country) +
+                                            "  " +
+                                            getCountryData(values.country)?.name
+                                        }
+                                        selectedId={COUNTRYDATA.findIndex(
+                                            item => item.code === values.country
+                                        )}
+                                        onChange={(ids: number, data: any) => {
+                                            handleChange("country")(data.code);
+                                        }}
+                                        withSearch
+                                        isRequire
+                                    />
+                                    <TextInput
+                                        label={"Occupation"}
+                                        isRequire
+                                        value={values.occupancy}
+                                        onChangeText={(value: string) => {
+                                            handleChange("occupancy")(value);
+                                        }}
+                                        placeholder={"Ex: Ingenieur"}
+                                        onFocus={e => {
+                                            onInputFocus(e);
+                                        }}
+                                    />
+                                    <SelectionInput
+                                        label={"Lieu de Consultation"}
+                                        unique
+                                        data={LOCTIONDATA}
+                                        value={values.consultationLocation}
+                                        selectedId={1}
+                                        onChange={(ids: number, data: any) => {
+                                            handleChange(
+                                                "consultationLocation"
+                                            )(data.label);
+                                        }}
+                                        isRequire
+                                    />
+                                    <TelInput
+                                        label={"Numéro de portable"}
+                                        value={values.tel}
+                                        tel={
+                                            "+" +
+                                            getCountryData(values.country)
+                                                ?.phone
+                                        }
+                                        onChange={(value: string) => {
+                                            handleChange("tel")(value);
+                                        }}
+                                        onFocus={e => {
+                                            onInputFocus(e);
+                                        }}
+                                    />
+                                    <TextInput
+                                        value={values.email}
+                                        onChangeText={(value: string) => {
+                                            handleChange("email")(value);
+                                        }}
+                                        label={"Adresse e-mail"}
+                                        placeholder={"Ex: johndoe@gmail.com"}
+                                        onFocus={e => {
+                                            onInputFocus(e);
+                                        }}
+                                    />
+                                </View>
+                            )}
                         </KeyboardAwareScrollView>
                     </View>
                 </View>
@@ -445,7 +464,7 @@ const styles = ({ colors, size }: ThemeInterface) =>
             fontSize: size.s5
         },
         formContainer: {
-            alignItems: "center"
+            width: "100%"
         },
         profilImgContainer: {
             width: "100%",
