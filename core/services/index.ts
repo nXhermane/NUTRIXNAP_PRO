@@ -1,3 +1,4 @@
 import UserService from "./user.service";
 import PatientService from "./patient.service";
-export { UserService, PatientService };
+import FoodDiaryService from "./foodDiary.service";
+export { UserService, PatientService, FoodDiaryService };

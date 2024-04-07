@@ -7,11 +7,13 @@ import {
 } from "@/core/interfaces";
 import { Knex } from "knex";
 import Database, { db } from "@/core/db/db.config";
-import PatientRepository  from './patient.repository';
+import { DateManager } from "@/core/utility";
+import { TableNames } from "@/core/constants";
 export default class FoodDiaryRepository implements IFoodDiaryRepository {
     private db: IDatabase | null = null;
     private knex: Knex | null = null;
-    public static readonly tableName: string = "food_diaries";
+    private static readonly tableName: string = TableNames.FoodDiaries;
+    private static readonly dependTableNames: string = TableNames.Patients;
     constructor() {
         db.then((db: IDatabase) => {
             this.db = db;
@@ -54,11 +56,12 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
                 table.string("mealsType", 200);
                 table.text("observations");
                 table.json("images");
-                table.date("createdAt");
-                table.date("updatedAt");
+                table.timestamps(true, true, true);
                 table
                     .foreign("patient_unique_id")
-                    .references(PatientRepository.tableName + ".unique_id");
+                    .references(
+                        FoodDiaryRepository.dependTableNames + ".unique_id"
+                    );
             }
         );
     }
@@ -75,9 +78,7 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
                     meals: foodDiary.meals,
                     mealsType: foodDiary.mealsType,
                     observations: foodDiary.observations,
-                    images: foodDiary.images,
-                    createdAt: new Date().toLocaleDateString(),
-                    updatedAt: new Date().toLocaleDateString()
+                    images: foodDiary.images
                 })
                 .returning("id");
 
@@ -131,7 +132,7 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
     }
     async update(foodDiary: UpdateFoodDiaryType): Promise<FoodDiaryEntity> {
         try {
-            const date = new Date().toLocaleDateString();
+            const date = DateManager.dateToTimestamps(new Date());
             await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)
                 ?.where("id", foodDiary.id)
                 .update({ ...foodDiary, updatedAt: date });

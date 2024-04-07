@@ -9,10 +9,12 @@ import {
 import { db } from "@/core/db/db.config";
 import { Knex } from "knex";
 import * as Crypto from "expo-crypto";
+import { DateManager } from "@/core/utility";
+import {TableNames} from '@/core/constants'
 export default class PatientRepository implements IPatientRepository {
     private db: IDatabase | null = null;
     private knex: Knex | null = null;
-    public static readonly tableName: string = "patients";
+    private static readonly tableName: string = TableNames.Patients;
 
     constructor() {
         db.then((db: IDatabase) => {
@@ -59,16 +61,17 @@ export default class PatientRepository implements IPatientRepository {
                 table.string("occupancy", 200);
                 table.string("profil_img", 300);
                 table.string("consultationLocation", 200);
-                table.date("createdAt");
-                table.date("updatedAt");
-                table.uuid("unique_id").defaultTo(Crypto.randomUUID());
+                table.uuid("unique_id").notNullable();
+                table.timestamps(true, true, true);
             }
         );
     }
 
     async findById(id: number): Promise<PatientEntity | null> {
         try {
-            const patient = await this.knex!<PatientEntity>(PatientRepository.tableName)
+            const patient = await this.knex!<PatientEntity>(
+                PatientRepository.tableName
+            )
                 ?.select()
                 .where("id", id)
                 .first();
@@ -92,8 +95,8 @@ export default class PatientRepository implements IPatientRepository {
                     country: patient?.country,
                     occupancy: patient?.occupancy,
                     consultationLocation: patient?.consultationLocation,
-                    createdAt: new Date().toLocaleDateString(),
-                    updatedAt: new Date().toLocaleDateString()
+                    unique_id:Crypto.randomUUID()
+
                 })
                 .returning("id");
 
@@ -118,11 +121,14 @@ export default class PatientRepository implements IPatientRepository {
 
     async update(patient: UpdatePatientType): Promise<PatientEntity> {
         try {
-            patient["updatedAt"] = new Date().toLocaleDateString();
+
+            const date = DateManager.dateToTimestamps(new Date());
             await this.knex!<PatientEntity>(PatientRepository.tableName)
                 ?.where("id", patient.id)
-                .update(patient);
-            return (await this.findById(patient.id) as PatientEntity) || patient;
+                .update({ ...patient, updatedAt: date });
+            return (
+                ((await this.findById(patient.id)) as PatientEntity) || patient
+            );
         } catch (error) {
             console.error("Error updating Patient:", error);
             return patient as PatientEntity;

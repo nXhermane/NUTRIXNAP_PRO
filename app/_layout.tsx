@@ -116,14 +116,7 @@ function RootLayoutNav() {
                                         animation: "fade_from_bottom"
                                     }}
                                 />
-                                <Stack.Screen
-                                    name={"forms/addPatientForm"}
-                                    getId={({ params }) => String(Date.now())}
-                                    options={{
-                                        headerShown: true,
-                                        animation: "fade_from_bottom"
-                                    }}
-                                />
+
                             </Stack>
                         </GestureHandlerRootView>
 

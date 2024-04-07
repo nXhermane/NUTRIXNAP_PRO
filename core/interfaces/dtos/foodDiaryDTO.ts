@@ -1,11 +1,10 @@
+import { FoodId, FoodQuantity } from "@/core/interfaces";
+
 export default interface FoodDiaryDTO {
+    id?: number;
     patient_unique_id: string;
-    foodIds: { id: number; origin: string }[];
-    foodQuantities: {
-        value?: number;
-        unity?: string;
-        litteralQuantity?: string;
-    }[];
+    foodIds: FoodId[];
+    foodQuantities: FoodQuantity;
     date: string;
     meals: string;
     mealsType: string;

@@ -1,0 +1,30 @@
+export default class DateManager {
+    private static fixDateNumberToString(value: number): string {
+        let fixedNumber = value < 10 ? "0" + value : value.toString();
+
+        return fixedNumber;
+    }
+
+    public static dateToTimestamps(date: Date): string {
+        const year = date.getUTCFullYear();
+        const month = DateManager.fixDateNumberToString(date.getUTCMonth()+1);
+        const day = DateManager.fixDateNumberToString(date.getUTCDate());
+        const hours = DateManager.fixDateNumberToString(date.getUTCHours());
+        const minutes = DateManager.fixDateNumberToString(date.getUTCMinutes());
+        const seconds = DateManager.fixDateNumberToString(date.getUTCSeconds());
+
+        const timestampFormmat =
+            year +
+            "-" +
+            month +
+            "-" +
+            day +
+            " " +
+            hours +
+            ":" +
+            minutes +
+            ":" +
+            seconds;
+        return timestampFormmat;
+    }
+}

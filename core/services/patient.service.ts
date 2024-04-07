@@ -19,6 +19,7 @@ export default class UserService implements IPatientService {
     }
     async updatePatient(patient: UpdatePatientType): Promise<PatientEntity> {
         const upPatient = await this.repository.update(patient);
+        console.log(upPatient)
         return upPatient;
     }
     async createPatient(patient: CreatePatientType): Promise<PatientEntity> {

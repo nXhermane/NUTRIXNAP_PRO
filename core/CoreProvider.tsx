@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
 import { View, Text } from "react-native";
-import { UserService, PatientService } from "./services";
+import { UserService, PatientService, FoodDiaryService } from "./services";
 import {
     UserRepository,
     PatientRepository,
@@ -13,16 +13,22 @@ import {
     PatientEntity,
     IUserRepository,
     IPatientRepository,
-    IFoodDiaryRepository
+    IFoodDiaryRepository,
+    IFoodDiaryService,
+    UpdateFoodDiaryDto,
+    FoodId,
+    FoodQuantity
 } from "@/core/interfaces";
+
+import { FoodDiaryMapper } from "@/core/mappers";
 import * as SQLite from "expo-sqlite/next";
-import Database from "@/core/db/db.config";
 
 export interface CoreInterface {
     userS: IUserService;
     user: Omit<UserEntity, "password"> | null;
     setUser: (user: UserEntity) => void;
     patientS: IPatientService;
+    foodDiaryS: IFoodDiaryService;
 }
 
 export const CoreContext = createContext<CoreInterface>({} as CoreInterface);
@@ -53,23 +59,28 @@ export const CoreProvider: React.FC<{ children: React.ReactNode }> = ({
         () => new FoodDiaryRepository(),
         []
     );
+    const foodDiaryService: IFoodDiaryService = useMemo(
+        () => new FoodDiaryService(foodDiaryRepository, new FoodDiaryMapper()),
+        []
+    );
 
     const core: CoreInterface = useMemo(
         () => ({
             userS: userService,
             patientS: patientService,
+            foodDiaryS: foodDiaryService,
             user: currentUser,
             setUser: (user: UserEntity) => {
                 setCurrentUser(user);
             }
         }),
-        [currentUser, userService, patientService]
+        [currentUser, userService, patientService, foodDiaryService]
     );
 
     useEffect(() => {
         async function init() {
             const user = await userService.getUser();
-
+            console.log(user);
             setCurrentUser(user ? user : null);
         }
         init();

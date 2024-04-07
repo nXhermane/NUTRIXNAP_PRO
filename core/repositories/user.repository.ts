@@ -5,14 +5,15 @@ import {
     CreateUserType,
     UpdateUserType
 } from "@/core/interfaces";
-
+import {TableNames} from '@/core/constants'
 import Database, { db } from "@/core/db/db.config";
 import { Knex } from "knex";
 import * as Crypto from "expo-crypto";
+import { DateManager } from "@/core/utility";
 export default class UserRepository implements IUserRepository {
     private db: IDatabase | null = null;
     private knex: Knex | null = null;
-    public static readonly tableName: string = "users";
+    private static readonly tableName: string = TableNames.Users;
 
     constructor() {
         db.then((db: IDatabase) => {
@@ -48,7 +49,7 @@ export default class UserRepository implements IUserRepository {
     private async createUsersTable(): Promise<void> {
         await this.knex?.schema.createTable(UserRepository.tableName, table => {
             table.increments("id").primary();
-            table.string("name", 200);
+            table.string("name", 200).notNullable();
             table.string("lastname", 100);
             table.string("firstname", 100);
             table.enu("gender", ["M", "F", "O"]);
@@ -59,7 +60,9 @@ export default class UserRepository implements IUserRepository {
             table.string("profession", 200);
             table.string("profil_img", 300);
             table.string("password", 255);
-            table.uuid("unique_id").defaultTo(Crypto.randomUUID());
+            table.uuid("unique_id").notNullable()
+            table.timestamps(true, true,true)
+            
         });
     }
 
@@ -91,7 +94,8 @@ export default class UserRepository implements IUserRepository {
                     birthday: user?.birthday,
                     profil_img: user?.profil_img,
                     password: user?.password,
-                    country: user?.country
+                    country: user?.country,
+                    unique_id:Crypto.randomUUID()
                 })
                 .returning("id");
             return id || null;
@@ -115,9 +119,10 @@ export default class UserRepository implements IUserRepository {
 
     async update(user: UpdateUserType): Promise<UserEntity> {
         try {
+          const date = DateManager.dateToTimestamps(new Date());
             await this.knex!<UserEntity>(UserRepository.tableName)
                 ?.where("id", user.id)
-                .update(user);
+                .update({...user,updatedAt:date});
             return (await this.findById(user.id) as UserEntity) || user;
         } catch (error) {
             console.error("Error updating user:", error);
