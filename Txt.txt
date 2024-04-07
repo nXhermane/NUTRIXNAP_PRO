@@ -1,95 +1,164 @@
-// RecursiveScrollView.js
-import React from 'react';
-import { ScrollView, TextInput } from 'react-native';
 
-function RecursiveScrollView({ children, onFocusProp }) {
-  const addPropsRecursively = (element) => {
-    if (React.isValidElement(element)) {
-      if (element.type === TextInput) {
-        // Ajoutez le gestionnaire d'événement OnFocus à chaque TextInput
-        const combinedOnFocus = (event) => {
-          onFocusProp(event); // Exécutez d'abord le gestionnaire d'événement hérité
-          element.props.onFocus?.(event); // Exécutez ensuite le gestionnaire d'événement défini par l'utilisateur
-        };
-        return React.cloneElement(element, { onFocus: combinedOnFocus });
-      } else if (element.props.children) {
-        // Parcourez récursivement les enfants
-        return React.cloneElement(element, {
-          children: React.Children.map(element.props.children, addPropsRecursively),
-        });
-      }
+
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    Dimensions,
+    KeyboardAvoidingView,
+    KeyboardEvent,
+    TextInput,
+    UIManager,
+    findNodeHandle,
+    Platform
+} from "react-native";
+import React, {
+    useEffect,
+    useState,
+    useMemo,
+    useCallback,
+    useRef,
+    PropsWithChildren
+} from "react";
+import KeyboardAwareScrollViewContainer from "./KeyboardAwareScrollViewContainer";
+interface Props {}
+
+const KeyboardAwareScrollView = (props: PropsWithChildren<Props>) => {
+    const { children, style } = props;
+    const scrollView = useRef(null);
+    const scrollViewTarget = useRef(null);
+    const scrollViewContainerInitialState = useRef(null);
+    const firstRender = useRef(false);
+    // const [scrollViewHeight, setScrollViewHeight] = useState({ h: 0, p: 0 });
+    const [keyboardSpace, setkeyboardSpace] = useState<number>(0);
+
+    function updateKeyboadSpace(e: KeyboardEvent) {}
+
+    function onKeyboardDidShow(e) {
+        updateKeyboadSpace(e);
+        setkeyboardSpace(500);
     }
-    return element;
-  };
+    function onKeyboardDidHide(e) {
+        setkeyboardSpace(0);
+    }
+    return (
+        <KeyboardAwareScrollViewContainer
+            ref={scrollView}
+            onKeyboardDidShow={e => onKeyboardDidShow(e)}
+            onKeyboardDidHide={onKeyboardDidHide}
+            onLayout={e => {
+                e.persist();
+                scrollViewTarget.current = e.nativeEvent.target;
+            }}
+            onLayoutContainer={e => {
+                e.persist();
+                if (!firstRender.current) {
+                    scrollViewContainerInitialState.current =
+                        e.nativeEvent.layout.height;
+                    firstRender.current = true;
+                }
+            }}
+            style={{
+              paddingBottom:keyboardSpace
+            }}
+            containerStyle={{
+                maxHeight: keyboardSpace != 0 ? keyboardSpace : "100%",
+                
+            }}
+        >
+            <View
+                style={{
+                    width: "100%"
+                    // paddingBottom:500
+                }}
+            >
+                {typeof children === "function" ? children() : children}
+            </View>
+        </KeyboardAwareScrollViewContainer>
+    );
+};
 
-  return (
-    <ScrollView>
-      {React.Children.map(children, addPropsRecursively)}
-    </ScrollView>
-  );
+export default React.memo(KeyboardAwareScrollView);
+
+const styles = StyleSheet.create({});
+
+
+import {
+    StyleSheet,
+    View,
+    ScrollView,
+    ViewStyle,
+    LayoutEvent,
+    Keyboard,
+    KeyboardAvoidingView,
+    KeyboardEvent
+} from "react-native";
+import React from "react";
+
+interface Props {
+    onLayout: (e: LayoutEvent) => void;
+    scrollable?: boolean;
+    style?: ViewStyle;
+    onKeyboardDidShow?: (e: KeyboardEvent) => void;
+    onKeyboardDidHide?: (e: KeyboardEvent) => void;
 }
 
-export default RecursiveScrollView;
+const KeyboardAwareScrollViewContainer = React.forwardRef(
+    (props: React.PropsWithChildren<Props>, ref) => {
+        const {
+            children,
+            style = {},
+            onLayout,
+            onLayoutContainer,
+            onKeyboardDidShow,
+            onKeyboardDidHide,
+            containerStyle = {}
+        } = props;
 
-MyComponent=()=>{
-  
-  return <View><Text>me</Text></View>
-}
+        React.useEffect(() => {
+            const showsListener = Keyboard.addListener(
+                "keyboardDidShow",
+                (e: KeyboardEvent) => {
+                    onKeyboardDidShow && onKeyboardDidShow(e);
+                }
+            );
+            const hideListener = Keyboard.addListener(
+                "keyboardDidHide",
+                (e: KeyboardEvent) => {
+                    onKeyboardDidHide && onKeyboardDidHide(e);
+                }
+            );
+            return () => {
+                showsListener.remove();
+                hideListener.remove();
+            };
+        }, [onKeyboardDidHide, onKeyboardDidShow]);
 
-RecurComp=()=><ParentComponent><MyComponent /></ParentComponent>
+        return (
+            <View
+                style={containerStyle}
+                onLayout={onLayoutContainer && onLayoutContainer}
+            >
+                <ScrollView
+                    ref={ref && ref}
+                    contentContainerStyle={[styles.container, style]}
+                    {...props}
+                    keyboardShouldPersistTaps={"handled"}
+                    keyboardDismissMode={"none"}
+                    removeClippedSubviews
+                    scrollEventThrottle={1}
+                    onLayout={onLayout && onLayout}
+                >
+                    {children}
+                </ScrollView>
+            </View>
+        );
+    }
+);
 
-explore(<RecurComp />)
+export default React.memo(KeyboardAwareScrollViewContainer);
 
-
-import { Text, View } from 'react-native';
-import React from 'react';
-
-const exploreComponentTree = (component) => {
-  // Si le composant est une fonction, exécutez-la pour obtenir le composant
-  if (typeof component.type === 'function') {
-    component = component.type();
-  }
-
-  // Vérifiez si le composant est un Text natif
-  if (component.type === Text) {
-    console.log('C\'est un Text natif :', component.props.children);
-  } else {
-    console.log('Ce n\'est pas un Text natif.');
-  }
-
-  // Si le composant a des enfants, explorez récursivement chaque enfant
-  if (React.Children.count(component.props.children) > 0) {
-    React.Children.forEach(component.props.children, child => {
-      // Si l'enfant est un composant, explorez-le récursivement
-      if (React.isValidElement(child)) {
-        exploreComponentTree(child);
-      }
-    });
-  }
-};
-
-const ParentComponent = ({ children }) => {
-  return (
-    <View>
-      {children}
-    </View>
-  );
-};
-
-const MyComponent = () => {
-  return (
-    <View>
-      <Text>me</Text>
-    </View>
-  );
-};
-
-const RecurComp = () => {
-  return (
-    <ParentComponent>
-      {MyComponent}
-    </ParentComponent>
-  );
-};
-
-exploreComponentTree(<RecurComp />);
+const styles = StyleSheet.create({
+    container: {}
+});

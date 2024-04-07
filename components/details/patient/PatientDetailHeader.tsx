@@ -129,7 +129,8 @@ const PatientDetailHeader = ({
             scrollY.value,
             [0, 200],
             [colors.w, colors.b]
-        )
+        ),
+        
     }));
     const scroll1: SharedValue<number> = useSharedValue(0);
     useDerivedValue(() => {
@@ -308,7 +309,8 @@ const styles = ({ colors, size }: ThemeInterface) =>
         headerContainer: {
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1,
-            shadowRadius: 4
+            shadowRadius: 4,
+            //position:'absolute'
         },
         headerTop: {
             flexDirection: "row",

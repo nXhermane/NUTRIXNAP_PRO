@@ -3,21 +3,18 @@ import { Asset } from "expo-asset";
 import {
     openDatabaseAsync,
     SQLiteDatabase,
-    addDatabaseChangeListener,
-    DatabaseChangeEvent,
-    Subscription
+    addDatabaseChangeListener
 } from "expo-sqlite/next";
 import ExpoSQLiteDialect from "@expo/knex-expo-sqlite-dialect";
-import { Knex as KnexType, knex as Knex } from "knex";
+import { Knex , knex  } from "knex";
 import { IDatabase } from "./../interfaces";
 
 export default class Database implements IDatabase {
-    public db: SQLiteDatabase | null;
-    public knex: KnexType | null;
+    public db: SQLiteDatabase | null=null;
+    public knex: Knex | null=null;
     private static instance: Database;
     private constructor() {
-        this.db = null;
-        this.knex = null;
+        
     }
     private async downloadDb(): Promise<void> {
         if (
@@ -44,7 +41,7 @@ export default class Database implements IDatabase {
             });
         } else this.db = Database.instance.db;
         if (!this.knex)
-            this.knex = Knex({
+            this.knex = knex({
                 client: ExpoSQLiteDialect,
                 connection: {
                     filename: "nutrixnap.sqlite"
@@ -60,10 +57,5 @@ export default class Database implements IDatabase {
         }
         return Database.instance;
     }
-    public static addListener(
-        listener: (events: DatabaseChangeEvent) => void
-    ): Subscription {
-        return addDatabaseChangeListener(listener);
-    }
 }
-export const db:Promise<IDatabase> = Database.getInstance();
+export const db: Promise<IDatabase> = Database.getInstance();

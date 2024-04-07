@@ -2,7 +2,9 @@ import {
     IPatientService,
     IPatientRepository,
     PatientEntity,
-    SearchPatientOptions
+    SearchPatientOptions,
+    CreatePatientType,
+    UpdatePatientType
 } from "@/core/interfaces";
 export default class UserService implements IPatientService {
     constructor(private repository: IPatientRepository) {}
@@ -15,13 +17,13 @@ export default class UserService implements IPatientService {
         const patients = await this.repository.findAll();
         return patients;
     }
-    async updatePatient(patient: PatientEntity): Promise<PatientEntity> {
+    async updatePatient(patient: UpdatePatientType): Promise<PatientEntity> {
         const upPatient = await this.repository.update(patient);
         return upPatient;
     }
-    async createPatient(patient: PatientEntity): Promise<PatientEntity> {
+    async createPatient(patient: CreatePatientType): Promise<PatientEntity> {
         const id = await this.repository.create(patient);
-        return await this.getPatientById(id);
+        return (await this.getPatientById(id as number)) as PatientEntity;
     }
     async deletePatient(id: number): Promise<void> {
         await this.repository.delete(id);
@@ -30,7 +32,10 @@ export default class UserService implements IPatientService {
         searchValue: string,
         options?: SearchPatientOptions
     ): Promise<PatientEntity[]> {
-        const patients = await this.repository.search(searchValue, options);
+        const patients = await this.repository.search(
+            searchValue,
+            options || ({} as SearchPatientOptions)
+        );
         return patients;
     }
 }

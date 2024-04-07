@@ -3,5 +3,5 @@ import { Knex } from "knex";
 
 export default interface IDatabase {
     db: SQLiteDatabase | null;
-    knex: knex | null;
+    knex: Knex | null;
 }

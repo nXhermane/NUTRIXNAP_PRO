@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 export default function useImagePicker(
@@ -20,7 +18,7 @@ export default function useImagePicker(
     const picker = () => {
         ImagePicker.launchImageLibraryAsync(config || defaultConfig).then(
             image => {
-                setUri(image.assets[0].uri);
+                setUri(image.assets![0].uri);
             }
         );
     };

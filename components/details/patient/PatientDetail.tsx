@@ -17,7 +17,10 @@ import Animated, {
     useSharedValue,
     useAnimatedStyle,
     SharedValue,
-    scrollTo
+    scrollTo,
+    interpolate,
+    useAnimatedProps,
+    Extrapolation
 } from "react-native-reanimated";
 import useCore from "@/hooks/useCore";
 import { PatientEntity } from "@/core/interfaces";
@@ -54,7 +57,14 @@ const PatientDetail = ({ patientId }: Props) => {
         useScrollViewOffset(headerScrollViewRef);
     const bottomScrollX: SharedValue<number> =
         useScrollViewOffset(bottomScrollViewRef);
-
+    const scrollViewContentContainerStyle = useAnimatedStyle(() => ({
+        paddingTop: interpolate(
+            scrollY.value,
+            [0, 200],
+            [0, 200],
+            Extrapolation.CLAMP
+        )
+    }));
     useEffect(() => {
         core.patientS
             .getPatientById(patientId)
@@ -84,7 +94,9 @@ const PatientDetail = ({ patientId }: Props) => {
                         e.currentTarget.scrollTo({ y: 200 });
                 }}
             >
-                <View style={style.blanckBody}>
+                <Animated.View
+                    style={[style.blanckBody, scrollViewContentContainerStyle]}
+                >
                     <Animated.ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -95,7 +107,7 @@ const PatientDetail = ({ patientId }: Props) => {
                             <Item label={item} key={item} />
                         ))}
                     </Animated.ScrollView>
-                </View>
+                </Animated.View>
             </Animated.ScrollView>
         </View>
     );
@@ -124,11 +136,14 @@ const styles = ({ colors, size }: ThemeInterface) =>
         },
         item: {
             height: "100%",
-            width: size.width,
+            width: size.width
             //backgroundColor: "grey",
             // borderWidth: 5,
             // borderColor: "#fff",
-            alignItems: "center",
-            justifyContent: "center"
+            // alignItems: "center",
+            // justifyContent: "center"
+        },
+        txt: {
+            color: colors.b
         }
     });

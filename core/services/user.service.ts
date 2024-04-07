@@ -1,4 +1,4 @@
-import { IUserService, UserEntity, IUserRepository } from "@/core/interfaces";
+import { IUserService, UserEntity, IUserRepository,UpdateUserType,CreateUserType } from "@/core/interfaces";
 
 export default class UserService implements IUserService {
     constructor(private repository: IUserRepository) {}
@@ -19,14 +19,14 @@ export default class UserService implements IUserService {
         const users = await this.repository.findAll();
         return users;
     }
-    async updateUser(user: UserEntity): Promise<UserEntity> {
+    async updateUser(user: UpdateUserType): Promise<UserEntity> {
         const upUser = await this.repository.update(user);
         return upUser;
     }
 
-    async createUser(user: UserEntity): Promise<UserEntity> {
+    async createUser(user: CreateUserType): Promise<UserEntity> {
         const id = await this.repository.create(user);
-        return await this.getUserById(id);
+        return (await this.getUserById(id as number) )as UserEntity;
 
     }
     async deleteUser(id: number): Promise<void> {

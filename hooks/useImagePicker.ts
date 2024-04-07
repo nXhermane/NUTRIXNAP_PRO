@@ -21,13 +21,17 @@ export default function useImagePicker(config?: any) {
             requestPermissionMedia();
             requestPermissionCamera();
             if (statusMedia?.granted && statusCamera?.granted) {
-               // ImagePicker.launchCameraAsync(config)
+                // ImagePicker.launchCameraAsync(config)
                 ImagePicker.launchImageLibraryAsync(config || defaultConfig)
-                    .then(image => {
-                        setUri(image.assets[0].uri);
-                        const interType = image.assets[0].mimeType.split("/");
+                    .then((image: ImagePicker.ImagePickerResult) => {
+                        setUri(image.assets![0].uri);
+                         const interType:string[] =
+                         image.assets![0].uri?.split(".");
                         setType(interType[interType.length - 1]);
-                        resolve({ uri: image.assets[0].uri, type: interType[interType.length - 1] });
+                        resolve({
+                            uri: image.assets![0].uri,
+                            type: interType[interType.length - 1]
+                        });
                     })
                     .catch(e => {
                         reject(e);
@@ -35,5 +39,5 @@ export default function useImagePicker(config?: any) {
             }
         });
     };
-    return [picker,uri,type];
+    return [picker, uri, type];
 }

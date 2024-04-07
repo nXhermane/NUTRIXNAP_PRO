@@ -7,7 +7,9 @@ import {
     KeyboardAvoidingView,
     KeyboardEvent,
     TextInput,
-    UIManager
+    UIManager,
+    findNodeHandle,
+    Platform
 } from "react-native";
 import React, {
     useEffect,
@@ -19,92 +21,116 @@ import React, {
 } from "react";
 import KeyboardAwareScrollViewContainer from "./KeyboardAwareScrollViewContainer";
 interface Props {}
-const { height } = Dimensions.get("screen");
+const KEYBOARD_EXTRA_HEIGHT = 60;
 const KeyboardAwareScrollView = (props: PropsWithChildren<Props>) => {
     const { children, style } = props;
-    const [active, setactive] = useState<boolean>(false);
     const scrollView = useRef(null);
-    const [scrollViewTarget, setScrollViewTarget] = useState(null);
-    const [currentInputTarget, setCurrentInputTarget] = useState(null);
-    const [scrollViewMeasure, setscrollViewMeasure] = useState({
-        x: 0,
-        y: 0,
-        h: 0,
-        w: 0
-    });
-    const [currentInput, setCurrentInput] = useState({ x: 0, y: 0 });
-    const [scrollViewHeight, setScrollViewHeight] = useState(null);
-    
-    useEffect(() => {
-        if (scrollViewTarget === null) return;
-        UIManager.measureInWindow(scrollViewTarget, (x, y, h, w) => {
-            setscrollViewMeasure({ x, y, h, w });
-        });
-    }, [scrollViewTarget]);
+    const scrollViewTarget = useRef(null);
+    const containerScrollViewTarget = useRef(null);
+    // const [scrollViewHeight, setScrollViewHeight] = useState({ h: 0, p: 0 });
+    const [keyboardSpace, setkeyboardSpace] = useState<number>(0);
+    const [containerHeight, setContainerHeight] = useState<number>(0);
+    function updateKeyboadSpace(e: KeyboardEvent) {
+        if (true) {
+            let keyboardSpace = e.endCoordinates.height + KEYBOARD_EXTRA_HEIGHT;
+            setkeyboardSpace(keyboardSpace);
+            UIManager.measureInWindow(
+                scrollViewTarget.current,
+                (x: number, y: number, width: number, height: number) => {
+                    setContainerHeight(e.endCoordinates.screenY - y);
+                }
+            );
+            const currentlyFocusedInput =
+                TextInput.State.currentlyFocusedInput()
+                    ? findNodeHandle(TextInput.State.currentlyFocusedInput())
+                    : TextInput.State.currentlyFocusedField();
+            const responder = scrollView.current.getScrollResponder();
+            if (
+                !currentlyFocusedInput ||
+                !responder ||
+                !containerScrollViewTarget.current
+            )
+                return;
 
-    function onKeyboardDidShow(e: KeyboardEvent) {
-        if (typeof scrollViewTarget === "number") {
+            UIManager.viewIsDescendantOf(
+                currentlyFocusedInput,
+                responder.getInnerViewNode(),
+                (isAncestor: boolean) => {
+                    if (isAncestor) {
+                        // Voir si le etxtInput peut etre cacher par le keyboard
+                        UIManager.measureInWindow(
+                            currentlyFocusedInput,
+                            (
+                                x: number,
+                                y: number,
+                                width: number,
+                                height: number
+                            ) => {
+                                const textInputBottomPosition = y + height;
+                                const keyboardPosition =
+                                    e.endCoordinates.screenY;
+                                if (
+                                    textInputBottomPosition > keyboardPosition
+                                ) {
+                                    responder.scrollTo({
+                                        x: 0,
+                                        y: textInputBottomPosition,
+                                        animated: true
+                                    });
+                                } else {
+                                }
+                            }
+                        );
+                    } else {
+                        console.log("Is not Cached By scrollView");
+                    }
+                }
+            );
         }
-        /// console.log(e)
-        // console.log(scrollViewMeasure)
-        const scrollHeight = e.endCoordinates.screenY - scrollViewMeasure.y;
-        console.log("\nScrollViewHeight : ", scrollHeight, "\n");
-        setScrollViewHeight(scrollHeight);
-        // console.log(e);
-        // console.log(scrollView.current?.scrollTo({y:400}))
     }
 
-    const onInputFocus = e => {
-        const inputTarget = e.nativeEvent.target;
-        
-        scrollView.current
-            .getScrollResponder()
-            .scrollResponderScrollNativeHandleToKeyboard(
-                inputTarget,
-                500,
-                true
-            );
-        // UIManager.measureInWindow(inputTarget, (x, y, h, w) => {
-        //     setCurrentInput({ x, y });
-
-        //     scrollView.current.scrollTo({
-        //         y: Math.abs(y - scrollViewMeasure.y)
-        //     });
-        // });
-    };
+    function onKeyboardDidShow(e) {
+        updateKeyboadSpace(e);
+        //setkeyboardSpace(500);
+    }
+    function onKeyboardDidHide(e) {
+        setContainerHeight(0);
+    }
 
     return (
         <KeyboardAwareScrollViewContainer
             ref={scrollView}
-            style={scrollViewHeight!=null&&scrollViewHeight!=0&&{
-                maxHeight: scrollViewHeight,
-               // backgroundColor: "red",
-                
-            }}
             onKeyboardDidShow={e => onKeyboardDidShow(e)}
-            onKeyboardDidHide={e => {
-               // scrollView.current?.scrollTo({ y: 0 });
-             setScrollViewHeight(0);
-            }}
+            onKeyboardDidHide={onKeyboardDidHide}
             onLayout={e => {
-                e.persist;
-                setScrollViewTarget(e.nativeEvent.target);
+                e.persist();
+                scrollViewTarget.current = e.nativeEvent.target;
+            }}
+            onLayoutContainer={e => {
+                e.persist();
+                containerScrollViewTarget.current = e.nativeEvent.target;
+            }}
+            style={
+                {
+                    // paddingBottom: 30
+                }
+            }
+            containerStyle={{
+                maxHeight: containerHeight != 0 ? containerHeight : "100%"
             }}
         >
             <View
                 style={{
                     width: "100%"
+                    // paddingBottom:500
                 }}
             >
-                <Text>{React.Children.count(children)}</Text>
-                {typeof children === "function"
-                    ? children({ onInputFocus })
-                    : children}
+                {typeof children === "function" ? children() : children}
             </View>
         </KeyboardAwareScrollViewContainer>
     );
 };
 
-export default KeyboardAwareScrollView;
+export default React.memo(KeyboardAwareScrollView);
 
 const styles = StyleSheet.create({});

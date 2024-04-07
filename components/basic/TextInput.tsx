@@ -131,7 +131,7 @@ export default TextInput;
 const styles = ({ colors, size }) =>
     StyleSheet.create({
         inputContainer: {
-            gap: size.s1,
+            gap: size.s2,
             width: "100%",
             paddingHorizontal: size.s2
         },
@@ -160,9 +160,11 @@ const styles = ({ colors, size }) =>
             borderColor: colors.gray200,
             borderWidth: size.s1 / 10,
             borderRadius: size.s100,
-            height: h || size.s50 * 0.8,
+            height: h || size.s50 ,
             paddingHorizontal: size.s4,
-            backgroundColor: colors.bg.secondary
+            backgroundColor: colors.bg.secondary,
+            marginHorizontal:size.s1
+          
         }),
         iconContainer: {
             borderRightColor: colors.gray200,

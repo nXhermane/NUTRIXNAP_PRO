@@ -1,3 +1,4 @@
 import UserRepository from "./user.repository";
 import PatientRepository from "./patient.repository";
-export { UserRepository, PatientRepository };
+import FoodDiaryRepository from "./foodDiary.repository";
+export { UserRepository, PatientRepository, FoodDiaryRepository };

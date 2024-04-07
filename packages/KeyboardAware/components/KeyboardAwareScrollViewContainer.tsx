@@ -21,43 +21,56 @@ interface Props {
 const KeyboardAwareScrollViewContainer = React.forwardRef(
     (props: React.PropsWithChildren<Props>, ref) => {
         const {
-            scrollable = false,
             children,
             style = {},
-            scrollViewProps = {},
             onLayout,
+            onLayoutContainer,
             onKeyboardDidShow,
-            onKeyboardDidHide
+            onKeyboardDidHide,
+            containerStyle = {}
         } = props;
-        const [isScrollable, setIsScrollable] = React.useState<boolean>(false);
-        Keyboard.addListener("keyboardDidShow", (e: KeyboardEvent) => {
-            onKeyboardDidShow && onKeyboardDidShow(e);
-            setIsScrollable(true);
-        });
-        Keyboard.addListener("keyboardDidHide", (e: KeyboardEvent) => {
-            onKeyboardDidHide && onKeyboardDidHide(e);
-            setIsScrollable(false);
-        });
+
+        React.useEffect(() => {
+            const showsListener = Keyboard.addListener(
+                "keyboardDidShow",
+                (e: KeyboardEvent) => {
+                    onKeyboardDidShow && onKeyboardDidShow(e);
+                }
+            );
+            const hideListener = Keyboard.addListener(
+                "keyboardDidHide",
+                (e: KeyboardEvent) => {
+                    onKeyboardDidHide && onKeyboardDidHide(e);
+                }
+            );
+            return () => {
+                showsListener.remove();
+                hideListener.remove();
+            };
+        }, [onKeyboardDidHide, onKeyboardDidShow]);
+
         return (
-          <View style={style}>
-            <ScrollView
-                ref={ref && ref}
-                contentContainerStyle={[styles.container]}
-                {...scrollViewProps}
-                keyboardShouldPersistTaps={"handled"}
-                keyboardDismissMode={"none"}
-                scrollEnabled={true}
-                removeClippedSubviews
-                onLayout={onLayout && onLayout}
+            <View
+                style={containerStyle}
+                onLayout={onLayoutContainer && onLayoutContainer}
             >
-                {children}
-            </ScrollView>
+                <ScrollView
+                    ref={ref && ref}
+                    contentContainerStyle={[styles.container, style]}
+                    {...props}
+                    keyboardShouldPersistTaps={"always"}
+                    keyboardDismissMode={"none"}
+                    scrollEventThrottle={1}
+                    onLayout={onLayout && onLayout}
+                >
+                    {children}
+                </ScrollView>
             </View>
         );
     }
 );
 
-export default KeyboardAwareScrollViewContainer;
+export default React.memo(KeyboardAwareScrollViewContainer);
 
 const styles = StyleSheet.create({
     container: {}

@@ -1,9 +1,9 @@
-import { PatientEntity, SearchPatientOptions } from "@/core/interfaces";
+import { PatientEntity, SearchPatientOptions,CreatePatientType, UpdatePatientType } from "@/core/interfaces";
 export default interface IPatientRepository {
     findById(id: number): Promise<PatientEntity | null>;
-    create(user: PatientEntity): Promise<PatientEntity | null>;
+    create(patient: CreatePatientType): Promise<number | null>;
     findAll(): Promise<PatientEntity[]>;
-    update(user: PatientEntity): Promise<PatientEntity>;
+    update(patient: UpdatePatientType): Promise<PatientEntity>;
     delete(id: number): Promise<void>;
     search(
         searchValue: string,

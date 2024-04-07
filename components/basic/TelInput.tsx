@@ -102,7 +102,7 @@ const styles = ({ colors, size }: ThemeInterface) =>
             borderColor: colors.gray200,
             borderWidth: size.s1 / 10,
             borderRadius: size.s100,
-            height: size.s50 * 0.8,
+            height: size.s50 ,
             paddingHorizontal: size.s1,
             backgroundColor: colors.bg.secondary
         },

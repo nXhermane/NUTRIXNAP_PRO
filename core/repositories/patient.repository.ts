@@ -2,20 +2,20 @@ import {
     IPatientRepository,
     PatientEntity,
     IDatabase,
-    SearchPatientOptions
+    SearchPatientOptions,
+    CreatePatientType,
+    UpdatePatientType
 } from "@/core/interfaces";
-import Database, { db } from "@/core/db/db.config";
-import { Knex ,knex} from "knex";
-import * as Crypto from 'expo-crypto';
+import { db } from "@/core/db/db.config";
+import { Knex } from "knex";
+import * as Crypto from "expo-crypto";
 export default class PatientRepository implements IPatientRepository {
-    private db: IDatabase | null;
-    private knex: Knex | null;
-    private tableName: string = "patients";
+    private db: IDatabase | null = null;
+    private knex: Knex | null = null;
+    public static readonly tableName: string = "patients";
 
     constructor() {
-        this.db = null;
-        this.knex = null;
-        db.then(db => {
+        db.then((db: IDatabase) => {
             this.db = db;
             this.knex = db.knex;
             this.init();
@@ -25,43 +25,50 @@ export default class PatientRepository implements IPatientRepository {
     private async init(): Promise<void> {
         try {
             const hasUsersTable = await this.knex?.schema.hasTable(
-                this.tableName
+                PatientRepository.tableName
             );
             if (!hasUsersTable) {
-                await this.createUsersTable();
-                console.log(`Table "${this.tableName}" created successfully.`);
+                await this.createTable();
+                console.log(
+                    `Table "${PatientRepository.tableName}" created successfully.`
+                );
             } else {
-                console.log(`Table "${this.tableName}" already exists.`);
+                console.log(
+                    `Table "${PatientRepository.tableName}" already exists.`
+                );
             }
         } catch (error) {
             console.error(
-                `Error initializing "${this.tableName}" table:`,
+                `Error initializing "${PatientRepository.tableName}" table:`,
                 error
             );
         }
     }
 
-    private async createUsersTable(): Promise<void> {
-        await this.knex?.schema.createTable(this.tableName, table => {
-            table.increments("id").primary();
-            table.string("name", 200);
-            table.enu("gender", ["M", "F", "O"]);
-            table.string("country", 100);
-            table.string("email", 200);
-            table.string("tel", 100);
-            table.date("birthday");
-            table.string("occupancy", 200);
-            table.string("profil_img", 300);
-            table.string("consultationLocation", 200);
-            table.date("createdAt");
-            table.date("updateAt");
-            table.uuid('unique_id').defaultTo(Crypto.randomUUID())
-        });
+    private async createTable(): Promise<void> {
+        await this.knex?.schema.createTable(
+            PatientRepository.tableName,
+            table => {
+                table.increments("id").primary();
+                table.string("name", 200);
+                table.enu("gender", ["M", "F", "O"]);
+                table.string("country", 100);
+                table.string("email", 200);
+                table.string("tel", 100);
+                table.date("birthday");
+                table.string("occupancy", 200);
+                table.string("profil_img", 300);
+                table.string("consultationLocation", 200);
+                table.date("createdAt");
+                table.date("updatedAt");
+                table.uuid("unique_id").defaultTo(Crypto.randomUUID());
+            }
+        );
     }
 
     async findById(id: number): Promise<PatientEntity | null> {
         try {
-            const patient = await this.knex<PatientEntity>(this.tableName)
+            const patient = await this.knex!<PatientEntity>(PatientRepository.tableName)
                 ?.select()
                 .where("id", id)
                 .first();
@@ -72,9 +79,9 @@ export default class PatientRepository implements IPatientRepository {
         }
     }
 
-    async create(patient: PatientEntity): Promise<number | null> {
+    async create(patient: CreatePatientType): Promise<number | null> {
         try {
-            const [{ id }] = await this.knex(this.tableName)
+            const [{ id }] = await this.knex!(PatientRepository.tableName)
                 ?.insert({
                     name: patient.name,
                     gender: patient?.gender,
@@ -86,7 +93,7 @@ export default class PatientRepository implements IPatientRepository {
                     occupancy: patient?.occupancy,
                     consultationLocation: patient?.consultationLocation,
                     createdAt: new Date().toLocaleDateString(),
-                    updateAt: new Date().toLocaleDateString()
+                    updatedAt: new Date().toLocaleDateString()
                 })
                 .returning("id");
 
@@ -99,8 +106,8 @@ export default class PatientRepository implements IPatientRepository {
 
     async findAll(): Promise<PatientEntity[]> {
         try {
-            const patients = await this.knex<PatientEntity>(
-                this.tableName
+            const patients = await this.knex!<PatientEntity>(
+                PatientRepository.tableName
             )?.select();
             return patients;
         } catch (error) {
@@ -109,21 +116,24 @@ export default class PatientRepository implements IPatientRepository {
         }
     }
 
-    async update(patient: PatientEntity): Promise<PatientEntity> {
+    async update(patient: UpdatePatientType): Promise<PatientEntity> {
         try {
-            await this.knex<PatientEntity>(this.tableName)
+            patient["updatedAt"] = new Date().toLocaleDateString();
+            await this.knex!<PatientEntity>(PatientRepository.tableName)
                 ?.where("id", patient.id)
                 .update(patient);
-            return (await this.findById(patient.id)) || patient;
+            return (await this.findById(patient.id) as PatientEntity) || patient;
         } catch (error) {
             console.error("Error updating Patient:", error);
-            return user;
+            return patient as PatientEntity;
         }
     }
 
     async delete(id: number): Promise<void> {
         try {
-            await this.knex<PatientEntity>(this.tableName)?.where("id", id).del();
+            await this.knex!<PatientEntity>(PatientRepository.tableName)
+                ?.where("id", id)
+                .del();
         } catch (error) {
             console.error("Error deleting Patient:", error);
         }
@@ -134,7 +144,9 @@ export default class PatientRepository implements IPatientRepository {
     ): Promise<PatientEntity[]> {
         try {
             const value = "%" + searchValue + "%";
-            let reqQuerry = this.knex<PatientEntity>(this.tableName)
+            let reqQuerry = this.knex!<PatientEntity>(
+                PatientRepository.tableName
+            )
                 ?.select()
                 .whereLike("id", value)
                 .orWhereLike("name", value)

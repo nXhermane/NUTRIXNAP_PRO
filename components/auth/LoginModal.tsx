@@ -16,6 +16,7 @@ import TextInput from "@comp/basic/TextInput";
 import TelInput from "@comp/basic/TelInput";
 import DateInput from "@comp/basic/DateInput";
 import SelectionInput from "@comp/basic/SelectionInput";
+import { KeyboardAwareScrollView } from "@pack/KeyboardAware";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -227,6 +228,7 @@ const LoginModal = (props: Props) => {
                         </Text>
                     </View>
                     <View style={style.formContainer}>
+                    <KeyboardAwareScrollView>
                         <View style={style.profilImgContainer}>
                             <Avatars
                                 image={{ uri: formInfo.profil_img }}
@@ -356,6 +358,7 @@ const LoginModal = (props: Props) => {
                                 onPress={onSubmit}
                             />
                         </View>
+                        </KeyboardAwareScrollView>
                     </View>
                 </View>
             </Animated.View>
