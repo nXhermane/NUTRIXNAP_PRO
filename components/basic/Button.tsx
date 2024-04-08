@@ -20,29 +20,29 @@ import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 
 type iconFun = { style: { color: string; size: number } };
 interface ButtonProps {
-    w: number;
-    h: number;
-    fs: number;
-    ff: string;
-    fc: string;
-    fw: string | number;
-    c: string;
-    r: number;
-    bw: number;
-    ph: number;
-    phc: number;
-    outlinedBgColor: string;
-    gradient: boolean;
-    outlined: boolean;
-    iconStart: (config: iconFun) => JSX.Element;
-    iconEnd: (config: iconFun) => JSX.Element;
-    upper: boolean;
+    w?: number|string;
+    h?: number|string;
+    fs?: number;
+    ff?: string;
+    fc?: string;
+    fw?: string | number;
+    c?: string;
+    r?: number;
+    bw?: number;
+    ph?: number;
+    phc?: number;
+    outlinedBgColor?: string;
+    gradient?: boolean;
+    outlined?: boolean;
+    iconStart?: (config: iconFun) => JSX.Element;
+    iconEnd?: (config: iconFun) => JSX.Element;
+    upper?: boolean;
     title: string;
-    disableBorder: boolean;
-    onPress: (e:PressEvent) => void;
-    st: TextStyle;
-    sc: ViewStyle;
-    children: React.ReactNode;
+    disableBorder?: boolean;
+    onPress?: (e:PressEvent) => void;
+    st?: TextStyle;
+    sc?: ViewStyle;
+    children?: React.ReactNode;
 }
 const Button: React.FC<ButtonProps> = props => {
     const theme = useTheme();
@@ -56,9 +56,9 @@ const Button: React.FC<ButtonProps> = props => {
     const styles = (theme: ThemeInterface) =>
         StyleSheet.create({
             btnContainer: {
-                width: props.w || theme.size.s100 * 3,
-                height: props.h || theme.size.s50,
-                borderRadius: props.r || 30,
+                width: props?.w || theme.size.s100 * 3,
+                height: props?.h || theme.size.s50,
+                borderRadius: props?.r || 30,
                 justifyContent: "center",
                 alignItems: "center",
                 overflow: "hidden",
@@ -112,7 +112,7 @@ const Button: React.FC<ButtonProps> = props => {
                     ? props.fc || theme.colors.white
                     : props.fc || theme.colors.blue,
                 fontSize: props.fs || theme.size.s4,
-                fontFamily: props.ff || "satochi_bold",
+                fontFamily: props.ff || "inter_b",
                 fontWeight: props.fw || "bold",
                 textTransform: props.upper ? "uppercase" : "none",
                 ...props.st

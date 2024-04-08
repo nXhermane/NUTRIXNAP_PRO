@@ -1,3 +1,3 @@
 import screenDiagonal from "./screenDiagonal";
-
-export { screenDiagonal };
+import DateManipulator from './dateManager'
+export { screenDiagonal ,DateManipulator};

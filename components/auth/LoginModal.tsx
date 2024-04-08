@@ -236,7 +236,7 @@ const LoginModal = (props: Props) => {
                                 bg={colors.yellow100}
                                 color={colors.yellow300}
                                 onLongPress={() =>
-                                    pickImage().then(({ uri, type }) => {
+                                    pickImage().then(([{ uri, type }]) => {
                                         if (uri != "") {
                                             dispatch({
                                                 type: "profil_img",

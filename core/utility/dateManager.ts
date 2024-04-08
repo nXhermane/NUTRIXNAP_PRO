@@ -7,7 +7,7 @@ export default class DateManager {
 
     public static dateToTimestamps(date: Date): string {
         const year = date.getUTCFullYear();
-        const month = DateManager.fixDateNumberToString(date.getUTCMonth()+1);
+        const month = DateManager.fixDateNumberToString(date.getUTCMonth() + 1);
         const day = DateManager.fixDateNumberToString(date.getUTCDate());
         const hours = DateManager.fixDateNumberToString(date.getUTCHours());
         const minutes = DateManager.fixDateNumberToString(date.getUTCMinutes());
@@ -26,5 +26,27 @@ export default class DateManager {
             ":" +
             seconds;
         return timestampFormmat;
+    }
+    public static dateToDateTimeString(date: Date): string {
+        const year = date.getFullYear();
+        const month = DateManager.fixDateNumberToString(date.getMonth() + 1);
+        const day = DateManager.fixDateNumberToString(date.getDate());
+        const hours = DateManager.fixDateNumberToString(date.getHours());
+        const minutes = DateManager.fixDateNumberToString(date.getMinutes());
+        const seconds = DateManager.fixDateNumberToString(date.getSeconds());
+
+        const datetimeFormmat =
+            year +
+            "-" +
+            month +
+            "-" +
+            day +
+            " " +
+            hours +
+            ":" +
+            minutes +
+            ":" +
+            seconds;
+        return datetimeFormmat;
     }
 }

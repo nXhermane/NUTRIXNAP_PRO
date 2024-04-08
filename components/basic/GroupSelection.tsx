@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
-
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 export type Option = Required<
     Omit<SelectionItemProps, "selectedId" | "setSelectedId" | "custormItem">
 >;

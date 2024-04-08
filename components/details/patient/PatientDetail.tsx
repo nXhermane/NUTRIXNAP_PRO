@@ -26,7 +26,8 @@ import useCore from "@/hooks/useCore";
 import { PatientEntity } from "@/core/interfaces";
 
 import Avatars from "@comp/basic/Avatars";
-import PatientDetailHeader from "./PatientDetailHeader";
+import PatientDetailHeader from "@comp/details/patient/PatientDetailHeader";
+import Informations from "@comp/details/patient/informations/Informations";
 
 const HeaderTitles = [
     "Informations",
@@ -103,6 +104,10 @@ const PatientDetail = ({ patientId }: Props) => {
                         pagingEnabled
                         ref={bottomScrollViewRef}
                     >
+                        <Informations
+                            patientId={patient?.id}
+                            patientUniqueId={patient?.unique_id}
+                        />
                         {HeaderTitles.map((item: string, index) => (
                             <Item label={item} key={item} />
                         ))}

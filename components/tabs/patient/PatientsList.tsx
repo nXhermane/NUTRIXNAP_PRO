@@ -52,11 +52,7 @@ const PatientsList = (props: Props) => {
             withSearch
             header
             onPressFilter={() => {
-                Alert.confirm("Open Filter").then(check => {
-                    if (check) {
-                        setFilterIsActive(prev => !prev);
-                    }
-                });
+                setFilterIsActive(prev => !prev);
             }}
             onPressAddBtn={(e: PressEvent) => {
                 props.onPressAddBtn && props.onPressAddBtn(e);

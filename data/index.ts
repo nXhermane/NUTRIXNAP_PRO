@@ -2,4 +2,5 @@
 import ServicesData from "./services";
 
 import dataFoodList from "./foodsList";
-export { ServicesData, dataFoodList };
+import MealsTypes from './mealsTypes'
+export { ServicesData, dataFoodList ,MealsTypes};

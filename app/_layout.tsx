@@ -14,7 +14,7 @@ import { Text, Appearance } from "react-native";
 import Colors from "./../constants/Colors";
 import useTheme from "@/theme/useTheme";
 import { AppAlertProvider } from "@pack/AppAlert";
-
+import { PortalProvider } from "@gorhom/portal";
 //import Database, { IDatabase } from "./../core/db/db.config";
 
 export const unstable_settings = {
@@ -56,8 +56,8 @@ function RootLayoutNav() {
         <CoreProvider>
             <ThemeProvider>
                 <AppAlertProvider>
-
-                        <GestureHandlerRootView style={{ flex: 1 }}>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                        <PortalProvider>
                             <Stack>
                                 <Stack.Screen
                                     name="index"
@@ -116,10 +116,9 @@ function RootLayoutNav() {
                                         animation: "fade_from_bottom"
                                     }}
                                 />
-
                             </Stack>
-                        </GestureHandlerRootView>
-
+                        </PortalProvider>
+                    </GestureHandlerRootView>
                 </AppAlertProvider>
             </ThemeProvider>
         </CoreProvider>

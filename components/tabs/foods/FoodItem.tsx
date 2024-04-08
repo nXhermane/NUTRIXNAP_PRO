@@ -13,7 +13,6 @@ import Animated, {
     useAnimatedProps
 } from "react-native-reanimated";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { RectButton } from "react-native-gesture-handler";
 import React, { useState } from "react";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";

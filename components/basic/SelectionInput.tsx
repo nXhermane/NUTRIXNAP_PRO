@@ -11,6 +11,7 @@ import BottomSheet, {
     BottomSheetView,
     BottomSheetModalProvider
 } from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 type Option = { label: string; id: string | number };
 interface Props {
     label: string;
@@ -31,6 +32,7 @@ interface Props {
     ) => JSX.Element;
     searchFusejsKeys: string[];
     selectedId: number | string | number[] | string[];
+    onLongPress?:()=>void
 }
 const SelectionInput = (props: Props) => {
     const { colors, size } = useTheme();
@@ -38,14 +40,15 @@ const SelectionInput = (props: Props) => {
     const {
         label = "Pays",
         isRequire = false,
-        data = testData,
+        data = [],
         withSearch = false,
         onChange = () => {},
         unique = false,
         custormItem,
         searchFusejsKeys,
         value = "",
-        selectedId
+        selectedId,
+        onLongPress
     } = props;
     const [searchValue, setSearchValue] = useState<string>("");
     const [selectionData, setSelectionData] = React.useState<any[]>(data);
@@ -61,7 +64,7 @@ const SelectionInput = (props: Props) => {
             setSearchResult(result.map(item => item.item));
         }
     }, [searchValue]);
-    
+
     const bottomSheetRef = React.useRef<BottomSheet>(null);
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -81,7 +84,7 @@ const SelectionInput = (props: Props) => {
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
     }, []);
-    
+
     return (
         <View style={style.selectionInputContainer}>
             <TextInput
@@ -102,6 +105,8 @@ const SelectionInput = (props: Props) => {
                     setDisplayPopup((prev: boolean) => !prev);
                     handlePresentModalPress();
                 }}
+                onLongPress={onLongPress&&onLongPress}
+                {...props}
             />
             {displayPopup && (
                 <Modal
@@ -113,19 +118,26 @@ const SelectionInput = (props: Props) => {
                     onShow={handlePresentModalPress}
                     statusBarTranslucent
                 >
-                    <Pressable style={style.modalContainer}>
+                    <Pressable
+                        style={style.modalContainer}
+                        onPress={() =>
+                            setDisplayPopup((prev: boolean) => false)
+                        }
+                    >
                         <BottomSheetModalProvider>
                             <BottomSheetModal
                                 ref={bottomSheetModalRef}
                                 index={index}
                                 snapPoints={snapPoints}
-                                
                                 backgroundStyle={{
                                     backgroundColor: colors.bg.primary
                                 }}
                                 handleIndicatorStyle={{
                                     backgroundColor: colors.gray300
                                 }}
+                                onDismiss={() =>
+                                    setDisplayPopup((prev: boolean) => false)
+                                }
                             >
                                 <GroupSelection
                                     data={
@@ -202,7 +214,7 @@ const styles = ({ colors, size }: ThemeInterface) =>
         },
         bottomSheetStyle: {},
         modalContainer: {
-            backgroundColor: colors.black+40,
+            backgroundColor: colors.black + 40,
             height: size.height + size.s100,
             width: size.width
         }
