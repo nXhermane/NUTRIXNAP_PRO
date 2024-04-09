@@ -121,8 +121,8 @@ const KeyboardAwareScrollView = (props: PropsWithChildren<Props>) => {
         >
             <View
                 style={{
-                    width: "100%"
-                    // paddingBottom:500
+                    width: "100%",
+...style
                 }}
             >
                 {typeof children === "function" ? children() : children}

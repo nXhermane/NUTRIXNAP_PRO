@@ -75,6 +75,7 @@ const FoodDiary = ({ patientUniqueId }: Props) => {
                                     }
                                 });
                             }}
+                            key={data?.id}
                         />
                     );
                 })}
