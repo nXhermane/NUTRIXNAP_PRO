@@ -3,15 +3,16 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
     AppAlertContext,
     IAppAlertContext,
-    AlertComfirmOption
+    AlertConfirmOption
 } from "./Context";
-import Alert from "./../components/Alert";
+import Confirm from "./../components/Confirm";
+import SnackBar from "./../components/SnackBar"
 export const AppAlertProvider: React.FC<{ children: React.ReactNode }> = ({
     children
 }) => {
     const [alertIsShow, setAlertIsShow] = useState<boolean>(false);
     const [alertConfirmOption, setAlertConfirmOption] =
-        useState<AlertComfirmOption>({});
+        useState<AlertConfirmOption>({});
     const [alertConfirmResult, setAlertConfirmResult] =
         useState<boolean>(false);
     const [alertConfirmMsg, setAlertConfirmMsg] = useState<string>("");
@@ -19,7 +20,7 @@ export const AppAlertProvider: React.FC<{ children: React.ReactNode }> = ({
         res: (value: boolean) => {}
     });
     const AppAlert = {
-        confirm: (msg: string, options?: AlertComfirmOption) => {
+        confirm: (msg: string, options?: AlertConfirmOption) => {
             return new Promise<boolean>((resolve, reject) => {
                 setAlertConfirmResult(false);
                 setAlertConfirmMsg(msg);
@@ -34,19 +35,21 @@ export const AppAlertProvider: React.FC<{ children: React.ReactNode }> = ({
 
     return (
         <AppAlertContext.Provider value={AppAlert}>
+                  
             {children}
             {alertIsShow && (
-                <Alert
-                    alertIsOpen={(value: boolean) => setAlertIsShow(value)}
+                <Confirm
+                    confirmIsOpen={(value: boolean) => setAlertIsShow(value)}
                     {...alertConfirmOption}
                     onPress={(value: boolean) => {
                         setAlertConfirmResult(value);
                         alertConfirmResolver.res(value);
-                        setAlertConfirmResolver({res:() => {}});
+                        setAlertConfirmResolver({ res: () => {} });
                     }}
                     msg={alertConfirmMsg}
                 />
             )}
+  <SnackBar />
         </AppAlertContext.Provider>
     );
 };

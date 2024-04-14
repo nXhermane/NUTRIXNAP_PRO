@@ -5,11 +5,14 @@ import {
     CreateUserType,
     UpdateUserType
 } from "@/core/interfaces";
-import {TableNames} from '@/core/constants'
+import { TableNames } from "@/core/constants";
 import Database, { db } from "@/core/db/db.config";
 import { Knex } from "knex";
 import * as Crypto from "expo-crypto";
 import { DateManager } from "@/core/utility";
+
+
+
 export default class UserRepository implements IUserRepository {
     private db: IDatabase | null = null;
     private knex: Knex | null = null;
@@ -60,9 +63,8 @@ export default class UserRepository implements IUserRepository {
             table.string("profession", 200);
             table.string("profil_img", 300);
             table.string("password", 255);
-            table.uuid("unique_id").notNullable()
-            table.timestamps(true, true,true)
-            
+            table.uuid("unique_id").notNullable();
+            table.timestamps(true, true, true);
         });
     }
 
@@ -95,7 +97,7 @@ export default class UserRepository implements IUserRepository {
                     profil_img: user?.profil_img,
                     password: user?.password,
                     country: user?.country,
-                    unique_id:Crypto.randomUUID()
+                    unique_id: Crypto.randomUUID()
                 })
                 .returning("id");
             return id || null;
@@ -119,11 +121,11 @@ export default class UserRepository implements IUserRepository {
 
     async update(user: UpdateUserType): Promise<UserEntity> {
         try {
-          const date = DateManager.dateToTimestamps(new Date());
+            const date = DateManager.dateToTimestamps(new Date());
             await this.knex!<UserEntity>(UserRepository.tableName)
                 ?.where("id", user.id)
-                .update({...user,updatedAt:date});
-            return (await this.findById(user.id) as UserEntity) || user;
+                .update({ ...user, updatedAt: date });
+            return ((await this.findById(user.id)) as UserEntity) || user;
         } catch (error) {
             console.error("Error updating user:", error);
             return user as UserEntity;

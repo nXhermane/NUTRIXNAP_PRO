@@ -19,6 +19,8 @@ import {
     FoodId,
     FoodQuantity
 } from "@/core/interfaces";
+import  './FoodsAndRecipesDatabase'
+
 
 import { FoodDiaryMapper } from "@/core/mappers";
 import * as SQLite from "expo-sqlite/next";

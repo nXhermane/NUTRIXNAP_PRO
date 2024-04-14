@@ -1,0 +1,200 @@
+je ne sais pas varaiment  comment creer la l'aggregat Food correctement a partir
+des autre entite tu peut me montrer un exemple de la classe food et aussi creer
+un factory pour lui 
+
+import { Entity, CreateEntityProps } from "@shared";
+
+export interface INutrient {
+    nutrientCode: string;
+    nutrientINFOODSTagName: string;
+    nutrientValue: number;
+    nutrientName: string;
+    nutrientUnit: string;
+    originalValue?: string;
+    nutrientNameTranslate?: {
+        isFrench?: string;
+        inEnglish?: string;
+    };
+}
+
+export class Nutrient extends Entity<INutrient> {
+    constructor(createNutrient: CreateEntityProps<INutrient>) {
+        super(createNutrient);
+        this.validate();
+    }
+    get nutrientCode(): string {
+        return this.props.nutrientCode;
+    }
+    get nutrientINFOODSTagName(): string {
+        return this.props.nutrientINFOODSTagName;
+    }
+    get nutientNameF(): string {
+        return (
+            this.props?.nutrientNameTranslate?.inFrench ||
+            this.props.nutrientName
+        );
+    }
+    get nutrientNameE(): string {
+        return (
+            this.props?.nutrientNameTranslate?.inEnglish ||
+            this.props.nutrientName
+        );
+    }
+    set nutientNameF(value: string) {
+        this.props.nutrientNameTranslate.inFrench = value;
+    }
+    set nutientNameE(value: string) {
+        this.props.nutrientNameTranslate.inEnglish = value;
+    }
+    get nutrientUnit(): string {
+        return this.props.nutrientUnit;
+    }
+    get originalValue(): string {
+        return this.props?.originalValue || String(this.props.nutrientValue);
+    }
+    get nutrientValue(): number {
+        return this.props.nutrientValue;
+    }
+
+    validate(): void {
+        if (this.props.nutrientValue < 0) {
+            throw new Error(
+                "La valeur d'un nutriment ne peut pas être négative"
+            );
+        }
+        if (
+            !this.props.nutrientINFOODSTagName ||
+            this.props.nutrientINFOODSTagName.trim() === ""
+        ) {
+            throw new Error(
+                "INFOODS TagName invalide. Vous devez definir un code INFOODS  valide pour le nutriment"
+            );
+        }
+        if (!this.props.nutrientCode || this.props.nutrientCode.trim() === "") {
+            throw new Error(
+                "Code invalide. Vous devez definir un code  valide pour le nutriment"
+            );
+        }
+        if (!this.props.nutrientName || this.props.nutrientName.trim() === "") {
+            throw new Error(
+                "Le nom du nutriment  ne doit pas être vide. Veuillez ajouter un nom de nutrriment"
+            );
+        }
+        if (!this.props.nutrientUnit || this.props.nutrientUnit.trim() === "") {
+            throw new Error(
+                "Unite invalide. Vous devez definir une unité valide pour le nutriment"
+            );
+        }
+    }
+}
+
+
+import { Entity, CreateEntityProps } from "@shared";
+
+export interface IFoodGroup {
+    foodGroupCode: string;
+    foodGroupName: string;
+    foodGroupNameF: string;
+    foodGroupDescription?: string;
+}
+
+export class FoodGroup extends Entity<IFoodGroup> {
+    constructor(foodGroupCreate: CreateEntityProps<IFoodGroup>) {
+        super(foodGroupCreate);
+        this.validate();
+    }
+    get foodGroupCode(): string {
+        return this.props.foodGroupCode;
+    }
+    get foodGroupName(): string {
+        return this.props.foodGroupName;
+    }
+    get foodGroupNameF(): string {
+        return this.props.foodGroupNameF;
+    }
+    get foodGroupDescription(): string {
+        return this.props?.foodGroupDescription || "";
+    }
+    set foodGroupDescription(foodGroupDescription: string) {
+        this.props.foodGroupDescription = foodGroupDescription;
+    }
+
+    validate(): void {
+        if (
+            !this.props.foodGroupCode ||
+            this.props.foodGroupCode.trim() === ""
+        ) {
+            throw new Error(
+                "Le code du groupe d'aliments est nécessaire pour l'identifier."
+            );
+        }
+        if (
+            !this.props.foodGroupName ||
+            this.props.foodGroupName.trim() === ""
+        ) {
+            throw new Error(
+                "Le nom du groupe d'aliments ne doit pas être vide. Veuillez ajouter un vrai nom au groupe d'aliments."
+            );
+        }
+    }
+}
+
+
+
+
+import { ValueObject, FoodQuantityUnits } from "@shared";
+
+export interface IQuantity {
+    value: number;
+    unit: string;
+}
+export class Quantity extends ValueObject<IQuantity> {
+    constructor(props: IQuantity) {
+        super(props);
+        this.validate(props);
+    }
+
+    validate(props: IQuantity): void {
+        if (!FoodQuantityUnits.includes(props.unit))
+            throw new Error(
+                `L'unité invalide Ou Non prise en charge. Veillez entrer une unité parmis ceux ci: ${FoodQuantityUnits.join(
+                    ","
+                )}`
+            );
+
+        if (props.value <= 0) {
+            throw new Error(
+                `La quantité est invalide.Veillez entrer une valeur supérieure a zéro.`
+            );
+        }
+    }
+}
+
+
+
+import { Quantity as FoodQuantity } from "./../value-objects/Quantity";
+import { FoodGroup } from "./../entities/FoodGroup";
+import {Nutrient} from './../entities/Nutrient'
+import { AggregateRoot, CreateEntityProps } from "@shared";
+
+interface IFood {
+    foodCode: string;
+    foodName: string;
+    foodOrigin: string;
+    foodSource: string;
+    foodQuantity: FoodQuantity;
+    foodGroup: FoodGroup;
+    foodNameTranslate?: {
+        inFrench?: string;
+        inEnglish?: string;
+    };
+    
+    foodNutrients:Nutrient[]
+}
+
+export class Food implements AggregateRoot<IFood> {
+  
+    validate(): void {}
+}
+
+
