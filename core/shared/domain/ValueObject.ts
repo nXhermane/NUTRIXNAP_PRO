@@ -43,7 +43,7 @@ export abstract class ValueObject<T> {
             return this.props.value;
         }
 
-        const propsCopy = convertPropsToObject(this.props);
+        const propsCopy = convertPropsToObject(ValueObject, this.props);
 
         return Object.freeze(propsCopy);
     }

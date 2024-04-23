@@ -19,8 +19,7 @@ import {
     FoodId,
     FoodQuantity
 } from "@/core/interfaces";
-import  './FoodsAndRecipesDatabase'
-
+import "./FoodsAndRecipesDatabase";
 
 import { FoodDiaryMapper } from "@/core/mappers";
 import * as SQLite from "expo-sqlite/next";
@@ -32,7 +31,24 @@ export interface CoreInterface {
     patientS: IPatientService;
     foodDiaryS: IFoodDiaryService;
 }
+import * as FoodDb from "./FoodsAndRecipesDatabase";
+(async () => {
+    const knexDb = (await FoodDb.db).knex;
+    const repo = new FoodDb.FoodRepositoryImplDb(
+        knexDb,
+        new FoodDb.FoodMapper()
+    );
+    const date = Date.now();
+    repo.getFoodById(1)
+        .then(food => {
+            console.log("Date===>", Date.now() - date, "ms");
+        })
+        .catch(error => {
+            console.log("Error", error);
+        });
 
+    
+})();
 export const CoreContext = createContext<CoreInterface>({} as CoreInterface);
 
 export const CoreProvider: React.FC<{ children: React.ReactNode }> = ({

@@ -6,7 +6,7 @@ import {
     AlertConfirmOption
 } from "./Context";
 import Confirm from "./../components/Confirm";
-import SnackBar from "./../components/SnackBar"
+import SnackBar from "./../components/SnackBar";
 export const AppAlertProvider: React.FC<{ children: React.ReactNode }> = ({
     children
 }) => {
@@ -35,7 +35,6 @@ export const AppAlertProvider: React.FC<{ children: React.ReactNode }> = ({
 
     return (
         <AppAlertContext.Provider value={AppAlert}>
-                  
             {children}
             {alertIsShow && (
                 <Confirm
@@ -49,7 +48,7 @@ export const AppAlertProvider: React.FC<{ children: React.ReactNode }> = ({
                     msg={alertConfirmMsg}
                 />
             )}
-  <SnackBar />
+            {false && <SnackBar />}
         </AppAlertContext.Provider>
     );
 };

@@ -4,7 +4,8 @@ import {
     INVALID_NUTRIENT_TAGNAME_ERROR,
     INVALID_NUTRIENT_CODE_ERROR,
     EMPTY_NUTRIENT_NAME_ERROR,
-    INVALID_NUTRIENT_UNIT_ERROR
+    INVALID_NUTRIENT_UNIT_ERROR,
+    INVALID_NUTRIENT_DECIMALS_ERROR
 } from "./../constants";
 export interface INutrient {
     nutrientCode: string;
@@ -12,6 +13,7 @@ export interface INutrient {
     nutrientValue: number;
     nutrientName: string;
     nutrientUnit: string;
+    nutrientDecimals: number;
     originalValue?: string;
     nutrientNameTranslate?: {
         inFrench?: string;
@@ -63,6 +65,9 @@ export class Nutrient extends Entity<INutrient> {
     get nutrientValue(): number {
         return this.props.nutrientValue;
     }
+    get nutrientDecimals(): number {
+        return this.props.nutrientDecimals;
+    }
     public equals(object: Nutrient) {
         return (
             super.equals(object) &&
@@ -75,10 +80,14 @@ export class Nutrient extends Entity<INutrient> {
         if (this.props.nutrientValue < 0) {
             throw new Error(INVALID_NUTRIENT_VALUE_ERROR);
         }
+        if (this.props.nutrientDecimals < 0) {
+            throw new Error(INVALID_NUTRIENT_DECIMALS_ERROR);
+        }
         if (
             !this.props.nutrientINFOODSTagName ||
             this.props.nutrientINFOODSTagName.trim() === ""
         ) {
+          
             throw new Error(INVALID_NUTRIENT_TAGNAME_ERROR);
         }
         if (!this.props.nutrientCode || this.props.nutrientCode.trim() === "") {

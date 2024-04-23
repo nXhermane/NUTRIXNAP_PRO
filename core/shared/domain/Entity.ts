@@ -1,6 +1,7 @@
 import { EntityUniqueID } from "./EntityUniqueId";
 import { DateManager, convertPropsToObject } from "../utils";
 import { Guard } from "./../core";
+import { ValueObject } from "./ValueObject";
 export type AggregateID = string | number;
 
 export interface BaseEntityProps {
@@ -65,7 +66,7 @@ export abstract class Entity<EntityProps> {
      * useful when logging an entity during testing/debugging
      */
     public toObject(): unknown {
-        const plainProps = convertPropsToObject(this.props);
+        const plainProps = convertPropsToObject(ValueObject, this.props);
 
         const result = {
             id: this._id,

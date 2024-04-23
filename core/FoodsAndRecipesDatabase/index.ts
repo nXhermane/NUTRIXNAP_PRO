@@ -1,1 +1,2 @@
-export * from './domain/entities/FoodGroup'
+export * from "./domain";
+export * from "./infrastructure";

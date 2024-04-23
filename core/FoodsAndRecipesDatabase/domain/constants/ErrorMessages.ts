@@ -9,7 +9,9 @@ export const INVALID_FOOD_GROUP_CODE_ERROR =
 export const EMPTY_FOOD_GROUP_NAME_ERROR =
     "Nom du groupe alimentaire ne doit pas être vide. Veuillez ajouter un nom valide.";
 export const INVALID_NUTRIENT_VALUE_ERROR =
-    "Valeur du nutriment invalide. La valeur doit être supérieure à zéro.";
+    "Valeur du nutriment invalide. La valeur doit être supérieure ou égale à zéro.";
+export const INVALID_NUTRIENT_DECIMALS_ERROR =
+    "Nombre de decimals invalide. Le nombre de decimals  doit être supérieure ou égale à zéro.";
 export const INVALID_NUTRIENT_TAGNAME_ERROR =
     "INFOODS TagName invalide. Veuillez définir un code INFOODS valide pour le nutriment.";
 export const INVALID_NUTRIENT_CODE_ERROR =
@@ -28,7 +30,20 @@ export const DUPLICATE_NUTRIENTS_ERROR =
     "Veuillez entrer des nutriments uniques pour l'aliment.";
 export const FOOD_UPDATE_RESTRICTED_ERROR =
     "Cet aliment ne peut pas être modifié.";
+export const INVALID_FOOD_REFERENCE_ERROR =
+    "Cet aliment n'existe pas dans le systeme. Veillez modifier la reference de l'aliment de l'ingrédient";
+export const EMPTY_FOOD_REFERENCE_ERROR =
+    "La reference a un aliment ne doit pas être vide.";
+export const EMPTY_PREPARATION_STEP_DESCRIPTION_ERROR =
+    "La description de l'etape de preparation ne doit pas etre vide.";
+export const INVALID_STEP_NUMBER = "Le numéro d'etape ne doit etre >= 0.";
 
+export const INVALID_INGREDIENT_LIST =
+    "La recette doit contenir au moins un ingrédient.";
+export const INVALID_PREPARATION_LIST =
+    "La recette doit avoir au moins une étape de préparation.";
+export const INVALID_COOKING_TIME =
+    "Le temps de cuisson doit être supérieur à zéro.";
 // Autres messages utiles
 export const UNIQUE_NUTRIENTS_NOTE =
     "Assurez-vous d'entrer des nutriments uniques pour l'aliment.";
