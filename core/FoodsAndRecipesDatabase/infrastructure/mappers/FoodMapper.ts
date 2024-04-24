@@ -5,66 +5,24 @@ import {
     FoodPersistenceType,
     FoodResponseType,
     NutrientResponseType,
-    FoodGroupType
+    FoodGroup as FoodGroupType
 } from "./../repositories/types";
-
-type FoodNutrientResponseType = Omit<NutrientResponseType, 'nutrientNameTranslate'>;
-
 export class FoodMapper
     implements Mapper<Food, FoodPersistenceType, FoodResponseType>
 {
     toPersistence(entity: Food): FoodPersistenceType {
         return this.toResponse(entity) as FoodPersistenceType;
     }
-
     toDomain(record: FoodPersistenceType): Food {
-        const isFoodGroup = (group: any): group is FoodGroupType => {
-            return (
-                typeof group.groupId === 'number' &&
-                typeof group.groupCode === 'string' &&
-                typeof group.groupName === 'string' &&
-                typeof group.groupNameF === 'string'
-            );
-        };
-
-        const isNutrient = (nutrient: any): nutrient is INutrient => {
-            return (
-                typeof nutrient.id === 'number' &&
-                typeof nutrient.nutrientCode === 'string' &&
-                typeof nutrient.tagname === 'string' &&
-                typeof nutrient.nutrientValue === 'number' &&
-                typeof nutrient.nutrientName === 'string' &&
-                typeof nutrient.nutrientUnit === 'string' &&
-                typeof nutrient.nutrientDecimals === 'number' &&
-                typeof nutrient.originalValue === 'number' &&
-                typeof nutrient.nutrientNameTranslate === 'object' &&
-                typeof nutrient.nutrientNameTranslate.inFrench === 'string'
-            );
-        };
-
-        const foodGroup = isFoodGroup(record.foodGroup)
-            ? new FoodGroup({
-                id: record.foodGroup.groupId,
-                props: {
-                    foodGroupCode: record.foodGroup.groupCode,
-                    foodGroupName: record.foodGroup.groupName,
-                    foodGroupNameF: record.foodGroup.groupNameF
-                }
-            })
-            : new FoodGroup({
-                id: record.foodGroup as number,
-                props: {
-                    foodGroupCode: '',
-                    foodGroupName: '',
-                    foodGroupNameF: ''
-                }
-            });
-
-        const foodNutrients = (record.foodNutrients || []).map((nutrient: any) => {
-            if (!isNutrient(nutrient)) {
-                return null;
+        const foodGroup = new FoodGroup({
+            id: record.foodGroup.groupId,
+            props: {
+                foodGroupCode: record.foodGroup.groupCode,
+                foodGroupName: record.foodGroup.groupName,
+                foodGroupNameF: record.foodGroup.groupNameF
             }
-
+        });
+        const foodNutrients = record.foodNutrients.map((nutrient: any) => {
             return new Nutrient({
                 id: nutrient.nutrientNameId,
                 props: {
@@ -73,21 +31,20 @@ export class FoodMapper
                     nutrientValue: nutrient.nutrientValue,
                     nutrientName: nutrient.nutrientName,
                     nutrientUnit: nutrient.nutrientUnit,
-                    nutrientDecimals: nutrient.nutrientDecimals,
+                    nutrientDecimals: nutrient.nutrientDecimal,
                     originalValue: nutrient.originalValue,
                     nutrientNameTranslate: {
-                        inFrench: nutrient.nutrientNameTranslate.inFrench
+                        inFrench: nutrient.nutrientNameF
                     }
                 }
             });
-        }).filter(nutrient => nutrient !== null);
+        });
 
         const foodQuantity = new Quantity({ value: 100, unit: "g" });
-
         const foodProps = {
             foodName: record.foodName,
             foodCode: record.foodCode,
-            foodSource: record.foodSource || '',
+            foodSource: record.foodSource ? record.foodSource : "",
             foodOrigin: record.foodOrigin,
             foodNameTranslate: {
                 inFrench: record.foodNameF
@@ -102,7 +59,6 @@ export class FoodMapper
             props: foodProps
         });
     }
-
     toResponse(entity: Food): FoodResponseType {
         const foodGroup: FoodGroupType = {
             groupId: entity.foodGroup.id as number,
@@ -110,43 +66,32 @@ export class FoodMapper
             groupName: entity.foodGroup.foodGroupName,
             groupNameF: entity.foodGroup.foodGroupNameF
         };
-
-        const nutrients = entity.foodNutrients.map(nutrient => {
-            const {
-                id,
-                nutrientCode,
-                nutrientINFOODSTagName,
-                nutrientValue,
-                nutrientName,
-                nutrientUnit,
-                nutrientDecimals,
-                originalValue,
-                nutrientNameTranslate
-            } = nutrient;
-
-            return {
-                nutrientNameId: id as number,
-                nutrientName,
-                nutrientNameF: nutrientNameTranslate.inFrench,
-                nutrientCode,
-                nutrientUnit,
-                tagname: nutrientINFOODSTagName,
-                nutrientDecimal: String(nutrientDecimals),
-                nutrientValue
-            };
-        });
-
+        const nutrients = entity.foodNutrients.map(
+            (nutrient: BaseEntityProps & INutrient) => {
+                return {
+                    nutrientNameId: nutrient.id as number,
+                    nutrientName: nutrient.nutrientName,
+                    nutrientNameF:
+                        nutrient?.nutrientNameTranslate?.inFrench || "",
+                    nutrientCode: nutrient.nutrientCode,
+                    nutrientUnit: nutrient.nutrientUnit,
+                    tagname: nutrient.nutrientINFOODSTagName,
+                    nutrientDecimal: String(nutrient.nutrientDecimals),
+                    nutrientValue: nutrient.nutrientValue
+                };
+            }
+        );
         const food: FoodResponseType = {
             foodId: entity.id as number,
             foodName: entity.foodName,
             foodNameF: entity.foodNameF,
             foodCode: entity.foodCode,
             foodOrigin: entity.foodOrigin,
-            foodGroup,
+            foodGroup: foodGroup,
+            
             foodSource: entity.foodSource,
             foodNutrients: nutrients as NutrientResponseType[]
         };
-
         return food;
     }
 }

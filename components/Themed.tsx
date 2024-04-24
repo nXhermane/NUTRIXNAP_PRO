@@ -9,32 +9,37 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
 
 type ThemeProps = {
-  lightColor?: string | null;
-  darkColor?: string | null;
+  lightColor?: string;
+  darkColor?: string;
 };
 
 export type TextProps = ThemeProps & DefaultText['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
 
-export function useThemeColor<T extends keyof typeof Colors.light & keyof typeof Colors.dark>(
-  props: { light?: string; dark?: string } | undefined,
-  colorName: T
-): typeof Colors.light[T] | typeof Colors.dark[T] {
+export function useThemeColor(
+  props: { light?: string; dark?: string },
+  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
+) {
   const theme = useColorScheme() ?? 'light';
-  const colorFromProps = props?.[theme];
+  const colorFromProps = props[theme];
 
-  if (colorFromProps !== undefined && colorFromProps !== null) {
-    return colorFromProps as typeof Colors.light[T] | typeof Colors.dark[T];
+  if (colorFromProps) {
+    return colorFromProps;
   } else {
-    return (Colors as any)[theme][colorName];
+    return Colors[theme][colorName];
   }
 }
 
 export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text') || 'black';
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
 
-export function View(props:
+export function View(props: ViewProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+
+  return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+}

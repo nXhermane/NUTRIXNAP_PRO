@@ -1,77 +1,84 @@
-// TYPE ALIASES
-type Db = IDatabase;
-type UserRepository = IUserRepository;
-type PatientRepository = IPatientRepository;
-type FoodDiaryRepository = IFoodDiaryRepository;
-type UserService = IUserService;
-type PatientService = IPatientService;
-type FoodDiaryService = IFoodDiaryService;
-type UserEntity = UserEntity;
-type PatientEntity = PatientEntity;
-type FoodDiaryEntity = FoodDiaryEntity;
-type FoodDiaryDTO = FoodDiaryDTO;
-type FoodDiaryMapper = IFoodDiaryMapper;
-type SearchPatientOptions = SearchPatientOptions;
-type CreateUserType = CreateUserType;
-type UpdateUserType = UpdateUserType;
-type CreatePatientType = CreatePatientType;
-type UpdatePatientType = UpdatePatientType;
-type UpdateFoodDiaryType = UpdateFoodDiaryType;
-type CreateFoodDiaryType = CreateFoodDiaryType;
-type UpdateFoodDiaryDto = UpdateFoodDiaryDto;
-type FoodId = FoodId;
-type FoodQuantity = FoodQuantity;
-
-// IMPORTS
-// Database
-import Db from "./db/db";
-
-// Repositories
-import UserRepository from "./repositories/UserRepository";
-import PatientRepository from "./repositories/PatientRepository";
-import FoodDiaryRepository from "./repositories/FoodDiaryRepository";
-
-// Services
-import UserService from "./services/UserService";
-import PatientService from "./services/PatientService";
-import FoodDiaryService from "./services/FoodDiaryService";
-
-// Entities
+/**
+ * @interface db  import
+ */
+import IDatabase from "./db/db";
+/**
+ * @interface Repository import
+ */
+import IUserRepository from "./repositories/UserRepository";
+import IPatientRepository from "./repositories/PatientRepository";
+import IFoodDiaryRepository from "./repositories/FoodDiaryRepository";
+/**
+ * @interface Services import
+ */
+import IUserService from "./services/UserService";
+import IPatientService from "./services/PatientService";
+import IFoodDiaryService from "./services/FoodDiaryService";
+/**
+ * @interface Entities import
+ */
 import UserEntity from "./entities/UserEntity";
 import PatientEntity from "./entities/PatientEntity";
 import FoodDiaryEntity from "./entities/FoodDiaryEntity";
-
-// DTOs
+/**
+ * @interface DTOs import
+ */
 import FoodDiaryDTO from "./dtos/foodDiaryDTO";
-
-// Mappers
-import FoodDiaryMapper from "./mappers/FoodDiaryMapper";
-
-// Types
+/**
+ * @interface Mappers import
+ */
+import IFoodDiaryMapper from "./mappers/FoodDiaryMapper";
+/**
+ * @Types OtherTypes import
+ */
 import { SearchPatientOptions } from "./types";
+
+/**
+ * @Types import couche specific type
+ */
 import { CreateUserType, UpdateUserType } from "./types/user.type";
 import { CreatePatientType, UpdatePatientType } from "./types/patient.type";
-import { UpdateFoodDiaryType, CreateFoodDiaryType, UpdateFoodDiaryDto, FoodId, FoodQuantity } from "./types/foodDiary.type";
+import {
+    UpdateFoodDiaryType,
+    CreateFoodDiaryType,
+    UpdateFoodDiaryDto,
+    FoodId,
+    FoodQuantity
+} from "./types/foodDiary.type";
 
-// EXPORTS
+/**
+ * @Export all core types and interfaces
+ */
+
 export {
-    Db,
-    UserRepository,
-    PatientRepository,
-    FoodDiaryRepository,
-    UserService,
-    PatientService,
-    FoodDiaryService,
+    // @dn
+    IDatabase,
+    // @Repository
+    IUserRepository,
+    IPatientRepository,
+    IFoodDiaryRepository,
+    // @Service
+    IUserService,
+    IPatientService,
+    IFoodDiaryService,
+    // @Entities
     UserEntity,
     PatientEntity,
     FoodDiaryEntity,
+    // @DTOs
     FoodDiaryDTO,
-    FoodDiaryMapper,
+    // @Mappers
+    IFoodDiaryMapper,
+    // @Types
     SearchPatientOptions,
+    // @Types Specific
     CreateUserType,
     UpdateUserType,
     CreatePatientType,
     UpdatePatientType,
     UpdateFoodDiaryType,
     CreateFoodDiaryType,
-    UpdateF
+    UpdateFoodDiaryDto,
+    FoodId,
+    FoodQuantity
+};

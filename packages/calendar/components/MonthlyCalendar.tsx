@@ -1,12 +1,11 @@
 import { StyleSheet, Text, View, Pressable, FlatList } from "react-native";
-import React, { useEffect, useState, useLayoutEffect, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import MonthlyCalendarHeader from "./MonthlyCalendarHeader";
 import MonthlyCalendarWeek from "./MonthlyCalendarWeek";
-
 export type CalendarHeaderDay = string[];
-export type CalendarMarkerEvent = {
+type CalendarMarkerEvent = {
     eventId: number;
     color: string;
     markedDay: string;
@@ -20,41 +19,28 @@ export type CalendarDay = {
 };
 export type CalendarWeek = { weekId: number; days: CalendarDay[] };
 export type CalendarMonth = CalendarWeek[];
-
-interface Props<T> {
+interface Props {
     daysName: CalendarHeaderDay;
     monthData: CalendarMonth;
     onPressDay: (day: CalendarDay) => void;
 }
 
-const MonthlyCalendar = <T extends {}>({
+const MonthlyCalendar = ({
     daysName,
     monthData,
-    onPressDay = (param: CalendarDay) => {}
-}: Props<T>) => {
+    onPressDay = (param:CalendarDay) => {}
+}: Props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
-    const [currentCalendarInfo, setCurrentCalendarInfo] = useState<T>({
+    const [currentCalendarInfo, setCurrentCalendarInfo] = useState({
         selectDay: {
             value: 1,
             dayId: 0,
             weekId: 0
         }
     });
-    const [activeDayName, setActiveDayName] = useState<string | null>(null);
-
-    const handlePressDay = useCallback((day: CalendarDay) => {
-        onPressDay(day);
-        setCurrentCalendarInfo((prev) => ({ ...prev, selectDay: day }));
-    }, [onPressDay]);
-
-    const handleSetActiveDayName = useCallback((name: string | null) => {
-        if (name === null || name === activeDayName) return;
-        setActiveDayName(name);
-    }, [activeDayName]);
-
-    const memoizedMonthData = useMemo(() => monthData, [monthData]);
-
+    const [activeDayName, setActiveDayName] = useState(null);
+    
     return (
         <View style={style.monthLyCalendarContainer}>
             <View style={style.calendarContainerInner}>
@@ -63,14 +49,14 @@ const MonthlyCalendar = <T extends {}>({
                     daysName={daysName}
                 />
                 <View style={style.calendarBody}>
-                    {memoizedMonthData.map((week, i) => (
+                    {monthData.map((week, i) => (
                         <MonthlyCalendarWeek
                             key={String(i + week.weekId)}
                             weekData={week}
                             currentCalendarInfo={currentCalendarInfo}
                             setCurrentCalendarInfo={setCurrentCalendarInfo}
-                            onPressDay={handlePressDay}
-                            setActiveDayName={handleSetActiveDayName}
+                            onPressDay={onPressDay}
+                            setActiveDayName={setActiveDayName}
                         />
                     ))}
                 </View>

@@ -1,22 +1,15 @@
-import { v4 as uuidv4 } from 'uuid';
-
-export default PatientEntity = class {
-  constructor(
-    readonly name: string;
-    readonly email: string;
-    readonly gender: 'M' | 'F' | 'O';
-    readonly country: string;
-    readonly tel: string;
-    readonly profil_img: string;
-    readonly birthday: string;
-    readonly id?: number;
-    readonly occupancy?: string;
-    readonly consultationLocation?: string;
-    readonly createdAt?: string;
-    readonly updatedAt?: string;
-  ) {
-    this.unique_id = uuidv4();
-  }
-
-  unique_id: string;
-};
+export default interface PatientEntity {
+    name: string;
+    email: string;
+    gender: "M" | "F" | "O";
+    country: string;
+    tel: string;
+    profil_img: string;
+    birthday: string;
+    id: number;
+    occupancy: string;
+    consultationLocation: string;
+    createdAt: string;
+    updatedAt: string;
+    unique_id: string;
+}

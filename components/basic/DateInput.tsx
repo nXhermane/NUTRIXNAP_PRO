@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
-import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-
+import React, { useState } from "react";
+import TextInput from "./TextInput";
+import DateTimePicker, {
+    DateTimePickerEvent
+} from "@react-native-community/datetimepicker";
 interface Props {
     label: string;
     isRequire?: boolean;
@@ -11,8 +13,7 @@ interface Props {
     onChange: (date: string) => void;
     placeholder?: string;
 }
-
-const DateInput: React.FC<Props> = (props) => {
+const DateInput = (props: Props) => {
     const { colors, size, isLightTheme } = useTheme();
     const style = useThemeStyles(styles);
     const {
@@ -65,6 +66,7 @@ const DateInput: React.FC<Props> = (props) => {
                     testID="dateTimePicker"
                     value={date}
                     mode={"date"}
+                    
                     onChange={onChangeDate}
                     display={"calendar"}
                     themeVariant={isLightTheme ? "light" : "dark"}
@@ -73,6 +75,8 @@ const DateInput: React.FC<Props> = (props) => {
         </View>
     );
 };
+
+export default DateInput;
 
 const styles = ({ colors, size }: ThemeInterface) =>
     StyleSheet.create({
@@ -99,5 +103,3 @@ const styles = ({ colors, size }: ThemeInterface) =>
             borderColor: colors.gray200
         }
     });
-
-export { DateInput, styles, ThemeInterface, useTheme, useThemeStyles, TextInput, DateTimePicker, Ionicons };
