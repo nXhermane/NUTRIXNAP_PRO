@@ -1,29 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import Calendar from "@pack/calendar/components/Calendar";
 import Agendar from "@pack/calendar/components/AgendarNew";
 import { days } from "@pack/calendar/data/calendarData";
-import { SafeAreaView } from "react-native-safe-area-context";
-import CalendarHeader from ""
+import CalendarHeader from "@pack/calendar/components/CalendarHeader"; // corrected import statement
+
 interface Props {
-    // Define your props here
+  // Define your props here
 }
 
-const agenda = (props: Props) => {
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
-                <Calendar  />
-            </View>
-        </SafeAreaView>
-    );
+const AgendaScreen = (props: Props) => {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <CalendarHeader /> {/* added CalendarHeader component */}
+        <Calendar />
+      </View>
+    </SafeAreaView>
+  );
 };
 
-export default agenda;
-
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: "flex-start",
-        alignItems: "center",
-        flex: 1,
-    }
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
 });
+
+export default AgendaScreen;

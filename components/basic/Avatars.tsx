@@ -1,26 +1,42 @@
+import React, { forwardRef, useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
     View,
     Image,
     Pressable,
-    ViewStyle
+    ViewStyle,
+    ImageSourcePropType,
+    AccessibilityRole,
+    AccessibilityLabel,
+    AccessibilityState,
+    TestID
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    interpolate,
+    Extrapolate
+} from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
-import Animated from "react-native-reanimated";
+
 interface Props {
-    s?: number;
-    bg?: string;
+    size?: number;
+    backgroundColor?: string;
     letter?: string;
     color?: string;
-    image?: number;
-    icon?: JSX.Element;
-    r?: number;
+    image?: ImageSourcePropType | null;
+    icon?: JSX.Element | null;
+    borderRadius?: number;
     onLongPress?: () => void;
-    st?: ViewStyle;
+    style?: ViewStyle;
+    accessibilityRole?: AccessibilityRole;
+    accessibilityLabel?: AccessibilityLabel;
+    accessibilityState?: AccessibilityState;
+    testID?: TestID;
 }
+
 const styles = (theme: ThemeInterface) =>
     StyleSheet.create({
         avatars: {
@@ -34,69 +50,47 @@ const styles = (theme: ThemeInterface) =>
         }
     });
 
-const Avatars = React.forwardRef((props: Props, ref) => {
+const Avatars = forwardRef((props: Props, ref) => {
     const theme = useTheme();
     const style = useThemeStyles(styles);
     const {
-        s = theme.size.s100,
-        bg = theme.colors.bg.secondary,
+        size = theme.size.s100,
+        backgroundColor = theme.colors.bg.secondary,
         letter,
         color = theme.colors.b,
-        image,
-        icon,
-        r,
+        image = null,
+        icon = null,
+        borderRadius = theme.size.width,
         onLongPress,
-        st = {}
+        style: externalStyle,
+        accessibilityRole,
+        accessibilityLabel,
+        accessibilityState,
+        testID
     } = props;
-    const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+    const animatedScale = useSharedValue(1);
+
+    const animatedStyles = useAnimatedStyle(() => {
+        return {
+            transform: [{ scale: animatedScale.value }]
+        };
+    });
+
+    useEffect(() => {
+        animatedScale.value = 1;
+    }, [letter, image, icon]);
+
+    const handleLongPress = () => {
+        if (onLongPress) {
+            onLongPress();
+        }
+    };
+
     return (
         <AnimatedPressable
-            onLongPress={() => {
-                onLongPress && onLongPress();
-            }}
+            ref={ref}
+            onLongPress={handleLongPress}
             style={[
                 style.avatars,
-                {
-                    borderRadius: r || theme.size.width,
-                    height: s,
-                    width: s,
-                    backgroundColor: bg
-                },
-                st
-            ]}
-        >
-            {!icon && !image && letter && (
-                <Text
-                    style={[style.letter, { color, fontSize: (s * 0.8) / 2 }]}
-                >
-                    {letter}
-                </Text>
-            )}
-            {!icon && letter && image && image?.uri != "" && (
-                <Image
-                    source={image}
-                    style={{ height: s, width: s }}
-                    resizeMode={"cover"}
-                />
-            )}
-            {!icon && image && image?.uri == "" && letter && (
-                <Text
-                    style={[style.letter, { color, fontSize: (s * 0.8) / 2 }]}
-                >
-                    {letter}
-                </Text>
-            )}
-
-            {!icon && !letter && image && (
-                <Image
-                    source={image}
-                    style={{ height: s, width: s }}
-                    resizeMode={"cover"}
-                />
-            )}
-            {!letter && !image && icon && icon}
-        </AnimatedPressable>
-    );
-});
-
-export default Avatars;
+              

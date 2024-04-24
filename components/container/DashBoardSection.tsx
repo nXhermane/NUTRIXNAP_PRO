@@ -1,19 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Link as LinkComponent } from "react-native";
 import React from "react";
+import { ThemeInterface } from "@/theme";
+import { useTheme, useThemeStyles } from "@/theme";
+import { router } from "expo-router";
 
-import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
-import { router, Link } from "expo-router";
+type LinkProps = React.ComponentProps<typeof LinkComponent>;
+
 interface Props {
-    linkPath?: any;
+    linkPath?: LinkProps["href"];
     linkTitle?: string;
     header?: boolean;
     title?: string;
     body?: string;
     children?: JSX.Element;
-    linkText?:string
+    linkText?: string;
 }
 
-const DashBoardSection: React.FC<Props> = props => {
+const DashBoardSection: React.FC<Props> = (props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
     return (
@@ -21,14 +24,16 @@ const DashBoardSection: React.FC<Props> = props => {
             {!props.header && (
                 <View style={style.serviceHead}>
                     {props.title && (
-                        <Text style={style.title}>{props.title}</Text>
+                        <Text style={[style.title, { marginBottom: size.s1 }]}>
+                            {props.title}
+                        </Text>
                     )}
                     {props.linkPath && (
-                        <Link href={props.linkPath} style={style.link}>
+                        <LinkComponent href={props.linkPath} style={style.link}>
                             <Text style={style.linkText}>
                                 {props.linkTitle}
                             </Text>
-                        </Link>
+                        </LinkComponent>
                     )}
                 </View>
             )}
@@ -38,7 +43,9 @@ const DashBoardSection: React.FC<Props> = props => {
                 </View>
             )}
             {props.children && (
-                <View style={style.serviceInner}>{props.children}</View>
+                <View style={[style.serviceInner, { flex: 1 }]}>
+                    {props.children}
+                </View>
             )}
         </View>
     );
@@ -74,14 +81,18 @@ const styles = ({ size, colors }: ThemeInterface) =>
             fontSize: size.s5
         },
         link: {
-            fontFamily: "inter"
+            fontFamily: "inter",
+            color: colors.blue300,
+            textDecorationLine: 'underline'
         },
         linkText: {
             fontFamily: "inter_r",
-            fontSize: size.s3,
-            color: colors.blue300
+            fontSize: size.s3
         },
-        serviceInner: {},
+        serviceInner: {
+            flex: 1,
+            justifyContent: 'center'
+        },
         body: {
             fontFamily: "inter_m",
             fontSize: size.s3,

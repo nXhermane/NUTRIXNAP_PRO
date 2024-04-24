@@ -4,24 +4,42 @@ import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import DashBoardSection from "@comp/container/DashBoardSection";
 import React from "react";
+
 interface Props {
-    // Define your props here
+    title: string;
+    body: string;
 }
 
 const Top = (props: Props) => {
     const { colors, size } = useTheme();
-    const style = useThemeStyles(styles);
 
     return (
         <DashBoardSection
-            title={"Bases de données d'aliments"}
-            body={
-                "Créer, Consultez et mettez à jour les aliments pour les utiliser dans vos plans alimentaires"
-            }
+            title={props.title}
+            body={props.body}
+            style={styles(colors, size)}
         />
     );
 };
 
 export default Top;
 
-const styles = ({ colors, size }) => StyleSheet.create({});
+const styles = (colors, size) => StyleSheet.create({
+    section: {
+        backgroundColor: colors.background,
+        borderRadius: size.borderRadius,
+        padding: size.spacing,
+        marginBottom: size.spacing,
+    },
+    title: {
+        color: colors.text,
+        fontSize: size.fontSize,
+        fontWeight: 'bold',
+        marginBottom: size.spacing / 2,
+    },
+    body: {
+        color: colors.text,
+        fontSize: size.fontSize,
+        lineHeight: size.lineHeight,
+    },
+});

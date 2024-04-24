@@ -4,21 +4,26 @@ import {
     View,
     Pressable,
     TextInput,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    KeyboardTypeOptions,
+    TextInputProps,
+    ViewStyle
 } from "react-native";
 
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-interface Props {
+
+interface TelInputProps extends TextInputProps {
     value: string;
     label: string;
     isRequire?: boolean;
-    tel: string;
-    onChange: (value: string, tel?: string) => void;
+    tel: string | number;
+    onChange: (value: string, tel?: string | number) => void;
+    style?: ViewStyle;
 }
 
-const TelInput = (props: Props) => {
+const TelInput: React.FC<TelInputProps> = (props) => {
     const { colors, size } = useTheme();
     const style = useThemeStyles(styles);
 
@@ -27,10 +32,15 @@ const TelInput = (props: Props) => {
         value,
         isRequire = false,
         tel = "",
-        onChange = () => {}
+        onChange = () => {},
+        style: containerStyle,
+        ...textInputProps
     } = props;
+
+    const isNumber = typeof tel === "number";
+
     return (
-        <KeyboardAvoidingView behavior={"position"}>
+        <KeyboardAvoidingView behavior={"position"} style={containerStyle}>
             <View style={style.selectionInputContainer}>
                 <View style={style.labelContainer}>
                     {label && <Text style={style.label}>{label}</Text>}
@@ -45,22 +55,30 @@ const TelInput = (props: Props) => {
                         <Text style={style.telCode}>{tel}</Text>
                     </View>
                     <TextInput
-                        keyboardType={"numeric"}
+                        keyboardType={isNumber ? "numeric" : "default"}
                         style={style.textInput}
                         value={value}
                         onChangeText={(value: string) => {
                             const interValue = Number(value);
-                            !isNaN(interValue) ? onChange(value, tel) : null;
+                            if (!isNaN(interValue)) {
+                                onChange(value, tel);
+                            }
                         }}
-                        {...props}
+                        onBlur={() => {}}
+                        onFocus={() => {}}
+                        autoCompleteType="tel"
+                        maxLength={10}
+                        placeholder="Enter phone number"
+                        editable
+                        clearButtonMode="while-editing"
+                        selectionColor={colors.black200}
+                        {...textInputProps}
                     />
                 </View>
             </View>
         </KeyboardAvoidingView>
     );
 };
-
-export default TelInput;
 
 const styles = ({ colors, size }: ThemeInterface) =>
     StyleSheet.create({
@@ -102,7 +120,7 @@ const styles = ({ colors, size }: ThemeInterface) =>
             borderColor: colors.gray200,
             borderWidth: size.s1 / 10,
             borderRadius: size.s100,
-            height: size.s50 ,
+            height: size.s50,
             paddingHorizontal: size.s1,
             backgroundColor: colors.bg.secondary
         },
@@ -121,3 +139,5 @@ const styles = ({ colors, size }: ThemeInterface) =>
             color: colors.gray300
         }
     });
+
+export default TelInput;
