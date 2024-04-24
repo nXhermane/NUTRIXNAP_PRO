@@ -1,10 +1,8 @@
 import { FoodRepository } from "./interfaces/FoodRepository";
 import { Food } from "./../../domain";
-import { AggregateID, Result } from "@shared";
-import { db } from "./../database/db.config";
-import IDatabase from "./../database/IDatabase";
+import { AggregateID, Result, Mapper } from "@shared";
 import { Knex } from "knex";
-import { Mapper } from "@shared";
+
 import {
     FoodName,
     FoodGroup,
@@ -83,7 +81,7 @@ export class FoodRepositoryImplDb implements FoodRepository {
             query = query.andWhere("foodOrigin", searchParam.foodOrigin);
         if (pagginated)
             query = query.limit(pagginated.pageSize).offset(pagginated.page);
-        
+
         const foodNames = await query;
         const foods: FoodResponseType[] = await Promise.all(
             foodNames.map(async (foodName: FoodName) => {
@@ -139,11 +137,10 @@ export class FoodRepositoryImplDb implements FoodRepository {
                 .where("groupId", foodName.foodGroupId)
                 .first();
 
-            const foodNutrientRows:NutrientAmount[] = await this.knex<NutrientAmount>(
-                this.nutrientAmountTable
-            )
-                .select()
-                .where("foodId", foodName.foodId);
+            const foodNutrientRows: NutrientAmount[] =
+                await this.knex<NutrientAmount>(this.nutrientAmountTable)
+                    .select()
+                    .where("foodId", foodName.foodId);
 
             const foodNutrients = await Promise.all<NutrientResponseType>(
                 foodNutrientRows.map(async (foodNutrient: NutrientAmount) => {

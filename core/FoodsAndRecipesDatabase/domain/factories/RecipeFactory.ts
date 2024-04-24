@@ -11,7 +11,7 @@ import {
 } from "./../value-objects/PreparationStep";
 import { Recipe, IRecipe } from "./../aggregates/Recipe";
 import { Result } from "@shared";
-
+import { FoodRepository } from "./../../infrastructure";
 export type CreateRecipeProps = {
     quantity: IQuantity;
     type: IMealsType;
@@ -24,7 +24,8 @@ export type CreateRecipeProps = {
 >;
 
 export class RecipeFactrory {
-    static create(recipeProps: CreateRecipeProps): Result<Recipe> {
+    constructor(private foodRepository: FoodRepository) {}
+    async create(recipeProps: CreateRecipeProps): Promise<Result<Recipe>> {
         const {
             quantity,
             type,
@@ -39,8 +40,12 @@ export class RecipeFactrory {
             const newQuantity = new Quantity(quantity);
             const newType = new MealsType(type);
             const newCategory = new MealsCategory(category);
-            const newIngredients: Ingredient[] = ingredients.map(
-                (ingProps: IIngredient) => new Ingredient(ingProps)
+            const newIngredients: Ingredient[] = await Promise.all(
+                ingredients.map(async (ingProps: IIngredient) => {
+                    const result = await this.createIngredient(ingProps);
+                    if (result.isFailure) throw Error(String(result.err));
+                    return result.val;
+                })
             );
             const newPreparationMethod = preparationMethod.map(
                 (step: IPreparationStep) => {
@@ -64,6 +69,16 @@ export class RecipeFactrory {
             return Result.ok<Recipe>(newRecipe);
         } catch (e) {
             return Result.fail<Recipe>(String(e));
+        }
+    }
+    async createIngredient(ingProps: IIngredient): Promise<Result<Ingredient>> {
+        try {
+            const ingredient = new Ingredient(ingProps);
+            const foodIds = await this.foodRepository.getAllFoodId();
+            ingredient.validateIngredient(foodIds);
+            return Result.ok<Ingredient>(ingredient);
+        } catch (e) {
+            return Result.fail<Ingredient>(String(e));
         }
     }
 }
