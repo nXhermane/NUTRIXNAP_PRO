@@ -1,12 +1,18 @@
+type ShadowColor = string;
+type ShadowOffset = {
+  width: number;
+  height: number;
+};
+type ShadowOpacity = number;
+type ShadowRadius = number;
+type Elevation = number;
+
 interface ShadowConfig {
-  shadowColor: string;
-  shadowOffset: {
-    width: number;
-    height: number;
-  };
-  shadowOpacity: number;
-  shadowRadius: number;
-  elevation: number;
+  shadowColor: ShadowColor;
+  shadowOffset: ShadowOffset;
+  shadowOpacity: ShadowOpacity;
+  shadowRadius: ShadowRadius;
+  elevation: Elevation;
 }
 
 export interface ShadowSizes {
@@ -15,7 +21,7 @@ export interface ShadowSizes {
   large: ShadowConfig;
 }
 
-const shadowConfig: ShadowSizes = {
+const shadowConfig = {
   small: {
     shadowColor: "#000",
     shadowOffset: {
@@ -25,7 +31,7 @@ const shadowConfig: ShadowSizes = {
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 2,
-  },
+  } as const,
   medium: {
     shadowColor: "#000",
     shadowOffset: {
@@ -35,7 +41,7 @@ const shadowConfig: ShadowSizes = {
     shadowOpacity: 0.25,
     shadowRadius: 5.84,
     elevation: 5,
-  },
+  } as const,
   large: {
     shadowColor: "#000",
     shadowOffset: {
@@ -45,7 +51,7 @@ const shadowConfig: ShadowSizes = {
     shadowOpacity: 0.7,
     shadowRadius: 7.84,
     elevation: 15,
-  },
-};
+  } as const,
+} as const;
 
 export default shadowConfig;
