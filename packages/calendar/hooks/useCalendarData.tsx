@@ -1,24 +1,29 @@
+import { useEffect, useMemo } from "react";
 import useCalendarInitialization from "./useCalendarInitialization";
-import React, { useEffect } from "react";
-const useCalendarData = calendar => {
-    "worklet";
-    const getData = {
-        CM: () => calendar.generateCurrentMonthDataForCalendar(),
-        CY: () => calendar.generateCurrentYearDataForCalendar(),
-        M: (year, month) => calendar.generateMonthDataForCalendar(),
-        Y: year => calendar.generateYearDataForCalendar(year),
-        DataForCalendar: (minYear, maxYear) =>
-            calendar.generateDataForCalendarFromMaxAndMinYear(minYear, maxYear),
-        WDN: () => calendar.getDayNames(),
-        MN: (localizedCode, monthNameType) =>
-            calendar.getMonthNames(localizedCode, monthNameType),
-        FDate: (char, year, month) => calendar.formatDate(char, year, month),
-        DateFromString: dateString => {
-            "worklet";
-            return calendar.getDateFromStringFormat(dateString);
-        }
-    };
-    return [getData, calendar];
+
+type CalendarMethods = {
+  generateCurrentMonthDataForCalendar: () => any;
+  generateCurrentYearDataForCalendar: () => any;
+  generateMonthDataForCalendar: (year: number, month: number) => any;
+  generateYearDataForCalendar: (year: number) => any;
+  generateDataForCalendarFromMaxAndMinYear: (minYear: number, maxYear: number) => any;
+  getDayNames: () => any;
+  getMonthNames: (localizedCode: any, monthNameType: any) => any;
+  formatDate: (char: any, year: number, month: number) => any;
+  getDateFromStringFormat: (dateString: string) => any;
 };
 
-export default useCalendarData;
+type Calendar = CalendarMethods & { [key: string]: any };
+
+const useCalendarData = (calendar: Calendar): [() => any, Calendar] => {
+  const getData = useMemo(() => {
+    if (
+      !calendar ||
+      !("generateCurrentMonthDataForCalendar" in calendar) ||
+      !("generateCurrentYearDataForCalendar" in calendar) ||
+      !("generateMonthDataForCalendar" in calendar) ||
+      !("generateYearDataForCalendar" in calendar) ||
+      !("generateDataForCalendarFromMaxAndMinYear" in calendar) ||
+      !("getDayNames" in calendar) ||
+      !("getMonthNames" in calendar) ||
+      !("formatDate" in calendar
