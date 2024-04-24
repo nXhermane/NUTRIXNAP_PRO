@@ -1,18 +1,29 @@
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 interface Props {
-  // Define your props here
+  onPress: () => void;
 }
 
-const notification = (props: Props) => {
+const Notification = (props: Props) => {
   return (
-    <View>
-      <Text>Notification</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Notification</Text>
+      <Button title="Dismiss" onPress={props.onPress} />
     </View>
   );
 };
 
-export default notification;
+export default Notification;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
