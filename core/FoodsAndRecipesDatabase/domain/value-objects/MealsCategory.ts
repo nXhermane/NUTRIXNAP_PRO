@@ -10,5 +10,6 @@ export class MealsCategory extends ValueObject<IMealsCategory> {
         super(props);
         this.validate(props);
     }
-    validate(props:IMealsCategory):void{}
+
+    validate(props: IMealsCategory): void {}
 }

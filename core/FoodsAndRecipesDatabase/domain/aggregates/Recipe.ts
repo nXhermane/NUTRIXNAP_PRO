@@ -25,7 +25,7 @@ export interface IRecipe {
     cookingTime: number;
     quantity: Quantity;
     description: string;
-    author?: string;
+    author: string;
     nameTranslate?: {
         inFrench?: string;
         inEnglish?: string;
@@ -51,6 +51,9 @@ export class Recipe extends AggregateRoot<IRecipe> {
     get category(): IMealsCategory {
         return this.props.category.unpack();
     }
+    get quantity(): IQuantity {
+        return this.props.quantity.unpack();
+    }
     get description(): string {
         return this.props.description;
     }
@@ -68,28 +71,37 @@ export class Recipe extends AggregateRoot<IRecipe> {
         return this.props.cookingTime;
     }
     get author(): string {
-        return this.props?.author || "";
+        return this.props.author;
     }
     set name(name: string) {
         this.props.name = name;
+        this.validate();
     }
     set nameF(nameF: string) {
         this.props.nameTranslate = {
             ...this.props.nameTranslate,
             inFrench: nameF
         };
+        this.validate();
     }
     set nameE(nameE: string) {
         this.props.nameTranslate = {
             ...this.props.nameTranslate,
             inEnglish: nameE
         };
+        this.validate();
     }
     set category(category: MealsCategory) {
         this.props.category = category;
+        this.validate();
     }
     set type(type: MealsType) {
         this.props.type = type;
+        this.validate();
+    }
+    set author(author: string) {
+        this.props.author = author;
+        this.validate();
     }
     getTotalPreparationTime(): number {
         let totalPrepTime = this.props.cookingTime;
@@ -107,12 +119,8 @@ export class Recipe extends AggregateRoot<IRecipe> {
         this.validate();
     }
     updateCookingTime(newCookingTime: number): void {
-        if (newCookingTime > 0) {
-            this.props.cookingTime = newCookingTime;
-            this.validate();
-        } else {
-            throw new Error(INVALID_COOKING_TIME);
-        }
+        this.props.cookingTime = newCookingTime;
+        this.validate();
     }
     updateQuantity(newQuantity: Quantity): void {
         this.props.quantity = newQuantity;

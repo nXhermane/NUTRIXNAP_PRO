@@ -1,3 +1,4 @@
+import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
 export interface FoodName {
     foodId: number;
     foodCode: string;
@@ -18,8 +19,9 @@ export interface FoodGroup {
 
 export interface NutrientAmount {
     foodId: number | string;
-    nutrientTagName: string;
-    nutrientValue: string;
+    nutrientId: number;
+    nutrientValue: number;
+    originalValue: string;
 }
 
 export interface NutrientName {
@@ -33,22 +35,23 @@ export interface NutrientName {
     nutrientDecimal: string;
 }
 
-export interface NutrientResponseType
-    extends Omit<
-        NutrientAmount & NutrientName,
-        "nutrientValue" | "foodId" | "nutrientTagName"
-    > {
-    nutrientValue: number;
-    originalValue: string;
-}
-
 export interface FoodInfo {
     foodGroup: FoodGroup;
-    foodNutrients: NutrientResponseType[];
+    foodNutrients: NutrientPersistenceType[];
 }
-
+export interface NutrientPersistenceType
+    extends Omit<NutrientName & NutrientAmount, "nutrientNameId" | "foodId"> {}
 export interface FoodPersistenceType
     extends Omit<FoodName, "foodGroupId">,
         FoodInfo {}
 
 export interface FoodResponseType extends FoodPersistenceType {}
+export interface RecipePersistenceType
+    extends RecipePersistenceDto{
+    categoryId: number;
+    categoryName: string;
+    categoryNameF: string;
+    typeId: number;
+    typeName: string;
+    typeNameF: string;
+}

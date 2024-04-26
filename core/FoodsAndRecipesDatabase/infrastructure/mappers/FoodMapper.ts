@@ -4,7 +4,7 @@ import { Food, FoodGroup, Nutrient, INutrient, Quantity } from "./../../domain";
 import {
     FoodPersistenceType,
     FoodResponseType,
-    NutrientResponseType,
+    NutrientPersistenceType,
     FoodGroup as FoodGroupType
 } from "./../repositories/types";
 export class FoodMapper
@@ -22,9 +22,10 @@ export class FoodMapper
                 foodGroupNameF: record.foodGroup.groupNameF
             }
         });
+
         const foodNutrients = record.foodNutrients.map((nutrient: any) => {
             return new Nutrient({
-                id: nutrient.nutrientNameId,
+                id: nutrient.nutrientId,
                 props: {
                     nutrientCode: nutrient.nutrientCode,
                     nutrientINFOODSTagName: nutrient.tagname,
@@ -66,10 +67,10 @@ export class FoodMapper
             groupName: entity.foodGroup.foodGroupName,
             groupNameF: entity.foodGroup.foodGroupNameF
         };
-        const nutrients = entity.foodNutrients.map(
+        const nutrients: NutrientPersistenceType[] = entity.foodNutrients.map(
             (nutrient: BaseEntityProps & INutrient) => {
                 return {
-                    nutrientNameId: nutrient.id as number,
+                    nutrientId: nutrient.id as number,
                     nutrientName: nutrient.nutrientName,
                     nutrientNameF:
                         nutrient?.nutrientNameTranslate?.inFrench || "",
@@ -77,7 +78,10 @@ export class FoodMapper
                     nutrientUnit: nutrient.nutrientUnit,
                     tagname: nutrient.nutrientINFOODSTagName,
                     nutrientDecimal: String(nutrient.nutrientDecimals),
-                    nutrientValue: nutrient.nutrientValue
+                    nutrientValue: nutrient.nutrientValue,
+                    originalValue:
+                        nutrient?.originalValue ||
+                        String(nutrient.nutrientValue)
                 };
             }
         );
@@ -88,9 +92,8 @@ export class FoodMapper
             foodCode: entity.foodCode,
             foodOrigin: entity.foodOrigin,
             foodGroup: foodGroup,
-            
             foodSource: entity.foodSource,
-            foodNutrients: nutrients as NutrientResponseType[]
+            foodNutrients: nutrients
         };
         return food;
     }

@@ -32,22 +32,27 @@ export interface CoreInterface {
     foodDiaryS: IFoodDiaryService;
 }
 import * as FoodDb from "./FoodsAndRecipesDatabase";
+import { SearchEngine } from "@shared";
 (async () => {
     const knexDb = (await FoodDb.db).knex;
     const repo = new FoodDb.FoodRepositoryImplDb(
         knexDb,
         new FoodDb.FoodMapper()
     );
-    const date = Date.now();
-    repo.getFoodById(1)
-        .then(food => {
-            console.log("Date===>", Date.now() - date, "ms");
-        })
-        .catch(error => {
-            console.log("Error", error);
-        });
+    const searchEngine = new SearchEngine([], { keys: "foodName" });
 
-    
+    const date = Date.now();
+    // repo.getAllFood({page:1,pageSize:100})
+    //     .then(food => {
+    //         searchEngine.setList(food);
+    //         console.log("Date===>", Date.now() - date, "ms");
+    //         const start = Date.now();
+    //         console.log(searchEngine.search("noix de coco"));
+    //         console.log("SEARCH TIME", Date.now() - start, "ms");
+    //     })
+    //     .catch(error => {
+    //         console.log("Error", error);
+    //     });
 })();
 export const CoreContext = createContext<CoreInterface>({} as CoreInterface);
 
