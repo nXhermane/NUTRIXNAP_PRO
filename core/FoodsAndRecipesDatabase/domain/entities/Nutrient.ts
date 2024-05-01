@@ -68,6 +68,10 @@ export class Nutrient extends Entity<INutrient> {
     get nutrientDecimals(): number {
         return this.props.nutrientDecimals;
     }
+    set nutrientValue(value: number) {
+        this.props.nutrientValue = value;
+        this.validate();
+    }
     public equals(object: Nutrient) {
         return (
             super.equals(object) &&
@@ -87,7 +91,6 @@ export class Nutrient extends Entity<INutrient> {
             !this.props.nutrientINFOODSTagName ||
             this.props.nutrientINFOODSTagName.trim() === ""
         ) {
-          
             throw new Error(INVALID_NUTRIENT_TAGNAME_ERROR);
         }
         if (!this.props.nutrientCode || this.props.nutrientCode.trim() === "") {

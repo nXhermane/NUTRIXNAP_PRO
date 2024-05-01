@@ -104,9 +104,11 @@ export class Food extends AggregateRoot<IFood> {
             throw new Error(INVALID_FOOD_ORIGIN_ERROR);
         }
         this.props.foodGroup.validate();
-        if (this.props.foodNutrients.length < 5) {
-            throw new Error(MINIMUM_NUTRIENTS_ERROR);
-        }
+
+        // TODO: je dois reactiver cela plus tart quand les données seront prestes
+        // if (this.props.foodNutrients.length < 5) {
+        //             throw new Error(MINIMUM_NUTRIENTS_ERROR);
+        //         }
         if (!this.validateNutrientIsUnique(this.props.foodNutrients)) {
             throw new Error(DUPLICATE_NUTRIENTS_ERROR);
         }

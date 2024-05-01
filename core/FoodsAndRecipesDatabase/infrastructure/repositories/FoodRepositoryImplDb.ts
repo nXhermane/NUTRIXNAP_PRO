@@ -1,8 +1,8 @@
 import { FoodRepository } from "./interfaces/FoodRepository";
 import { Food } from "./../../domain";
-import { AggregateID, Result, Mapper } from "@shared";
+import { AggregateID, Result, Mapper, Paginated } from "@shared";
 import { Knex } from "knex";
-
+import { SQLiteDatabase } from "expo-sqlite/next";
 import {
     FoodName,
     FoodGroup,
@@ -31,35 +31,10 @@ export class FoodRepositoryImplDb implements FoodRepository {
      * */
 
     async getFoodById(foodId: AggregateID): Promise<Food> {
-        const food = await this.knex<FoodName & FoodGroup>(this.foodNameTable)
-            .select(this.foodNameTable + ".*", this.foodGroupTable + ".*")
-            .leftJoin(
-                this.foodGroupTable,
-                this.foodNameTable + ".foodGroupId",
-                this.foodGroupTable + ".groupId"
-            )
-            .where({ foodId })
+        const food = await this._getAllFoodInfoQuery()
+            .where("fn.foodId", foodId)
             .first();
-        const foodInfoResult = await this.getFoodInfo(food.foodId);
-        if (foodInfoResult.isFailure)
-            throw new Error(String(foodInfoResult.err));
-
-        return this.mapper.toDomain({
-            foodCode: food.foodCode,
-            foodName: food.foodName,
-            foodNameF: food.foodNameF,
-            foodId: food.foodId,
-            foodSource: food.foodSource,
-            foodOrigin: food.foodOrigin,
-            scientificName: food.scientificName,
-            foodGroup: {
-                groupId: food.groupId,
-                groupCode: food.groupCode,
-                groupName: food.groupName,
-                groupNameF: food.groupNameF
-            },
-            foodNutrients: foodInfoResult.val
-        });
+        return this.mapper.toDomain(food);
     }
 
     /**
@@ -71,25 +46,17 @@ export class FoodRepositoryImplDb implements FoodRepository {
 
     async getFoodByFoodGroupId(
         foodGroupId: string,
-        pagginated?: {
-            page: number;
-            pageSize: number;
-        }
-    ): Promise<FoodResponseType[]> {
-        const query = this.knex<FoodName & FoodGroup>(this.foodNameTable)
-            .select(this.foodNameTable + ".*", this.foodGroupTable + ".*")
-            .leftJoin(
-                this.foodGroupTable,
-                this.foodNameTable + ".foodGroupId",
-                this.foodGroupTable + ".groupId"
-            )
-            .where("foodGroupId", foodGroupId);
-        if (pagginated)
-            query.limit(pagginated.pageSize).offset(pagginated.page);
-
+        paginated?: Paginated
+    ): Promise<Food[]> {
+        const query = this._getAllFoodInfoQuery().where(
+            "fg.groupId",
+            foodGroupId
+        );
+        if (paginated) query.limit(paginated.pageSize).offset(paginated.page);
         const foodRaws = await query;
-
-        return this.getFoodsData(foodRaws);
+        return foodRaws.map((food: FoodPersistenceType) =>
+            this.mapper.toDomain(food)
+        );
     }
 
     /**
@@ -100,26 +67,23 @@ export class FoodRepositoryImplDb implements FoodRepository {
      * */
 
     async getAllFood(
-        pagginated?: {
-            page: number;
-            pageSize: number;
-        },
-        foodOrigin?: string
-    ): Promise<FoodResponseType[]> {
-        const query = this.knex<FoodName & FoodGroup>(this.foodNameTable)
-            .select(this.foodNameTable + ".*", this.foodGroupTable + ".*")
-            .leftJoin(
-                this.foodGroupTable,
-                this.foodNameTable + ".foodGroupId",
-                this.foodGroupTable + ".groupId"
+        foodOrigin?: string,
+        paginated: Paginated = {
+            page: 0,
+            pageSize: 100
+        }
+    ): Promise<Food[]> {
+        try {
+            const results = await this.getAllFoodData(foodOrigin, paginated);
+            return results.map((food: FoodPersistenceType) =>
+                this.mapper.toDomain(food)
             );
-
-        if (foodOrigin) query.where("foodOrigin", foodOrigin);
-        if (pagginated)
-            query.limit(pagginated.pageSize).offset(pagginated.page);
-        const foodRaws: (FoodName & FoodGroup)[] = await query;
-
-        return this.getFoodsData(foodRaws);
+        } catch (e) {
+            console.log(
+                `Une Erreur s'est produite lors de la récuperation des aliment: ${e} class ${this.constructor.name}`
+            );
+            return [];
+        }
     }
     /**
      *
@@ -141,38 +105,20 @@ export class FoodRepositoryImplDb implements FoodRepository {
      *
      * */
 
-    private async getFoodInfo(
-        foodId: number
-    ): Promise<Result<NutrientPersistenceType[]>> {
-        try {
-            const nutrient = await this.knex<NutrientPersistenceType>(
-                this.nutrientAmountTable
-            )
-                .select(
-                    this.nutrientAmountTable + ".originalValue",
-                    this.nutrientAmountTable + ".nutrientValue",
-                    this.nutrientAmountTable + ".nutrientId",
-                    this.nutrientTableName + ".nutrientName",
-                    this.nutrientTableName + ".nutrientNameF",
-                    this.nutrientTableName + ".nutrientCode",
-                    this.nutrientTableName + ".nutrientUnit",
-                    this.nutrientTableName + ".tagname",
-                    this.nutrientTableName + ".nutrientDecimal"
-                )
-                .leftJoin(
-                    this.nutrientTableName,
-                    this.nutrientAmountTable + ".nutrientId",
-                    this.nutrientTableName + ".nutrientNameId"
-                )
-                .where({ foodId: foodId });
-            return Result.ok<NutrientPersistenceType[]>(nutrient);
-        } catch (e: any) {
-            return Result.fail<NutrientPersistenceType[]>(
-                `Error to get food ${foodId} info ${e}`
-            );
+    async getAllFoodData(
+        foodOrigin?: string,
+        paginated: Paginated = {
+            page: 0,
+            pageSize: 100
         }
+    ): Promise<FoodPersistenceType[]> {
+        const query = this._getAllFoodInfoQuery()
+            .limit(paginated?.pageSize || 100)
+            .offset(paginated?.page || 0);
+        if (foodOrigin && foodOrigin != undefined && foodOrigin != null)
+            query.where("fn.foodOrigin", foodOrigin);
+        return await query;
     }
-
     /**
      *
      *
@@ -180,31 +126,32 @@ export class FoodRepositoryImplDb implements FoodRepository {
      *
      * */
 
-    private async getFoodsData(
-        foodRaws: (FoodName & FoodGroup)[]
-    ): Promise<FoodResponseType[]> {
-        const foods: FoodResponseType[] = [];
-        for (const foodRaw of foodRaws) {
-            const foodInfoResult = await this.getFoodInfo(foodRaw.foodId);
-            if (foodInfoResult.isFailure)
-                throw new Error(String(foodInfoResult.err));
-            foods.push({
-                foodCode: foodRaw.foodCode,
-                foodName: foodRaw.foodName,
-                foodNameF: foodRaw.foodNameF,
-                foodId: foodRaw.foodId,
-                foodSource: foodRaw.foodSource,
-                foodOrigin: foodRaw.foodOrigin,
-                scientificName: foodRaw.scientificName,
-                foodGroup: {
-                    groupId: foodRaw.groupId,
-                    groupCode: foodRaw.groupCode,
-                    groupName: foodRaw.groupName,
-                    groupNameF: foodRaw.groupNameF
+    private _getAllFoodInfoQuery(): Knex.QueryBuilder {
+        const { knex } = this;
+        const query = knex
+            .select(
+                {
+                    foodName: "fn.foodName",
+                    foodNameF: "fn.foodNameF",
+                    foodCode: "fn.foodCode",
+                    foodOrigin: "fn.foodOrigin",
+                    foodSource: "fn.foodSource",
+                    scientificName: "fn.scientificName",
+                    foodId: "fn.foodId",
+                    groupId: "fg.groupId",
+                    groupCode: "fg.groupCode",
+                    groupName: "fg.groupName",
+                    groupNameF: "fg.groupNameF"
                 },
-                foodNutrients: foodInfoResult.val
-            });
-        }
-        return foods;
+                knex.raw(
+                    `GROUP_CONCAT('['||na.nutrientValue||','||na.nutrientId||',\"'||na.originalValue||'\",\"'||nn.nutrientName||'\",\"'||nn.nutrientNameF||'\",\"'||nn.nutrientCode||'\",\"'||nn.tagname||'\",\"'||nn.nutrientUnit||'\",'||nn.nutrientDecimal||']') as nutrients`
+                )
+            )
+            .from("food_names as fn")
+            .leftJoin("nutrient_amounts as na", "fn.foodId", "na.foodId")
+            .leftJoin("nutrient_names as nn", "nn.nutrientId", "na.nutrientId")
+            .leftJoin("food_groups as fg", "fn.groupId", "fg.groupId")
+            .groupBy("fn.foodId");
+        return query;
     }
 }

@@ -6,7 +6,7 @@ import { Nutrient, INutrient } from "./../entities/Nutrient";
 import { FoodGroup, IFoodGroup } from "./../entities/FoodGroup";
 import { Food, IFood } from "./../aggregates/Food";
 import { CreateEntityProps, Result } from "@shared";
-type CreateFoodProps = {
+export type CreateFoodProps = {
     foodQuantity: IFoodQuantity;
     foodGroup: CreateEntityProps<IFoodGroup>;
     foodNutrients: CreateEntityProps<INutrient>[];

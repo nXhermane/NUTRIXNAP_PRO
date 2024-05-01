@@ -1,16 +1,17 @@
 import { RecipeRepository } from "./interfaces/RecipeRepository";
-import { Mapper, AggregateID } from "@shared";
-import { Recipe } from "./../../domain";
+import { Mapper, AggregateID, Paginated } from "@shared";
+import { Recipe, IMealsType, IMealsCategory } from "./../../domain";
 import { Knex } from "knex";
 import { RecipePersistenceType } from "./types";
 import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
+import { RecipeResponseDto } from "./../dtos/RecipeResponseDto";
 export class RecipeRepositoryImplDb implements RecipeRepository {
     private recipeTableName: string = "recipes";
     private mealsTypeTableName: string = "meals_types";
     private mealsCategoryTableName: string = "meals_categories";
     constructor(
         private knex: Knex,
-        private mapper: Mapper<Recipe, RecipePersistenceDto, any>
+        private mapper: Mapper<Recipe, RecipePersistenceDto, RecipeResponseDto>
     ) {}
     async save(recipe: Recipe): Promise<void> {
         const recipePersistence = this.mapper.toPersistence(recipe);
@@ -49,10 +50,7 @@ export class RecipeRepositoryImplDb implements RecipeRepository {
 
         return this.mapper.toDomain(recipe as RecipePersistenceType);
     }
-    async getAllRecipe(pagginated?: {
-        page: number;
-        pageSize: number;
-    }): Promise<Recipe[]> {
+    async getAllRecipe(paginated?: Paginated): Promise<Recipe[]> {
         const query = this.knex<RecipePersistenceType>("recipes")
             .select(
                 this.recipeTableName + ".*",
@@ -72,12 +70,35 @@ export class RecipeRepositoryImplDb implements RecipeRepository {
                 this.mealsCategoryTableName + ".categoryId"
             );
 
-        if (pagginated)
-            query.limit(pagginated.pageSize).offset(pagginated.page);
+        if (paginated) query.limit(paginated.pageSize).offset(paginated.page);
         const recipes = await query;
 
         return recipes.map((recipe: RecipePersistenceType) =>
             this.mapper.toDomain(recipe)
         );
+    }
+    async getRecipeType(typeId: AggregateID): Promise<IMealsType> {
+        return await this.knex<IMealsType>(this.mealsTypeTableName)
+            .select()
+            .where("typeId", typeId)
+            .first();
+    }
+    async getRecipeCategory(categoryId: AggregateID): Promise<IMealsCategory> {
+        return await this.knex<IMealsCategory>(this.mealsCategoryTableName)
+            .select()
+            .where("categoryId", categoryId)
+            .first();
+    }
+    async getAllRecipeType(): Promise<IMealsType[]> {
+        const types = await this.knex<IMealsType>(
+            this.mealsTypeTableName
+        ).select();
+        return types;
+    }
+    async getAllRecipeCategory(): Promise<IMealsCategory[]> {
+        const categories = await this.knex<IMealsCategory>(
+            this.mealsCategoryTableName
+        ).select();
+        return categories;
     }
 }

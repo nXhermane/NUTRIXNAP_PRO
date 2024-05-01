@@ -31,36 +31,16 @@ export interface CoreInterface {
     patientS: IPatientService;
     foodDiaryS: IFoodDiaryService;
 }
-import * as FoodDb from "./FoodsAndRecipesDatabase";
-import { SearchEngine } from "@shared";
-(async () => {
-    const knexDb = (await FoodDb.db).knex;
-    const repo = new FoodDb.FoodRepositoryImplDb(
-        knexDb,
-        new FoodDb.FoodMapper()
-    );
-    const searchEngine = new SearchEngine([], { keys: "foodName" });
+import { FoodAndRecipe, IFoodAndRecipe } from "./FoodsAndRecipesDatabase";
 
-    const date = Date.now();
-    // repo.getAllFood({page:1,pageSize:100})
-    //     .then(food => {
-    //         searchEngine.setList(food);
-    //         console.log("Date===>", Date.now() - date, "ms");
-    //         const start = Date.now();
-    //         console.log(searchEngine.search("noix de coco"));
-    //         console.log("SEARCH TIME", Date.now() - start, "ms");
-    //     })
-    //     .catch(error => {
-    //         console.log("Error", error);
-    //     });
-})();
 export const CoreContext = createContext<CoreInterface>({} as CoreInterface);
 
 export const CoreProvider: React.FC<{ children: React.ReactNode }> = ({
     children
 }) => {
     const [currentUser, setCurrentUser] = useState<UserEntity | null>(null);
-
+    const [foodAndRecipeApp, setFoodAndRecipeApp] =
+        useState<IFoodAndRecipe | null>(null);
     const userRepository: IUserRepository = useMemo(
         () => new UserRepository(),
         []
@@ -95,17 +75,26 @@ export const CoreProvider: React.FC<{ children: React.ReactNode }> = ({
             user: currentUser,
             setUser: (user: UserEntity) => {
                 setCurrentUser(user);
-            }
+            },
+            foodAndRecipe: foodAndRecipeApp
         }),
-        [currentUser, userService, patientService, foodDiaryService]
+        [
+            currentUser,
+            userService,
+            patientService,
+            foodDiaryService,
+            foodAndRecipeApp
+        ]
     );
 
     useEffect(() => {
         async function init() {
             const user = await userService.getUser();
-            console.log(user);
             setCurrentUser(user ? user : null);
+            const app = await FoodAndRecipe.getInstance();
+            setFoodAndRecipeApp(app);
         }
+
         init();
     }, [userService]);
 

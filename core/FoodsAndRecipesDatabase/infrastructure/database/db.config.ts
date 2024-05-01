@@ -24,22 +24,21 @@ export default class Database implements IDatabase {
         }
         await FileSystem.downloadAsync(
             Asset.fromModule(
-                require("./../../../../assets/db/foodsAndRecipes.sqlite")
+                require("./../../../../assets/db/foods&Recipes.sqlite")
             ).uri,
-            FileSystem.documentDirectory + "SQLite/foodsAndRecipes.sqlite"
+            FileSystem.documentDirectory + "SQLite/foods&Recipes.sqlite"
         );
     }
     private async init(): Promise<void> {
         await this.downloadDb();
         if (!this.db) {
-            this.db = await openDatabaseAsync("foodsAndRecipes.sqlite");
-            console.log(this.db);
+            this.db = await openDatabaseAsync("foods&Recipes.sqlite");
         } else this.db = Database.instance.db;
         if (!this.knex)
             this.knex = knex({
                 client: ExpoSQLiteDialect,
                 connection: {
-                    filename: "foodsAndRecipes.sqlite"
+                    filename: "foods&Recipes.sqlite"
                 },
                 useNullAsDefault: true
             });

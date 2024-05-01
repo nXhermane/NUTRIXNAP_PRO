@@ -11,7 +11,7 @@ import {
 } from "./../value-objects/PreparationStep";
 import { Recipe, IRecipe } from "./../aggregates/Recipe";
 import { Result } from "@shared";
-import { FoodRepository } from "./../../infrastructure";
+import { IFoodRepository } from "./../../infrastructure";
 export type CreateRecipeProps = {
     quantity: IQuantity;
     type: IMealsType;
@@ -24,7 +24,9 @@ export type CreateRecipeProps = {
 >;
 
 export class RecipeFactrory {
-    constructor(private foodRepository: FoodRepository) {}
+    constructor(private foodRepository: IFoodRepository) {
+      
+    }
     async create(recipeProps: CreateRecipeProps): Promise<Result<Recipe>> {
         const {
             quantity,

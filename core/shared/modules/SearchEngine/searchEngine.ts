@@ -4,42 +4,62 @@ import Trie, {
     Value,
     TrieResultValue
 } from "./trie";
+
 import Config from "./config";
 import { isDefined } from "./helpers/types";
-export interface SearchEngineOptions extends TrieOptions {}
-export class SearchEngine<T extends Value = Value> {
-    private trie: Trie<T>;
-    private options: SearchEngineOptions = {
-        prefixSearch: false
-    };
+import NGramIndex, {
+    NGramOptions,
+    DataTypeInside
+} from "./compressedNGram/NGramIndex";
+export interface SearchEngineResult<T> extends DataTypeInside<T> {}
+export interface SearchEngineOptions extends Partial<NGramOptions> {}
+export interface ISearchEngine<T> {
+    setDocs(list: T[]): void;
+    addDoc(doc: T): void;
+    search(pattern: string, validate: (doc: SearchEngineResult<T>) => boolean);
+    reset(): void;
+}
+export class SearchEngine<T extends Value = Value> implements ISearchEngine<T> {
+    private options: SearchEngineOptions = {};
+    private nGramIndex: NGramIndex<T>;
     constructor(list: T[] = [], options: SearchEngineOptions = {}) {
         this.options = { ...this.options, ...options };
-        this.trie = new Trie<T>(this.options);
+        this.nGramIndex = new NGramIndex<T>(this.options);
         this.init(list);
     }
     private init(list: T[]) {
-        this.trie = new Trie<T>(this.options);
+        this.nGramIndex = new NGramIndex<T>(this.options);
         for (const item of list) {
-            this.trie.insert(item);
+            this.nGramIndex.indexDoc(item);
         }
     }
-    setList(list: T[]) {
+    setDocs(list: T[]) {
         if (!isDefined(list)) return;
         this.init(list);
     }
-    add(item: T) {
+    addDoc(item: T) {
         if (!isDefined(item)) return;
-        this.trie.insert(item);
+        this.nGramIndex.indexDoc(item);
     }
-    search(pattern: string, validate = (value: TrieResultValue<T>) => true) {
-        const { prefixSearch } = this.options;
-        let results: TrieResultValue<T>[];
-        if (prefixSearch) {
-            results = this.trie.search(pattern, validate);
-        } else {
-            results = this.trie.searchFuzzi(pattern, validate);
+    search(pattern: string, validate = (doc: SearchEngineResult<T>) => true) {
+        return this.nGramIndex.search(pattern, validate);
+    }
+    reset() {
+        this.nGramIndex.reset();
+    }
+    toJSON(): string {
+        return JSON.stringify(this.nGramIndex.toJSON());
+    }
+    reconstruct(searchEngineData: string): boolean {
+        try {
+            if (searchEngineData === null)
+                throw new Error(
+                    "Can not be reconstruct searchEngine with null value"
+                );
+            this.nGramIndex(JSON.parse(searchEngineData));
+            return true;
+        } catch (e) {
+            return false;
         }
-        results.sort(Config.sortFn);
-        return results;
     }
 }

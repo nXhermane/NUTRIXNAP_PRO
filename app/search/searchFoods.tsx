@@ -5,7 +5,7 @@ import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import SearchInput from "@comp/search/SearchInput";
 import SearchFilter from "@comp/search/searchFilter";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import FoodItem from "@comp/tabs/foods/FoodItem";
 import DashBoardSection from "@comp/container/DashBoardSection";
 import ToggleBtn from "@comp/basic/ToggleBtn";
@@ -14,6 +14,7 @@ import SearchPatientFilter, {
     searchFilterInitialState
 } from "@comp/search/SearchPatientFilter";
 import { dataFoodList } from "@/data";
+import useCore from "@/hooks/useCore";
 interface Props {
     // Define your props here
 }
@@ -27,6 +28,16 @@ const searchFoods = (props: Props) => {
         searchFilterReducer,
         searchFilterInitialState
     );
+    const core = useCore();
+
+    useEffect(() => {
+        const search = async () => {
+            const result = await core.foodAndRecipe.food.search(searchValue);
+            console.log(result);
+        };
+        search();
+    }, [searchValue]);
+
     return (
         <SafeAreaView
             style={{
@@ -61,9 +72,8 @@ const searchFoods = (props: Props) => {
                     data={dataFoodList}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{
-                        width: size.width,
+                        width: size.width
                         // height: theme.size.height,
-                      
                     }}
                     renderItem={({ item, index }) => (
                         <FoodItem

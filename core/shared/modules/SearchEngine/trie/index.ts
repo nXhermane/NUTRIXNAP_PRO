@@ -30,7 +30,7 @@ export default class Trie<T extends Value> {
     private data: Map<number, TrieNodeValue<T>> = new Map();
     private idCounter: number = 0;
     private resultId: Set<number> = new Set();
-
+    private counter = 0;
     constructor(options?: TrieOptions) {
         this.root = new TrieNode<number>();
         this.init(options);
@@ -98,6 +98,7 @@ export default class Trie<T extends Value> {
         pattern: string,
         validate = (value: TrieResultValue<T>) => true
     ): TrieResultValue<T>[] {
+      
         const normalizedPattern = pattern.toLowerCase();
         let node: TrieNode<number> = this.root;
         let results: TrieResultValue<T>[] = [];
@@ -147,7 +148,7 @@ export default class Trie<T extends Value> {
             validate
         );
         this.resultId = new Set();
-
+        this.counter = 0;
         return fuzziResults;
     }
 
@@ -235,4 +236,112 @@ export default class Trie<T extends Value> {
     deserialize(data: any): void {
         this.root = this.deserializeNode(data);
     }
+    searchInArray(pattern: string, validate = (obj: any) => true) {
+        const searcher = new BitapSearch(pattern, this.options?.searchOption);
+        const fuzziResults = [];
+        const start = Date.now();
+        for (const [id, value] of this.data.entries()) {
+            const results: any[] = [];
+
+            for (const key of this.keys) {
+                const text = getFn(value, key);
+                const result = searcher.searchIn(text);
+                results.push(result);
+            }
+            if (results.some(result => result.isMatch)) {
+                const minResultScore = results.reduce(
+                    (minScore, currentScore) =>
+                        currentScore.score < minScore.score
+                            ? currentScore
+                            : minScore,
+                    results[0]
+                );
+                const result = {
+                    ...value,
+                    score: minResultScore.score
+                };
+                const isValide = validate(result);
+                if (isValide) {
+                    fuzziResults.push(result);
+                }
+            }
+        }
+        const end = Date.now();
+        console.log(
+            "SEARCH WITH ITERATE",
+            end - start,
+            "ms",
+            fuzziResults.length
+        );
+    }
+    
 }
+/**
+ * 
+ * 
+ * searchFuzziO(
+        pattern: string,
+        validate = (value: TrieResultValue<T>) => true
+    ): TrieResultValue<T>[] {
+        const normalizedPattern = pattern.toLowerCase();
+        const fuzziResults: TrieResultValue<T>[] = [];
+        const searcher = new BitapSearch(pattern, this.options?.searchOption);
+
+        const searchFuzziRecursive = (
+            node: TrieNode<number>,
+            currentText: string,
+            startIndex: number
+        ) => {
+            if (node.isEndOfText) {
+                const nodeId = node.getValue()!;
+                if (!this.resultId.has(nodeId)) {
+                    const value = this.data.get(nodeId)!;
+                    const results: any[] = [];
+
+                    for (const key of this.keys) {
+                        const text = getFn(value, key) as string;
+                        const result = searcher.searchIn(text);
+                        results.push(result);
+                    }
+
+                    if (results.some(result => result.isMatch)) {
+                        const minResultScore = results.reduce(
+                            (minScore, currentScore) =>
+                                currentScore.score < minScore.score
+                                    ? currentScore
+                                    : minScore,
+                            results[0]
+                        );
+                        const result = {
+                            ...value,
+                            score: minResultScore.score
+                        };
+                        const isValid = validate(result);
+                        if (isValid) {
+                            fuzziResults.push(result);
+                            this.resultId.add(nodeId);
+                        }
+                    }
+                }
+            }
+
+            for (const [char, child] of node.children.entries()) {
+                const nextText = currentText + char;
+                const nextStartIndex = searcher.getNextStartIndex(
+                    nextText,
+                    normalizedPattern,
+                    startIndex
+                );
+                if (nextStartIndex !== -1) {
+                    searchFuzziRecursive(child, nextText, nextStartIndex);
+                }
+            }
+        };
+
+        searchFuzziRecursive(this.root, "", 0);
+        console.log(fuzziResults.length)
+        this.resultId = new Set();
+        return fuzziResults;
+    }
+ */
+

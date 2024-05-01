@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
 import { Ionicons } from "@expo/vector-icons";
-import Fuse from "fuse.js";
 import React, { useState, useRef, useMemo, useCallback } from "react";
+import useSearchEngine from "@/hooks/useSearchEngine";
 import TextInput from "./TextInput";
 import GroupSelection from "./GroupSelection";
 import SearchInput from "./../search/SearchInput";
@@ -32,7 +32,7 @@ interface Props {
     ) => JSX.Element;
     searchFusejsKeys: string[];
     selectedId: number | string | number[] | string[];
-    onLongPress?:()=>void
+    onLongPress?: () => void;
 }
 const SelectionInput = (props: Props) => {
     const { colors, size } = useTheme();
@@ -55,9 +55,10 @@ const SelectionInput = (props: Props) => {
     const [searchResult, setSearchResult] = React.useState<any[]>([]);
     const [displayPopup, setDisplayPopup] = useState<boolean>(false);
     const config = {
-        keys: searchFusejsKeys || ["label"]
+        keys: searchFusejsKeys || ["label"],
+        ngramSize: 1
     };
-    const fuse = new Fuse(selectionData, config);
+    const fuse = useSearchEngine(data, config);
     React.useEffect(() => {
         if (searchValue.trim() != "") {
             const result = fuse.search(searchValue);
@@ -105,7 +106,7 @@ const SelectionInput = (props: Props) => {
                     setDisplayPopup((prev: boolean) => !prev);
                     handlePresentModalPress();
                 }}
-                onLongPress={onLongPress&&onLongPress}
+                onLongPress={onLongPress && onLongPress}
                 {...props}
             />
             {displayPopup && (

@@ -1,28 +1,17 @@
 import { Food } from "./../../../domain/aggregates/Food";
-import { AggregateID } from "@shared";
+import { AggregateID, Paginated } from "@shared";
 import { FoodResponseType } from "./../types";
 export interface FoodRepository {
-    save?(food: Food): Promise<Food>;
-    delete?(foodId: AggregateID, foodOrigin: string): Promise<void>;
+    save(food: Food): Promise<Food>;
+    delete(foodId: AggregateID, foodOrigin: string): Promise<void>;
     getFoodById(foodId: AggregateID, foodOrigin?: string): Promise<Food>;
-    getFoodByFoodGroupId?(foodGroupId: string): Promise<FoodResponseType[]>;
-    searchFoodByFoodNameOrCode?(
-        searchParam: {
-            value: string;
-            foodOrigin?: string;
-        },
-        pagginated?: {
-            page: number;
-            pageSize: number;
-        }
+    getFoodByFoodGroupId(
+        foodGroupId: string,
+        paginated?: Paginated
     ): Promise<FoodResponseType[]>;
-
-    getAllFood?(
+    getAllFood(
         foodOrigin?: string,
-        pagginated?: {
-            page: number;
-            pageSize: number;
-        }
+        paginated?: Paginated
     ): Promise<FoodResponseType[]>;
     getAllFoodId(foodOrigin?: string): Promise<AggregateID[]>;
 }

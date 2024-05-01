@@ -41,13 +41,12 @@ export interface FoodInfo {
 }
 export interface NutrientPersistenceType
     extends Omit<NutrientName & NutrientAmount, "nutrientNameId" | "foodId"> {}
-export interface FoodPersistenceType
-    extends Omit<FoodName, "foodGroupId">,
-        FoodInfo {}
+// export interface FoodPersistenceType
+//     extends Omit<FoodName, "foodGroupId">,
+//         FoodInfo {}
 
 export interface FoodResponseType extends FoodPersistenceType {}
-export interface RecipePersistenceType
-    extends RecipePersistenceDto{
+export interface RecipePersistenceType extends RecipePersistenceDto {
     categoryId: number;
     categoryName: string;
     categoryNameF: string;
@@ -55,3 +54,20 @@ export interface RecipePersistenceType
     typeName: string;
     typeNameF: string;
 }
+
+export interface FoodPersistenceType
+    extends Omit<FoodName, "foodGroupId">,
+        FoodGroup {
+    nutrients: string;
+}
+export type NutrientPersistenceArray = [
+    nutrientValue: number,
+    nutrientId: number,
+    originalValue: string,
+    nutrientName: string,
+    nutrientNameF: string,
+    nutrientCode: string,
+    tagname: string,
+    nutrientUnit: string,
+    nutrientDecimal: number
+];

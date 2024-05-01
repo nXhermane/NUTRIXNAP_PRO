@@ -5,7 +5,8 @@ import {
     FoodPersistenceType,
     FoodResponseType,
     NutrientPersistenceType,
-    FoodGroup as FoodGroupType
+    FoodGroup as FoodGroupType,
+    NutrientPersistenceArray
 } from "./../repositories/types";
 export class FoodMapper
     implements Mapper<Food, FoodPersistenceType, FoodResponseType>
@@ -14,51 +15,65 @@ export class FoodMapper
         return this.toResponse(entity) as FoodPersistenceType;
     }
     toDomain(record: FoodPersistenceType): Food {
-        const foodGroup = new FoodGroup({
-            id: record.foodGroup.groupId,
-            props: {
-                foodGroupCode: record.foodGroup.groupCode,
-                foodGroupName: record.foodGroup.groupName,
-                foodGroupNameF: record.foodGroup.groupNameF
-            }
-        });
-
-        const foodNutrients = record.foodNutrients.map((nutrient: any) => {
-            return new Nutrient({
-                id: nutrient.nutrientId,
+        try {
+            const foodGroup = new FoodGroup({
+                id: record.groupId,
                 props: {
-                    nutrientCode: nutrient.nutrientCode,
-                    nutrientINFOODSTagName: nutrient.tagname,
-                    nutrientValue: nutrient.nutrientValue,
-                    nutrientName: nutrient.nutrientName,
-                    nutrientUnit: nutrient.nutrientUnit,
-                    nutrientDecimals: nutrient.nutrientDecimal,
-                    originalValue: nutrient.originalValue,
-                    nutrientNameTranslate: {
-                        inFrench: nutrient.nutrientNameF
-                    }
+                    foodGroupCode: record.groupCode,
+                    foodGroupName: record.groupName,
+                    foodGroupNameF: record.groupNameF
                 }
             });
-        });
+            const nutrientsData =
+                record.nutrients === null
+                    ? []
+                    : (JSON.parse(
+                          "[" + record.nutrients + "]"
+                      ) as NutrientPersistenceArray[]);
+            const foodNutrients = nutrientsData.map(
+                (nutrient: NutrientPersistenceArray) => {
+                    return new Nutrient({
+                        id: nutrient[1],
+                        props: {
+                            nutrientCode: nutrient[5],
+                            nutrientINFOODSTagName: nutrient[6],
+                            nutrientValue: nutrient[0],
+                            nutrientName: nutrient[3],
+                            nutrientUnit: nutrient[7],
+                            nutrientDecimals: nutrient[8],
+                            originalValue: nutrient[2],
+                            nutrientNameTranslate: {
+                                inFrench: nutrient[4]
+                            }
+                        }
+                    });
+                }
+            );
 
-        const foodQuantity = new Quantity({ value: 100, unit: "g" });
-        const foodProps = {
-            foodName: record.foodName,
-            foodCode: record.foodCode,
-            foodSource: record.foodSource ? record.foodSource : "",
-            foodOrigin: record.foodOrigin,
-            foodNameTranslate: {
-                inFrench: record.foodNameF
-            },
-            foodNutrients,
-            foodQuantity,
-            foodGroup
-        };
+            const foodQuantity = new Quantity({ value: 100, unit: "g" });
+            const foodProps = {
+                foodName: record.foodName,
+                foodCode: record.foodCode,
+                foodSource: record.foodSource ? record.foodSource : "",
+                foodOrigin: record.foodOrigin,
+                foodNameTranslate: {
+                    inFrench: record.foodNameF
+                },
+                foodNutrients,
+                foodQuantity,
+                foodGroup
+            };
 
-        return new Food({
-            id: record.foodId,
-            props: foodProps
-        });
+            return new Food({
+                id: record.foodId,
+                props: foodProps
+            });
+        } catch (e) {
+            console.log(record);
+            console.log(
+                `Error lors du mappage de food avec ${this.toDomain.name} ${e}`
+            );
+        }
     }
     toResponse(entity: Food): FoodResponseType {
         const foodGroup: FoodGroupType = {

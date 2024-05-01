@@ -14,6 +14,4 @@ export default class TrieNode<T> {
     public getValue(): T {
         return this.value as T;
     }
-    
-    
 }

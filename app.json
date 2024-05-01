@@ -1,87 +1,82 @@
 {
-    "expo": {
-        "name": "NutriXnap",
-        "slug": "NUTRIXNAP",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/images/logo/nutriIcon.png",
-        "scheme": "nutrixnap",
-        "userInterfaceStyle": "automatic",
-        "splash": {
-            "image": "./assets/images/logo/nutriIcon.png",
-            "resizeMode": "center",
-            "backgroundColor": "#000000",
-            "height": 30,
-            "width": 30
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "bundleIdentifier": "nxh.nutrixnap.nutrixcup",
-            "supportsTablet": true,
-            "infoPlist": {
-                "CFBundleURLTypes": [
-                    {
-                        "CFBundleURLSchemes": [
-                            "com.googleusercontent.apps.347524790336-7au4e1o7m1i82oo6bau36sga59tdrfin"
-                        ]
-                    }
-                ]
-            },
-            "runtimeVersion": {
-                "policy": "appVersion"
-            }
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/logo/nutriIcon.png",
-                "backgroundColor": "#ffffff"
-            },
-            "package": "nxh.nutrixnap.nutrixcup"
-        },
-        "web": {
-            "bundler": "metro",
-            "output": "static",
-            "favicon": "./assets/images/favicon.png"
-        },
-        "plugins": [
-            "expo-router",
-            [
-                "expo-calendar",
-                {
-                    "calendarPermission": "The app needs to access your calendar."
-                }
-            ],
-            [
-                "expo-document-picker",
-                {
-                    "iCloudContainerEnvironment": "Production"
-                }
-            ],
-            [
-                "expo-image-picker",
-                {
-                    "photosPermission": "The app accesses your photos to let you share them with your friends."
-                }
-            ],
-
-            [
-                "expo-barcode-scanner",
-                {
-                    "cameraPermission": "Allow NutriXnap to access camera."
-                }
-            ],
-            "expo-localization"
-        ],
-        "experiments": {
-            "typedRoutes": true
-        },
-        "extra": {
-            "router": {
-                "origin": false
-            },
-            "eas": {
-                "projectId": "6028efc6-292b-43c2-a31e-ca3d3926ddf1"
-            }
+  "expo": {
+    "name": "NutriXnap",
+    "slug": "NUTRIXNAP",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo/nutriIcon.png",
+    "scheme": "nutrixnap",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/logo/nutriIcon.png",
+      "resizeMode": "center",
+      "backgroundColor": "#000000",
+      "height": 30,
+      "width": 30
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "nxh.nutrixnap.nutrixcup",
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.347524790336-7au4e1o7m1i82oo6bau36sga59tdrfin"
+            ]
+          }
+        ]
+      },
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo/nutriIcon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "nxh.nutrixnap.nutrixcup"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "The app needs to access your calendar."
         }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      "expo-localization"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6028efc6-292b-43c2-a31e-ca3d3926ddf1"
+      }
     }
+  }
 }

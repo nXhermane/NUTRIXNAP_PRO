@@ -157,4 +157,44 @@ export default class BitapSearch {
 
         return result;
     }
+    getNextStartIndex(
+        text: string,
+        pattern: string,
+        startIndex: number
+    ): number {
+        const { isCaseSensitive } = this.options;
+        let searchText = text;
+
+        if (!isCaseSensitive) {
+            searchText = text.toLowerCase();
+            pattern = pattern.toLowerCase();
+        }
+
+        const { location, distance, threshold, minMatchCharLength } =
+            this.options;
+
+        for (let i = startIndex; i < searchText.length; i++) {
+            const chunk = {
+                pattern,
+                alphabet: createPatternAlphabet(pattern),
+                startIndex: i
+            };
+
+            const { isMatch } = search(searchText, pattern, chunk.alphabet, {
+                location: location! + i,
+                distance,
+                threshold,
+                findAllMatches: false,
+                minMatchCharLength,
+                includeMatches: false,
+                ignoreLocation: true
+            });
+
+            if (isMatch) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }
