@@ -8,7 +8,7 @@ interface Props {
 const notification = (props: Props) => {
   return (
     <View>
-      <Text>Notification</Text>
+      <Text>Notification </Text>
     </View>
   );
 };

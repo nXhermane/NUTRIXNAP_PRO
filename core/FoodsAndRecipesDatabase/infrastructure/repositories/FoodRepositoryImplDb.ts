@@ -3,16 +3,12 @@ import { Food } from "./../../domain";
 import { AggregateID, Result, Mapper, Paginated } from "@shared";
 import { Knex } from "knex";
 import { SQLiteDatabase } from "expo-sqlite/next";
+import { FoodName, FoodPersistenceType } from "./types";
 import {
-    FoodName,
-    FoodGroup,
-    NutrientAmount,
-    NutrientName,
-    NutrientPersistenceType,
-    FoodInfo,
-    FoodResponseType,
-    FoodPersistenceType
-} from "./types";
+    FoodRepositoryError,
+    FoodRepositoryNotFoundException
+} from "./errors/FoodRepositoryError";
+import { FoodDto } from "./../../application";
 export class FoodRepositoryImplDb implements FoodRepository {
     private nutrientTableName: string = "nutrient_name";
     private nutrientAmountTable: string = "nutrient_amounts";
@@ -20,51 +16,63 @@ export class FoodRepositoryImplDb implements FoodRepository {
     private foodGroupTable: string = "food_groups";
     constructor(
         private knex: Knex,
-        private mapper: Mapper<Food, FoodPersistenceType, FoodResponseType>
+        private mapper: Mapper<Food, FoodPersistenceType, FoodDto>
     ) {}
 
-    /**
-     *
-     *
-     *
-     *
-     * */
-
     async getFoodById(foodId: AggregateID): Promise<Food> {
-        const food = await this._getAllFoodInfoQuery()
-            .where("fn.foodId", foodId)
-            .first();
-        return this.mapper.toDomain(food);
+        try {
+            const food = await this._getAllFoodInfoQuery()
+                .where("fn.foodId", foodId)
+                .first();
+            if (!food) {
+                throw new FoodRepositoryNotFoundException(
+                    "Food not found",
+                    new Error("Food Not Exist"),
+                    {
+                        foodId
+                    }
+                );
+            }
+            return this.mapper.toDomain(food);
+        } catch (error) {
+            throw new FoodRepositoryError(
+                "Failed to retrieve food by ID",
+                error as Error,
+                { foodId }
+            );
+        }
     }
-
-    /**
-     *
-     *
-     *
-     *
-     * */
 
     async getFoodByFoodGroupId(
         foodGroupId: string,
         paginated?: Paginated
     ): Promise<Food[]> {
-        const query = this._getAllFoodInfoQuery().where(
-            "fg.groupId",
-            foodGroupId
-        );
-        if (paginated) query.limit(paginated.pageSize).offset(paginated.page);
-        const foodRaws = await query;
-        return foodRaws.map((food: FoodPersistenceType) =>
-            this.mapper.toDomain(food)
-        );
+        try {
+            const query = this._getAllFoodInfoQuery().where(
+                "fg.groupId",
+                foodGroupId
+            );
+            if (paginated)
+                query.limit(paginated.pageSize).offset(paginated.page);
+            const foodRaws = await query;
+            if (!foodRaws || foodRaws.length === 0) {
+                throw new FoodRepositoryNotFoundException(
+                    "No food found for the given group ID",
+                    new Error("Food of Specify foodGrpup doesn't exist"),
+                    { foodGroupId, paginated }
+                );
+            }
+            return foodRaws.map((food: FoodPersistenceType) =>
+                this.mapper.toDomain(food)
+            );
+        } catch (error) {
+            throw new FoodRepositoryError(
+                "Failed to retrieve food by food group ID",
+                error as Error,
+                { foodGroupId, paginated }
+            );
+        }
     }
-
-    /**
-     *
-     *
-     *
-     *
-     * */
 
     async getAllFood(
         foodOrigin?: string,
@@ -75,35 +83,58 @@ export class FoodRepositoryImplDb implements FoodRepository {
     ): Promise<Food[]> {
         try {
             const results = await this.getAllFoodData(foodOrigin, paginated);
+            if (!results || results.length === 0) {
+                throw new FoodRepositoryNotFoundException(
+                    "No food found",
+                    new Error(""),
+                    {
+                        foodOrigin,
+                        paginated
+                    }
+                );
+            }
             return results.map((food: FoodPersistenceType) =>
                 this.mapper.toDomain(food)
             );
-        } catch (e) {
-            console.log(
-                `Une Erreur s'est produite lors de la récuperation des aliment: ${e} class ${this.constructor.name}`
+        } catch (error) {
+            throw new FoodRepositoryError(
+                "Failed to retrieve all food",
+                error as Error,
+                {
+                    foodOrigin,
+                    paginated
+                }
             );
-            return [];
         }
     }
-    /**
-     *
-     *
-     *
-     *
-     * */
-    async getAllFoodId(foodOrigin?: string): Promise<AggregateID[]> {
-        let query = this.knex<FoodName>(this.foodNameTable).select("foodId");
-        if (foodOrigin) query = query.where("foodOrigin", foodOrigin);
-        const foodIds = await query;
-        return foodIds.map(({ foodId }: { foodId: number }) => foodId);
-    }
 
-    /**
-     *
-     *
-     *
-     *
-     * */
+    async getAllFoodId(foodOrigin?: string): Promise<AggregateID[]> {
+        try {
+            let query = this.knex<FoodName>(this.foodNameTable).select(
+                "foodId"
+            );
+            if (foodOrigin) query = query.where("foodOrigin", foodOrigin);
+            const foodIds = await query;
+            if (!foodIds || foodIds.length === 0) {
+                throw new FoodRepositoryNotFoundException(
+                    "No food ID found",
+                    new Error(""),
+                    {
+                        foodOrigin
+                    }
+                );
+            }
+            return foodIds.map(({ foodId }: { foodId: number }) => foodId);
+        } catch (error) {
+            throw new FoodRepositoryError(
+                "Failed to retrieve all food IDs",
+                error as Error,
+                {
+                    foodOrigin
+                }
+            );
+        }
+    }
 
     async getAllFoodData(
         foodOrigin?: string,
@@ -112,19 +143,35 @@ export class FoodRepositoryImplDb implements FoodRepository {
             pageSize: 100
         }
     ): Promise<FoodPersistenceType[]> {
-        const query = this._getAllFoodInfoQuery()
-            .limit(paginated?.pageSize || 100)
-            .offset(paginated?.page || 0);
-        if (foodOrigin && foodOrigin != undefined && foodOrigin != null)
-            query.where("fn.foodOrigin", foodOrigin);
-        return await query;
+        try {
+            const query = this._getAllFoodInfoQuery()
+                .limit(paginated?.pageSize || 100)
+                .offset(paginated?.page || 0);
+            if (foodOrigin && foodOrigin != undefined && foodOrigin != null)
+                query.where("fn.foodOrigin", foodOrigin);
+            const results = await query;
+            if (!results || results.length === 0) {
+                throw new FoodRepositoryNotFoundException(
+                    "No food data found",
+                    new Error(""),
+                    {
+                        foodOrigin,
+                        paginated
+                    }
+                );
+            }
+            return results;
+        } catch (error) {
+            throw new FoodRepositoryError(
+                "Failed to retrieve all food data",
+                error as Error,
+                {
+                    foodOrigin,
+                    paginated
+                }
+            );
+        }
     }
-    /**
-     *
-     *
-     *
-     *
-     * */
 
     private _getAllFoodInfoQuery(): Knex.QueryBuilder {
         const { knex } = this;

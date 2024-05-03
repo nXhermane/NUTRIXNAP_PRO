@@ -35,17 +35,6 @@ export interface NutrientName {
     nutrientDecimal: string;
 }
 
-export interface FoodInfo {
-    foodGroup: FoodGroup;
-    foodNutrients: NutrientPersistenceType[];
-}
-export interface NutrientPersistenceType
-    extends Omit<NutrientName & NutrientAmount, "nutrientNameId" | "foodId"> {}
-// export interface FoodPersistenceType
-//     extends Omit<FoodName, "foodGroupId">,
-//         FoodInfo {}
-
-export interface FoodResponseType extends FoodPersistenceType {}
 export interface RecipePersistenceType extends RecipePersistenceDto {
     categoryId: number;
     categoryName: string;

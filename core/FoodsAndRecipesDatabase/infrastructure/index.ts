@@ -5,5 +5,6 @@ export * from "./repositories/RecipeRepositoryImplDb";
 export * from "./repositories/interfaces/FoodRepository";
 export * from "./repositories/interfaces/RecipeRepository";
 export * from "./database/db.config";
-export * from './dtos/CreateRecipeDto'
-export * from './dtos/RecipeResponseDto'
+export * from "./repositories/errors/FoodRepositoryError";
+export * from "./repositories/errors/RecipeRepositoryError";
+export * from './dtos/RecipePersistenceDto'

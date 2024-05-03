@@ -32,7 +32,7 @@ const searchFoods = (props: Props) => {
 
     useEffect(() => {
         const search = async () => {
-            const result = await core.foodAndRecipe.food.search(searchValue);
+            const result = await core.foodAndRecipe.food.search({searchValue});
             console.log(result);
         };
         search();

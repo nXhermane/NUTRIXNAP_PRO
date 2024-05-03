@@ -11,12 +11,14 @@ import {
 } from "./../value-objects/PreparationStep";
 import { Recipe, IRecipe } from "./../aggregates/Recipe";
 import { Result } from "@shared";
-import { IFoodRepository } from "./../../infrastructure";
+import { FoodRepository } from "./../../infrastructure";
 export type CreateRecipeProps = {
     quantity: IQuantity;
     type: IMealsType;
     category: IMealsCategory;
-    ingredients: IIngredient[];
+    ingredients: (Omit<IIngredient, "quantity"> & {
+        quantity: IQuantity;
+    })[];
     preparationMethod: IPreparationStep[];
 } & Omit<
     IRecipe,
@@ -24,9 +26,7 @@ export type CreateRecipeProps = {
 >;
 
 export class RecipeFactrory {
-    constructor(private foodRepository: IFoodRepository) {
-      
-    }
+    constructor(private foodRepository: FoodRepository) {}
     async create(recipeProps: CreateRecipeProps): Promise<Result<Recipe>> {
         const {
             quantity,
@@ -43,11 +43,17 @@ export class RecipeFactrory {
             const newType = new MealsType(type);
             const newCategory = new MealsCategory(category);
             const newIngredients: Ingredient[] = await Promise.all(
-                ingredients.map(async (ingProps: IIngredient) => {
-                    const result = await this.createIngredient(ingProps);
-                    if (result.isFailure) throw Error(String(result.err));
-                    return result.val;
-                })
+                ingredients.map(
+                    async (
+                        ingProps: Omit<IIngredient, "quantity"> & {
+                            quantity: IQuantity;
+                        }
+                    ) => {
+                        const result = await this.createIngredient(ingProps);
+                        if (result.isFailure) throw Error(String(result.err));
+                        return result.val;
+                    }
+                )
             );
             const newPreparationMethod = preparationMethod.map(
                 (step: IPreparationStep) => {
@@ -73,9 +79,18 @@ export class RecipeFactrory {
             return Result.fail<Recipe>(String(e));
         }
     }
-    async createIngredient(ingProps: IIngredient): Promise<Result<Ingredient>> {
+    async createIngredient(
+        ingProps: Omit<IIngredient, "quantity"> & {
+            quantity: IQuantity;
+        }
+    ): Promise<Result<Ingredient>> {
         try {
-            const ingredient = new Ingredient(ingProps);
+            const quantity = new Quantity(ingProps.quantity);
+            const ingredient = new Ingredient({
+                name: ingProps.name,
+                quantity,
+                foodId: ingProps.foodId
+            });
             const foodIds = await this.foodRepository.getAllFoodId();
             ingredient.validateIngredient(foodIds);
             return Result.ok<Ingredient>(ingredient);

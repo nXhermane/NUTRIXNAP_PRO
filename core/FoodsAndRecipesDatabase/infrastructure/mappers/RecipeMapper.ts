@@ -13,10 +13,17 @@ import {
     IPreparationStep
 } from "./../../domain";
 import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
-import { RecipeResponseDto } from "./../dtos/RecipeResponseDto";
 import { RecipePersistenceType } from "./../repositories/types";
+import {
+    RecipeDto,
+    QuantityDto,
+    IngredientDto,
+    MealsCategoryDto,
+    MealsTypeDto,
+    PreparationStepDto
+} from "./../../application";
 export class RecipeMapper
-    implements Mapper<Recipe, RecipePersistenceDto, RecipeResponseDto>
+    implements Mapper<Recipe, RecipePersistenceDto, RecipeDto>
 {
     toPersistence(recipe: Recipe): RecipePersistenceDto {
         const persistenceRecipe: RecipePersistenceDto = {
@@ -86,22 +93,26 @@ export class RecipeMapper
             }
         });
     }
-    toResponse(recipe: Recipe): RecipeResponseDto {
+    toResponse(recipe: Recipe): RecipeDto {
         const recipeDto = {
             name: recipe.name,
             nameF: recipe.nameF,
-            type: recipe.type,
-            category: recipe.category,
+            type: recipe.type as MealsTypeDto,
+            category: recipe.category as MealsCategoryDto,
             cookingTime: recipe.cookingTime,
-            ingredients: recipe.ingredients,
-            preparationMethod: recipe.preparationMethod,
+            ingredients: recipe.ingredients.map((ing: IIngredient) => ({
+                name: ing.name,
+                quantity: ing.quantity.unpack(),
+                foodId: ing.foodId
+            })),
+            preparationMethod: recipe.preparationMethod as PreparationStepDto[],
             description: recipe.description,
             author: recipe.author,
-            quantity: recipe.quantity,
+            quantity: recipe.quantity as QuantityDto,
             id: recipe.id,
             createdAt: recipe.createdAt,
             updatedAt: recipe.updatedAt
         };
-        return recipeDto as RecipeResponseDto;
+        return recipeDto as RecipeDto;
     }
 }

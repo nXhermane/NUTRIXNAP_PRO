@@ -1,4 +1,2 @@
-export * from "./interfaces/FoodManager";
-export * from "./FoodManagerImpl";
-export * from "./interfaces/RecipeManager";
-export * from "./RecipeManagerImpl";
+export * from "./useCases";
+export * from "./services";
