@@ -13,7 +13,14 @@ import {
 } from "./../value-objects/Quantity";
 import { FoodGroup, IFoodGroup } from "./../entities/FoodGroup";
 import { Nutrient, INutrient } from "./../entities/Nutrient";
-import { AggregateRoot, CreateEntityProps, BaseEntityProps } from "@shared";
+import {
+    AggregateRoot,
+    CreateEntityProps,
+    BaseEntityProps,
+    EmptyStringError,
+    DuplicateValueError,
+    AuthValueError
+} from "@shared";
 
 export interface IFood {
     foodCode: string;
@@ -90,18 +97,18 @@ export class Food extends AggregateRoot<IFood> {
         }
 
         if (!this.validateNutrientIsUnique(this.props.foodNutrients)) {
-            throw new Error(DUPLICATE_NUTRIENTS_ERROR);
+            throw new DuplicateValueError(DUPLICATE_NUTRIENTS_ERROR);
         }
     }
     validate(): void {
         if (this.props.foodCode.trim() === "" || !this.props.foodCode) {
-            throw new Error(INVALID_FOOD_CODE_ERROR);
+            throw new EmptyStringError(INVALID_FOOD_CODE_ERROR);
         }
         if (this.props.foodName.trim() === "" || !this.props.foodName) {
-            throw new Error(INVALID_FOOD_NAME_ERROR);
+            throw new EmptyStringError(INVALID_FOOD_NAME_ERROR);
         }
         if (this.props.foodOrigin.trim() === "" || !this.props.foodOrigin) {
-            throw new Error(INVALID_FOOD_ORIGIN_ERROR);
+            throw new EmptyStringError(INVALID_FOOD_ORIGIN_ERROR);
         }
         this.props.foodGroup.validate();
 
@@ -110,7 +117,7 @@ export class Food extends AggregateRoot<IFood> {
         //             throw new Error(MINIMUM_NUTRIENTS_ERROR);
         //         }
         if (!this.validateNutrientIsUnique(this.props.foodNutrients)) {
-            throw new Error(DUPLICATE_NUTRIENTS_ERROR);
+            throw new DuplicateValueError(DUPLICATE_NUTRIENTS_ERROR);
         }
     }
     private validateNutrientIsUnique(foodNutrients: Nutrient[]): boolean {
@@ -134,7 +141,7 @@ export class Food extends AggregateRoot<IFood> {
 
     private verifyIfFoodCanBeUpdate() {
         if (this.props.foodOrigin.trim() != "me")
-            throw new Error(FOOD_UPDATE_RESTRICTED_ERROR);
+            throw new AuthValueError(FOOD_UPDATE_RESTRICTED_ERROR);
     }
 
     private findExistingNutrientIndex(newNutrient: Nutrient): number {

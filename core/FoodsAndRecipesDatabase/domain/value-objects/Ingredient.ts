@@ -2,9 +2,9 @@ import {
     INVALID_FOOD_REFERENCE_ERROR,
     EMPTY_FOOD_REFERENCE_ERROR
 } from "./../constants";
-import { ValueObject } from "@shared";
+import { ValueObject, InvalidReference } from "@shared";
 import { Quantity, IQuantity } from "./Quantity";
-import { AggregateID } from "@shared";
+import { AggregateID, EmptyStringError } from "@shared";
 export interface IIngredient {
     name: string;
     quantity: Quantity;
@@ -14,8 +14,8 @@ export class Ingredient extends ValueObject<IIngredient> {
     constructor(props: IIngredient) {
         super(props);
     }
-    get name():string{
-      return this.props.name
+    get name(): string {
+        return this.props.name;
     }
     get foodId(): AggregateID {
         return this.props.foodId;
@@ -23,15 +23,15 @@ export class Ingredient extends ValueObject<IIngredient> {
     get quantity(): IQuantity {
         return this.props.quantity.unpack();
     }
-    
+
     validateIngredient(foodIds: AggregateID[]): void {
         if (!foodIds.includes(this.props.foodId)) {
-            throw new Error(INVALID_FOOD_REFERENCE_ERROR);
+            throw new InvalidReference(INVALID_FOOD_REFERENCE_ERROR);
         }
     }
     validate(props: IIngredient) {
         if (String(props.foodId).trim() === "" || !props.foodId) {
-            throw new Error(EMPTY_FOOD_REFERENCE_ERROR);
+            throw new EmptyStringError(EMPTY_FOOD_REFERENCE_ERROR);
         }
     }
 }

@@ -4,7 +4,13 @@ import {
     INVALID_COOKING_TIME
 } from "./../constants";
 
-import { AggregateRoot, CreateEntityProps, BaseEntityProps } from "@shared";
+import {
+    AggregateRoot,
+    CreateEntityProps,
+    BaseEntityProps,
+    EmptyStringError,
+    ArgumentNotProvidedException
+} from "@shared";
 import { Ingredient, IIngredient } from "./../value-objects/Ingredient";
 import {
     PreparationStep,
@@ -148,13 +154,15 @@ export class Recipe extends AggregateRoot<IRecipe> {
     validate(): void {
         const { ingredients, preparationMethod, cookingTime } = this.props;
         if (!ingredients || ingredients.length === 0) {
-            throw new Error(INVALID_INGREDIENT_LIST);
+            throw new ArgumentNotProvidedException(INVALID_INGREDIENT_LIST);
         }
         if (!preparationMethod || preparationMethod.length === 0) {
-            throw new Error(INVALID_PREPARATION_LIST);
+            throw new ArgumentNotProvidedException(INVALID_PREPARATION_LIST);
         }
         if (cookingTime <= 0) {
             throw new Error(INVALID_COOKING_TIME);
         }
+        if (!this.props.name || this.props.name.trim() === "")
+            throw new EmptyStringError();
     }
 }

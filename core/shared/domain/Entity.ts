@@ -121,4 +121,12 @@ export abstract class Entity<EntityProps> {
             );
         }
     }
+    public isValid(): boolean {
+        try {
+            this?.validate();
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 }

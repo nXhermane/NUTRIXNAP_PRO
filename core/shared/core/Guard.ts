@@ -23,7 +23,7 @@ export class Guard {
                 return true;
             }
         }
-        if (value === "") {
+        if ((value as string).trim() === "") {
             return true;
         }
 

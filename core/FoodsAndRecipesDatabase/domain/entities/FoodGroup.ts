@@ -2,7 +2,7 @@ import {
     INVALID_FOOD_GROUP_CODE_ERROR,
     EMPTY_FOOD_GROUP_NAME_ERROR
 } from "./../constants";
-import { Entity, CreateEntityProps } from "@shared";
+import { Entity, CreateEntityProps, EmptyStringError } from "@shared";
 
 export interface IFoodGroup {
     foodGroupCode: string;
@@ -37,13 +37,13 @@ export class FoodGroup extends Entity<IFoodGroup> {
             !this.props.foodGroupCode ||
             this.props.foodGroupCode.trim() === ""
         ) {
-            throw new Error(INVALID_FOOD_GROUP_CODE_ERROR);
+            throw new EmptyStringError(INVALID_FOOD_GROUP_CODE_ERROR);
         }
         if (
             !this.props.foodGroupName ||
             this.props.foodGroupName.trim() === ""
         ) {
-            throw new Error(EMPTY_FOOD_GROUP_NAME_ERROR);
+            throw new EmptyStringError(EMPTY_FOOD_GROUP_NAME_ERROR);
         }
     }
 }
