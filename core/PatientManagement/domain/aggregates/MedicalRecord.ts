@@ -7,8 +7,10 @@ import {
     Guard,
     ArgumentInvalidException
 } from "@shared";
-
-export interface IMedicalRecord {}
+import { FoodDiary } from "./../entities/FoodDiary";
+export interface IMedicalRecord {
+    foodDiaries: FoodDiary[];
+}
 
 export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
     constructor(createMediaclRecordProps: CreateEntityProps<IMedicalRecord>) {

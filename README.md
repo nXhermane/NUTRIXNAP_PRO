@@ -1,7 +1,7 @@
 # NutriXnap Pro
 
 Bienvenue dans le référentiel de NutriXnap Pro, l'application révolutionnaire pour les professionnels de la nutrition.
-
+[Explication du projet NutriXnap](Project.md)
 ## Aperçu
 
 NutriXnap Pro offre des fonctionnalités avancées pour simplifier la gestion des plans nutritionnels, le suivi des clients et l'intégration des données médicales. 
