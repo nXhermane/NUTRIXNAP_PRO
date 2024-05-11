@@ -88,7 +88,7 @@ export class Food extends AggregateRoot<IFood> {
     addNutrientsToFood(createNutrientProps: CreateEntityProps<INutrient>) {
         this.verifyIfFoodCanBeUpdate();
         const nutrient = new Nutrient(createNutrientProps);
-        nutrient.validate();
+        
         const existingNutrientIndex = this.findExistingNutrientIndex(nutrient);
         if (existingNutrientIndex !== -1) {
             this.props.foodNutrients[existingNutrientIndex] = nutrient;
@@ -119,6 +119,7 @@ export class Food extends AggregateRoot<IFood> {
         if (!this.validateNutrientIsUnique(this.props.foodNutrients)) {
             throw new DuplicateValueError(DUPLICATE_NUTRIENTS_ERROR);
         }
+        this._isValid=true
     }
     private validateNutrientIsUnique(foodNutrients: Nutrient[]): boolean {
         const nutrientSetArray = new Set();

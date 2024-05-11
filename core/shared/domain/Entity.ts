@@ -20,7 +20,7 @@ export abstract class Entity<EntityProps> {
     private readonly _id: EntityUniqueID;
     private readonly _createdAt: string;
     private _updatedAt: string;
-
+    protected _isValid: boolean = false;
     public readonly props: EntityProps;
     constructor({
         createdAt,
@@ -124,9 +124,9 @@ export abstract class Entity<EntityProps> {
     public isValid(): boolean {
         try {
             this?.validate();
-            return true;
+            return this._isValid;
         } catch (e) {
-            return false;
+            return this._isValid;
         }
     }
 }

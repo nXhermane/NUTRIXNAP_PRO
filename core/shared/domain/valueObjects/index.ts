@@ -6,4 +6,5 @@ export * from "./Gender";
 export * from "./HumanName";
 export * from "./PhoneNumber";
 export * from "./RegistrationDate";
-export * from "./Image"
+export * from "./Image";
+export * from "./Time";
