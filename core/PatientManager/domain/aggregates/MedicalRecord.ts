@@ -8,8 +8,10 @@ import {
     ArgumentInvalidException
 } from "@shared";
 import { FoodDiary } from "./../entities/FoodDiary";
+import { AnthropometricMeasurement } from "./../value-objects/AnthropometricMeasurement";
 export interface IMedicalRecord {
     foodDiaries: FoodDiary[];
+    anthropometricData: AnthropometricMeasurement[];
 }
 
 export class MedicalRecord extends AggregateRoot<IMedicalRecord> {

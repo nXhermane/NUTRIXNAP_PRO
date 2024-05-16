@@ -23,6 +23,7 @@ export interface IFoodStory {
     foodIntolerances: Set<AggregateID>;
     nutritionalDeficiencies: Set<AggregateID>;
     waterConsumption: WaterConsumptionRange;
+    numberOfMealsPerDay: number;
     otherInformation: string;
 }
 
@@ -61,6 +62,9 @@ export class FoodStory extends Entity<IFoodStory> {
     get waterConsumption(): IWaterConsumptionRange {
         return this.props.waterConsumption.unpack();
     }
+    get numberOfMealsPerDay(): number {
+        return this.props.numberOfMealsPerDay;
+    }
     get otherInformation(): string {
         return this.props.otherInformation;
     }
@@ -74,6 +78,9 @@ export class FoodStory extends Entity<IFoodStory> {
     }
     set waterConsumption(range: WaterConsumptionRange) {
         this.props.waterConsumption = range;
+    }
+    set numberOfMealsPerDay(value: number) {
+        this.props.numberOfMealsPerDay = value;
     }
     set otherInformation(value: string) {
         this.props.otherInformation = value;

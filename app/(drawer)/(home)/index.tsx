@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { router, Stack, Tabs } from "expo-router";
 import GeneralInfo from "@comp/tabs/dashbord/GeneralInfo";
 import DashBoardSection from "@comp/container/DashBoardSection";
+
 interface Props {
     // Define your props here
 }

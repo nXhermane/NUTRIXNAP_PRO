@@ -1,0 +1,55 @@
+import {
+    ValueObject,
+    InvalidReference,
+    AggregateID,
+    Guard,
+    EmptyStringError,
+    RegistrationDate,
+    PatientMeasurementCategory
+} from "@shared";
+
+export interface IAnthropometricMeasurement {
+    date: RegistrationDate;
+    measureTypeId: AggregateID;
+    value: number;
+    unit: string;
+}
+
+export class AnthropometricMeasurement extends ValueObject<IAnthropometricMeasurement> {
+    constructor(props: IAnthropometricMeasurement) {
+        super(props);
+    }
+    validateMeasure(
+        measureData: { id: AggregateID; category: string }[]
+    ): void {
+        const searchMeasureType = measureData.find(
+            (measure: { id: AggregateID; category: string }) =>
+                measure.id === this.props.measureTypeId
+        );
+        if (!searchMeasureType)
+            throw new InvalidReference(
+                "La reference a la mesure est incorrecte."
+            );
+        if (
+            (searchMeasureType.category as PatientMeasurementCategory) ===
+            PatientMeasurementCategory.Anthropometry
+        )
+            throw new ArgumentInvalidException(
+                "Le type de mesure ne peut etre prise en charge pas AnthropometricMeasurement."
+            );
+    }
+    validate(props: IAnthropometricMeasurement): void {
+        if (Guard.isEmpty(props.measureTypeId))
+            throw new ArgumentInvalidException(
+                "Le type de mesure doit etre fournir."
+            );
+        if (props.value < 0)
+            throw new NegativeValueError(
+                "La valeur d'une mesure anthropometrique ne peut etre inferieur à zéro."
+            );
+        if (Guard.isEmpty(props.unit))
+            throw new EmptyStringError(
+                "L'unité du mesure anthropometrique doit etre fournir."
+            );
+    }
+}

@@ -30,13 +30,7 @@ const searchFoods = (props: Props) => {
     );
     const core = useCore();
 
-    useEffect(() => {
-        const search = async () => {
-            const result = await core.foodAndRecipe.food.search({searchValue});
-            console.log(result);
-        };
-        search();
-    }, [searchValue]);
+    useEffect(() => {}, [searchValue]);
 
     return (
         <SafeAreaView

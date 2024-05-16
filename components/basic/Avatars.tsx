@@ -21,18 +21,6 @@ interface Props {
     onLongPress?: () => void;
     st?: ViewStyle;
 }
-const styles = (theme: ThemeInterface) =>
-    StyleSheet.create({
-        avatars: {
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "hidden"
-        },
-        letter: {
-            fontFamily: "inter",
-            fontWeight: "bold"
-        }
-    });
 
 const Avatars = React.forwardRef((props: Props, ref) => {
     const theme = useTheme();
@@ -100,3 +88,15 @@ const Avatars = React.forwardRef((props: Props, ref) => {
 });
 
 export default Avatars;
+const styles = (theme: ThemeInterface) =>
+    StyleSheet.create({
+        avatars: {
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden"
+        },
+        letter: {
+            fontFamily: "inter",
+            fontWeight: "bold"
+        }
+    });

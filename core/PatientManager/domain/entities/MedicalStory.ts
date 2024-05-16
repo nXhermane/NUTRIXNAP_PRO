@@ -1,12 +1,4 @@
-import {
-    Entity,
-    CreateEntityProps,
-    Guard,
-    ArgumentInvalidException,
-    ArgumentOutOfRangeException,
-    Time,
-    AggregateID
-} from "@shared";
+import { Entity, CreateEntityProps } from "@shared";
 
 export interface IMedicalStory {
     pathologies: string;
@@ -15,6 +7,7 @@ export interface IMedicalStory {
     familyBackground: string;
     otherInformation: string;
 }
+
 export class MedicalStory extends Entity<IMedicalStory> {
     constructor(createProps: CreateEntityProps<IMedicalStory>) {
         super(createProps);
@@ -49,5 +42,7 @@ export class MedicalStory extends Entity<IMedicalStory> {
     set otherInformation(value: string) {
         this.props.otherInformation = value;
     }
-    validate(): void {}
+    validate(): void {
+        this._isValid = true;
+    }
 }

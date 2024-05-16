@@ -49,5 +49,6 @@ export class FoodDiary extends Entity<IFoodDiary> {
             throw new ArgumentInvalidException(
                 "Lr repas consommée ne doit pas etre vide."
             );
+        this._isValid = true;
     }
 }

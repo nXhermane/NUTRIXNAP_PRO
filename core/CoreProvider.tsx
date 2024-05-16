@@ -31,7 +31,6 @@ export interface CoreInterface {
     patientS: IPatientService;
     foodDiaryS: IFoodDiaryService;
 }
-import { FoodAndRecipe, IFoodAndRecipe } from "./FoodsAndRecipesDatabase";
 
 export const CoreContext = createContext<CoreInterface>({} as CoreInterface);
 
@@ -39,8 +38,7 @@ export const CoreProvider: React.FC<{ children: React.ReactNode }> = ({
     children
 }) => {
     const [currentUser, setCurrentUser] = useState<UserEntity | null>(null);
-    const [foodAndRecipeApp, setFoodAndRecipeApp] =
-        useState<IFoodAndRecipe | null>(null);
+
     const userRepository: IUserRepository = useMemo(
         () => new UserRepository(),
         []
@@ -75,15 +73,14 @@ export const CoreProvider: React.FC<{ children: React.ReactNode }> = ({
             user: currentUser,
             setUser: (user: UserEntity) => {
                 setCurrentUser(user);
-            },
-            foodAndRecipe: foodAndRecipeApp
+            }
         }),
         [
             currentUser,
             userService,
             patientService,
             foodDiaryService,
-            foodAndRecipeApp
+            
         ]
     );
 
@@ -91,8 +88,6 @@ export const CoreProvider: React.FC<{ children: React.ReactNode }> = ({
         async function init() {
             const user = await userService.getUser();
             setCurrentUser(user ? user : null);
-            const app = await FoodAndRecipe.getInstance();
-            setFoodAndRecipeApp(app);
         }
 
         init();

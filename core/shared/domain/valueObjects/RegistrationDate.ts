@@ -81,6 +81,19 @@ export class RegistrationDate extends ValueObject<string> {
             );
         }
     }
+    public isBefore(birthday: RegistrationDate): boolean {
+        const thisDate = new Date(this.props.value);
+        const otherDate = new Date(birthday.props.value);
+
+        return thisDate < otherDate;
+    }
+
+    public isAfter(birthday: RegistrationDate): boolean {
+        const thisDate = new Date(this.props.value);
+        const otherDate = new Date(birthday.props.value);
+
+        return thisDate > otherDate;
+    }
     public isValideRegistrationDate(props?: { value: string }): boolean {
         const currentDate = new Date();
         const registrationDate = new Date(this.props.value || props.value);

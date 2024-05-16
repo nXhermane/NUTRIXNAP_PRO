@@ -109,5 +109,6 @@ export class PersonalAndSocialStory extends Entity<IPersonalAndSocialStory> {
         if (!Object.values(Ethnicity).includes(this.props.ethnicity)) {
             throw new ArgumentOutOfRangeException("Invalid ethnicity.");
         }
+        this._isValid = true;
     }
 }

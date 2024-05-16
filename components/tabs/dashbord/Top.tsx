@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Avatars from "@comp/basic/Avatars";
 import useTheme from "@/theme/useTheme";
 import useThemeStyles from "@/theme/useThemeStyles";
 import DashBoardSection from "@comp/container/DashBoardSection";
 import React from "react";
 import { CoreContext } from "@/core/CoreProvider";
+import Text from "@comp/basic/Text";
 interface Props {
     // Define your props here
 }
@@ -15,9 +16,8 @@ const Top = (props: Props) => {
     const [date, setDate] = React.useState("");
     const [time, setTime] = React.useState("second");
     const core = React.useContext(CoreContext);
-    
+
     React.useEffect(() => {
-        
         const date = new Date();
         const options = {
             month: "long",
@@ -50,17 +50,19 @@ const Top = (props: Props) => {
                         s={40}
                     />
                     <View style={style.userInfo}>
-                        <Text style={style.greeting}>
+                        <Text type={"h3"}>
                             {"Hi, " + core.user?.firstname + "!"}
                         </Text>
-                        <Text style={style.welcome}>
-                            Welcome back for nutriXnap
-                        </Text>
+                        <Text type={"p1"}>Welcome back for nutriXnap</Text>
                     </View>
                 </View>
                 <View style={style.dateContainer}>
-                    <Text style={style.time}>{time}</Text>
-                    <Text style={style.date}>{date}</Text>
+                    <Text type={"p2"} align={"r"}>
+                        {time}
+                    </Text>
+                    <Text type={"p2"} align="r">
+                        {date}
+                    </Text>
                 </View>
                 <View style={style.searchContainer}></View>
             </View>
@@ -90,27 +92,5 @@ const styles = theme =>
         },
         userInfo: {
             gap: 1
-        },
-        greeting: {
-            fontFamily: "inter_b",
-            fontSize: theme.size.s4,
-            color: theme.colors.black300
-        },
-        welcome: {
-            fontFamily: "inter_m",
-            fontSize: theme.size.s3,
-            color: theme.colors.black200
-        },
-        time: {
-            fontFamily: "inter_sb",
-            fontSize: theme.size.s3,
-            color: theme.colors.black300,
-            textAlign: "right"
-        },
-        date: {
-            fontFamily: "inter_m",
-            fontSize: theme.size.s3,
-            color: theme.colors.black200,
-            textAlign: "right"
         }
     });
