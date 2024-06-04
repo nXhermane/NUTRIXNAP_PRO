@@ -5,7 +5,9 @@ import {
     Guard,
     EmptyStringError,
     RegistrationDate,
-    PatientMeasurementCategory
+    PatientMeasurementCategory,
+    ArgumentInvalidException,
+    NegativeValueError
 } from "@shared";
 
 export interface IAnthropometricMeasurement {
@@ -18,6 +20,18 @@ export interface IAnthropometricMeasurement {
 export class AnthropometricMeasurement extends ValueObject<IAnthropometricMeasurement> {
     constructor(props: IAnthropometricMeasurement) {
         super(props);
+    }
+    get measureTypeId(): AggregateID {
+        return this.props.measureTypeId;
+    }
+    get date(): string {
+        return this.props.date.toString();
+    }
+    get value(): number {
+        return this.props.value;
+    }
+    get unit(): string {
+        return this.props.unit;
     }
     validateMeasure(
         measureData: { id: AggregateID; category: string }[]

@@ -44,7 +44,7 @@ export class FoodDiary extends Entity<IFoodDiary> {
         this.props.meal = meal;
         this.validate();
     }
-    protected validate(): void {
+    validate(): void {
         if (Guard.isEmpty(this.props.meal))
             throw new ArgumentInvalidException(
                 "Lr repas consommée ne doit pas etre vide."

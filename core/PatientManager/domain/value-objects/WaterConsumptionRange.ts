@@ -14,7 +14,7 @@ export class WaterConsumptionRange extends ValueObject<IWaterConsumptionRange> {
         super(props);
     }
 
-    private validate(props: IWaterConsumptionRange): void {
+     validate(props: IWaterConsumptionRange): void {
         if (props.lowerBound < 0) {
             throw new ArgumentOutOfRangeException(
                 "La borne inférieure doit être supérieure ou égale à 0."

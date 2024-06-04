@@ -22,15 +22,15 @@ export class Address extends ValueObject<IAddress> {
     }
 
     get street(): string {
-        return this.props.street;
+        return this.props?.street || "";
     }
 
     get city(): string {
-        return this.props.city;
+        return this.props?.city || "";
     }
 
     get postalCode(): string {
-        return this.props.postalCode;
+        return this.props?.postalCode || "";
     }
 
     get country(): string {

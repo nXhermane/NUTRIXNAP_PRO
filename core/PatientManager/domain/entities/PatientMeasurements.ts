@@ -42,7 +42,7 @@ export class PatientMeasurements extends Entity<IPatientMeasurements> {
     addMedicalAnalysisResult(result: MedicalAnalysisResult) {
         this.props.medicalAnalysisResults.push(result);
     }
-    get anthropometricMesurements(): IAnthropometricMeasurement[] {
+    get anthropometricMeasurements(): IAnthropometricMeasurement[] {
         return this.props.anthropometricMeasurements.map(
             (anthM: AnthropometricMeasurement) => anthM.unpack()
         );
@@ -146,3 +146,4 @@ export class PatientMeasurements extends Entity<IPatientMeasurements> {
         this._isValid = true;
     }
 }
+("");

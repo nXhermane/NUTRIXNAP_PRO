@@ -11,7 +11,8 @@ import {
     InvalidReference,
     Guard,
     ArgumentInvalidException,
-    IAddress
+    IAddress,
+    EmptyStringError
 } from "@shared";
 
 export interface IPatient {
@@ -77,7 +78,6 @@ export class Patient extends AggregateRoot<IPatient> {
     set occupation(occupation: string | undefined) {
         this.props.occupation = occupation;
     }
-
     get medicalRecordId(): AggregateID {
         return this.props.medicalRecordId;
     }
@@ -89,7 +89,7 @@ export class Patient extends AggregateRoot<IPatient> {
         return this.props.gender.isFemale();
     }
     get age(): number {
-        return this.props.birthday.birthday.age;
+        return this.props.birthday.age;
     }
     validate(): void {
         if (Guard.isEmpty(this.props.medicalRecordId))
@@ -116,9 +116,5 @@ export class Patient extends AggregateRoot<IPatient> {
             throw new ArgumentInvalidException(
                 "La date de naissance du patient doit etre valide ou l'age doit au moins 5 ans"
             );
-    }
-    validateMedicalRecordId(medicalRecordIds: AggregateID[]): void {
-        if (!medicalRecordIds.includes(this.props.medicalRecordId))
-            throw new InvalidReference("Le dossier medical n'existe pas.");
     }
 }

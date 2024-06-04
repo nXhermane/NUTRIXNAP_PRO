@@ -5,7 +5,8 @@ import {
     ArgumentInvalidException,
     ArgumentOutOfRangeException,
     Time,
-    AggregateID
+    AggregateID,
+    InvalidReference
 } from "@shared";
 import { FavoriteFood, IFavoriteFood } from "./../value-objects/FavoriteFood";
 import { Aversion, IAversion } from "./../value-objects/Aversion";
@@ -136,9 +137,9 @@ export class FoodStory extends Entity<IFoodStory> {
             this.props.nutritionalDeficiencies.add(nutritinalDeficienceId);
         this.validate();
     }
-    removeNutritionalDeficience(nutritionalDeficience): void {
-        if (this.props.nutritionalDeficiencies.has(nutritionalDeficience))
-            this.props.nutritionalDeficiencies.delete(nutritionalDeficience);
+    removeNutritionalDeficience(nutritionalDeficienceId: AggregateID): void {
+        if (this.props.nutritionalDeficiencies.has(nutritionalDeficienceId))
+            this.props.nutritionalDeficiencies.delete(nutritionalDeficienceId);
     }
     validateDietType(dietTypeIds: AggregateID[]): void {
         this._isValid = false;
@@ -190,7 +191,7 @@ export class FoodStory extends Entity<IFoodStory> {
             (favFood: FavoriteFood) => favFood.unpack().foodId
         );
     }
-    protected validate(): void {
+    validate(): void {
         if (this.props.bedtime.isAfter(this.props.wakeUpTime))
             throw new ArgumentOutOfRangeException(
                 `L'heure de coucher doit être supperieur a l'heure de reveil.${this.props.bedtime.time}>${this.props.wakeUpTime.time}`

@@ -1,4 +1,4 @@
-import { ValueObject } from "./../ValueObject";
+import { ValueObject, ValueObjectProps } from "./../ValueObject";
 import { InvalidArgumentFormatError } from "./../../exceptions";
 export class Email extends ValueObject<string> {
     private static isValidEmailFormat(value: string): boolean {

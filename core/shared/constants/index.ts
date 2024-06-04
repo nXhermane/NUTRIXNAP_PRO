@@ -4,3 +4,6 @@ export * from "./Ethnicity";
 export * from "./GastrointestinalState";
 export * from "./PhysicalActivityLevel";
 export * from "./PatientMeasureCategory";
+export * from "./ObjectiveType";
+export * from "./ObjectiveStatus";
+export * from "./PittsburghSleepQuality";

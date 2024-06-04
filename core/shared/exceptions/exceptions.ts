@@ -122,20 +122,5 @@ export class InvalidReference extends ExceptionBase {
     constructor(msg = InvalidReference.message) {
         super(msg);
     }
+    readonly code = ARGUMENT_INVALID;
 }
-// InvalidEmailError: Déclenché lorsque l'adresse email fournie n'est pas valide selon le format attendu.
-// EmptyStringError: Déclenché lorsqu'une chaîne de caractères obligatoire est vide ou nulle.
-// InvalidDateError: Déclenché lorsque la date fournie n'est pas valide ou ne correspond pas au format attendu.
-// OutOfRangeError: Déclenché lorsqu'une valeur numérique est en dehors de la plage de valeurs autorisées.
-// NegativeValueError: Déclenché lorsqu'une valeur numérique est négative, mais qu'un nombre positif est attendu.
-// MaxLengthExceededError: Déclenché lorsque la longueur d'une chaîne de caractères dépasse la longueur maximale autorisée.
-// MinLengthError: Déclenché lorsque la longueur d'une chaîne de caractères est inférieure à la longueur minimale requise.
-// InvalidPhoneNumberError: Déclenché lorsque le numéro de téléphone fourni n'est pas valide selon le format attendu.
-// InvalidPostalCodeError: Déclenché lorsque le code postal fourni n'est pas valide selon le format attendu.
-// DuplicateValueError: Déclenché lorsqu'une valeur dupliquée est fournie, mais qu'une valeur unique est attendue.
-// MissingRequiredFieldError: Déclenché lorsqu'un champ obligatoire est manquant ou n'a pas été fourni.
-// InvalidCurrencyError: Déclenché lorsque la devise fournie n'est pas valide ou n'est pas reconnue.
-// InvalidPasswordError: Déclenché lorsque le mot de passe fourni ne respecte pas les règles de complexité attendues.
-// InvalidFileTypeError: Déclenché lorsque le type de fichier fourni n'est pas autorisé ou ne correspond pas aux types de fichiers attendus.
-// InvalidUrlError: Déclenché lorsque l'URL fournie n'est pas valide selon le format attendu.
-// Ces noms d'erreurs sont des exemples courants, mais vous pouvez les adapter en fonction de vos besoins spécifiques et du contexte de votre application. L'objectif est de fournir des noms d'erreurs clairs et descriptifs qui aident à identifier rapidement le problème de validation rencontré.

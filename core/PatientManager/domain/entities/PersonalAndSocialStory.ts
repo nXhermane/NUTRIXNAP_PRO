@@ -7,7 +7,8 @@ import {
     MaritalStatus,
     PhysicalActivityLevel,
     Ethnicity,
-    GastrointestinalState
+    GastrointestinalState,
+    PittsburghSleepQuality
 } from "@shared";
 
 export interface IPersonalAndSocialStory {

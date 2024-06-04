@@ -4,7 +4,8 @@ import {
     Quantity,
     Guard,
     ArgumentNotProvidedException,
-    IQuantity
+    IQuantity,
+    AggregateID
 } from "@shared";
 
 export interface IFoodDiaryFoodItem {
@@ -52,14 +53,14 @@ export class FoodDiaryFoodItem extends ValueObject<IFoodDiaryFoodItem> {
         }
     }
     validateFoodId(foodIds: AggregateID[]) {
-        if (!this.props.isRecipe && !foodIds.includes(this.props.foodId)) {
+        if (!this.props.isRecipe && !foodIds.includes(this.props.foodId as AggregateID)) {
             throw new InvalidReference(
                 "La reference au food est invalide.Veillez verifier si l'aliment existe."
             );
         }
     }
-    validateRecipeId(recipeIds: AggragateID[]) {
-        if (this.props.isRecipe && recipeIds.includes(this.props.recipeId)) {
+    validateRecipeId(recipeIds: AggregateID[]) {
+        if (this.props.isRecipe && recipeIds.includes(this.props.recipeId as AggregateID)) {
             throw new InvalidReference(
                 "La reference au recipe est invalide.Veillez verifier si la recette existe."
             );
