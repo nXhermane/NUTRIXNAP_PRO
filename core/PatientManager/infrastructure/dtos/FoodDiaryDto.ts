@@ -1,6 +1,6 @@
 import { BaseEntityProps, AggregateID, IQuantity } from "@shared";
 
-export interface FoodDiaryDto {
+export interface FoodDiaryDto extends BaseEntityProps {
     date: string;
     meal: {
         withCompany: boolean;

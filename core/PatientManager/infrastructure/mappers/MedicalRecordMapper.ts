@@ -22,8 +22,7 @@ import {
   IWaterConsumptionRange,
   MedicalStory,
   PersonalAndSocialStory,
-  PatientMeasurements,
-
+  PatientMeasurements
 } from "./../../domain";
 import {
   Mapper,
@@ -58,100 +57,28 @@ import { MedicalRecordDto } from "./../dtos/MedicalRecordDto";
 import { AnthropometricMeasurementDto } from "./../dtos/AnthropometricMeasurementDto";
 import { BodyCompositionMeasurementDto } from "./../dtos/BodyCompositionMeasurementDto";
 import { MedicalAnalysisResultDto } from "./../dtos/MedicalAnalysisResultDto";
+import { FoodDiaryDto } from "./../dtos/FoodDiaryDto"
+import { ConsultationInformationDto } from "./../dtos/ConsultationInformationDto"
+import { FoodStoryDto } from "./../dtos/FoodStoryDto"
+import { MedicalStoryDto } from "./../dtos/MedicalStoryDto"
+import { PersonalAndSocialStoryDto } from "./../dtos/PersonalAndSocialStoryDto"
+import { PatientMeasurementDto } from "./../dtos/PatientMeasurementDto"
+import { EatingBehaviorDto } from "./../dtos/EatingBehaviorDto"
+import { ObjectiveDto } from "./../dtos/ObjectiveDto"
 export class MedicalRecordMapper
   implements
   Mapper<MedicalRecord, MedicalRecordPersistenceType, MedicalRecordDto>
 {
   toPersistence(entity: MedicalRecord): MedicalRecordPersistenceType {
     const medicalRecordProps = entity.getProps();
-    const medicalRecord = {
-      id: medicalRecordProps.id,
-      status: "Active",
-      eatingBehaviors: JSON.stringify(medicalRecordProps.eatingBehaviors.map((eatBeh: EatingBehavior) => ({
-        date: eatBeh.date.toString(),
-        eatingBehavior: eatBeh.eatingBehavior
-      })
-      )
-      )
-    };
-    const foodDiaries: FoodDiaryPersistenceType[] = medicalRecordProps.foodDiaries.map((foodDiary: FoodDiary) => ({
-      id: foodDiary.id,
-      date: foodDiary.date,
-      meal: JSON.stringify({
-        withCompany: foodDiary.meal.withCompany,
-        watchingTv: foodDiary.meal.watchingTv,
-        sittingAtTable: foodDiary.meal.sittingAtTable,
-        foodItems: foodDiary.meal.foodItems.map((foodItem: FoodDiaryFoodItem) => ({
-          foodId: foodItem.foodId,
-          recipeId: foodItem.recipeId,
-          isRecipe: foodItem.isRecipe,
-          isHomeMade: foodItem.isHomeMade,
-          quantity: foodItem.quantity
-        })
-        ),
-        mealTypeId: foodDiary.meal.mealTypeId,
-        description: foodDiary.meal.description
-      }),
-      observation: foodDiary.observation,
-      images: JSON.stringify(foodDiary.images),
-      medicalRecordId: medicalRecordProps.id,
-      createdAt: foodDiary.createdAt,
-      updatedAt: foodDiary.updatedAt
-    }) as FoodDiaryPersistenceType
-    );
-    const consultationInformation: ConsultationInformationPersistenceType = {
-      id: medicalRecordProps.consultationInformation.id,
-      consultationMotive: medicalRecordProps.consultationInformation.consultationMotive,
-      expectations: medicalRecordProps.consultationInformation.expectations,
-      clinicalObjective: medicalRecordProps.consultationInformation.clinicalObjective,
-      otherInformation: medicalRecordProps.consultationInformation.otherInformation,
-      medicalRecordId: medicalRecordProps.id,
-      createdAt: medicalRecordProps.consultationInformation.createdAt,
-      updatedAt: medicalRecordProps.consultationInformation.updatedAt
-    };
-
-    const foodStory: FoodStoryPersistenceType = {
-      id: medicalRecordProps.foodStory.id,
-      bedtime: medicalRecordProps.foodStory.bedtime,
-      wakeUpTime: medicalRecordProps.foodStory.wakeUpTime,
-      dietTypes: JSON.stringify(medicalRecordProps.foodStory.dietTypes),
-      favoriteFoods: JSON.stringify(medicalRecordProps.foodStory.favoriteFoods),
-      foodAversions: JSON.stringify(medicalRecordProps.foodStory.foodAversions),
-      allergies: JSON.stringify(medicalRecordProps.foodStory.allergies),
-      foodIntolerances: JSON.stringify(medicalRecordProps.foodStory.foodIntolerances),
-      nutritionalDeficiencies: JSON.stringify(medicalRecordProps.foodStory.nutritionalDeficiencies),
-      waterConsumption: JSON.stringify(medicalRecordProps.foodStory.waterConsumption),
-      numberOfMealsPerDay: medicalRecordProps.foodStory.numberOfMealsPerDay,
-      otherInformation: medicalRecordProps.foodStory.otherInformation,
-      medicalRecordId: medicalRecordProps.id,
-      createdAt: medicalRecordProps.foodStory.createdAt,
-      updatedAt: medicalRecordProps.foodStory.updatedAt
-    };
-    const medicalStory: MedicalStoryPersistenceType = {
-      ...medicalRecordProps.medicalStory.getProps(),
-      medicalRecordId: medicalRecordProps.id
-    };
-    const personalAndSocialStory = {
-      ...medicalRecordProps.personalAndSocialStory.getProps(),
-      medicalRecordId: medicalRecordProps.id
-    };
-    const patientMeasurement = {
-      id: medicalRecordProps.measure.id,
-      anthropometricMeasurements: JSON.stringify(medicalRecordProps.measure.anthropometricMeasurements),
-      bodyCompositionMeasurements: JSON.stringify(medicalRecordProps.measure.bodyCompositionMeasurements),
-      medicalAnalysisResults: JSON.stringify(medicalRecordProps.measure.medicalAnalysisResults),
-      medicalRecordId: medicalRecordProps.id
-    };
-    const objectives: ObjectivePersistenceType[] = medicalRecordProps.objectives.map((obj: Objective) =>
-      ({
-        id: obj.id,
-        type: obj.type,
-        timeframe: JSON.stringify({ start: obj.timeframe.start.toString(), end: obj.timeframe.end.toString() }),
-        body: JSON.stringify({ measureTypeId: obj.measureTypeId, value: obj.value, description: obj.description }),
-        status: obj.status,
-        medicalRecordId: medicalRecordProps.id
-      }) as ObjectivePersistenceType
-    );
+    const medicalRecord = { createdAt: medicalRecordProps.createdAt, updatedAt: medicalRecordProps.updatedAt, id: medicalRecordProps.id, status: "Active", eatingBehaviors: JSON.stringify(medicalRecordProps.eatingBehaviors.map((eatBeh: EatingBehavior) => ({ date: eatBeh.date.toString(), eatingBehavior: eatBeh.eatingBehavior }))) };
+    const foodDiaries = medicalRecordProps.foodDiaries.map((foodDiary: FoodDiary) => this.foodDiaryToPersistence(foodDiary, medicalRecordProps.id));
+    const consultationInformation = this.consultationInformationToPersistence(medicalRecordProps.consultationInformation, medicalRecordProps.id)
+    const foodStory = this.foodStpryToPersistence(medicalRecordProps.foodStory, medicalRecordProps.id)
+    const medicalStory = this.medicalStoryToPersistence(medicalRecordProps.medicalStory, medicalRecordProps.id)
+    const personalAndSocialStory = this.personalAndSocialStoryToPersistence(medicalRecordProps.personalAndSocialStory, medicalRecordProps.id)
+    const patientMeasurement = this.patientMeasurementToPersistence(medicalRecordProps.measure, medicalRecordProps.id)
+    const objectives = medicalRecordProps.objectives.map((obj: Objective) => this.objectiveToPersistence(obj, medicalRecordProps.id));
     return {
       medicalRecord,
       foodDiaries,
@@ -188,90 +115,17 @@ export class MedicalRecordMapper
         eatingBehaviors: newEatingBehaviors
       }
     })
-
-
   }
   toResponse(entity: MedicalRecord): MedicalRecordDto {
     const medicalRecordProps = entity.getProps();
-    const foodDiaries = medicalRecordProps.foodDiaries.map((foodDiary: FoodDiary) => ({
-      id: foodDiary.id,
-      createdAt: foodDiary.createdAt,
-      updatedAt: foodDiary.updatedAt,
-      date: foodDiary.date,
-      meal: {
-        withCompany: foodDiary.meal.withCompany,
-        watchingTv: foodDiary.meal.watchingTv,
-        sittingAtTable: foodDiary.meal.sittingAtTable,
-        foodItems: foodDiary.meal.foodItems.map((foodItem: FoodDiaryFoodItem) => ({
-          foodId: foodItem.foodId,
-          recipeId: foodItem.recipeId,
-          isRecipe: foodItem.isRecipe,
-          isHomeMade: foodItem.isHomeMade,
-          quantity: foodItem.quantity
-        })
-        ),
-        mealTypeId: foodDiary.meal.mealTypeId,
-        description: foodDiary.meal.description
-      },
-      observation: foodDiary.observation,
-      images: foodDiary.images
-    })
-    );
-    const consultationInformation = { ...medicalRecordProps.consultationInformation.getProps() };
-    const foodStory = {
-      id: medicalRecordProps.foodStory.id,
-      createdAt: medicalRecordProps.foodStory.createdAt,
-      updatedAt: medicalRecordProps.foodStory.updatedAt,
-      bedtime: medicalRecordProps.foodStory.bedtime,
-      wakeUpTime: medicalRecordProps.foodStory.wakeUpTime,
-      dietTypes: medicalRecordProps.foodStory.dietTypes,
-      favoriteFoods: medicalRecordProps.foodStory.favoriteFoods,
-      foodAversions: medicalRecordProps.foodStory.foodAversions,
-      allergies: medicalRecordProps.foodStory.allergies,
-      foodIntolerances: medicalRecordProps.foodStory.foodIntolerances,
-      nutritionalDeficiencies: medicalRecordProps.foodStory.nutritionalDeficiencies,
-      waterConsumption: medicalRecordProps.foodStory.waterConsumption,
-      numberOfMealsPerDay: medicalRecordProps.foodStory.numberOfMealsPerDay,
-      otherInformation: medicalRecordProps.foodStory.otherInformation
-    };
-    const medicalStory = { ...medicalRecordProps.medicalStory.getProps() };
-    const personalAndSocialStory = { ...medicalRecordProps.personalAndSocialStory.getProps() };
-    const eatingBehaviors = medicalRecordProps.eatingBehaviors.map((eatBeh: EatingBehavior) => ({ date: eatBeh.date, eatingBehavior: eatBeh.eatingBehavior }));
-    const objectives = medicalRecordProps.objectives.map((obj: Objective) => ({
-      id: obj.id,
-      createdAt: obj.createdAt,
-      updatedAt: obj.updatedAt,
-      type: obj.type,
-      timeframe: { start: obj.timeframe.start.toString(), end: obj.timeframe.end.toString() },
-      body: obj.type === ObjectiveType.Measure ? { measureTypeId: obj.measureTypeId, value: obj.value, description: obj.description } : { description: obj.description },
-      status: obj.status
-    })
-    );
-    const measure = {
-      anthropometricMeasurements:
-        medicalRecordProps.measure.anthropometricMeasurements.map((anthM: IAnthropometricMeasurement) => ({
-          date: anthM.date.toString(),
-          measureTypeId: anthM.measureTypeId,
-          value: anthM.value,
-          unit: anthM.unit
-        })) as AnthropometricMeasurementDto[],
-      bodyCompositionMeasurements:
-        medicalRecordProps.measure.bodyCompositionMeasurements.map((bodyM: IBodyCompositionMeasurement) => ({
-          date: bodyM.date.toString(),
-          measureTypeId: bodyM.measureTypeId,
-          value: bodyM.value,
-          unit: bodyM.unit
-        })) as BodyCompositionMeasurementDto[],
-      medicalAnalysisResults: medicalRecordProps.measure.medicalAnalysisResults.map((meReM: IMedicalAnalysisResult) => ({
-        date: meReM.date.toString(),
-        measureTypeId: meReM.measureTypeId,
-        value: meReM.value,
-        unit: meReM.unit
-      })) as MedicalAnalysisResultDto[],
-      id: medicalRecordProps.measure.id,
-      createdAt: medicalRecordProps.measure.createdAt,
-      updatedAt: medicalRecordProps.measure.updatedAt
-    };
+    const foodDiaries = medicalRecordProps.foodDiaries.map((foodDiary: FoodDiary) => this.foodDiaryToResponse(foodDiary));
+    const consultationInformation = this.consultationInformationToResponse(medicalRecordProps.consultationInformation)
+    const foodStory = this.foodStoryToResponse(medicalRecordProps.foodStory)
+    const medicalStory = this.medicalStoryToResponse(medicalRecordProps.medicalStory);
+    const personalAndSocialStory = this.personalAndSocialStoryToResponse(medicalRecordProps.personalAndSocialStory)
+    const eatingBehaviors = this.eatingBehaviorsToResponse(medicalRecordProps.eatingBehaviors)
+    const objectives = medicalRecordProps.objectives.map((obj: Objective) => this.objectiveToResponse(obj));
+    const measure = this.patientMeasurementToResponse(medicalRecordProps.measure)
     return {
       foodDiaries,
       foodStory,
@@ -293,7 +147,6 @@ export class MedicalRecordMapper
     const images = imageArray.map((uri: string) => new Image(uri));
     const observation = foodDiary.observation;
     const mealData = JSON.parse(foodDiary.meal);
-
     const foodItems = mealData.foodItems.map((item: any) => new FoodDiaryFoodItem({
       foodId: item.foodId,
       recipeId: item.recipeId,
@@ -347,12 +200,10 @@ export class MedicalRecordMapper
       props: { bedtime, wakeUpTime, dietTypes, allergies, foodIntolerances, nutritionalDeficiencies, waterConsumption, numberOfMealsPerDay, otherInformation, favoriteFoods, foodAversions }
     });
   }
-
   private medicalStoryToDomain(medicalStory: MedicalStoryPersistenceType): MedicalStory {
     const { id, createdAt, updatedAt, medicalRecordId, ...otherProps } = medicalStory;
     return new MedicalStory({ id, createdAt, updatedAt, props: { ...otherProps } });
   }
-
   private personalAndSocialStoryToDomain(personalAndSocialStory: PersonalAndSocialStoryPersistenceType): PersonalAndSocialStory {
     const { id, createdAt, updatedAt, medicalRecordId, ...otherProps } = personalAndSocialStory;
     return new PersonalAndSocialStory({
@@ -371,7 +222,6 @@ export class MedicalRecordMapper
       }
     });
   }
-
   private objectiveToDomain(objective: ObjectivePersistenceType): Objective {
     const type = objective.type as ObjectiveType;
     const timeframe = new Timeframe(JSON.parse(objective.timeframe) as ITimeframe);
@@ -403,5 +253,192 @@ export class MedicalRecordMapper
       eatingBehavior: eatBeh.eatingBehavior
     })
     )
+  }
+  private foodStpryToPersistence(foodStory: FoodStory, medicalRecordId: AggregateID): FoodStoryPersistenceType {
+    return {
+      id: foodStory.id,
+      bedtime: foodStory.bedtime,
+      wakeUpTime: foodStory.wakeUpTime,
+      dietTypes: JSON.stringify(foodStory.dietTypes),
+      favoriteFoods: JSON.stringify(foodStory.favoriteFoods),
+      foodAversions: JSON.stringify(foodStory.foodAversions),
+      allergies: JSON.stringify(foodStory.allergies),
+      foodIntolerances: JSON.stringify(foodStory.foodIntolerances),
+      nutritionalDeficiencies: JSON.stringify(foodStory.nutritionalDeficiencies),
+      waterConsumption: JSON.stringify(foodStory.waterConsumption),
+      numberOfMealsPerDay: foodStory.numberOfMealsPerDay,
+      otherInformation: foodStory.otherInformation,
+      createdAt: foodStory.createdAt,
+      updatedAt: foodStory.updatedAt,
+      medicalRecordId
+    } as FoodStoryPersistenceType
+  }
+  private consultationInformationToPersistence(consultationInformation: ConsultationInformation, medicalRecordId: AggregateID): ConsultationInformationPersistenceType {
+    return {
+      id: consultationInformation.id,
+      consultationMotive: consultationInformation.consultationMotive,
+      expectations: consultationInformation.expectations,
+      clinicalObjective: consultationInformation.clinicalObjective,
+      otherInformation: consultationInformation.otherInformation,
+      createdAt: consultationInformation.createdAt,
+      updatedAt: consultationInformation.updatedAt,
+      medicalRecordId,
+    } as ConsultationInformationPersistenceType
+  }
+  private foodDiaryToPersistence(foodDiary: FoodDiary, medicalRecordId: AggregateID): FoodDiaryPersistenceType {
+    return {
+      id: foodDiary.id,
+      date: foodDiary.date,
+      meal: JSON.stringify({
+        withCompany: foodDiary.meal.withCompany,
+        watchingTv: foodDiary.meal.watchingTv,
+        sittingAtTable: foodDiary.meal.sittingAtTable,
+        foodItems: foodDiary.meal.foodItems.map((foodItem: FoodDiaryFoodItem) => ({
+          foodId: foodItem.foodId,
+          recipeId: foodItem.recipeId,
+          isRecipe: foodItem.isRecipe,
+          isHomeMade: foodItem.isHomeMade,
+          quantity: foodItem.quantity
+        })
+        ),
+        mealTypeId: foodDiary.meal.mealTypeId,
+        description: foodDiary.meal.description
+      }),
+      observation: foodDiary.observation,
+      images: JSON.stringify(foodDiary.images),
+      createdAt: foodDiary.createdAt,
+      updatedAt: foodDiary.updatedAt,
+      medicalRecordId
+    } as FoodDiaryPersistenceType
+  }
+  private medicalStoryToPersistence(medicalStory: MedicalStory, medicalRecordId: AggregateID): MedicalStoryPersistenceType {
+    return {
+      ...medicalStory.getProps(),
+      medicalRecordId
+    }
+  }
+  private personalAndSocialStoryToPersistence(personalAndSocialStory: PersonalAndSocialStory, medicalRecordId: AggregateID): PersonalAndSocialStoryPersistenceType {
+    return {
+      ...personalAndSocialStory.getProps(),
+      medicalRecordId
+    }
+  }
+  private objectiveToPersistence(objective: Objective, medicalRecordId: AggregateID): ObjectivePersistenceType {
+    return {
+      id: objective.id,
+      type: objective.type,
+      timeframe: JSON.stringify({ start: objective.timeframe.start.toString(), end: objective.timeframe.end.toString() }),
+      body: JSON.stringify(objective.isMeasure() ? { measureTypeId: objective.measureTypeId, value: objective.value, description: objective.description } : { description: objective.description }),
+      status: objective.status,
+      createdAt: objective.createdAt,
+      updatedAt: objective.updatedAt,
+      medicalRecordId
+    }
+  }
+  private patientMeasurementToPersistence(patientMeasurement: PatientMeasurements, medicalRecordId: AggregateID): PatientMeasurementPersistenceType {
+    return {
+      id: patientMeasurement.id,
+      anthropometricMeasurements: JSON.stringify(patientMeasurement.anthropometricMeasurements.map((anth: IAnthropometricMeasurement) => ({ date: anth.date.toString(), measureTypeId: anth.measureTypeId, value: anth.value, unit: anth.unit }))),
+      bodyCompositionMeasurements: JSON.stringify(patientMeasurement.bodyCompositionMeasurements.map((body: IBodyCompositionMeasurement) => ({ date: body.date.toString(), measureTypeId: body.measureTypeId, value: body.value, unit: body.unit }))),
+      medicalAnalysisResults: JSON.stringify(patientMeasurement.medicalAnalysisResults.map((meAnRe: IMedicalAnalysisResult) => ({ date: meAnRe.date.toString(), measureTypeId: meAnRe.measureTypeId, value: meAnRe.value, unit: meAnRe.unit }))),
+      createdAt: patientMeasurement.createdAt,
+      updatedAt: patientMeasurement.updatedAt,
+      medicalRecordId
+    }
+  }
+  private foodDiaryToResponse(foodDiary: FoodDiary): FoodDiaryDto {
+    return {
+      id: foodDiary.id,
+      createdAt: foodDiary.createdAt,
+      updatedAt: foodDiary.updatedAt,
+      date: foodDiary.date,
+      meal: {
+        withCompany: foodDiary.meal.withCompany,
+        watchingTv: foodDiary.meal.watchingTv,
+        sittingAtTable: foodDiary.meal.sittingAtTable,
+        foodItems: foodDiary.meal.foodItems.map((foodItem: FoodDiaryFoodItem) => ({
+          foodId: foodItem.foodId,
+          recipeId: foodItem.recipeId,
+          isRecipe: foodItem.isRecipe,
+          isHomeMade: foodItem.isHomeMade,
+          quantity: foodItem.quantity
+        })
+        ),
+        mealTypeId: foodDiary.meal.mealTypeId,
+        description: foodDiary.meal.description
+      },
+      observation: foodDiary.observation,
+      images: foodDiary.images
+    }
+  }
+  private consultationInformationToResponse(consultationInformation: ConsultationInformation): ConsultationInformationDto {
+    return {
+      ...consultationInformation.getProps()
+    }
+  }
+  private foodStoryToResponse(foodStory: FoodStory): FoodStoryDto {
+    return {
+      id: foodStory.id,
+      createdAt: foodStory.createdAt,
+      updatedAt: foodStory.updatedAt,
+      bedtime: foodStory.bedtime,
+      wakeUpTime: foodStory.wakeUpTime,
+      dietTypes: foodStory.dietTypes,
+      favoriteFoods: foodStory.favoriteFoods,
+      foodAversions: foodStory.foodAversions,
+      allergies: foodStory.allergies,
+      foodIntolerances: foodStory.foodIntolerances,
+      nutritionalDeficiencies: foodStory.nutritionalDeficiencies,
+      waterConsumption: foodStory.waterConsumption,
+      numberOfMealsPerDay: foodStory.numberOfMealsPerDay,
+      otherInformation: foodStory.otherInformation
+    }
+  }
+  private medicalStoryToResponse(medicalStory: MedicalStory): MedicalStoryDto {
+    return { ...medicalStory.getProps() }
+  }
+  private personalAndSocialStoryToResponse(personalAndSocialStory: PersonalAndSocialStory): PersonalAndSocialStoryDto {
+    return { ...personalAndSocialStory.getProps() }
+  }
+  private eatingBehaviorsToResponse(eatingBehaviors: EatingBehavior[]): EatingBehaviorDto[] {
+    return eatingBehaviors.map((eatBeh: EatingBehavior) => ({ date: eatBeh.date, eatingBehavior: eatBeh.eatingBehavior }));
+  }
+  private objectiveToResponse(objective: Objective): ObjectiveDto {
+    return {
+      id: objective.id,
+      createdAt: objective.createdAt,
+      updatedAt: objective.updatedAt,
+      type: objective.type,
+      timeframe: { start: objective.timeframe.start.toString(), end: objective.timeframe.end.toString() },
+      body: objective.isMeasure() ? { measureTypeId: objective.measureTypeId as string, value: objective.value as number, description: objective.description } : { description: objective.description },
+      status: objective.status
+    }
+  }
+  private patientMeasurementToResponse(patientMeasurement: PatientMeasurements): PatientMeasurementDto {
+    return {
+      anthropometricMeasurements:
+        patientMeasurement.anthropometricMeasurements.map((anthM: IAnthropometricMeasurement) => ({
+          date: anthM.date.toString(),
+          measureTypeId: anthM.measureTypeId,
+          value: anthM.value,
+          unit: anthM.unit
+        })) as AnthropometricMeasurementDto[],
+      bodyCompositionMeasurements:
+        patientMeasurement.bodyCompositionMeasurements.map((bodyM: IBodyCompositionMeasurement) => ({
+          date: bodyM.date.toString(),
+          measureTypeId: bodyM.measureTypeId,
+          value: bodyM.value,
+          unit: bodyM.unit
+        })) as BodyCompositionMeasurementDto[],
+      medicalAnalysisResults: patientMeasurement.medicalAnalysisResults.map((meReM: IMedicalAnalysisResult) => ({
+        date: meReM.date.toString(),
+        measureTypeId: meReM.measureTypeId,
+        value: meReM.value,
+        unit: meReM.unit
+      })) as MedicalAnalysisResultDto[],
+      id: patientMeasurement.id,
+      createdAt: patientMeasurement.createdAt,
+      updatedAt: patientMeasurement.updatedAt
+    }
   }
 }

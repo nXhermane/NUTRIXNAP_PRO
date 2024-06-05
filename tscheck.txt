@@ -1,0 +1,1096 @@
+
+> nutrixnap@1.0.0 ts:check
+> tsc
+
+app/(drawer)/(home)/_layout.tsx(33,48): error TS2339: Property 'focused' does not exist on type 'BottomTabBarButtonProps'.
+app/(drawer)/(home)/_layout.tsx(50,17): error TS2322: Type '{ fontFamily: string; fontWeight: number; }' is not assignable to type 'StyleProp<TextStyle>'.
+  Types of property 'fontWeight' are incompatible.
+    Type 'number' is not assignable to type '"bold" | "100" | "normal" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900" | undefined'.
+app/(drawer)/(home)/_layout.tsx(63,21): error TS2353: Object literal may only specify known properties, and 'tabBar' does not exist in type 'HeaderOptions & { title?: string | undefined; tabBarLabel?: string | ((props: { focused: boolean; color: string; position: LabelPosition; children: string; }) => ReactNode) | undefined; ... 24 more ...; freezeOnBlur?: boolean | undefined; } & { ...; }'.
+app/(drawer)/(home)/_layout.tsx(122,16): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+app/(drawer)/(home)/food.tsx(48,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+app/(drawer)/(home)/food.tsx(48,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+app/(drawer)/(home)/index.tsx(25,13): error TS2339: Property 'navigation' does not exist on type 'Props'.
+app/(drawer)/(home)/index.tsx(33,51): error TS2322: Type '{ nav: any; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'nav' does not exist on type 'IntrinsicAttributes & Props'.
+app/(drawer)/(home)/index.tsx(49,40): error TS2322: Type '{ placeholder: string; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'placeholder' does not exist on type 'IntrinsicAttributes & Props'.
+app/(drawer)/(home)/index.tsx(67,16): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+app/(drawer)/(home)/patient.tsx(1,46): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+app/(drawer)/(home)/patient.tsx(37,29): error TS2322: Type '{ onPressAddBtn: (e: PressEvent) => void; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'onPressAddBtn' does not exist on type 'IntrinsicAttributes & Props'.
+app/(drawer)/(home)/patient.tsx(61,36): error TS2365: Operator '+' cannot be applied to types 'boolean' and 'boolean'.
+app/(drawer)/(home)/patient.tsx(69,25): error TS2322: Type '{ openPopup: any; onPressAddBtn: (e: PressEvent) => void; onPressItemEdit: (e: PressEvent, id: number) => void; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'onPressItemEdit' does not exist on type 'IntrinsicAttributes & Props'.
+app/(drawer)/(home)/patient.tsx(83,29): error TS2322: Type '{ animatedData: { x: number; y: number; }; popupIsOpen: (val: boolean) => void; title: string; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'animatedData' does not exist on type 'IntrinsicAttributes & Props'.
+app/(drawer)/(home)/patient.tsx(92,29): error TS2322: Type '{ animatedData: { x: number; y: number; }; popupIsOpen: (val: boolean) => void; isUpdate: true; title: string; patientInfo: any; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'animatedData' does not exist on type 'IntrinsicAttributes & Props'.
+app/(drawer)/(home)/patient.tsx(109,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+app/(drawer)/(home)/patient.tsx(109,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+app/auth/_layout.tsx(7,25): error TS2304: Cannot find name 'Props'.
+app/auth/index.tsx(42,29): error TS18047: 'response.authentication' is possibly 'null'.
+app/auth/index.tsx(52,31): error TS7006: Parameter 'token' implicitly has an 'any' type.
+app/auth/index.tsx(70,17): error TS18047: 'response' is possibly 'null'.
+app/auth/index.tsx(70,26): error TS2339: Property 'status' does not exist on type 'AuthSessionResult'.
+  Property 'status' does not exist on type '{ type: "dismiss" | "cancel" | "opened" | "locked"; }'.
+app/auth/index.tsx(71,17): error TS18047: 'response' is possibly 'null'.
+app/auth/index.tsx(71,26): error TS2339: Property 'statusText' does not exist on type 'AuthSessionResult'.
+  Property 'statusText' does not exist on type '{ type: "dismiss" | "cancel" | "opened" | "locked"; }'.
+app/auth/index.tsx(92,27): error TS2322: Type '{ s: number; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 's' does not exist on type 'IntrinsicAttributes & Props'.
+app/auth/index.tsx(147,16): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+app/auth/logininfo.tsx(6,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+app/auth/logininfo.tsx(26,57): error TS2345: Argument of type 'string | string[]' is not assignable to parameter of type 'string'.
+  Type 'string[]' is not assignable to type 'string'.
+app/auth/logininfo.tsx(30,13): error TS2740: Type '{ name: any; email: any; profil_img: any; lastname: any; firstname: any; country: any; }' is missing the following properties from type 'UserEntity': gender, tel, birthday, profession, and 4 more.
+app/auth/logininfo.tsx(41,26): error TS2345: Argument of type 'UserEntity | null' is not assignable to parameter of type 'UserEntity'.
+  Type 'null' is not assignable to type 'UserEntity'.
+app/auth/logininfo.tsx(56,25): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: TouchableOpacityProps): TouchableOpacity', gave the following error.
+    Type '{ children: Element; style: any; underlayColor: string; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<TouchableOpacity> & Readonly<TouchableOpacityProps>'.
+      Property 'underlayColor' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<TouchableOpacity> & Readonly<TouchableOpacityProps>'.
+  Overload 2 of 2, '(props: TouchableOpacityProps, context: any): TouchableOpacity', gave the following error.
+    Type '{ children: Element; style: any; underlayColor: string; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<TouchableOpacity> & Readonly<TouchableOpacityProps>'.
+      Property 'underlayColor' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<TouchableOpacity> & Readonly<TouchableOpacityProps>'.
+app/auth/logininfo.tsx(60,29): error TS2322: Type '{ uri: any; }' is not assignable to type 'number'.
+app/auth/logininfo.tsx(92,29): error TS2322: Type '{ popupIsOpen: (val: boolean) => void; animatedData: {}; userInfo: any; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'popupIsOpen' does not exist on type 'IntrinsicAttributes & Props'.
+app/auth/logininfo.tsx(118,16): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+app/auth/logininfo.tsx(167,40): error TS2561: Object literal may only specify known properties, but 'weight' does not exist in type 'Readonly<{ width: number; height: number; }>'. Did you mean to write 'height'?
+app/details/patients/[patient_Id].tsx(22,28): error TS2322: Type 'string | string[]' is not assignable to type 'number'.
+  Type 'string' is not assignable to type 'number'.
+app/forms/addFoodForm.tsx(22,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+app/forms/addFoodForm.tsx(22,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+app/index.tsx(10,10): error TS2305: Module '"@react-navigation/native"' has no exported member 'ThemeContext'.
+app/index.tsx(34,52): error TS2345: Argument of type '"auth"' is not assignable to parameter of type 'StaticRoutes | RelativePathString | `${string}:${string}`'.
+app/index.tsx(35,33): error TS2345: Argument of type '"(drawer)/(home)"' is not assignable to parameter of type 'StaticRoutes | RelativePathString | `${string}:${string}`'.
+app/index.tsx(52,16): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+app/search/search.tsx(22,17): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+app/search/search.tsx(22,24): error TS7031: Binding element 'size' implicitly has an 'any' type.
+app/search/searchFoods.tsx(48,18): error TS2739: Type '{ value: string; setValue: Dispatch<SetStateAction<string>>; onChange: (value: string) => void; withGoBack: true; placeholder: string; }' is missing the following properties from type 'Props': st, inputSt
+app/search/searchFoods.tsx(89,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+app/search/searchFoods.tsx(89,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+app/search/searchPatient.tsx(16,10): error TS2305: Module '"@/data"' has no exported member 'dataPatientList'.
+app/search/searchPatient.tsx(53,18): error TS2739: Type '{ value: string; setValue: Dispatch<SetStateAction<string>>; onChange: (value: string) => void; withGoBack: true; placeholder: string; }' is missing the following properties from type 'Props': st, inputSt
+app/search/searchPatient.tsx(80,29): error TS2322: Type '{ statusCode: number; name: any; occupation: any; id: any; lastActivity: any; index: number; setSelected: Dispatch<SetStateAction<never[]>>; selected: never[]; sexe: any; uri: any; searchItem: true; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'statusCode' does not exist on type 'IntrinsicAttributes & Props'.
+app/search/searchPatient.tsx(102,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+app/search/searchPatient.tsx(102,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/Themed.tsx(37,31): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: TextProps): Text', gave the following error.
+    Type '{ color: string | BackgroundColors | TextColors; }' is not assignable to type 'TextStyle | Falsy | RegisteredStyle<TextStyle> | RecursiveArray<TextStyle | Falsy | RegisteredStyle<TextStyle>> | readonly (TextStyle | ... 1 more ... | RegisteredStyle<...>)[]'.
+      Types of property 'color' are incompatible.
+        Type 'string | BackgroundColors | TextColors' is not assignable to type 'ColorValue | undefined'.
+          Type 'BackgroundColors' is not assignable to type 'ColorValue | undefined'.
+  Overload 2 of 2, '(props: TextProps, context: any): Text', gave the following error.
+    Type '{ color: string | BackgroundColors | TextColors; }' is not assignable to type 'TextStyle | Falsy | RegisteredStyle<TextStyle> | RecursiveArray<TextStyle | Falsy | RegisteredStyle<TextStyle>> | readonly (TextStyle | ... 1 more ... | RegisteredStyle<...>)[]'.
+      Types of property 'color' are incompatible.
+        Type 'string | BackgroundColors | TextColors' is not assignable to type 'ColorValue | undefined'.
+components/Themed.tsx(42,81): error TS2345: Argument of type '"background"' is not assignable to parameter of type 'keyof ThemeColors'.
+components/Themed.tsx(44,31): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: ViewProps): View', gave the following error.
+    Type '{ backgroundColor: string | BackgroundColors | TextColors; }' is not assignable to type 'ViewStyle | Falsy | RegisteredStyle<ViewStyle> | RecursiveArray<ViewStyle | Falsy | RegisteredStyle<ViewStyle>> | readonly (ViewStyle | ... 1 more ... | RegisteredStyle<...>)[]'.
+      Types of property 'backgroundColor' are incompatible.
+        Type 'string | BackgroundColors | TextColors' is not assignable to type 'ColorValue | undefined'.
+  Overload 2 of 2, '(props: ViewProps, context: any): View', gave the following error.
+    Type '{ backgroundColor: string | BackgroundColors | TextColors; }' is not assignable to type 'ViewStyle | Falsy | RegisteredStyle<ViewStyle> | RecursiveArray<ViewStyle | Falsy | RegisteredStyle<ViewStyle>> | readonly (ViewStyle | ... 1 more ... | RegisteredStyle<...>)[]'.
+      Types of property 'backgroundColor' are incompatible.
+        Type 'string | BackgroundColors | TextColors' is not assignable to type 'ColorValue | undefined'.
+components/auth/LoginModal.tsx(8,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/auth/LoginModal.tsx(43,36): error TS2345: Argument of type 'string' is not assignable to parameter of type 'TCountryCode'.
+components/auth/LoginModal.tsx(49,28): error TS2345: Argument of type 'string' is not assignable to parameter of type 'TCountryCode'.
+components/auth/LoginModal.tsx(101,46): error TS7006: Parameter 'action' implicitly has an 'any' type.
+components/auth/LoginModal.tsx(135,54): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '{ name: string; lastname: string; firtname: string; email: string; gender: string; country: string; tel: string; birthday: string; profession: string; profil_img: string; }' is not assignable to parameter of type 'never'.
+components/auth/LoginModal.tsx(136,21): error TS2339: Property 'userInfo' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(137,22): error TS2339: Property 'userInfo' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(138,27): error TS2339: Property 'userInfo' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(139,25): error TS2339: Property 'userInfo' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(140,26): error TS2339: Property 'userInfo' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(141,24): error TS2339: Property 'userInfo' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(149,43): error TS2339: Property 'animatedData' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(179,28): error TS2339: Property 'animatedData' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(179,53): error TS2339: Property 'animatedData' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(182,35): error TS2339: Property 'popupIsOpen' does not exist on type 'Props'.
+components/auth/LoginModal.tsx(199,13): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | boolean | ((uri: string, directory: string, fileName: string, options?: DownloadOptions | undefined) => Promise<{ uri: string; }>)' are callable.
+    Type 'string' has no call signatures.
+components/auth/LoginModal.tsx(203,23): error TS7031: Binding element 'uri' implicitly has an 'any' type.
+components/auth/LoginModal.tsx(205,39): error TS18047: 'user' is possibly 'null'.
+components/auth/LoginModal.tsx(210,40): error TS2345: Argument of type '"(drawer)/(home)"' is not assignable to parameter of type 'StaticRoutes | RelativePathString | `${string}:${string}`'.
+components/auth/LoginModal.tsx(234,33): error TS2322: Type '{ uri: any; }' is not assignable to type 'number'.
+components/auth/LoginModal.tsx(239,37): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | (() => Promise<{ uri: string; type: string; }[]>)' are callable.
+    Type 'string' has no call signatures.
+components/auth/LoginModal.tsx(239,58): error TS7031: Binding element 'uri' implicitly has an 'any' type.
+components/auth/LoginModal.tsx(239,63): error TS7031: Binding element 'type' implicitly has an 'any' type.
+components/auth/LoginModal.tsx(241,54): error TS2554: Expected 0 arguments, but got 1.
+components/auth/LoginModal.tsx(265,46): error TS2554: Expected 0 arguments, but got 1.
+components/auth/LoginModal.tsx(277,33): error TS2322: Type 'string | undefined' is not assignable to type 'string | Element'.
+components/auth/LoginModal.tsx(283,33): error TS2322: Type '(ids: number, data: any) => void' is not assignable to type '(ids: string | number | string[] | number[], data: Option | Option[]) => void'.
+  Types of parameters 'ids' and 'ids' are incompatible.
+    Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+components/auth/LoginModal.tsx(284,46): error TS2554: Expected 0 arguments, but got 1.
+components/auth/LoginModal.tsx(294,46): error TS2554: Expected 0 arguments, but got 1.
+components/auth/LoginModal.tsx(312,33): error TS2322: Type '(ids: number, data: any) => void' is not assignable to type '(ids: string | number | string[] | number[], data: Option | Option[]) => void'.
+  Types of parameters 'ids' and 'ids' are incompatible.
+    Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+components/auth/LoginModal.tsx(313,46): error TS2554: Expected 0 arguments, but got 1.
+components/auth/LoginModal.tsx(328,46): error TS2554: Expected 0 arguments, but got 1.
+components/auth/LoginModal.tsx(342,33): error TS2322: Type '(ids: number, data: any) => void' is not assignable to type '(ids: string | number | string[] | number[], data: Option | Option[]) => void'.
+  Types of parameters 'ids' and 'ids' are incompatible.
+    Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+components/auth/LoginModal.tsx(343,46): error TS2554: Expected 0 arguments, but got 1.
+components/auth/LoginModal.tsx(370,22): error TS7006: Parameter 'label' implicitly has an 'any' type.
+components/auth/LoginModal.tsx(370,29): error TS7006: Parameter 'isSelected' implicitly has an 'any' type.
+components/auth/LoginModal.tsx(370,41): error TS7006: Parameter 'onPress' implicitly has an 'any' type.
+components/auth/LoginModal.tsx(370,50): error TS7006: Parameter 'props' implicitly has an 'any' type.
+components/basic/Avatars.tsx(63,49): error TS2339: Property 'uri' does not exist on type 'number'.
+components/basic/Avatars.tsx(70,39): error TS2339: Property 'uri' does not exist on type 'number'.
+components/basic/Button.tsx(8,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/basic/Button.tsx(59,17): error TS2322: Type 'string | number' is not assignable to type 'DimensionValue | undefined'.
+  Type 'string' is not assignable to type 'DimensionValue | undefined'.
+components/basic/Button.tsx(60,17): error TS2322: Type 'string | number' is not assignable to type 'DimensionValue | undefined'.
+components/basic/Button.tsx(101,17): error TS2322: Type 'string | number' is not assignable to type 'DimensionValue | undefined'.
+components/basic/Button.tsx(128,17): error TS2322: Type 'string | number' is not assignable to type 'number'.
+  Type 'string' is not assignable to type 'number'.
+components/basic/Button.tsx(129,17): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+components/basic/Button.tsx(129,17): error TS18048: 'props.w' is possibly 'undefined'.
+components/basic/DateInput.tsx(40,17): error TS2783: 'label' is specified more than once, so this usage will be overwritten.
+components/basic/DateInput.tsx(42,17): error TS2322: Type 'string | Element' is not assignable to type 'string'.
+  Type 'Element' is not assignable to type 'string'.
+components/basic/DateInput.tsx(42,17): error TS2783: 'value' is specified more than once, so this usage will be overwritten.
+components/basic/DateInput.tsx(70,21): error TS2322: Type '(event: DateTimePickerEvent, selectedDate: Date) => void' is not assignable to type '(event: DateTimePickerEvent, date?: Date | undefined) => void'.
+  Types of parameters 'selectedDate' and 'date' are incompatible.
+    Type 'Date | undefined' is not assignable to type 'Date'.
+      Type 'undefined' is not assignable to type 'Date'.
+components/basic/DateTimeInput.tsx(26,9): error TS2339: Property 'placeholder' does not exist on type 'Props'.
+components/basic/DateTimeInput.tsx(133,21): error TS2322: Type '(event: DateTimePickerEvent, selectedDate: Date) => void' is not assignable to type '(event: DateTimePickerEvent, date?: Date | undefined) => void'.
+  Types of parameters 'selectedDate' and 'date' are incompatible.
+    Type 'Date | undefined' is not assignable to type 'Date'.
+      Type 'undefined' is not assignable to type 'Date'.
+components/basic/DateTimeInput.tsx(143,21): error TS2322: Type '(event: DateTimePickerEvent, selectedDate: Date) => void' is not assignable to type '(event: DateTimePickerEvent, date?: Date | undefined) => void'.
+  Types of parameters 'selectedDate' and 'date' are incompatible.
+    Type 'Date | undefined' is not assignable to type 'Date'.
+      Type 'undefined' is not assignable to type 'Date'.
+components/basic/FlotingBtn.tsx(19,17): error TS2694: Namespace 'React' has no exported member 'Node'.
+components/basic/FlotingBtn.tsx(61,9): error TS2322: Type '({ h, w, r }: { h: any; w: any; r: any; }) => { borderRadius: any; width: any; height: any; elevation: number; shadowOpacity: number; shadowRadius: number; shadowOffset: { width: number; height: number; }; overflow: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/basic/FlotingBtn.tsx(61,30): error TS7031: Binding element 'h' implicitly has an 'any' type.
+components/basic/FlotingBtn.tsx(61,33): error TS7031: Binding element 'w' implicitly has an 'any' type.
+components/basic/FlotingBtn.tsx(61,36): error TS7031: Binding element 'r' implicitly has an 'any' type.
+components/basic/FlotingBtn.tsx(64,32): error TS2339: Property 'sizw' does not exist on type 'ThemeInterface'.
+components/basic/GroupSelection.tsx(54,57): error TS2339: Property 'includes' does not exist on type 'number | number[]'.
+  Property 'includes' does not exist on type 'number'.
+components/basic/GroupSelection.tsx(55,43): error TS2345: Argument of type 'Required<Omit<SelectionItemProps, "selectedId" | "setSelectedId" | "custormItem">> | Required<Omit<SelectionItemProps, "selectedId" | ... 1 more ... | "custormItem">>[] | undefined' is not assignable to parameter of type 'Required<Omit<SelectionItemProps, "selectedId" | "setSelectedId" | "custormItem">> | Required<Omit<SelectionItemProps, "selectedId" | ... 1 more ... | "custormItem">>[]'.
+  Type 'undefined' is not assignable to type 'Required<Omit<SelectionItemProps, "selectedId" | "setSelectedId" | "custormItem">> | Required<Omit<SelectionItemProps, "selectedId" | ... 1 more ... | "custormItem">>[]'.
+components/basic/GroupSelection.tsx(167,9): error TS2322: Type '(active: boolean) => { backgroundColor: string; width: string; flexDirection: string; alignItems: string; height: number; borderBottomWidth: number; borderBottomColor: string; paddingHorizontal: number; gap: number; justifyContent: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/basic/ImagePicker.tsx(61,25): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | (() => Promise<{ uri: string; type: string; }[]>)' are callable.
+    Type 'string' has no call signatures.
+components/basic/ImagePicker.tsx(61,39): error TS7006: Parameter 'images' implicitly has an 'any' type.
+components/basic/ImagePicker.tsx(62,45): error TS7006: Parameter 'image' implicitly has an 'any' type.
+components/basic/ImagePicker.tsx(62,52): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/basic/ImagePicker.tsx(108,41): error TS2322: Type '{ uri: string; }' is not assignable to type 'number'.
+components/basic/Logo.tsx(4,22): error TS2307: Cannot find module '@/assets/images/logo/nutriXcupDark.webp' or its corresponding type declarations.
+components/basic/Logo.tsx(5,18): error TS2307: Cannot find module '@/assets/images/logo/nutriXcup.webp' or its corresponding type declarations.
+components/basic/Logo.tsx(6,29): error TS2307: Cannot find module '@/assets/images/logo/logonutrixnapDark.gif' or its corresponding type declarations.
+components/basic/Logo.tsx(7,25): error TS2307: Cannot find module '@/assets/images/logo/logonutrixnap.gif' or its corresponding type declarations.
+components/basic/Logo.tsx(8,30): error TS2307: Cannot find module '@/assets/images/logo/logonutrixnapWName.gif' or its corresponding type declarations.
+components/basic/Logo.tsx(9,34): error TS2307: Cannot find module '@/assets/images/logo/logonutrixnapWNameDark.gif' or its corresponding type declarations.
+components/basic/Logo.tsx(10,23): error TS2307: Cannot find module '@/assets/images/logo/nutriXcupWname.webp' or its corresponding type declarations.
+components/basic/Logo.tsx(11,27): error TS2307: Cannot find module '@/assets/images/logo/nutriXcupWnameDark.webp' or its corresponding type declarations.
+components/basic/Logo.tsx(20,9): error TS2339: Property 's' does not exist on type 'Props'.
+components/basic/Logo.tsx(21,9): error TS2339: Property 'animated' does not exist on type 'Props'.
+components/basic/Logo.tsx(22,9): error TS2339: Property 'withName' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(10,9): error TS2339: Property 'onBlur' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(11,9): error TS2339: Property 'onFocus' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(12,9): error TS2339: Property 'isFocus' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(13,9): error TS2339: Property 'disableClearIcon' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(14,9): error TS2339: Property 'h' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(15,9): error TS2339: Property 'w' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(16,9): error TS2339: Property 'r' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(16,11): error TS2339: Property 'bw' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(17,9): error TS2339: Property 'st' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(29,34): error TS2339: Property 'v' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(30,41): error TS2339: Property 'onChange' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(31,40): error TS2339: Property 'p' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(32,49): error TS2339: Property 'pC' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(35,38): error TS2339: Property 'iM' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(36,32): error TS2339: Property 'ref' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(46,42): error TS2339: Property 'onClear' does not exist on type 'Props'.
+components/basic/SearchInput.tsx(63,9): error TS2322: Type '({ h, w, r, bw, st }: { h: any; w: any; r: any; bw: any; st: any; }) => any' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/basic/SearchInput.tsx(63,20): error TS7031: Binding element 'h' implicitly has an 'any' type.
+components/basic/SearchInput.tsx(63,23): error TS7031: Binding element 'w' implicitly has an 'any' type.
+components/basic/SearchInput.tsx(63,26): error TS7031: Binding element 'r' implicitly has an 'any' type.
+components/basic/SearchInput.tsx(63,29): error TS7031: Binding element 'bw' implicitly has an 'any' type.
+components/basic/SearchInput.tsx(63,32): error TS7031: Binding element 'st' implicitly has an 'any' type.
+components/basic/SelectionInput.tsx(92,17): error TS2322: Type 'string | Element' is not assignable to type 'string'.
+  Type 'Element' is not assignable to type 'string'.
+components/basic/SelectionInput.tsx(92,17): error TS2783: 'value' is specified more than once, so this usage will be overwritten.
+components/basic/SelectionInput.tsx(94,17): error TS2783: 'label' is specified more than once, so this usage will be overwritten.
+components/basic/SelectionInput.tsx(150,37): error TS2322: Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+  Type 'string' is not assignable to type 'number'.
+components/basic/SelectionInput.tsx(164,57): error TS2554: Expected 1 arguments, but got 0.
+components/basic/TelInput.tsx(47,22): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: TextInputProps): TextInput', gave the following error.
+    Type '{ value: string; label: string; isRequire?: boolean | undefined; tel: string; onChange: (value: string, tel?: string | undefined) => void; keyboardType: "numeric"; style: any; onChangeText: (value: string) => void; }' is not assignable to type 'Readonly<TextInputProps>'.
+      Types of property 'onChange' are incompatible.
+        Type '(value: string, tel?: string | undefined) => void' is not assignable to type '(e: NativeSyntheticEvent<TextInputChangeEventData>) => void'.
+          Types of parameters 'value' and 'e' are incompatible.
+            Type 'NativeSyntheticEvent<TextInputChangeEventData>' is not assignable to type 'string'.
+  Overload 2 of 2, '(props: TextInputProps, context: any): TextInput', gave the following error.
+    Type '{ value: string; label: string; isRequire?: boolean | undefined; tel: string; onChange: (value: string, tel?: string | undefined) => void; keyboardType: "numeric"; style: any; onChangeText: (value: string) => void; }' is not assignable to type 'Readonly<TextInputProps>'.
+      Types of property 'onChange' are incompatible.
+        Type '(value: string, tel?: string | undefined) => void' is not assignable to type '(e: NativeSyntheticEvent<TextInputChangeEventData>) => void'.
+components/basic/TelInput.tsx(50,25): error TS2783: 'value' is specified more than once, so this usage will be overwritten.
+components/basic/Text.tsx(82,13): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: TextProps): Text', gave the following error.
+    Type 'ForwardedRef<unknown>' is not assignable to type 'LegacyRef<Text> | undefined'.
+      Type 'MutableRefObject<unknown>' is not assignable to type 'LegacyRef<Text> | undefined'.
+        Type 'MutableRefObject<unknown>' is not assignable to type 'RefObject<Text>'.
+          Types of property 'current' are incompatible.
+            Type 'unknown' is not assignable to type 'Text | null'.
+  Overload 2 of 2, '(props: TextProps, context: any): Text', gave the following error.
+    Type 'ForwardedRef<unknown>' is not assignable to type 'LegacyRef<Text> | undefined'.
+components/basic/Text.tsx(111,15): error TS2322: Type '(typo: { size: number; color: string; font: string; }, style?: TextStyle) => { color: ColorValue; fontFamily: string; fontSize: number; fontStyle?: "normal" | "italic" | undefined; fontWeight?: "bold" | "100" | ... 9 more ... | undefined; ... 113 more ...; includeFontPadding?: boolean | undefined; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/basic/TextInput.tsx(10,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/basic/TextInput.tsx(75,30): error TS18049: 'inputContainerStyle.maxHeight' is possibly 'null' or 'undefined'.
+components/basic/TextInput.tsx(75,30): error TS2365: Operator '+' cannot be applied to types 'string | number | AnimatedNode' and 'number'.
+components/basic/TextInput.tsx(76,30): error TS18049: 'inputContainerStyle.minHeight' is possibly 'null' or 'undefined'.
+components/basic/TextInput.tsx(76,30): error TS2365: Operator '+' cannot be applied to types 'string | number | AnimatedNode' and 'number'.
+components/basic/TextInput.tsx(107,31): error TS2339: Property 'multiline' does not exist on type 'Props'.
+components/basic/TextInput.tsx(113,21): error TS2783: 'value' is specified more than once, so this usage will be overwritten.
+components/basic/TextInput.tsx(119,21): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: TextInputProps): TextInput', gave the following error.
+    Type '"password" | "default" | "numeric"' is not assignable to type 'KeyboardTypeOptions | undefined'.
+      Type '"password"' is not assignable to type 'KeyboardTypeOptions | undefined'.
+  Overload 2 of 2, '(props: TextInputProps, context: any): TextInput', gave the following error.
+    Type '"password" | "default" | "numeric"' is not assignable to type 'KeyboardTypeOptions | undefined'.
+components/basic/TextInput.tsx(140,51): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+components/basic/TextInput.tsx(141,54): error TS2349: This expression is not callable.
+  Type 'never' has no call signatures.
+components/basic/TextInput.tsx(155,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/basic/TextInput.tsx(155,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/basic/TextInput.tsx(181,9): error TS2322: Type '(h: number | string, r: number) => { flexDirection: string; justifyContent: string; borderColor: any; borderWidth: number; borderRadius: any; height: any; paddingHorizontal: any; backgroundColor: any; marginHorizontal: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/basic/ToggleBtn.tsx(55,9): error TS2322: Type '(pressed: any) => { paddingVertical: number; paddingHorizontal: number; borderWidth: number; borderColor: string; flexDirection: string; alignItems: string; justifyContent: string; backgroundColor: string; gap: number; borderRadius: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/basic/ToggleBtn.tsx(55,29): error TS7006: Parameter 'pressed' implicitly has an 'any' type.
+components/basic/ToggleBtn.tsx(67,24): error TS7006: Parameter 'pressed' implicitly has an 'any' type.
+components/basic/ToggleBtn.tsx(67,24): error TS2322: Type '(pressed: any) => { fontFamily: string; fontSize: number; color: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/container/PatientSection.tsx(1,55): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/container/PatientSection.tsx(149,9): error TS2322: Type '(centerBody: boolean) => { fontFamily: string; fontSize: number; color: string; textAlign: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/details/patient/PatientDetail.tsx(56,62): error TS2345: Argument of type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to parameter of type 'AnimatedRef<AnimatedScrollView>'.
+  Types of property 'current' are incompatible.
+    Type 'Component<{}, {}, any> | null' is not assignable to type 'AnimatedScrollView | null'.
+      Type 'Component<{}, {}, any>' is not assignable to type 'AnimatedScrollView'.
+components/details/patient/PatientDetail.tsx(58,29): error TS2345: Argument of type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to parameter of type 'AnimatedRef<AnimatedScrollView>'.
+components/details/patient/PatientDetail.tsx(60,29): error TS2345: Argument of type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to parameter of type 'AnimatedRef<AnimatedScrollView>'.
+components/details/patient/PatientDetail.tsx(72,19): error TS2345: Argument of type '(patient: PatientEntity) => void' is not assignable to parameter of type '(value: PatientEntity | null) => void | PromiseLike<void>'.
+  Types of parameters 'patient' and 'value' are incompatible.
+    Type 'PatientEntity | null' is not assignable to type 'PatientEntity'.
+      Type 'null' is not assignable to type 'PatientEntity'.
+components/details/patient/PatientDetail.tsx(77,59): error TS2345: Argument of type '{}' is not assignable to parameter of type 'PatientEntity | (() => PatientEntity)'.
+components/details/patient/PatientDetail.tsx(90,17): error TS2322: Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type 'LegacyRef<AnimatedScrollView> | undefined'.
+  Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type '(instance: AnimatedScrollView | null) => void'.
+    Types of parameters 'component' and 'instance' are incompatible.
+      Type 'AnimatedScrollView | null' is not assignable to type 'Component<{}, {}, any> | undefined'.
+        Type 'null' is not assignable to type 'Component<{}, {}, any> | undefined'.
+components/details/patient/PatientDetail.tsx(93,61): error TS2339: Property 'scrollTo' does not exist on type 'Component<unknown, {}, any> & Readonly<NativeMethods>'.
+components/details/patient/PatientDetail.tsx(95,41): error TS2339: Property 'scrollTo' does not exist on type 'Component<unknown, {}, any> & Readonly<NativeMethods>'.
+components/details/patient/PatientDetail.tsx(105,25): error TS2322: Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type 'LegacyRef<AnimatedScrollView> | undefined'.
+components/details/patient/PatientDetail.tsx(120,17): error TS7031: Binding element 'label' implicitly has an 'any' type.
+components/details/patient/PatientDetailHeader.tsx(8,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/details/patient/PatientDetailHeader.tsx(9,5): error TS2305: Module '"react-native"' has no exported member 'LayoutEvent'.
+components/details/patient/PatientDetailHeader.tsx(24,5): error TS2724: '"react-native-reanimated"' has no exported member named 'AnimatedScrollView'. Did you mean 'AnimatedScrollViewProps'?
+components/details/patient/PatientDetailHeader.tsx(49,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+components/details/patient/PatientDetailHeader.tsx(145,15): error TS7034: Variable 'input' implicitly has type 'any[]' in some locations where its type cannot be determined.
+components/details/patient/PatientDetailHeader.tsx(146,15): error TS7034: Variable 'output1' implicitly has type 'any[]' in some locations where its type cannot be determined.
+components/details/patient/PatientDetailHeader.tsx(147,15): error TS7034: Variable 'output2' implicitly has type 'any[]' in some locations where its type cannot be determined.
+components/details/patient/PatientDetailHeader.tsx(152,31): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+components/details/patient/PatientDetailHeader.tsx(157,60): error TS7005: Variable 'input' implicitly has an 'any[]' type.
+components/details/patient/PatientDetailHeader.tsx(157,67): error TS7005: Variable 'output2' implicitly has an 'any[]' type.
+components/details/patient/PatientDetailHeader.tsx(158,59): error TS7005: Variable 'input' implicitly has an 'any[]' type.
+components/details/patient/PatientDetailHeader.tsx(158,66): error TS7005: Variable 'output1' implicitly has an 'any[]' type.
+components/details/patient/PatientDetailHeader.tsx(160,26): error TS7005: Variable 'output2' implicitly has an 'any[]' type.
+components/details/patient/PatientDetailHeader.tsx(174,27): error TS7006: Parameter 'index' implicitly has an 'any' type.
+components/details/patient/PatientDetailHeader.tsx(206,38): error TS2353: Object literal may only specify known properties, and 'uri' does not exist in type 'SharedValue<number | undefined>'.
+components/details/patient/PatientDetailHeader.tsx(224,34): error TS2353: Object literal may only specify known properties, and 'uri' does not exist in type 'SharedValue<number | undefined>'.
+components/details/patient/PatientDetailHeader.tsx(252,37): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+components/details/patient/PatientDetailHeader.tsx(290,23): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+components/details/patient/PatientDetailHeader.tsx(292,22): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+components/details/patient/PatientDetailHeader.tsx(393,13): error TS2698: Spread types may only be created from object types.
+components/details/patient/informations/SectionContainer.tsx(7,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/details/patient/informations/SectionContainer.tsx(12,44): error TS2307: Cannot find module 'react-ntaive-reanimated' or its corresponding type declarations.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(26,76): error TS2345: Argument of type '{}' is not assignable to parameter of type 'FoodDiaryDTO | (() => FoodDiaryDTO)'.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(48,37): error TS2345: Argument of type '{}' is not assignable to parameter of type 'SetStateAction<FoodDiaryDTO>'.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(65,47): error TS18048: 'data.createdAt' is possibly 'undefined'.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(66,39): error TS2554: Expected 2 arguments, but got 1.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(68,35): error TS2339: Property 'then' does not exist on type 'boolean'.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(71,62): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(87,45): error TS2345: Argument of type '{}' is not assignable to parameter of type 'SetStateAction<FoodDiaryDTO>'.
+components/details/patient/informations/foodDiary/FoodDiary.tsx(92,21): error TS2322: Type 'number | undefined' is not assignable to type 'boolean | undefined'.
+  Type 'number' is not assignable to type 'boolean | undefined'.
+components/details/patient/informations/foodDiary/FoodDiaryFormBody.tsx(38,29): error TS2304: Cannot find name 'DateManipulator'.
+components/details/patient/informations/foodDiary/FoodDiaryFormBody.tsx(48,17): error TS2322: Type '(ids: number, data: {    label: string;    id: number;}) => void' is not assignable to type '(ids: string | number | string[] | number[], data: Option | Option[]) => void'.
+  Types of parameters 'ids' and 'ids' are incompatible.
+    Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+components/details/patient/informations/foodDiary/FoodDiaryFormBody.tsx(72,17): error TS2322: Type '{ label: string; value: string; r: number; multiline: true; numberOfLines: number; inputContainerStyle: { minHeight: number; maxHeight: number; }; rows: number; onChangeText: (value: string) => void; placeholder: string; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'multiline' does not exist on type 'IntrinsicAttributes & Props'.
+components/details/patient/informations/foodDiary/FoodDiaryFormBody.tsx(90,17): error TS2322: Type '{ label: string; value: string; r: number; multiline: true; numberOfLines: number; inputContainerStyle: { minHeight: number; maxHeight: number; }; rows: number; onChangeText: (value: string) => void; placeholder: string; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'multiline' does not exist on type 'IntrinsicAttributes & Props'.
+components/details/patient/informations/foodDiary/FoodDiaryFormBody.tsx(107,17): error TS2322: Type '{ uri: string; type?: string | undefined; id: number; }[]' is not assignable to type 'ImagePickerItemType[]'.
+  Type '{ uri: string; type?: string | undefined; id: number; }' is not assignable to type 'ImagePickerItemType'.
+    Types of property 'type' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+components/details/patient/informations/foodDiary/FoodDiaryFormBody.tsx(108,17): error TS2322: Type '(images: ImageItemType) => void' is not assignable to type '(images: ImagePickerItemType[]) => void'.
+  Types of parameters 'images' and 'images' are incompatible.
+    Type 'ImagePickerItemType[]' is missing the following properties from type 'ImagePickerItemType': uri, type, id
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(8,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(22,19): error TS2307: Cannot find module './../../../../../assets/images/diet-week-plan-healthy-vegetables-background_23-2147885844.jpg' or its corresponding type declarations.
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(42,9): error TS2322: Type 'string' is not assignable to type 'DimensionValue | undefined'.
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(52,33): error TS7006: Parameter 'progress' implicitly has an 'any' type.
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(52,43): error TS7006: Parameter 'dragX' implicitly has an 'any' type.
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(59,45): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: ViewProps): View', gave the following error.
+    Type '{ children: Element; style: any; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+      Property 'onPress' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+  Overload 2 of 2, '(props: ViewProps, context: any): View', gave the following error.
+    Type '{ children: Element; style: any; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+      Property 'onPress' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(70,34): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+components/details/patient/informations/foodDiary/FoodDiaryItem.tsx(123,47): error TS2304: Cannot find name 'LayoutEvent'.
+components/details/patient/informations/foodDiary/useCopyFoodDiaryImage.ts(3,48): error TS7006: Parameter 'patientUniqueId' implicitly has an 'any' type.
+components/details/patient/informations/foodDiary/useCopyFoodDiaryImage.ts(11,13): error TS7034: Variable 'CopyImagePromises' implicitly has type 'any[]' in some locations where its type cannot be determined.
+components/details/patient/informations/foodDiary/useCopyFoodDiaryImage.ts(21,30): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | boolean | ((uri: string, directory: string, fileName: string) => Promise<{ uri: string; }>)' are callable.
+    Type 'string' has no call signatures.
+components/details/patient/informations/foodDiary/useCopyFoodDiaryImage.ts(32,28): error TS7005: Variable 'CopyImagePromises' implicitly has an 'any[]' type.
+components/details/patient/informations/foodDiary/useCreateFoodDiary.ts(27,13): error TS2322: Type 'number' is not assignable to type 'string'.
+components/details/patient/informations/foodDiary/useCreateFoodDiary.ts(38,37): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+components/details/patient/informations/foodDiary/useCreateFoodDiary.ts(41,29): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+components/details/patient/informations/foodDiary/useCreateFoodDiary.ts(52,63): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+components/details/patient/informations/foodDiary/useFoodDiaryForm.ts(13,61): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+components/details/patient/informations/foodDiary/useFoodDiaryForm.ts(14,61): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+components/details/patient/informations/foodDiary/useFoodDiaryForm.ts(30,50): error TS2345: Argument of type 'FoodDiaryDTO | undefined' is not assignable to parameter of type 'FoodDiaryDTO'.
+  Type 'undefined' is not assignable to type 'FoodDiaryDTO'.
+components/details/patient/informations/foodDiary/useFoodDiaryForm.ts(57,9): error TS2322: Type '{ mealsType: string; meals: string; observations: string | undefined; date: string; images: { uri: string; id: number; type: string; }[] | undefined; foodIds: FoodId[]; foodQuantities: Map<any, any>; }' is not assignable to type '{ images: { uri: string; type?: string | undefined; id: number; }[]; } & Omit<FoodDiaryDTO, "images">'.
+  Type '{ mealsType: string; meals: string; observations: string | undefined; date: string; images: { uri: string; id: number; type: string; }[] | undefined; foodIds: FoodId[]; foodQuantities: Map<any, any>; }' is not assignable to type '{ images: { uri: string; type?: string | undefined; id: number; }[]; }'.
+    Types of property 'images' are incompatible.
+      Type '{ uri: string; id: number; type: string; }[] | undefined' is not assignable to type '{ uri: string; type?: string | undefined; id: number; }[]'.
+        Type 'undefined' is not assignable to type '{ uri: string; type?: string | undefined; id: number; }[]'.
+components/details/patient/informations/foodDiary/useUpdateFoodDiary.ts(59,19): error TS2554: Expected 2 arguments, but got 1.
+components/details/patient/informations/foodDiary/useUpdateFoodDiary.ts(61,15): error TS2339: Property 'then' does not exist on type 'boolean'.
+components/details/patient/informations/foodDiary/useUpdateFoodDiary.ts(64,42): error TS2345: Argument of type '{ images?: string[] | undefined; observations?: string | undefined; mealsType?: string | undefined; meals?: string | undefined; date?: string | undefined; foodQuantities?: FoodQuantity | undefined; foodIds?: FoodId[] | undefined; id: number | undefined; }' is not assignable to parameter of type 'UpdateFoodDiaryDto'.
+  Type '{ images?: string[] | undefined; observations?: string | undefined; mealsType?: string | undefined; meals?: string | undefined; date?: string | undefined; foodQuantities?: FoodQuantity | undefined; foodIds?: FoodId[] | undefined; id: number | undefined; }' is not assignable to type '{ id: number; }'.
+    Types of property 'id' are incompatible.
+      Type 'number | undefined' is not assignable to type 'number'.
+        Type 'undefined' is not assignable to type 'number'.
+components/details/patient/informations/foodDiary/useUpdateFoodDiary.ts(67,53): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+components/details/patient/informations/foodDiary/useUpdateFoodDiary.ts(71,45): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+components/forms/formScreenHeader.tsx(60,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/forms/formScreenHeader.tsx(60,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/search/SearchInput.tsx(70,21): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: TextInputProps): TextInput', gave the following error.
+    Type '(value: string) => void' is not assignable to type '(e: NativeSyntheticEvent<TextInputChangeEventData>) => void'.
+      Types of parameters 'value' and 'e' are incompatible.
+        Type 'NativeSyntheticEvent<TextInputChangeEventData>' is not assignable to type 'string'.
+  Overload 2 of 2, '(props: TextInputProps, context: any): TextInput', gave the following error.
+    Type '(value: string) => void' is not assignable to type '(e: NativeSyntheticEvent<TextInputChangeEventData>) => void'.
+components/search/SearchInput.tsx(105,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/search/SearchInput.tsx(105,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/search/SearchPatientFilter.tsx(90,63): error TS2322: Type 'SetStateAction<boolean>' is not assignable to type 'boolean'.
+  Type '(prevState: boolean) => boolean' is not assignable to type 'boolean'.
+components/search/SearchPatientFilter.tsx(96,52): error TS2322: Type 'SetStateAction<boolean>' is not assignable to type 'boolean'.
+components/search/SearchPatientFilter.tsx(110,53): error TS2322: Type 'SetStateAction<boolean>' is not assignable to type 'boolean'.
+components/search/SearchPatientFilter.tsx(127,50): error TS2322: Type 'SetStateAction<boolean>' is not assignable to type 'boolean'.
+components/search/SearchPatientFilter.tsx(141,51): error TS2322: Type 'SetStateAction<boolean>' is not assignable to type 'boolean'.
+components/search/SearchPatientFilter.tsx(150,60): error TS2322: Type 'SetStateAction<boolean>' is not assignable to type 'boolean'.
+components/search/SearchPatientFilter.tsx(158,62): error TS2322: Type 'SetStateAction<boolean>' is not assignable to type 'boolean'.
+components/search/SearchPatientFilter.tsx(166,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/search/SearchPatientFilter.tsx(166,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/search/searchFilter.tsx(13,35): error TS2304: Cannot find name 'BottomSheet'.
+components/search/searchFilter.tsx(25,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/search/searchFilter.tsx(25,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/HeaderFoodScreen.tsx(8,25): error TS2307: Cannot find module './../../assets/images/noun-grocery-2157313.svg' or its corresponding type declarations.
+components/tabs/HeaderFoodScreen.tsx(28,36): error TS2339: Property 'openDrawer' does not exist on type 'NavigationProp<RootParamList>'.
+components/tabs/HeaderFoodScreen.tsx(70,36): error TS2339: Property 'openDrawer' does not exist on type 'NavigationProp<RootParamList>'.
+components/tabs/HeaderFoodScreen.tsx(88,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/HeaderFoodScreen.tsx(88,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/HeaderFoodScreen.tsx(137,15): error TS2322: Type '(b1: any, b2: any, pressed: any) => { padding: any; backgroundColor: any; borderRadius: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/HeaderFoodScreen.tsx(137,16): error TS7006: Parameter 'b1' implicitly has an 'any' type.
+components/tabs/HeaderFoodScreen.tsx(137,20): error TS7006: Parameter 'b2' implicitly has an 'any' type.
+components/tabs/HeaderFoodScreen.tsx(137,24): error TS7006: Parameter 'pressed' implicitly has an 'any' type.
+components/tabs/HeaderPatientsScreen.tsx(1,45): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/tabs/HeaderPatientsScreen.tsx(23,36): error TS2339: Property 'openDrawer' does not exist on type 'NavigationProp<RootParamList>'.
+components/tabs/HeaderPatientsScreen.tsx(65,31): error TS2339: Property 'onPressAddBtn' does not exist on type 'Props'.
+components/tabs/HeaderPatientsScreen.tsx(65,52): error TS2339: Property 'onPressAddBtn' does not exist on type 'Props'.
+components/tabs/HeaderPatientsScreen.tsx(85,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/HeaderPatientsScreen.tsx(85,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/HeaderPatientsScreen.tsx(134,15): error TS2322: Type '(b1: any, b2: any, pressed: any) => { padding: any; backgroundColor: any; borderRadius: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/HeaderPatientsScreen.tsx(134,16): error TS7006: Parameter 'b1' implicitly has an 'any' type.
+components/tabs/HeaderPatientsScreen.tsx(134,20): error TS7006: Parameter 'b2' implicitly has an 'any' type.
+components/tabs/HeaderPatientsScreen.tsx(134,24): error TS7006: Parameter 'pressed' implicitly has an 'any' type.
+components/tabs/HeaderTabs.tsx(14,23): error TS2339: Property 'nav' does not exist on type 'Props'.
+components/tabs/HeaderTabs.tsx(25,36): error TS2339: Property 'openDrawer' does not exist on type 'NavigationProp<RootParamList>'.
+components/tabs/HeaderTabs.tsx(41,23): error TS2322: Type '{ s: number; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 's' does not exist on type 'IntrinsicAttributes & Props'.
+components/tabs/HeaderTabs.tsx(85,16): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+components/tabs/HeaderTabs.tsx(106,18): error TS7006: Parameter 'pressed' implicitly has an 'any' type.
+components/tabs/HeaderTabs.tsx(106,18): error TS2322: Type '(pressed: any) => { borderRadius: number; borderWidth: number; borderColor: any; padding: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/SearchBtn.tsx(11,22): error TS2339: Property 'placeholder' does not exist on type 'Props'.
+components/tabs/SearchBtn.tsx(11,35): error TS2339: Property 'searchPageLink' does not exist on type 'Props'.
+components/tabs/SearchBtn.tsx(37,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/SearchBtn.tsx(37,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/dashbord/GeneralInfo.tsx(30,62): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+  Overload 2 of 3, '(locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+components/tabs/dashbord/GeneralInfo.tsx(30,62): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+      Types of property 'month' are incompatible.
+        Type 'string' is not assignable to type '"long" | "numeric" | "2-digit" | "short" | "narrow" | undefined'.
+  Overload 2 of 3, '(locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+components/tabs/dashbord/GeneralInfo.tsx(31,58): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+  Overload 2 of 3, '(locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+components/tabs/dashbord/GeneralInfo.tsx(47,13): error TS2339: Property 'labelComponent' does not exist on type '{ value: number; }'.
+components/tabs/dashbord/GeneralInfo.tsx(51,24): error TS7006: Parameter 'props' implicitly has an 'any' type.
+components/tabs/dashbord/GeneralInfo.tsx(98,21): error TS2322: Type '{ width: number; initialSpacing: number; spacing: number; yAxisTextStyle: { fontFamily: string; color: string; }; color: string; yAxisColor: string; xAxisColor: string; verticalLinesColor: string; ... 21 more ...; endOpacity: number; }' is not assignable to type 'IntrinsicAttributes & LineChartPropsType'.
+  Property 'horizontalLinesColor' does not exist on type 'IntrinsicAttributes & LineChartPropsType'.
+components/tabs/dashbord/GeneralInfo.tsx(128,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/dashbord/GeneralInfo.tsx(128,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/dashbord/ServiceContainer.tsx(35,34): error TS2322: Type '{ data: { name: string; color: string; textColor: string; image: any; }; index: number; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'data' does not exist on type 'IntrinsicAttributes & Props'.
+components/tabs/dashbord/ServiceContainer.tsx(50,24): error TS2339: Property 'data' does not exist on type 'Props'.
+components/tabs/dashbord/ServiceContainer.tsx(50,30): error TS2339: Property 'index' does not exist on type 'Props'.
+components/tabs/dashbord/ServiceContainer.tsx(108,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/dashbord/ServiceContainer.tsx(108,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/dashbord/ServiceContainer.tsx(110,9): error TS2322: Type '(pressed: any) => { width: number; height: number; borderRadius: any; backgroundColor: string; alignItems: string; gap: any; marginHorizontal: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/dashbord/ServiceContainer.tsx(110,31): error TS7006: Parameter 'pressed' implicitly has an 'any' type.
+components/tabs/dashbord/ServiceContainer.tsx(119,9): error TS2322: Type '(color: any) => { fontFamily: string; fontWeight: string; color: any; fontSize: number; textAlign: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/dashbord/ServiceContainer.tsx(119,22): error TS7006: Parameter 'color' implicitly has an 'any' type.
+components/tabs/dashbord/ServiceContainer.tsx(126,9): error TS2322: Type '(bg: any, color: any) => { width: string; height: string; justifyContent: string; alignItems: string; backgroundColor: any; borderRadius: number; borderColor: any; borderWidth: number; borderStyle: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/dashbord/ServiceContainer.tsx(126,25): error TS7006: Parameter 'bg' implicitly has an 'any' type.
+components/tabs/dashbord/ServiceContainer.tsx(126,29): error TS7006: Parameter 'color' implicitly has an 'any' type.
+components/tabs/dashbord/Top.tsx(28,52): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; weekDay: string; year: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+      Types of property 'year' are incompatible.
+        Type 'string' is not assignable to type '"numeric" | "2-digit" | undefined'.
+  Overload 2 of 3, '(locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; day: string; weekDay: string; year: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+components/tabs/dashbord/Top.tsx(36,56): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ hour: string; minute: string; timeZoneName: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+      Types of property 'hour' are incompatible.
+        Type 'string' is not assignable to type '"numeric" | "2-digit" | undefined'.
+  Overload 2 of 3, '(locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ hour: string; minute: string; timeZoneName: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+components/tabs/dashbord/Top.tsx(42,51): error TS2339: Property 'st' does not exist on type 'Props'.
+components/tabs/dashbord/Top.tsx(45,25): error TS2322: Type '{ uri: string | undefined; }' is not assignable to type 'number'.
+components/tabs/dashbord/Top.tsx(75,16): error TS7006: Parameter 'theme' implicitly has an 'any' type.
+components/tabs/dashbord/Top.tsx(77,9): error TS2322: Type '(st: any) => { justifyContent: string; alignItems: string; paddingHorizontal: any; flexDirection: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/dashbord/Top.tsx(77,23): error TS7006: Parameter 'st' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(37,13): error TS2322: Type '{ children: Element; title: string; linkTitle: string; linkPath: string; style: any; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'style' does not exist on type 'IntrinsicAttributes & Props'.
+components/tabs/dashbord/UpComingContainer.tsx(67,27): error TS7031: Binding element 'title' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(67,34): error TS7031: Binding element 'dateTime' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(67,44): error TS7031: Binding element 'eventId' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(67,53): error TS7031: Binding element 'color' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(67,60): error TS7031: Binding element 'secondColor' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(117,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(117,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(130,9): error TS2322: Type '(color: any) => { height: number; backgroundColor: any; borderBottomColor: any; borderBottomWidth: any; borderBottomLeftRadius: any; borderBottomRightRadius: any; flexDirection: string; gap: any; paddingHorizontal: any; paddingVertical: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/dashbord/UpComingContainer.tsx(130,23): error TS7006: Parameter 'color' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(143,9): error TS2322: Type '(bg: any) => { height: number; width: number; backgroundColor: any; borderRadius: number; justifyContent: string; alignItems: string; overflow: string; alignSelf: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/dashbord/UpComingContainer.tsx(143,33): error TS7006: Parameter 'bg' implicitly has an 'any' type.
+components/tabs/dashbord/UpComingContainer.tsx(166,9): error TS2322: Type '(bg: any) => { position: string; top: number; right: number; backgroundColor: any; padding: any; borderRadius: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/dashbord/UpComingContainer.tsx(166,29): error TS7006: Parameter 'bg' implicitly has an 'any' type.
+components/tabs/foods/FoodItem.tsx(43,33): error TS7006: Parameter 'progress' implicitly has an 'any' type.
+components/tabs/foods/FoodItem.tsx(43,43): error TS7006: Parameter 'dragX' implicitly has an 'any' type.
+components/tabs/foods/FoodItem.tsx(50,45): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: ViewProps): View', gave the following error.
+    Type '{ children: Element; style: any; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+      Property 'onPress' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+  Overload 2 of 2, '(props: ViewProps, context: any): View', gave the following error.
+    Type '{ children: Element; style: any; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+      Property 'onPress' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+components/tabs/foods/FoodItem.tsx(190,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/foods/FoodItem.tsx(190,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/foods/FoodItem.tsx(244,24): error TS7006: Parameter 'color' implicitly has an 'any' type.
+components/tabs/foods/FoodItem.tsx(244,24): error TS2322: Type '(color: any) => { color: any; fontFamily: string; fontSize: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/foods/FoodsList.tsx(31,10): error TS2741: Property 'contentContainerStyle' is missing in type '{ children: Element; title: string; body: string; withRight: true; withAddBtn: true; withFilter: true; withSearch: true; header: true; onPressFilter: () => void; onPressAddBtn: () => void; onPressSearch: () => void; }' but required in type 'Props'.
+components/tabs/foods/FoodsList.tsx(54,26): error TS2739: Type '{ value: string; setValue: Dispatch<SetStateAction<string>>; placeholder: string; }' is missing the following properties from type 'Props': onChange, st, inputSt
+components/tabs/foods/FoodsList.tsx(89,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/foods/FoodsList.tsx(89,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/foods/Top.tsx(27,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/foods/Top.tsx(27,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(10,5): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/tabs/patient/PatientForm.tsx(54,36): error TS2345: Argument of type 'string' is not assignable to parameter of type 'TCountryCode'.
+components/tabs/patient/PatientForm.tsx(60,28): error TS2345: Argument of type 'string' is not assignable to parameter of type 'TCountryCode'.
+components/tabs/patient/PatientForm.tsx(104,7): error TS2739: Type '{ name: string; gender: "M"; birthday: string; occupancy: string; consultationLocation: string; country: string; tel: string; email: string; profil_img: string; }' is missing the following properties from type 'PatientEntity': id, createdAt, updatedAt, unique_id
+components/tabs/patient/PatientForm.tsx(133,43): error TS2339: Property 'animatedData' does not exist on type 'Props'.
+components/tabs/patient/PatientForm.tsx(159,23): error TS2339: Property 'animatedData' does not exist on type 'Props'.
+components/tabs/patient/PatientForm.tsx(162,35): error TS2339: Property 'popupIsOpen' does not exist on type 'Props'.
+components/tabs/patient/PatientForm.tsx(168,22): error TS7006: Parameter 'values' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(170,19): error TS2554: Expected 2 arguments, but got 1.
+components/tabs/patient/PatientForm.tsx(172,15): error TS2339: Property 'then' does not exist on type 'boolean'.
+components/tabs/patient/PatientForm.tsx(178,38): error TS2339: Property 'trim' does not exist on type 'string | (() => Promise<{ uri: string; type: string; }[]>)'.
+  Property 'trim' does not exist on type '() => Promise<{ uri: string; type: string; }[]>'.
+components/tabs/patient/PatientForm.tsx(180,29): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | boolean | ((uri: string, directory: string, fileName: string) => Promise<{ uri: string; }>)' are callable.
+    Type 'string' has no call signatures.
+components/tabs/patient/PatientForm.tsx(184,44): error TS7031: Binding element 'copyUri' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(203,21): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | boolean | ((uri: string, directory: string, fileName: string) => Promise<{ uri: string; }>)' are callable.
+    Type 'string' has no call signatures.
+components/tabs/patient/PatientForm.tsx(205,39): error TS18047: 'patient' is possibly 'null'.
+components/tabs/patient/PatientForm.tsx(207,36): error TS7031: Binding element 'copyUri' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(210,37): error TS18047: 'patient' is possibly 'null'.
+components/tabs/patient/PatientForm.tsx(260,29): error TS2322: Type '(e?: FormEvent<HTMLFormElement> | undefined) => void' is not assignable to type '(event: GestureResponderEvent) => void'.
+  Types of parameters 'e' and 'event' are incompatible.
+    Type 'GestureResponderEvent' is not assignable to type 'FormEvent<HTMLFormElement>'.
+      Types of property 'nativeEvent' are incompatible.
+        Type 'NativeTouchEvent' is missing the following properties from type 'Event': bubbles, cancelBubble, cancelable, composed, and 17 more.
+components/tabs/patient/PatientForm.tsx(271,66): error TS2339: Property 'title' does not exist on type 'Props'.
+components/tabs/patient/PatientForm.tsx(279,37): error TS2322: Type '{ uri: any; }' is not assignable to type 'number'.
+components/tabs/patient/PatientForm.tsx(279,58): error TS2339: Property 'profil_img' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(280,52): error TS2339: Property 'name' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(284,41): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | (() => Promise<{ uri: string; type: string; }[]>)' are callable.
+    Type 'string' has no call signatures.
+components/tabs/patient/PatientForm.tsx(284,62): error TS7031: Binding element 'uri' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(284,67): error TS7031: Binding element 'type' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(291,52): error TS2339: Property 'image' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(304,51): error TS2339: Property 'name' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(312,51): error TS2339: Property 'birthday' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(323,37): error TS2322: Type 'string | undefined' is not assignable to type 'string | Element'.
+  Type 'undefined' is not assignable to type 'string | Element'.
+components/tabs/patient/PatientForm.tsx(325,74): error TS2339: Property 'gender' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(328,37): error TS2322: Type 'number | undefined' is not assignable to type 'string | number | string[] | number[]'.
+  Type 'undefined' is not assignable to type 'string | number | string[] | number[]'.
+components/tabs/patient/PatientForm.tsx(330,74): error TS2339: Property 'gender' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(333,37): error TS2322: Type '(ids: number, data: any) => void' is not assignable to type '(ids: string | number | string[] | number[], data: Option | Option[]) => void'.
+  Types of parameters 'ids' and 'ids' are incompatible.
+    Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+components/tabs/patient/PatientForm.tsx(344,61): error TS2339: Property 'country' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(346,63): error TS2339: Property 'country' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(349,70): error TS2339: Property 'country' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(351,37): error TS2322: Type '(ids: number, data: any) => void' is not assignable to type '(ids: string | number | string[] | number[], data: Option | Option[]) => void'.
+  Types of parameters 'ids' and 'ids' are incompatible.
+    Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+components/tabs/patient/PatientForm.tsx(360,51): error TS2339: Property 'occupancy' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(370,51): error TS2339: Property 'consultationLocation' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(372,37): error TS2322: Type '(ids: number, data: any) => void' is not assignable to type '(ids: string | number | string[] | number[], data: Option | Option[]) => void'.
+  Types of parameters 'ids' and 'ids' are incompatible.
+    Type 'string | number | string[] | number[]' is not assignable to type 'number'.
+components/tabs/patient/PatientForm.tsx(381,51): error TS2339: Property 'tel' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(384,63): error TS2339: Property 'country' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(391,51): error TS2339: Property 'email' does not exist on type '{}'.
+components/tabs/patient/PatientForm.tsx(408,22): error TS7006: Parameter 'label' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(408,29): error TS7006: Parameter 'isSelected' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(408,41): error TS7006: Parameter 'onPress' implicitly has an 'any' type.
+components/tabs/patient/PatientForm.tsx(408,50): error TS7006: Parameter 'props' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(6,37): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/tabs/patient/PatientItem.tsx(32,9): error TS2339: Property 'statusCode' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(33,9): error TS2339: Property 'name' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(34,9): error TS2339: Property 'occupation' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(35,9): error TS2339: Property 'id' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(36,9): error TS2339: Property 'lastActivity' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(37,9): error TS2339: Property 'uri' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(38,9): error TS2339: Property 'index' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(39,9): error TS2339: Property 'setSelected' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(40,9): error TS2339: Property 'sexe' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(41,9): error TS2339: Property 'searchItem' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(42,9): error TS2339: Property 'onDelete' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(43,9): error TS2339: Property 'onEdit' does not exist on type 'Props'.
+components/tabs/patient/PatientItem.tsx(71,33): error TS7006: Parameter 'progress' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(71,43): error TS7006: Parameter 'dragX' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(82,17): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: ViewProps): View', gave the following error.
+    Type '{ children: Element; style: any[]; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+      Property 'onPress' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+  Overload 2 of 2, '(props: ViewProps, context: any): View', gave the following error.
+    Type '{ children: Element; style: any[]; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+      Property 'onPress' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<View> & Readonly<ViewProps>'.
+components/tabs/patient/PatientItem.tsx(120,13): error TS2322: Type '((progress: any, dragX: any) => Element) | null' is not assignable to type '((progressAnimatedValue: AnimatedInterpolation<string | number>, dragAnimatedValue: AnimatedInterpolation<string | number>, swipeable: Swipeable) => ReactNode) | undefined'.
+  Type 'null' is not assignable to type '((progressAnimatedValue: AnimatedInterpolation<string | number>, dragAnimatedValue: AnimatedInterpolation<string | number>, swipeable: Swipeable) => ReactNode) | undefined'.
+components/tabs/patient/PatientItem.tsx(171,33): error TS2322: Type '{ uri: any; }' is not assignable to type 'number'.
+components/tabs/patient/PatientItem.tsx(246,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(246,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(248,9): error TS2322: Type '(border: any, isSelected: any) => { width: number; backgroundColor: any; alignSelf: string; height: number; flexDirection: string; alignContent: string; borderRadius: any; elevation: any; paddingHorizontal: any; ... 5 more ...; borderLeftColor: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/patient/PatientItem.tsx(248,21): error TS7006: Parameter 'border' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(248,29): error TS7006: Parameter 'isSelected' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(266,9): error TS2322: Type '(isSelected: any) => { width: string; height: number; paddingHorizontal: any; justifyContent: string; alignItems: string; backgroundColor: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/patient/PatientItem.tsx(266,33): error TS7006: Parameter 'isSelected' implicitly has an 'any' type.
+components/tabs/patient/PatientItem.tsx(306,9): error TS2322: Type '(bg: any) => { backgroundColor: any; height: any; width: any; borderRadius: any; position: string; top: number; right: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+components/tabs/patient/PatientItem.tsx(306,22): error TS7006: Parameter 'bg' implicitly has an 'any' type.
+components/tabs/patient/PatientsList.tsx(1,44): error TS2305: Module '"react-native"' has no exported member 'PressEvent'.
+components/tabs/patient/PatientsList.tsx(13,10): error TS2305: Module '"@/data"' has no exported member 'dataPatientList'.
+components/tabs/patient/PatientsList.tsx(39,28): error TS2345: Argument of type 'PatientEntity[]' is not assignable to parameter of type 'SetStateAction<never[]>'.
+  Type 'PatientEntity[]' is not assignable to type 'never[]'.
+    Type 'PatientEntity' is not assignable to type 'never'.
+components/tabs/patient/PatientsList.tsx(44,10): error TS2741: Property 'contentContainerStyle' is missing in type '{ children: Element; title: string; body: string; withRight: true; withAddBtn: true; withFilter: true; withSearch: true; header: true; onPressFilter: () => void; onPressAddBtn: (e: PressEvent) => void; onPressSearch: () => void; }' but required in type 'Props'.
+components/tabs/patient/PatientsList.tsx(68,26): error TS2739: Type '{ value: string; setValue: Dispatch<SetStateAction<string>>; placeholder: string; }' is missing the following properties from type 'Props': onChange, st, inputSt
+components/tabs/patient/PatientsList.tsx(88,29): error TS2322: Type '{ statusCode: number; name: any; occupation: any; id: any; lastActivity: any; index: number; setSelected: Dispatch<SetStateAction<never[]>>; selected: never[]; sexe: any; uri: any; onDelete: () => void; onEdit: (e: PressEvent, id: number) => void; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'statusCode' does not exist on type 'IntrinsicAttributes & Props'.
+components/tabs/patient/PatientsList.tsx(89,40): error TS2339: Property 'name' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(90,46): error TS2339: Property 'occupancy' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(91,38): error TS2339: Property 'id' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(92,48): error TS2339: Property 'updateAt' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(96,40): error TS2339: Property 'gender' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(97,39): error TS2339: Property 'profil_img' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(99,39): error TS2554: Expected 2 arguments, but got 1.
+components/tabs/patient/PatientsList.tsx(100,87): error TS2339: Property 'name' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(100,110): error TS2339: Property 'createdAt' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(101,35): error TS2339: Property 'then' does not exist on type 'boolean'.
+components/tabs/patient/PatientsList.tsx(104,65): error TS2339: Property 'id' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(112,39): error TS2339: Property 'onPressItemEdit' does not exist on type 'Props'.
+components/tabs/patient/PatientsList.tsx(113,43): error TS2339: Property 'onPressItemEdit' does not exist on type 'Props'.
+components/tabs/patient/PatientsList.tsx(117,48): error TS2339: Property 'id' does not exist on type 'never'.
+components/tabs/patient/PatientsList.tsx(126,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/patient/PatientsList.tsx(126,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/patient/SearchPatient.tsx(22,24): error TS2322: Type '{ placeholder: string; searchPageLink: string; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'placeholder' does not exist on type 'IntrinsicAttributes & Props'.
+components/tabs/patient/SearchPatient.tsx(31,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/patient/SearchPatient.tsx(31,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+components/tabs/patient/Top.tsx(26,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+components/tabs/patient/Top.tsx(26,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+core/PatientManager/infrastructure/repositories/PatientRepositoryImplDb.ts(7,14): error TS2420: Class 'PatientRepositoryImplDb' incorrectly implements interface 'PatientRepository'.
+  Type 'PatientRepositoryImplDb' is missing the following properties from type 'PatientRepository': save, getPatientById, getPatientMedicalRecord, getMedicalRecordById, and 2 more.
+hooks/useImagePicker.ts(29,33): error TS7034: Variable 'images' implicitly has type 'any[]' in some locations where its type cannot be determined.
+hooks/useImagePicker.ts(30,29): error TS18047: 'image.assets' is possibly 'null'.
+hooks/useImagePicker.ts(41,37): error TS7005: Variable 'images' implicitly has an 'any[]' type.
+hooks/useSearchEngine.ts(4,29): error TS2345: Argument of type 'T[]' is not assignable to parameter of type 'Value[]'.
+  Type 'T' is not assignable to type 'Value'.
+    Type 'T' is not assignable to type '{ [key: string]: any; }'.
+node_modules/react-native-gifted-charts/src/BarChart/Animated2DWithGradient.tsx(110,17): error TS2322: Type 'ViewStyle[] | undefined' is not assignable to type 'ViewStyle | undefined'.
+  Type 'ViewStyle[]' has no properties in common with type 'ViewStyle'.
+node_modules/react-native-gifted-charts/src/BarChart/RenderBars.tsx(219,11): error TS2559: Type 'ViewStyle[]' has no properties in common with type 'ViewStyle'.
+node_modules/react-native-gifted-charts/src/BarChart/RenderBars.tsx(323,37): error TS7006: Parameter 'noGradient' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/BarChart/RenderBars.tsx(323,49): error TS7006: Parameter 'noAnimation' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(19,19): error TS7006: Parameter 'evt' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(137,31): error TS7006: Parameter 'pointerLabelComponent' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(202,35): error TS2339: Property 'stacks' does not exist on type 'barDataItem | stackDataItem'.
+  Property 'stacks' does not exist on type 'barDataItem'.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(203,16): error TS7006: Parameter 'acc' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(203,21): error TS7006: Parameter 'stack' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(244,35): error TS2339: Property 'stacks' does not exist on type 'barDataItem | stackDataItem'.
+  Property 'stacks' does not exist on type 'barDataItem'.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(245,16): error TS7006: Parameter 'acc' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/BarChart/index.tsx(245,21): error TS7006: Parameter 'stack' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderLineInBarChart/index.tsx(8,30): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderLineInBarChart/renderDataPoints.tsx(7,33): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderLineInBarChart/renderDataPoints.tsx(25,41): error TS7006: Parameter 'total' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderLineInBarChart/renderDataPoints.tsx(25,48): error TS7006: Parameter 'item' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderLineInBarChart/renderSpecificDataPoints.tsx(5,41): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderLineInBarChart/renderSpecificVerticalLines.tsx(4,44): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderVerticalLines.tsx(6,29): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarAndLineChartsWrapper/renderVerticalLines.tsx(32,35): error TS7006: Parameter 'index' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarSpecificComponents/barBackgroundPattern.tsx(4,30): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/BarSpecificComponents/cap.tsx(5,13): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/common/Pointer.tsx(4,24): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/Components/common/StripAndLabel.tsx(6,30): error TS7006: Parameter 'props' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(193,25): error TS7006: Parameter 'item' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(193,31): error TS7006: Parameter 'index' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(201,5): error TS7006: Parameter 'dataForRender' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(202,5): error TS7006: Parameter 'dataPtsShape' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(203,5): error TS7006: Parameter 'dataPtsWidth' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(204,5): error TS7006: Parameter 'dataPtsHeight' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(205,5): error TS7006: Parameter 'dataPtsColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(206,5): error TS7006: Parameter 'dataPtsRadius' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(207,5): error TS7006: Parameter 'textColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(208,5): error TS7006: Parameter 'textFontSize' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(209,5): error TS7006: Parameter 'startIndex' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(210,5): error TS7006: Parameter 'endIndex' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(498,30): error TS7006: Parameter 'points' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(498,38): error TS7006: Parameter 'index' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(508,30): error TS7006: Parameter 'points' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/LineChartBicolor.tsx(508,38): error TS7006: Parameter 'index' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(411,11): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '() => void'.
+  No index signature with a parameter of type 'number' was found on type '() => void'.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(549,25): error TS7006: Parameter 'item' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(549,31): error TS7006: Parameter 'index' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(557,5): error TS7006: Parameter 'hideDataPoints' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(558,5): error TS7006: Parameter 'dataForRender' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(559,5): error TS7006: Parameter 'originalDataFromProps' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(560,5): error TS7006: Parameter 'dataPtsShape' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(561,5): error TS7006: Parameter 'dataPtsWidth' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(562,5): error TS7006: Parameter 'dataPtsHeight' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(563,5): error TS7006: Parameter 'dataPtsColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(564,5): error TS7006: Parameter 'dataPtsRadius' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(565,5): error TS7006: Parameter 'textColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(566,5): error TS7006: Parameter 'textFontSize' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(567,5): error TS7006: Parameter 'startIndex' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(568,5): error TS7006: Parameter 'endIndex' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(569,5): error TS7006: Parameter 'isSecondary' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(570,5): error TS7006: Parameter 'showValuesAsDataPointsText' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(896,22): error TS18048: 'pointerYLocal' is possibly 'undefined'.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1016,5): error TS7006: Parameter 'arrowPoints' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1017,5): error TS7006: Parameter 'arrowStrokeWidth' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1018,5): error TS7006: Parameter 'arrowStrokeColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1019,5): error TS7006: Parameter 'arrowFillColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1020,5): error TS7006: Parameter 'key' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1258,28): error TS7006: Parameter 'x' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1336,33): error TS2345: Argument of type 'lineDataItem | barDataItem' is not assignable to parameter of type 'SetStateAction<undefined>'.
+  Type 'lineDataItem' is not assignable to type 'SetStateAction<undefined>'.
+    Type 'lineDataItem' provides no match for the signature '(prevState: undefined): undefined'.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1352,5): error TS7006: Parameter 'showArrow' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1353,5): error TS7006: Parameter 'arrowPoints' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1354,5): error TS7006: Parameter 'arrowStrokeWidth' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1355,5): error TS7006: Parameter 'arrowStrokeColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1356,5): error TS7006: Parameter 'arrowFillColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1465,39): error TS2345: Argument of type 'lineDataItem | barDataItem' is not assignable to parameter of type 'SetStateAction<undefined>'.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1537,5): error TS7006: Parameter 'showArrow' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1538,5): error TS7006: Parameter 'arrowPoints' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1539,5): error TS7006: Parameter 'arrowStrokeWidth' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1540,5): error TS7006: Parameter 'arrowStrokeColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1541,5): error TS7006: Parameter 'arrowFillColor' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/LineChart/index.tsx(1651,39): error TS2345: Argument of type 'lineDataItem | barDataItem' is not assignable to parameter of type 'SetStateAction<undefined>'.
+node_modules/react-native-gifted-charts/src/PieChart/index.tsx(32,30): error TS7006: Parameter 'innerRadius' implicitly has an 'any' type.
+node_modules/react-native-gifted-charts/src/PieChart/index.tsx(32,43): error TS7006: Parameter 'innerCircleBorderWidth' implicitly has an 'any' type.
+packages/AppAlert/components/Confirm.tsx(91,33): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+packages/AppAlert/components/Confirm.tsx(93,37): error TS2554: Expected 1 arguments, but got 2.
+packages/AppAlert/context/AppAlertProvider.tsx(15,38): error TS2345: Argument of type '{}' is not assignable to parameter of type 'AlertConfirmOption | (() => AlertConfirmOption)'.
+packages/AppAlert/context/AppAlertProvider.tsx(27,39): error TS2345: Argument of type 'AlertConfirmOption | {}' is not assignable to parameter of type 'SetStateAction<AlertConfirmOption>'.
+  Type '{}' is not assignable to type 'SetStateAction<AlertConfirmOption>'.
+packages/AppAlert/context/AppAlertProvider.tsx(37,35): error TS2741: Property 'alert' is missing in type '{ confirm: (msg: string, options?: AlertConfirmOption) => Promise<boolean>; }' but required in type 'IAppAlertContext'.
+packages/AppAlert/context/AppAlertProvider.tsx(41,21): error TS2783: 'confirmIsOpen' is specified more than once, so this usage will be overwritten.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(26,23): error TS2339: Property 'style' does not exist on type 'PropsWithChildren<Props>'.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(38,17): error TS2345: Argument of type 'null' is not assignable to parameter of type 'number'.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(47,31): error TS18047: 'scrollView.current' is possibly 'null'.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(55,23): error TS2339: Property 'viewIsDescendantOf' does not exist on type 'UIManagerStatic'.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(92,32): error TS7006: Parameter 'e' implicitly has an 'any' type.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(96,32): error TS7006: Parameter 'e' implicitly has an 'any' type.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(109,13): error TS2322: Type '{ children: Element; ref: MutableRefObject<null>; onKeyboardDidShow: (e: KeyboardEvent) => void; onKeyboardDidHide: (e: any) => void; onLayout: (e: LayoutEvent) => void; onLayoutContainer: (e: any) => void; style: {}; containerStyle: { ...; }; }' is not assignable to type 'IntrinsicAttributes & Omit<Props & { children?: ReactNode; } & RefAttributes<unknown>, "ref"> & { ref?: ((instance: unknown) => void) | RefObject<...> | null | undefined; }'.
+  Property 'onLayoutContainer' does not exist on type 'IntrinsicAttributes & Omit<Props & { children?: ReactNode; } & RefAttributes<unknown>, "ref"> & { ref?: ((instance: unknown) => void) | RefObject<...> | null | undefined; }'.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(109,32): error TS7006: Parameter 'e' implicitly has an 'any' type.
+packages/KeyboardAware/components/KeyboardAwareScrollView.tsx(128,51): error TS2349: This expression is not callable.
+  Type 'never' has no call signatures.
+packages/KeyboardAware/components/KeyboardAwareScrollViewContainer.tsx(6,5): error TS2305: Module '"react-native"' has no exported member 'LayoutEvent'.
+packages/KeyboardAware/components/KeyboardAwareScrollViewContainer.tsx(27,13): error TS2339: Property 'onLayoutContainer' does not exist on type 'PropsWithChildren<Props>'.
+packages/KeyboardAware/components/KeyboardAwareScrollViewContainer.tsx(30,13): error TS2339: Property 'containerStyle' does not exist on type 'PropsWithChildren<Props>'.
+packages/KeyboardAware/components/KeyboardAwareScrollViewContainer.tsx(58,21): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: ScrollViewProps): ScrollView', gave the following error.
+    Type '((instance: unknown) => void) | MutableRefObject<unknown> | null' is not assignable to type 'LegacyRef<ScrollView> | undefined'.
+      Type 'MutableRefObject<unknown>' is not assignable to type 'LegacyRef<ScrollView> | undefined'.
+        Type 'MutableRefObject<unknown>' is not assignable to type 'RefObject<ScrollView>'.
+          Types of property 'current' are incompatible.
+            Type 'unknown' is not assignable to type 'ScrollView | null'.
+  Overload 2 of 2, '(props: ScrollViewProps, context: any): ScrollView', gave the following error.
+    Type '((instance: unknown) => void) | MutableRefObject<unknown> | null' is not assignable to type 'LegacyRef<ScrollView> | undefined'.
+packages/KeyboardAware/components/KeyboardAwareScrollViewContainer.tsx(64,31): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+packages/calendar/components/Agendar.tsx(43,30): error TS2554: Expected 1 arguments, but got 0.
+packages/calendar/components/Agendar.tsx(119,59): error TS2345: Argument of type '{ tapValue: number; globSize: number; format: number; }' is not assignable to parameter of type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+  Property 'size' is missing in type '{ tapValue: number; globSize: number; format: number; }' but required in type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+packages/calendar/components/Agendar.tsx(124,61): error TS2345: Argument of type '{ tapValue: number; globSize: number; format: number; }' is not assignable to parameter of type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+  Property 'size' is missing in type '{ tapValue: number; globSize: number; format: number; }' but required in type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+packages/calendar/components/Agendar.tsx(138,26): error TS7006: Parameter 'e' implicitly has an 'any' type.
+packages/calendar/components/Agendar.tsx(154,21): error TS2322: Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type 'LegacyRef<FlatList<any>> | undefined'.
+  Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type '(instance: FlatList<any> | null) => void'.
+    Types of parameters 'component' and 'instance' are incompatible.
+      Type 'FlatList<any> | null' is not assignable to type 'Component<{}, {}, any> | undefined'.
+        Type 'null' is not assignable to type 'Component<{}, {}, any> | undefined'.
+packages/calendar/components/Agendar.tsx(169,65): error TS7006: Parameter 'day' implicitly has an 'any' type.
+packages/calendar/components/Agendar.tsx(203,29): error TS2322: Type '{ offset: SharedValue<{ x: number; y: number; }>; cell: SharedValue<number>; isActive: true; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'offset' does not exist on type 'IntrinsicAttributes & Props'.
+packages/calendar/components/Agendar.tsx(208,29): error TS2322: Type '{ offset: SharedValue<{ x: number; y: number; }>; cell: SharedValue<number>; add: SharedValue<number>; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'offset' does not exist on type 'IntrinsicAttributes & Props'.
+packages/calendar/components/Agendar.tsx(217,33): error TS2322: Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type 'LegacyRef<AnimatedScrollView> | undefined'.
+packages/calendar/components/Agendar.tsx(231,45): error TS7006: Parameter 'item' implicitly has an 'any' type.
+packages/calendar/components/Agendar.tsx(231,51): error TS7006: Parameter 'n' implicitly has an 'any' type.
+packages/calendar/components/Agendar.tsx(244,65): error TS2345: Argument of type 'number' is not assignable to parameter of type 'SetStateAction<string>'.
+packages/calendar/components/Agendar.tsx(275,41): error TS2322: Type '{ selectorOffset: SharedValue<{ x: number; y: number; }>; selectorStart: SharedValue<{ x: number; y: number; }>; selectorIsPressed: SharedValue<boolean>; ... 6 more ...; format: number; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'selectorOffset' does not exist on type 'IntrinsicAttributes & Props'.
+packages/calendar/components/Agendar.tsx(302,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/Agendar.tsx(302,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/Agendar.tsx(397,9): error TS2322: Type '(width: any) => { position: string; width: any; borderRadius: any; borderColor: any; borderWidth: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/Agendar.tsx(397,19): error TS7006: Parameter 'width' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(24,19): error TS2314: Generic type 'SharedValue<Value>' requires 1 type argument(s).
+packages/calendar/components/AgendarColumn.tsx(25,12): error TS2314: Generic type 'SharedValue<Value>' requires 1 type argument(s).
+packages/calendar/components/AgendarColumn.tsx(26,17): error TS2314: Generic type 'SharedValue<Value>' requires 1 type argument(s).
+packages/calendar/components/AgendarColumn.tsx(27,16): error TS2314: Generic type 'AnimatedRef<T>' requires 1 type argument(s).
+packages/calendar/components/AgendarColumn.tsx(64,32): error TS7031: Binding element 'width' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(64,39): error TS7031: Binding element 'data' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(64,45): error TS7031: Binding element 'index' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(87,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(87,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(99,9): error TS2322: Type '(isActive: any) => { fontFamily: string; fontSize: any; fontWeight: string; color: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/AgendarColumn.tsx(99,18): error TS7006: Parameter 'isActive' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(105,9): error TS2322: Type '(isActive: any) => { justifyContent: string; alignItems: string; height: any; width: any; backgroundColor: any; borderRadius: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/AgendarColumn.tsx(105,28): error TS7006: Parameter 'isActive' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(113,19): error TS7006: Parameter 'isActive' implicitly has an 'any' type.
+packages/calendar/components/AgendarColumn.tsx(113,19): error TS2322: Type '(isActive: any) => { fontFamily: string; fontSize: any; color: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/AgendarNew.tsx(38,15): error TS2554: Expected 1 arguments, but got 0.
+packages/calendar/components/AgendarNew.tsx(52,50): error TS2304: Cannot find name 'ItemData'.
+packages/calendar/components/AgendarNew.tsx(53,9): error TS18046: '_data' is of type 'unknown'.
+packages/calendar/components/AgendarNew.tsx(54,12): error TS18046: '_data' is of type 'unknown'.
+packages/calendar/components/AgendarNew.tsx(55,12): error TS18046: '_data' is of type 'unknown'.
+packages/calendar/components/AgendarNew.tsx(56,15): error TS18046: '_data' is of type 'unknown'.
+packages/calendar/components/AgendarNew.tsx(58,42): error TS18046: '_data' is of type 'unknown'.
+packages/calendar/components/AgendarNew.tsx(101,37): error TS7006: Parameter 'param' implicitly has an 'any' type.
+packages/calendar/components/AgendarNew.tsx(110,25): error TS2322: Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type 'LegacyRef<Component<AnimateProps<VirtualizedListProps<unknown>>, any, any>> | undefined'.
+  Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type '(instance: Component<AnimateProps<VirtualizedListProps<unknown>>, any, any> | null) => void'.
+    Types of parameters 'component' and 'instance' are incompatible.
+      Type 'Component<AnimateProps<VirtualizedListProps<unknown>>, any, any> | null' is not assignable to type 'Component<{}, {}, any> | undefined'.
+        Type 'null' is not assignable to type 'Component<{}, {}, any> | undefined'.
+packages/calendar/components/AgendarNew.tsx(120,47): error TS18046: 'item' is of type 'unknown'.
+packages/calendar/components/AgendarNew.tsx(148,29): error TS2322: Type 'AnimatedRef<Component<{}, {}, any>>' is not assignable to type 'LegacyRef<Component<AnimateProps<VirtualizedListProps<unknown>>, any, any>> | undefined'.
+packages/calendar/components/AgendarNew.tsx(154,37): error TS2322: Type 'unknown' is not assignable to type '{ isActive: boolean; title: string; value: number; }'.
+packages/calendar/components/AgendarNew.tsx(159,51): error TS18046: 'item' is of type 'unknown'.
+packages/calendar/components/AgendarNew.tsx(177,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/AgendarNew.tsx(177,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/Calendar.tsx(55,15): error TS2554: Expected 1 arguments, but got 0.
+packages/calendar/components/Calendar.tsx(86,33): error TS18047: 'currentYear' is possibly 'null'.
+packages/calendar/components/Calendar.tsx(86,63): error TS18047: 'currentMonth' is possibly 'null'.
+packages/calendar/components/Calendar.tsx(89,9): error TS18047: 'virtualListRef.current' is possibly 'null'.
+packages/calendar/components/Calendar.tsx(95,47): error TS2339: Property '_value' does not exist on type 'Value'.
+packages/calendar/components/Calendar.tsx(98,13): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+packages/calendar/components/Calendar.tsx(104,47): error TS2339: Property '_value' does not exist on type 'Value'.
+packages/calendar/components/Calendar.tsx(107,13): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+packages/calendar/components/Calendar.tsx(113,27): error TS2554: Expected 2 arguments, but got 1.
+packages/calendar/components/Calendar.tsx(113,39): error TS7006: Parameter 'event' implicitly has an 'any' type.
+packages/calendar/components/Calendar.tsx(121,37): error TS2554: Expected 2 arguments, but got 1.
+packages/calendar/components/Calendar.tsx(121,49): error TS7006: Parameter 'param' implicitly has an 'any' type.
+packages/calendar/components/Calendar.tsx(138,21): error TS2322: Type '{ dateString: string; prevMonth: () => void; nextMonth: () => void; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'dateString' does not exist on type 'IntrinsicAttributes & Props'.
+packages/calendar/components/Calendar.tsx(160,33): error TS2322: Type '(param: OnPressDayParam) => void' is not assignable to type '(day: CalendarDay) => void'.
+  Types of parameters 'param' and 'day' are incompatible.
+    Type 'CalendarDay' is not assignable to type 'OnPressDayParam'.
+      Types of property 'dayId' are incompatible.
+        Type 'string' is not assignable to type 'number'.
+packages/calendar/components/Calendar.tsx(167,32): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+packages/calendar/components/Calendar.tsx(168,30): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+packages/calendar/components/Calendar.tsx(169,37): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+packages/calendar/components/Calendar.tsx(187,27): error TS2322: Type 'Function' is not assignable to type '(event: NativeSyntheticEvent<unknown>) => void'.
+  Type 'Function' provides no match for the signature '(event: NativeSyntheticEvent<unknown>): void'.
+packages/calendar/components/Calendar.tsx(196,21): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: VirtualizedListProps<{ weeks: any; key: any; dateString: any; }>): VirtualizedList<{ weeks: any; key: any; dateString: any; }>', gave the following error.
+    Type 'Function' is not assignable to type '(info: { viewableItems: ViewToken[]; changed: ViewToken[]; }) => void'.
+      Type 'Function' provides no match for the signature '(info: { viewableItems: ViewToken[]; changed: ViewToken[]; }): void'.
+  Overload 2 of 2, '(props: VirtualizedListProps<{ weeks: any; key: any; dateString: any; }>, context: any): VirtualizedList<{ weeks: any; key: any; dateString: any; }>', gave the following error.
+    Type 'Function' is not assignable to type '(info: { viewableItems: ViewToken[]; changed: ViewToken[]; }) => void'.
+packages/calendar/components/Calendar.tsx(206,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/Calendar.tsx(206,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/CalendarHeader.tsx(9,27): error TS2339: Property 'prevMonth' does not exist on type 'Props'.
+packages/calendar/components/CalendarHeader.tsx(9,38): error TS2339: Property 'dateString' does not exist on type 'Props'.
+packages/calendar/components/CalendarHeader.tsx(9,50): error TS2339: Property 'nextMonth' does not exist on type 'Props'.
+packages/calendar/components/CalendarHeader.tsx(49,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/CalendarHeader.tsx(49,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/DemoGesture.tsx(38,9): error TS2339: Property 'selectorWidth' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(39,9): error TS2339: Property 'selectorOffset' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(40,9): error TS2339: Property 'selectorStart' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(41,9): error TS2339: Property 'selectorIsPressed' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(42,9): error TS2339: Property 'selectorHeight' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(43,9): error TS2339: Property 'selectorHeightStart' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(44,9): error TS2339: Property 'selectorTopDist' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(45,9): error TS2339: Property 'cellHeight' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(46,9): error TS2339: Property 'scrollViewVisibleContentWidth' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(47,9): error TS2339: Property 'format' does not exist on type 'Props'.
+packages/calendar/components/DemoGesture.tsx(78,53): error TS2345: Argument of type '{ tapValue: any; globSize: any; format: any; }' is not assignable to parameter of type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+  Property 'size' is missing in type '{ tapValue: any; globSize: any; format: any; }' but required in type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+packages/calendar/components/DemoGesture.tsx(187,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/DemoGesture.tsx(187,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/DemoGesture.tsx(189,9): error TS2322: Type '(width: any) => { position: string; width: any; borderRadius: any; borderColor: any; borderWidth: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/DemoGesture.tsx(189,19): error TS7006: Parameter 'width' implicitly has an 'any' type.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(13,9): error TS2339: Property 'selectorWidth' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(14,9): error TS2339: Property 'selectorOffset' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(15,9): error TS2339: Property 'selectorStart' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(16,9): error TS2339: Property 'selectorIsPressed' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(17,9): error TS2339: Property 'selectorHeight' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(18,9): error TS2339: Property 'selectorHeightStart' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(19,9): error TS2339: Property 'selectorTopDist' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(20,9): error TS2339: Property 'cellHeight' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(21,9): error TS2339: Property 'scrollViewVisibleContentWidth' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(22,9): error TS2339: Property 'format' does not exist on type 'Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(33,21): error TS2322: Type '{ key: string; selectorOffset: any; selectorStart: any; selectorIsPressed: any; selectorHeight: any; selectorHeightStart: any; selectorTopDist: any; cellHeight: any; selectorWidth: any; scrollViewVisibleContentWidth: any; format: any; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'selectorOffset' does not exist on type 'IntrinsicAttributes & Props'.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(82,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/DynamicGestorSelectorManager.tsx(82,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/GestureSelector.tsx(38,9): error TS2339: Property 'selectorWidth' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(39,9): error TS2339: Property 'selectorOffset' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(40,9): error TS2339: Property 'selectorStart' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(41,9): error TS2339: Property 'selectorIsPressed' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(42,9): error TS2339: Property 'selectorHeight' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(43,9): error TS2339: Property 'selectorHeightStart' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(44,9): error TS2339: Property 'selectorTopDist' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(45,9): error TS2339: Property 'cellHeight' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(46,9): error TS2339: Property 'scrollViewVisibleContentWidth' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(47,9): error TS2339: Property 'format' does not exist on type 'Props'.
+packages/calendar/components/GestureSelector.tsx(132,24): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(142,53): error TS2345: Argument of type '{ tapValue: any; globSize: any; format: any; }' is not assignable to parameter of type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+  Property 'size' is missing in type '{ tapValue: any; globSize: any; format: any; }' but required in type '{ tapValue: number; format: number; globSize: number; size: number; }'.
+packages/calendar/components/GestureSelector.tsx(152,25): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(167,29): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(174,20): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(180,24): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(184,22): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(192,21): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(194,21): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(200,26): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(201,20): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(215,21): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(218,26): error TS2540: Cannot assign to 'value' because it is a read-only property.
+packages/calendar/components/GestureSelector.tsx(249,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/GestureSelector.tsx(249,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/GestureSelector.tsx(251,9): error TS2322: Type '(width: any) => { position: string; width: any; borderRadius: any; borderColor: any; borderWidth: number; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/GestureSelector.tsx(251,19): error TS7006: Parameter 'width' implicitly has an 'any' type.
+packages/calendar/components/HourMark.tsx(19,13): error TS2339: Property 'isActive' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(19,31): error TS2339: Property 'getHour' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(19,41): error TS7006: Parameter 'val' implicitly has an 'any' type.
+packages/calendar/components/HourMark.tsx(24,27): error TS2339: Property 'offset' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(25,28): error TS2339: Property 'add' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(25,40): error TS2339: Property 'add' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(32,21): error TS2339: Property 'offset' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(34,38): error TS2339: Property 'add' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(34,50): error TS2339: Property 'add' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(35,47): error TS2339: Property 'cell' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(39,16): error TS2339: Property 'offset' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(39,30): error TS2339: Property 'cell' does not exist on type 'Props'.
+packages/calendar/components/HourMark.tsx(54,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/HourMark.tsx(54,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendar.tsx(48,21): error TS2322: Type '{ activeDayName: null; daysName: CalendarHeaderDay; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'activeDayName' does not exist on type 'IntrinsicAttributes & Props'.
+packages/calendar/components/MonthlyCalendar.tsx(55,29): error TS2740: Type 'CalendarWeek' is missing the following properties from type 'CalendarWeek[]': length, pop, push, concat, and 35 more.
+packages/calendar/components/MonthlyCalendar.tsx(59,29): error TS2322: Type 'Dispatch<SetStateAction<null>>' is not assignable to type '(value: string) => void'.
+  Types of parameters 'value' and 'value' are incompatible.
+    Type 'string' is not assignable to type 'SetStateAction<null>'.
+packages/calendar/components/MonthlyCalendar.tsx(70,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendar.tsx(70,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarHeader.tsx(9,34): error TS2339: Property 'daysName' does not exist on type 'Props'.
+packages/calendar/components/MonthlyCalendarHeader.tsx(9,44): error TS2339: Property 'activeDayName' does not exist on type 'Props'.
+packages/calendar/components/MonthlyCalendarHeader.tsx(14,28): error TS7006: Parameter 'day' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarHeader.tsx(14,33): error TS7006: Parameter 'i' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarHeader.tsx(27,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarHeader.tsx(27,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarHeader.tsx(35,9): error TS2322: Type '(isActive: any) => { fontFamily: string; fontSize: any; color: any; fontWeight: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/MonthlyCalendarHeader.tsx(35,23): error TS7006: Parameter 'isActive' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(39,23): error TS2339: Property 'days' does not exist on type 'CalendarWeek[]'.
+packages/calendar/components/MonthlyCalendarWeek.tsx(39,33): error TS7006: Parameter 'day' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(39,38): error TS7006: Parameter 'index' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(58,56): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(88,55): error TS7006: Parameter 'event' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(88,62): error TS7006: Parameter 'index' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(110,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(110,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(119,9): error TS2322: Type '({ isActive, isSelect }: { isActive: any; isSelect: any; }) => { backgroundColor: any; width: any; height: any; borderRadius: number; justifyContent: string; alignItems: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/MonthlyCalendarWeek.tsx(119,27): error TS7031: Binding element 'isActive' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(119,37): error TS7031: Binding element 'isSelect' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(131,9): error TS2322: Type '({ isActive, isSelect }: { isActive: any; isSelect: any; }) => { fontFamily: string; fontSize: any; color: any; fontWeight: string; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/components/MonthlyCalendarWeek.tsx(131,29): error TS7031: Binding element 'isActive' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(131,39): error TS7031: Binding element 'isSelect' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(147,19): error TS7006: Parameter 'color' implicitly has an 'any' type.
+packages/calendar/components/MonthlyCalendarWeek.tsx(147,19): error TS2322: Type '(color: any) => { width: any; height: any; borderRadius: number; backgroundColor: any; }' is not assignable to type 'ViewStyle | TextStyle | ImageStyle'.
+packages/calendar/core/Calendar.ts(17,14): error TS2554: Expected 1 arguments, but got 0.
+packages/calendar/core/Calendar.ts(19,23): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(19,29): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(23,20): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(23,26): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(33,25): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(46,16): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(46,22): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(46,29): error TS7006: Parameter 'day' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(49,18): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(51,13): error TS2322: Type 'Date' is not assignable to type 'null'.
+packages/calendar/core/Calendar.ts(53,13): error TS2322: Type 'Date' is not assignable to type 'null'.
+packages/calendar/core/Calendar.ts(55,28): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(56,29): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(57,27): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(61,28): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(62,29): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(63,27): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(67,9): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(67,27): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(71,9): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(71,27): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(74,15): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(76,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(76,32): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(78,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(80,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(80,32): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(85,15): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(87,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(87,32): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(89,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(91,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(91,32): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(95,14): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(97,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(99,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(99,35): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(101,9): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(102,9): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(105,14): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(107,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(109,13): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(109,35): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(111,9): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(112,9): error TS2531: Object is possibly 'null'.
+packages/calendar/core/Calendar.ts(125,34): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(125,40): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(172,21): error TS2322: Type 'number' is not assignable to type 'null'.
+packages/calendar/core/Calendar.ts(177,21): error TS2322: Type 'number' is not assignable to type 'null'.
+packages/calendar/core/Calendar.ts(181,32): error TS2345: Argument of type '{ dayId: number; value: null; isActive: boolean; dateString: string; events: CalendarMarkerEvent[]; }' is not assignable to parameter of type 'never'.
+packages/calendar/core/Calendar.ts(195,33): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(208,34): error TS2554: Expected 1-2 arguments, but got 0.
+packages/calendar/core/Calendar.ts(210,13): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+packages/calendar/core/Calendar.ts(216,46): error TS7006: Parameter 'minYear' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(216,55): error TS7006: Parameter 'maxYear' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(234,29): error TS7006: Parameter 'dateString' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(237,25): error TS7006: Parameter 'item' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(240,16): error TS7006: Parameter 'charater' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(240,26): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(240,32): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(243,19): error TS7006: Parameter 'localizedCode' implicitly has an 'any' type.
+packages/calendar/core/Calendar.ts(249,64): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+  Overload 2 of 3, '(locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+packages/calendar/core/Calendar.ts(249,64): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+      Types of property 'month' are incompatible.
+        Type 'string' is not assignable to type '"long" | "numeric" | "2-digit" | "short" | "narrow" | undefined'.
+  Overload 2 of 3, '(locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string', gave the following error.
+    Argument of type '{ month: string; }' is not assignable to parameter of type 'DateTimeFormatOptions'.
+packages/calendar/hooks/useCalendarData.tsx(3,25): error TS7006: Parameter 'calendar' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(8,13): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(8,19): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(9,12): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(10,27): error TS7006: Parameter 'minYear' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(10,36): error TS7006: Parameter 'maxYear' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(13,14): error TS7006: Parameter 'localizedCode' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(13,29): error TS7006: Parameter 'monthNameType' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(15,17): error TS7006: Parameter 'char' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(15,23): error TS7006: Parameter 'year' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(15,29): error TS7006: Parameter 'month' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarData.tsx(16,25): error TS7006: Parameter 'dateString' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarInitialization.tsx(2,22): error TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+packages/calendar/hooks/useCalendarInitialization.tsx(4,36): error TS7006: Parameter 'initialYear' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarInitialization.tsx(5,40): error TS2554: Expected 0 arguments, but got 1.
+packages/calendar/hooks/useCalendarNavigation.tsx(3,31): error TS7006: Parameter 'calendar' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarNavigation.tsx(7,13): error TS7006: Parameter 'customMonth' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarNavigation.tsx(8,13): error TS7006: Parameter 'customMonth' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarNavigation.tsx(9,13): error TS7006: Parameter 'custormYear' implicitly has an 'any' type.
+packages/calendar/hooks/useCalendarNavigation.tsx(10,13): error TS7006: Parameter 'custormYear' implicitly has an 'any' type.
