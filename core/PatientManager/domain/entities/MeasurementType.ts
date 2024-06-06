@@ -11,7 +11,7 @@ import {
 export interface IMeasurementType {
     name: string;
     unit: string;
-    measureCategorgy: PatientMeasurementCategory;
+    measureCategory: PatientMeasurementCategory;
     code: string;
     nameTranslate?: {
         inFrench?: string;
@@ -32,8 +32,8 @@ export class MeasurementType extends Entity<IMeasurementType> {
     get code(): string {
         return this.props.code;
     }
-    get measureCategorgy(): PatientMeasurementCategory {
-        return this.props.measureCategorgy;
+    get measureCategory(): PatientMeasurementCategory {
+        return this.props.measureCategory;
     }
     get nameF(): string {
         return this.props?.nameTranslate?.inFrench || this.props.name;
@@ -64,7 +64,7 @@ export class MeasurementType extends Entity<IMeasurementType> {
             );
         if (
             !Object.values(PatientMeasurementCategory).includes(
-                this.props.measureCategorgy as PatientMeasurementCategory
+                this.props.measureCategory as PatientMeasurementCategory
             )
         )
             throw new ArgumentOutOfRangeException(

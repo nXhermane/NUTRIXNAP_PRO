@@ -2,7 +2,6 @@ import { FoodRepository } from "./interfaces/FoodRepository";
 import { Food } from "./../../domain";
 import { AggregateID, Result, Mapper, Paginated } from "@shared";
 import { Knex } from "knex";
-import { SQLiteDatabase } from "expo-sqlite/next";
 import { FoodName, FoodPersistenceType } from "./types";
 import {
     FoodRepositoryError,
