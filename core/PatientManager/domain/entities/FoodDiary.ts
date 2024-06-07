@@ -40,6 +40,12 @@ export class FoodDiary extends Entity<IFoodDiary> {
     get images(): string[] {
         return this.props.images.map((img: Image) => img.uri);
     }
+    getImage(): Image[] {
+      return this.props.images
+    }
+    set images(images: Image[]) {
+      this.props.images=images
+    }
     set meal(meal: FoodDiaryMealEntry) {
         this.props.meal = meal;
         this.validate();

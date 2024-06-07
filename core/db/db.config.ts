@@ -4,7 +4,7 @@ import {
     openDatabaseAsync,
     SQLiteDatabase,
     addDatabaseChangeListener
-} from "expo-sqlite/next";
+} from "expo-sqlite";
 import ExpoSQLiteDialect from "@expo/knex-expo-sqlite-dialect";
 import { Knex , knex  } from "knex";
 import { IDatabase } from "./../interfaces";

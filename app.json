@@ -78,19 +78,5 @@
         "projectId": "6028efc6-292b-43c2-a31e-ca3d3926ddf1"
       }
     }
-  },
-  "packagerOpts": {
-    "config": {
-      "watchFolders": [
-        "."
-      ],
-      "nodeModulesWhitelist": [],
-      "watchFolderExclusions": [
-        "node_modules",
-        "dist",
-        "packages",
-        "app"
-      ]
-    }
   }
 }

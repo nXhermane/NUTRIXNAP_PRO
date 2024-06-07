@@ -1,9 +1,9 @@
 import * as FileSystem from "expo-file-system";
 import { Asset } from "expo-asset";
-import { openDatabaseAsync, SQLiteDatabase } from "expo-sqlite/next";
+import { openDatabaseAsync, SQLiteDatabase } from "expo-sqlite";
 import ExpoSQLiteDialect from "@expo/knex-expo-sqlite-dialect";
 import { Knex, knex } from "knex";
-import IDatabase from "./IDatabase";
+import {IDatabase} from "@shared";
 
 export default class Database implements IDatabase {
     public db: SQLiteDatabase | null = null;

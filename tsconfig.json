@@ -14,7 +14,9 @@
       ],
       "@shared": [
         "./core/shared"
-      ]
+      ],
+      "@foodAndRecipe":["./core/FoodsAndRecipesDatabase"],
+      "@patientManager":["./core/PatientManager"]
     },
     "noImplicitAny": true,
     "experimentalDecorators": true

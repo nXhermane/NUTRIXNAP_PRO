@@ -6,7 +6,6 @@ export * from "./Gender";
 export * from "./HumanName";
 export * from "./PhoneNumber";
 export * from "./RegistrationDate";
-export * from "./Image";
 export * from "./Time";
 export * from "./Date";
 export * from "./Timeframe";

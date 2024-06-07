@@ -3,10 +3,8 @@ import {
   CreateEntityProps,
   BaseEntityProps,
   HumanName,
-  Gender,
-  Contact,
-  Address,
-  Birthday,
+  Gender, Contact,
+  Address, Birthday,
   AggregateID,
   InvalidReference,
   Guard,
@@ -79,12 +77,23 @@ export class Patient extends AggregateRoot<IPatient> {
   set occupation(occupation: string | undefined) {
     this.props.occupation = occupation;
   }
+  
   get medicalRecordId(): AggregateID {
     return this.props.medicalRecordId;
   }
+  
   get images(): string[] {
     return this.props.images.map((img: Image) => img.uri)
   }
+  
+  set images(images: Image[]) {
+    this.props.images = images
+  }
+  
+  getImage(): Image[] {
+    return this.props.images
+  }
+
   isMale(): boolean {
     return this.props.gender.isMale();
   }

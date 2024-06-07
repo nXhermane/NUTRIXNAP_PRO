@@ -114,7 +114,7 @@ export class FoodRepositoryImplDb implements FoodRepository {
             );
             if (foodOrigin) query = query.where("foodOrigin", foodOrigin);
             const foodIds = await query;
-            if (!foodIds || foodIds.length === 0) {
+            if (!foodIds) {
                 throw new FoodRepositoryNotFoundException(
                     "No food ID found",
                     new Error(""),

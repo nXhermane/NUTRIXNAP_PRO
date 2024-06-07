@@ -12,7 +12,10 @@ import {
     GetAllRecipeUseCase,
     GetRecipeByIdUseCase,
     GetRecipeNutritionnalValueUseCase,
-    FoodDto
+    FoodDto,
+    FoodRecipeServiceDataProvider,
+    IFoodRecipeServiceDataProvider,
+    FoodRecipeServiceDataProviderError
 } from "./application";
 import { RecipeFactrory, NutritionCalculatorService } from "./domain";
 import {
@@ -27,7 +30,11 @@ import { Knex } from "knex";
 export interface IFoodAndRecipe {
     food: IFoodService;
     recipe: IRecipeService;
+    api: {
+      foodAndRecipeDataProvider: IFoodRecipeServiceDataProvider
+    }
 }
+
 export class FoodAndRecipe {
     private static instance: IFoodAndRecipe | null = null;
 
@@ -102,11 +109,15 @@ export class FoodAndRecipe {
                 getAllRecipeUC,
                 getRecipeNutritionnalValueUC
             );
+            const foodAndRecipeDataProvider=new FoodRecipeServiceDataProvider(foodRepo,recipeRepo)
             this.instance = {
                 food: foodService,
-                recipe: recipeService
+                recipe: recipeService,
+                api: { foodAndRecipeDataProvider }
             };
         }
         return this.instance;
     }
 }
+
+export { IFoodRecipeServiceDataProvider,FoodRecipeServiceDataProviderError }

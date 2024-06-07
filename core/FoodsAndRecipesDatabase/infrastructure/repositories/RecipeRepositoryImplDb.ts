@@ -218,8 +218,20 @@ export class RecipeRepositoryImplDb implements RecipeRepository {
       );
     }
   }
+
+  async getAllRecipeId(): Promise<AggregateID[]> {
+    try {
+      const recipeIds = await await this.knex<RecipePersistenceType>(this.recipeTableName).select("recipeId")
+      if (recipeIds.length === 0)
+        throw new RecipeRepositoryNotFoundException("Aucune recette trouvée", new Error(""), {});
+      return recipeIds.map((id:{recipeId: AggregateID}) => id.recipeId)
+    } catch (error) {
+      throw new RecipeRepositoryError("Erreur lors de la récupération de toutes les ids de recettes", error as Error, {});
+    }
+  }
   private async checkIfRecipeExist(recipeId: AggregateID): Promise<boolean> {
     const recipe = await this.knex<RecipePersistenceDto>(this.recipeTableName).select().where('recipeId', recipeId).first()
     return recipe ? true : false
   }
+
 }
