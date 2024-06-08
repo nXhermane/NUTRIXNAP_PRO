@@ -666,10 +666,10 @@ components/tabs/patient/SearchPatient.tsx(31,19): error TS7031: Binding element 
 components/tabs/patient/SearchPatient.tsx(31,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
 components/tabs/patient/Top.tsx(26,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
 components/tabs/patient/Top.tsx(26,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
-hooks/useImagePicker.ts(29,33): error TS7034: Variable 'images' implicitly has type 'any[]' in some locations where its type cannot be determined.
-hooks/useImagePicker.ts(30,29): error TS18047: 'image.assets' is possibly 'null'.
-hooks/useImagePicker.ts(41,37): error TS7005: Variable 'images' implicitly has an 'any[]' type.
-hooks/useSearchEngine.ts(4,29): error TS2345: Argument of type 'T[]' is not assignable to parameter of type 'Value[]'.
+hooks/useImagePicker.ts(28,17): error TS7034: Variable 'images' implicitly has type 'any[]' in some locations where its type cannot be determined.
+hooks/useImagePicker.ts(29,13): error TS18047: 'image.assets' is possibly 'null'.
+hooks/useImagePicker.ts(39,21): error TS7005: Variable 'images' implicitly has an 'any[]' type.
+hooks/useSearchEngine.ts(4,27): error TS2345: Argument of type 'T[]' is not assignable to parameter of type 'Value[]'.
   Type 'T' is not assignable to type 'Value'.
     Type 'T' is not assignable to type '{ [key: string]: any; }'.
 node_modules/react-native-gifted-charts/src/BarChart/Animated2DWithGradient.tsx(110,17): error TS2322: Type 'ViewStyle[] | undefined' is not assignable to type 'ViewStyle | undefined'.

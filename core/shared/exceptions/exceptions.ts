@@ -1,13 +1,13 @@
 import {
-    ARGUMENT_INVALID,
-    ARGUMENT_NOT_PROVIDED,
-    ARGUMENT_OUT_OF_RANGE,
-    CONFLICT,
-    INTERNAL_SERVER_ERROR,
-    NOT_FOUND,
-    AUTHORIZATION_ERROR
-} from "./exception.code";
-import { ExceptionBase } from "./exception.base";
+   ARGUMENT_INVALID,
+   ARGUMENT_NOT_PROVIDED,
+   ARGUMENT_OUT_OF_RANGE,
+   CONFLICT,
+   INTERNAL_SERVER_ERROR,
+   NOT_FOUND,
+   AUTHORIZATION_ERROR,
+} from './exception.code';
+import { ExceptionBase } from './exception.base';
 
 /**
  * Used to indicate that an incorrect argument was provided to a method/function/class constructor
@@ -16,7 +16,7 @@ import { ExceptionBase } from "./exception.base";
  * @extends {ExceptionBase}
  */
 export class ArgumentInvalidException extends ExceptionBase {
-    readonly code = ARGUMENT_INVALID;
+   readonly code = ARGUMENT_INVALID;
 }
 
 /**
@@ -26,7 +26,7 @@ export class ArgumentInvalidException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class ArgumentNotProvidedException extends ExceptionBase {
-    readonly code = ARGUMENT_NOT_PROVIDED;
+   readonly code = ARGUMENT_NOT_PROVIDED;
 }
 
 /**
@@ -37,7 +37,7 @@ export class ArgumentNotProvidedException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class ArgumentOutOfRangeException extends ExceptionBase {
-    readonly code = ARGUMENT_OUT_OF_RANGE;
+   readonly code = ARGUMENT_OUT_OF_RANGE;
 }
 
 /**
@@ -47,7 +47,7 @@ export class ArgumentOutOfRangeException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class ConflictException extends ExceptionBase {
-    readonly code = CONFLICT;
+   readonly code = CONFLICT;
 }
 
 /**
@@ -57,13 +57,13 @@ export class ConflictException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class NotFoundException extends ExceptionBase {
-    static readonly message = "Not found";
+   static readonly message = 'Not found';
 
-    constructor(message = NotFoundException.message) {
-        super(message);
-    }
+   constructor(message = NotFoundException.message) {
+      super(message);
+   }
 
-    readonly code = NOT_FOUND;
+   readonly code = NOT_FOUND;
 }
 
 /**
@@ -73,54 +73,54 @@ export class NotFoundException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class InternalServerErrorException extends ExceptionBase {
-    static readonly message = "Internal server error";
+   static readonly message = 'Internal server error';
 
-    constructor(message = InternalServerErrorException.message) {
-        super(message);
-    }
+   constructor(message = InternalServerErrorException.message) {
+      super(message);
+   }
 
-    readonly code = INTERNAL_SERVER_ERROR;
+   readonly code = INTERNAL_SERVER_ERROR;
 }
 
 export class EmptyStringError extends ExceptionBase {
-    static readonly message = "Property cannot be empty";
-    constructor(message = EmptyStringError.message) {
-        super(message);
-    }
-    readonly code = ARGUMENT_NOT_PROVIDED;
+   static readonly message = 'Property cannot be empty';
+   constructor(message = EmptyStringError.message) {
+      super(message);
+   }
+   readonly code = ARGUMENT_NOT_PROVIDED;
 }
 export class NegativeValueError extends ExceptionBase {
-    static readonly message = "Property cannot be negative";
-    constructor(message = NegativeValueError.message) {
-        super(message);
-    }
-    readonly code = ARGUMENT_INVALID;
+   static readonly message = 'Property cannot be negative';
+   constructor(message = NegativeValueError.message) {
+      super(message);
+   }
+   readonly code = ARGUMENT_INVALID;
 }
 export class DuplicateValueError extends ExceptionBase {
-    static readonly message = "Property values cannot be duplicated";
-    constructor(message = DuplicateValueError.message) {
-        super(message);
-    }
-    readonly code = ARGUMENT_INVALID;
+   static readonly message = 'Property values cannot be duplicated';
+   constructor(message = DuplicateValueError.message) {
+      super(message);
+   }
+   readonly code = ARGUMENT_INVALID;
 }
 export class AuthValueError extends ExceptionBase {
-    static readonly message = "Property value is not authorized";
-    constructor(message = AuthValueError.message) {
-        super(message);
-    }
-    readonly code = AUTHORIZATION_ERROR;
+   static readonly message = 'Property value is not authorized';
+   constructor(message = AuthValueError.message) {
+      super(message);
+   }
+   readonly code = AUTHORIZATION_ERROR;
 }
 export class InvalidArgumentFormatError extends ExceptionBase {
-    static readonly message = "Property value cannot not be in this format";
-    constructor(message = InvalidArgumentFormatError.message) {
-        super(message);
-    }
-    readonly code = ARGUMENT_INVALID;
+   static readonly message = 'Property value cannot not be in this format';
+   constructor(message = InvalidArgumentFormatError.message) {
+      super(message);
+   }
+   readonly code = ARGUMENT_INVALID;
 }
 export class InvalidReference extends ExceptionBase {
-    static readonly message = "Property reference is invalid";
-    constructor(msg = InvalidReference.message) {
-        super(msg);
-    }
-    readonly code = ARGUMENT_INVALID;
+   static readonly message = 'Property reference is invalid';
+   constructor(msg = InvalidReference.message) {
+      super(msg);
+   }
+   readonly code = ARGUMENT_INVALID;
 }

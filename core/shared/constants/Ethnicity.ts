@@ -1,5 +1,5 @@
 export enum Ethnicity {
-    Caucasian = "Caucasian",
-    Asian = "Asian",
-    Black = "Black"
+   Caucasian = 'Caucasian',
+   Asian = 'Asian',
+   Black = 'Black',
 }

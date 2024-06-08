@@ -1,4 +1,4 @@
-import { AggregateID } from "@shared";
+import { AggregateID } from '@shared';
 export type GetRecipeByIdRequest = {
-    recipeId: AggregateID;
+   recipeId: AggregateID;
 };

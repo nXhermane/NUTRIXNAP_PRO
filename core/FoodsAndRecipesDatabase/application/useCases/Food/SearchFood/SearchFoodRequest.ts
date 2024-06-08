@@ -1,3 +1,3 @@
 export type SearchFoodRequest = {
-    searchValue: string;
+   searchValue: string;
 };

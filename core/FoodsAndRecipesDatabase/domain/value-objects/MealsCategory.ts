@@ -1,15 +1,15 @@
-import { ValueObject } from "@shared";
+import { ValueObject } from '@shared';
 
 export interface IMealsCategory {
-    categoryId: number;
-    name: string;
-    nameF: string;
+   categoryId: number;
+   name: string;
+   nameF: string;
 }
 export class MealsCategory extends ValueObject<IMealsCategory> {
-    constructor(props: IMealsCategory) {
-        super(props);
-        this.validate(props);
-    }
+   constructor(props: IMealsCategory) {
+      super(props);
+      this.validate(props);
+   }
 
-    validate(props: IMealsCategory): void {}
+   validate(props: IMealsCategory): void {}
 }

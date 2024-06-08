@@ -1,5 +1,5 @@
 export enum ObjectiveStatus {
-    InProgress = "InProgress",
-    Achieved = "Achieved",
-    NotAchieved = "NotAchieved"
+   InProgress = 'InProgress',
+   Achieved = 'Achieved',
+   NotAchieved = 'NotAchieved',
 }

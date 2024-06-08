@@ -1,4 +1,3 @@
-import DateManager from "./dateManager"
+import DateManager from './dateManager';
 
-
-export {DateManager}
+export { DateManager };

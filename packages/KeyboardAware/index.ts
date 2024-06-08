@@ -1,3 +1,3 @@
-import KeyboardAwareScrollView from "./components/KeyboardAwareScrollView";
+import KeyboardAwareScrollView from './components/KeyboardAwareScrollView';
 
 export { KeyboardAwareScrollView };

@@ -1,4 +1,4 @@
 export enum ObjectiveType {
-    Measure = "Measure",
-    General = "General"
+   Measure = 'Measure',
+   General = 'General',
 }

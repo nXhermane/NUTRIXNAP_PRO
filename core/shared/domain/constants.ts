@@ -1,1 +1,1 @@
-export const FoodQuantityUnits = ["kg", "g", "mg", "mcg"];
+export const FoodQuantityUnits = ['kg', 'g', 'mg', 'mcg'];

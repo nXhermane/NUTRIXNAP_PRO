@@ -1,2 +1,2 @@
-import { CreatePatientProps } from "./../../../../domain"
-export type CreatePatientRequest = Omit<CreatePatientProps, "medicalRecordId">
+import { CreatePatientProps } from './../../../../domain';
+export type CreatePatientRequest = Omit<CreatePatientProps, 'medicalRecordId'>;

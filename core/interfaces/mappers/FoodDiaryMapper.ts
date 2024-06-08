@@ -1,14 +1,8 @@
-import {
-    FoodDiaryEntity,
-    FoodDiaryDTO,
-    UpdateFoodDiaryDto,
-    UpdateFoodDiaryType,
-    CreateFoodDiaryType
-} from "@/core/interfaces";
+import { FoodDiaryEntity, FoodDiaryDTO, UpdateFoodDiaryDto, UpdateFoodDiaryType, CreateFoodDiaryType } from '@/core/interfaces';
 
 export default interface FoodDiaryMapper {
-    mapDtoToEntity(dto: FoodDiaryDTO): FoodDiaryEntity;
-    mapDtoToCreateEntity(dto: FoodDiaryDTO): CreateFoodDiaryType;
-    mapUpdateDtoToUpdateEntity(dto: UpdateFoodDiaryDto): UpdateFoodDiaryType;
-    mapEntityToDto(entity: FoodDiaryEntity): FoodDiaryDTO;
+   mapDtoToEntity(dto: FoodDiaryDTO): FoodDiaryEntity;
+   mapDtoToCreateEntity(dto: FoodDiaryDTO): CreateFoodDiaryType;
+   mapUpdateDtoToUpdateEntity(dto: UpdateFoodDiaryDto): UpdateFoodDiaryType;
+   mapEntityToDto(entity: FoodDiaryEntity): FoodDiaryDTO;
 }

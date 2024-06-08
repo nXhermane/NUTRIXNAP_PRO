@@ -1,4 +1,4 @@
 export interface EatingBehaviorDto {
-    date: string;
-    eatingBehavior: string;
+   date: string;
+   eatingBehavior: string;
 }

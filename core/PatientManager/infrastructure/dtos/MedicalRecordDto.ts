@@ -1,20 +1,20 @@
-import { BaseEntityProps } from "@shared";
-import { FoodDiaryDto } from "./FoodDiaryDto";
-import { ConsultationInformationDto } from "./ConsultationInformationDto";
-import { FoodStoryDto } from "./FoodStoryDto";
-import { MedicalStoryDto } from "./MedicalStoryDto";
-import { PersonalAndSocialStoryDto } from "./PersonalAndSocialStoryDto";
-import { ObjectiveDto } from "./ObjectiveDto";
-import { EatingBehaviorDto } from "./EatingBehaviorDto";
-import { PatientMeasurementDto } from "./PatientMeasurementDto";
+import { BaseEntityProps } from '@shared';
+import { FoodDiaryDto } from './FoodDiaryDto';
+import { ConsultationInformationDto } from './ConsultationInformationDto';
+import { FoodStoryDto } from './FoodStoryDto';
+import { MedicalStoryDto } from './MedicalStoryDto';
+import { PersonalAndSocialStoryDto } from './PersonalAndSocialStoryDto';
+import { ObjectiveDto } from './ObjectiveDto';
+import { EatingBehaviorDto } from './EatingBehaviorDto';
+import { PatientMeasurementDto } from './PatientMeasurementDto';
 
 export interface MedicalRecordDto extends BaseEntityProps {
-    foodDiaries: FoodDiaryDto[];
-    consultationInformation: ConsultationInformationDto;
-    foodStory: FoodStoryDto;
-    medicalStory: MedicalStoryDto;
-    personalAndSocialStory: PersonalAndSocialStoryDto;
-    objectives: ObjectiveDto[];
-    eatingBehaviors: EatingBehaviorDto[];
-    measure: PatientMeasurementDto;
+   foodDiaries: FoodDiaryDto[];
+   consultationInformation: ConsultationInformationDto;
+   foodStory: FoodStoryDto;
+   medicalStory: MedicalStoryDto;
+   personalAndSocialStory: PersonalAndSocialStoryDto;
+   objectives: ObjectiveDto[];
+   eatingBehaviors: EatingBehaviorDto[];
+   measure: PatientMeasurementDto;
 }

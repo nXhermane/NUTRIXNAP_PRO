@@ -1,2 +1,2 @@
-import { RecipeDto } from "./../sharedType";
+import { RecipeDto } from './../sharedType';
 export type GetAllRecipeResponse = RecipeDto[];

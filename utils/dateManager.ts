@@ -1,5 +1,5 @@
-import { DateManager } from "@/core/utility";
+import { DateManager } from '@/core/utility';
 
 export default (function () {
-    return DateManager;
+   return DateManager;
 })();

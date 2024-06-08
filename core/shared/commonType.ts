@@ -6,6 +6,6 @@
  */
 
 export type Paginated = {
-    page: number;
-    pageSize: number;
+   page: number;
+   pageSize: number;
 };

@@ -1,4 +1,4 @@
-import { Paginated } from "@shared";
+import { Paginated } from '@shared';
 export type GetAllRecipeRequest = {
-    paginated?: Paginated;
+   paginated?: Paginated;
 };

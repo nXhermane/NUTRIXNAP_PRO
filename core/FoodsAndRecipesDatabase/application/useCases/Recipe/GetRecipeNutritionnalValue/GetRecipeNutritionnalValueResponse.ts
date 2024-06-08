@@ -1,6 +1,6 @@
-import { AggregateID } from "@shared";
-import { NutrientDto } from "./../../sharedType";
+import { AggregateID } from '@shared';
+import { NutrientDto } from './../../sharedType';
 export type GetRecipeNutritionnalValueResponse = {
-    recipeId: AggregateID;
-    nutrients: NutrientDto[];
+   recipeId: AggregateID;
+   nutrients: NutrientDto[];
 };

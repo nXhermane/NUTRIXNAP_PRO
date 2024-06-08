@@ -1,3 +1,3 @@
-import FoodDiaryMapper from './foodDairy.mapper'
+import FoodDiaryMapper from './foodDairy.mapper';
 
-export {FoodDiaryMapper}
+export { FoodDiaryMapper };

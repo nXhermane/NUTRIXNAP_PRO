@@ -1,16 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-
 interface Props {
-  // Define your props here
+   // Define your props here
 }
 
 const notification = (props: Props) => {
-  return (
-    <View>
-      <Text>Notification </Text>
-    </View>
-  );
+   return (
+      <View>
+         <Text>Notification </Text>
+      </View>
+   );
 };
 
 export default notification;

@@ -1,6 +1,6 @@
-import { Paginated } from "@shared";
+import { Paginated } from '@shared';
 
 export type GetAllFoodRequest = {
-    foodOrigin?: string;
-    paginated?: Paginated;
+   foodOrigin?: string;
+   paginated?: Paginated;
 };
