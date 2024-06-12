@@ -60,14 +60,14 @@ export type CreateObjectiveProps = {
         }
       | { description: string };
 };
-type FoodItemProps = {
+export type FoodItemProps = {
    foodId?: AggregateID;
    recipeId?: AggregateID;
    isRecipe: boolean;
    isHomeMade: boolean;
    quantity: IQuantity;
 };
-type FoodMealEntryProps = {
+export type FoodMealEntryProps = {
    withCompany: boolean;
    watchingTv: boolean;
    sittingAtTable: boolean;
@@ -101,7 +101,7 @@ export type CreateMedicalStoryProps = {
    pathologies?: string;
    drugie?: string;
    personalBackground?: string;
-   familyBackgroun?: string;
+   familyBackground?: string;
    otherInformation?: string;
 };
 export type CreatePersonalAndSocialStoryProps = {
@@ -216,7 +216,7 @@ export class MedicalRecordFactory {
                pathologies: medicalStory?.pathologies || '',
                drugie: medicalStory?.drugie || '',
                personalBackground: medicalStory?.personalBackground || '',
-               familyBackground: medicalStory?.familyBackgroun || '',
+               familyBackground: medicalStory?.familyBackground || '',
                otherInformation: medicalStory?.otherInformation || '',
             },
          });

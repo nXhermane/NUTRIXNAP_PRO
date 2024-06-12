@@ -37,6 +37,7 @@ const KeyboardAwareScrollView = (props: PropsWithChildren<Props>) => {
          if (!currentlyFocusedInput || !responder || !containerScrollViewTarget.current) return;
 
          UIManager.viewIsDescendantOf(currentlyFocusedInput, responder.getInnerViewNode(), (isAncestor: boolean) => {
+           console.log("View Is Descending",isAncestor,currentlyFocusedInput)
             if (isAncestor) {
                // Voir si le etxtInput peut etre cacher par le keyboard
                UIManager.measureInWindow(currentlyFocusedInput, (x: number, y: number, width: number, height: number) => {
@@ -73,6 +74,7 @@ const KeyboardAwareScrollView = (props: PropsWithChildren<Props>) => {
          onKeyboardDidHide={onKeyboardDidHide}
          onLayout={(e) => {
             e.persist();
+            console.log(e.nativeEvent)
             scrollViewTarget.current = e.nativeEvent.target;
          }}
          onLayoutContainer={(e) => {

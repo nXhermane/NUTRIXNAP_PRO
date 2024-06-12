@@ -79,6 +79,7 @@ export class FoodStory extends Entity<IFoodStory> {
    set otherInformation(value: string) {
       this.props.otherInformation = value;
    }
+
    addDietType(dietTypeId: AggregateID): void {
       if (!this.props.dietTypes.has(dietTypeId)) this.props.dietTypes.add(dietTypeId);
    }

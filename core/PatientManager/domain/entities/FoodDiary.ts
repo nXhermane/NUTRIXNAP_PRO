@@ -26,6 +26,9 @@ export class FoodDiary extends Entity<IFoodDiary> {
    get observation(): string {
       return this.props.observation;
    }
+   set observation(value: string) {
+      this.props.observation = value;
+   }
    get images(): string[] {
       return this.props.images.map((img: Image) => img.uri);
    }

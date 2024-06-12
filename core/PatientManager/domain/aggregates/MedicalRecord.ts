@@ -26,15 +26,19 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
       super(createMediaclRecordProps);
    }
    addMeasurement(...measurements: (AnthropometricMeasurement | MedicalAnalysisResult | BodyCompositionMeasurement)[]) {
-      measurements.forEach((measurement: AnthropometricMeasurement | MedicalAnalysisResult | BodyCompositionMeasurement) => {
-         if (measurement instanceof AnthropometricMeasurement) {
-            this.props.measure.addAnthropometricMeasurement(measurement);
-         } else if (measurement instanceof MedicalAnalysisResult) {
-            this.props.measure.addMedicalAnalysisResult(measurement);
-         } else if (measurement instanceof BodyCompositionMeasurement) {
-            this.props.measure.addBodyCompositionMeasurement(measurement);
-         } else {
-            throw new Error('This measurement is not supported.');
+      measurements.forEach((measurement) => {
+         switch (measurement.constructor) {
+            case AnthropometricMeasurement:
+               this.props.measure.addAnthropometricMeasurement(measurement);
+               break;
+            case MedicalAnalysisResult:
+               this.props.measure.addMedicalAnalysisResult(measurement);
+               break;
+            case BodyCompositionMeasurement:
+               this.props.measure.addBodyCompositionMeasurement(measurement);
+               break;
+            default:
+               throw new Error('This measurement is not supported.');
          }
       });
    }
@@ -129,15 +133,15 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
       return this.props.measure.medicalAnalysisResults;
    }
 
-   removeFoodDiary(foodDiaryId: AggregateID): void {
-      const indexOfFoodDiary = this.props.foodDiaries.findIndex((foodDiary: FoodDiary) => foodDiary.id == foodDiaryId);
-      if (indexOfFoodDiary) this.props.foodDiaries.splice(indexOfFoodDiary, 1);
-   }
-   removeObjective(objectiveId: AggregateID): void {
-      const indexOfObjective = this.props.objectives.findIndex((obj: Objective) => obj.id == objectiveId);
-      if (indexOfObjective) this.props.objectives.splice(indexOfObjective, 1);
+   removeFoodDiary(foodDiaryId: AggregateID) {
+      const index = this.props.foodDiaries.findIndex((fd) => fd.id === foodDiaryId);
+      if (index !== -1) this.props.foodDiaries.splice(index, 1);
    }
 
+   removeObjective(objectiveId: AggregateID) {
+      const index = this.props.objectives.findIndex((obj) => obj.id === objectiveId);
+      if (index !== -1) this.props.objectives.splice(index, 1);
+   }
    validate(): void {
       this._isValid = true;
    }
