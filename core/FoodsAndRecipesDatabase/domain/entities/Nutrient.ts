@@ -1,4 +1,4 @@
-import { Entity, CreateEntityProps, BaseEntityProps, EmptyStringError, NegativeValueError } from '@shared';
+import { Entity, CreateEntityProps, BaseEntityProps, EmptyStringError, NegativeValueError, Guard } from "@shared";
 import {
    INVALID_NUTRIENT_VALUE_ERROR,
    INVALID_NUTRIENT_TAGNAME_ERROR,
@@ -6,7 +6,7 @@ import {
    EMPTY_NUTRIENT_NAME_ERROR,
    INVALID_NUTRIENT_UNIT_ERROR,
    INVALID_NUTRIENT_DECIMALS_ERROR,
-} from './../constants';
+} from "./../constants";
 export interface INutrient {
    nutrientCode: string;
    nutrientINFOODSTagName: string;
@@ -75,22 +75,22 @@ export class Nutrient extends Entity<INutrient> {
    }
 
    validate(): void {
-      if (this.props.nutrientValue < 0) {
+      if (Guard.isNegative(this.props.nutrientValue).succeeded) {
          throw new NegativeValueError(INVALID_NUTRIENT_VALUE_ERROR);
       }
-      if (this.props.nutrientDecimals < 0) {
+      if (Guard.isNegative(this.props.nutrientDecimals).succeeded) {
          throw new NegativeValueError(INVALID_NUTRIENT_DECIMALS_ERROR);
       }
-      if (!this.props.nutrientINFOODSTagName || this.props.nutrientINFOODSTagName.trim() === '') {
+      if (Guard.isEmpty(this.props.nutrientINFOODSTagName).succeeded) {
          throw new EmptyStringError(INVALID_NUTRIENT_TAGNAME_ERROR);
       }
-      if (!this.props.nutrientCode || this.props.nutrientCode.trim() === '') {
+      if (Guard.isEmpty(this.props.nutrientCode).succeeded) {
          throw new EmptyStringError(INVALID_NUTRIENT_CODE_ERROR);
       }
-      if (!this.props.nutrientName || this.props.nutrientName.trim() === '') {
+      if (Guard.isEmpty(this.props.nutrientName).succeeded) {
          throw new EmptyStringError(EMPTY_NUTRIENT_NAME_ERROR);
       }
-      if (!this.props.nutrientUnit || this.props.nutrientUnit.trim() === '') {
+      if (Guard.isEmpty(this.props.nutrientUnit).succeeded) {
          throw new EmptyStringError(INVALID_NUTRIENT_UNIT_ERROR);
       }
    }

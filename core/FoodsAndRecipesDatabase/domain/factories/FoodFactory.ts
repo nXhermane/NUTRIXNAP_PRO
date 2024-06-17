@@ -1,13 +1,13 @@
-import { Quantity as FoodQuantity, IQuantity as IFoodQuantity } from './../value-objects/Quantity';
-import { Nutrient, INutrient } from './../entities/Nutrient';
-import { FoodGroup, IFoodGroup } from './../entities/FoodGroup';
-import { Food, IFood } from './../aggregates/Food';
-import { CreateEntityProps, Result } from '@shared';
+import { Quantity as FoodQuantity, IQuantity as IFoodQuantity } from "./../value-objects/Quantity";
+import { Nutrient, INutrient } from "./../entities/Nutrient";
+import { FoodGroup, IFoodGroup } from "./../entities/FoodGroup";
+import { Food, IFood } from "./../aggregates/Food";
+import { CreateEntityProps, Result } from "@shared";
 export type CreateFoodProps = {
    foodQuantity: IFoodQuantity;
    foodGroup: CreateEntityProps<IFoodGroup>;
    foodNutrients: CreateEntityProps<INutrient>[];
-} & Omit<IFood, 'foodQuantity' | 'foodGroup' | 'foodNutrients'>;
+} & Omit<IFood, "foodQuantity" | "foodGroup" | "foodNutrients">;
 
 export class FoodFactrory {
    constructor() {}

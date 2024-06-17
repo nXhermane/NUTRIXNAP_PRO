@@ -1,4 +1,4 @@
-import { ValueObject } from '@shared';
+import { ValueObject } from "@shared";
 
 export interface IMealsType {
    typeId: number;

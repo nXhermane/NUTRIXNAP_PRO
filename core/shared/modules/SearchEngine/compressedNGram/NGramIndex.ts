@@ -1,8 +1,8 @@
-import uniqueIdGenerator from './../helpers/uniqueIdGenerator';
-import { isArray, isString, isDefined } from './../helpers/types';
-import getFn from './../helpers/get';
-import levenshteinDistance from './../helpers/levenshteinDistance';
-import BitapSearch, { BitapSearchOptions } from './../bitap';
+import uniqueIdGenerator from "./../helpers/uniqueIdGenerator";
+import { isArray, isString, isDefined } from "./../helpers/types";
+import getFn from "./../helpers/get";
+import levenshteinDistance from "./../helpers/levenshteinDistance";
+import BitapSearch, { BitapSearchOptions } from "./../bitap";
 
 const Config = {
    ngramSize: 3,
@@ -35,7 +35,7 @@ export default class NGramIndex<T> {
    private data: Map<number, DataTypeInside<T>>;
    private counter: number = 0;
    private _keys: string[] = [];
-   private _defaultKey: string = 'item';
+   private _defaultKey: string = "item";
    private _options: NGramOptions = Config;
    constructor(options?: Partial<NGramOptions>) {
       this.index = new Map();
@@ -59,7 +59,7 @@ export default class NGramIndex<T> {
       } else {
          return [this._defaultKey];
       }
-      throw new Error('Vous devez definir une clé à indexer');
+      throw new Error("Vous devez definir une clé à indexer");
    }
 
    private generateNGrams(text: string): string[] {

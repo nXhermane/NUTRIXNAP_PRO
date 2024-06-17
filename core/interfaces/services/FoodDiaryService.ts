@@ -1,4 +1,4 @@
-import { FoodDiaryEntity, FoodDiaryDTO, UpdateFoodDiaryDto } from '@/core/interfaces';
+import { FoodDiaryEntity, FoodDiaryDTO, UpdateFoodDiaryDto } from "@/core/interfaces";
 
 export default interface FoodDiaryService {
    createFoodDiary(foodDiary: FoodDiaryDTO): Promise<FoodDiaryDTO>;

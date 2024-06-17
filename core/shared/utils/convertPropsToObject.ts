@@ -1,4 +1,4 @@
-import { Entity } from './../domain/Entity';
+import { Entity } from "./../domain/Entity";
 //import {ValueObject} from './../domain/ValueObject'
 function isEntity(value_object: any, obj: unknown): obj is Entity<unknown> {
    /**
@@ -7,8 +7,8 @@ function isEntity(value_object: any, obj: unknown): obj is Entity<unknown> {
     * until I find a solution :)
     */
    return (
-      Object.prototype.hasOwnProperty.call(obj, 'toObject') &&
-      Object.prototype.hasOwnProperty.call(obj, 'id') &&
+      Object.prototype.hasOwnProperty.call(obj, "toObject") &&
+      Object.prototype.hasOwnProperty.call(obj, "id") &&
       value_object.isValueObject((obj as Entity<unknown>).id)
    );
 }

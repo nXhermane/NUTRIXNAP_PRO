@@ -1,5 +1,5 @@
-import { QuantityDto } from './../sharedType';
-import { AggregateID } from '@shared';
+import { QuantityDto } from "./../sharedType";
+import { AggregateID } from "@shared";
 export type IngredientDto = {
    name: string;
    quantity: QuantityDto;

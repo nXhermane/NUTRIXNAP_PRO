@@ -1,4 +1,4 @@
-import { isDefined, isString, isNumber, isBoolean, isArray, toString } from './types';
+import { isDefined, isString, isNumber, isBoolean, isArray, toString } from "./types";
 
 export default function get(obj: any, path: string | string[]): any {
    let list: any[] = [];
@@ -38,7 +38,7 @@ export default function get(obj: any, path: string | string[]): any {
    };
    let pathArray: string[] = [];
    if (isString(path)) {
-      pathArray = (path as string).split('.');
+      pathArray = (path as string).split(".");
    } else {
       pathArray = path as string[];
    }

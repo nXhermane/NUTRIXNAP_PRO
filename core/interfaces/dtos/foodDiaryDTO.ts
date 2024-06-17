@@ -1,4 +1,4 @@
-import { FoodId, FoodQuantity } from '@/core/interfaces';
+import { FoodId, FoodQuantity } from "@/core/interfaces";
 
 export default interface FoodDiaryDTO {
    id?: number;

@@ -39,7 +39,7 @@ export function buildHuffmanTree(frequencies: { [char: string]: number }): Huffm
 }
 
 export function encode(text: string, huffmanTree: HuffmanNode): string {
-   let encoded = '';
+   let encoded = "";
    const codes: { [char: string]: string } = {};
 
    // Construire les codes de Huffman pour chaque caractère
@@ -47,12 +47,12 @@ export function encode(text: string, huffmanTree: HuffmanNode): string {
       if (!node.left && !node.right) {
          codes[node.char] = currentCode;
       } else {
-         node.left && buildCodes(node.left, currentCode + '0');
-         node.right && buildCodes(node.right, currentCode + '1');
+         node.left && buildCodes(node.left, currentCode + "0");
+         node.right && buildCodes(node.right, currentCode + "1");
       }
    }
 
-   buildCodes(huffmanTree, '');
+   buildCodes(huffmanTree, "");
 
    // Encoder le texte en utilisant les codes de Huffman
    for (const char of text) {
@@ -63,11 +63,11 @@ export function encode(text: string, huffmanTree: HuffmanNode): string {
 }
 
 export function decode(encoded: string, huffmanTree: HuffmanNode): string {
-   let decoded = '';
+   let decoded = "";
    let currentNode = huffmanTree;
 
    for (const bit of encoded) {
-      if (bit === '0') {
+      if (bit === "0") {
          currentNode = currentNode.left!;
       } else {
          currentNode = currentNode.right!;

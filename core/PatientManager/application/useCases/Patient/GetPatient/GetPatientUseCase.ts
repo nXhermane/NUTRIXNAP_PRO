@@ -1,15 +1,15 @@
-import { GetPatientError } from './GetPatientError';
-import { GetPatientRequest } from './GetPatientRequest';
-import { GetPatientResponse } from './GetPatientResponse';
-import { UseCase, Mapper } from '@shared';
+import { GetPatientError } from "./GetPatientError";
+import { GetPatientRequest } from "./GetPatientRequest";
+import { GetPatientResponse } from "./GetPatientResponse";
+import { UseCase, Mapper } from "@shared";
 import {
    PatientRepository,
    PatientRepositoryError,
    PatientDto,
    PatientPersistenceType,
    PatientRepositoryNotFoundException,
-} from './../../../../infrastructure';
-import { Patient } from './../../../../domain';
+} from "./../../../../infrastructure";
+import { Patient } from "./../../../../domain";
 
 export class GetPatientUseCase implements UseCase<GetPatientRequest, GetPatientResponse> {
    constructor(

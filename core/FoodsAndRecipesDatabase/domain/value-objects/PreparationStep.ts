@@ -1,7 +1,7 @@
-import { EMPTY_PREPARATION_STEP_DESCRIPTION_ERROR, INVALID_STEP_NUMBER } from './../constants';
-import { ValueObject, FoodQuantityUnits } from '@shared';
-import { Quantity } from './Quantity';
-import { AggregateID } from '@shared';
+import { EMPTY_PREPARATION_STEP_DESCRIPTION_ERROR, INVALID_STEP_NUMBER } from "./../constants";
+import { ValueObject, FoodQuantityUnits } from "@shared";
+import { Quantity } from "./Quantity";
+import { AggregateID, Guard } from "@shared";
 export interface IPreparationStep {
    stepNumber: number;
    description: string;
@@ -22,7 +22,7 @@ export class PreparationStep extends ValueObject<IPreparationStep> {
       return this.props?.estimatedTime || 0;
    }
    validate(props: IPreparationStep) {
-      if (props.description.trim() === '' || !props.description) {
+      if (Guard.isEmpty(props.description).succeeded) {
          throw new Error(EMPTY_PREPARATION_STEP_DESCRIPTION_ERROR);
       }
       if (props.stepNumber <= 0) {

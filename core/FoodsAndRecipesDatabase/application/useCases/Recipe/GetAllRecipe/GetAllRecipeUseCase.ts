@@ -1,10 +1,10 @@
-import { UseCase, Mapper } from '@shared';
-import { GetAllRecipeRequest } from './GetAllRecipeRequest';
-import { GetAllRecipeResponse } from './GetAllRecipeResponse';
-import { GetAllRecipeError } from './GetAllRecipeError';
-import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException, RecipePersistenceDto } from './../../../../infrastructure';
-import { Recipe } from './../../../../domain';
-import { RecipeDto } from './../sharedType';
+import { UseCase, Mapper, Result, AppError, left, right } from "@shared";
+import { GetAllRecipeRequest } from "./GetAllRecipeRequest";
+import { GetAllRecipeResponse } from "./GetAllRecipeResponse";
+import { GetAllRecipeErrors } from "./GetAllRecipeErrors";
+import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException, RecipePersistenceDto } from "./../../../../infrastructure";
+import { Recipe } from "./../../../../domain";
+import { RecipeDto } from "./../sharedType";
 
 export class GetAllRecipeUseCase implements UseCase<GetAllRecipeRequest, GetAllRecipeResponse> {
    constructor(
@@ -18,14 +18,14 @@ export class GetAllRecipeUseCase implements UseCase<GetAllRecipeRequest, GetAllR
             page: request?.paginated?.page || 0,
             pageSize: request?.paginated?.pageSize || 100,
          });
-         return recipes.map((recipe: Recipe) => this.mapper.toResponse(recipe)) as GetAllRecipeResponse;
+         return right(Result.ok<RecipeDto[]>(recipes.map((recipe: Recipe) => this.mapper.toResponse(recipe))));
       } catch (e) {
          if (e instanceof RecipeRepositoryNotFoundException) {
-            return [] as GetAllRecipeResponse;
+            return right(Result.ok<RecipeDto[]>([]));
          } else if (e instanceof RecipeRepositoryError) {
-            throw new GetAllRecipeError(e.message, e, e.metadata);
+            return left(new GetAllRecipeErrors.RecipeRepositoryError(e));
          } else {
-            throw new GetAllRecipeError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+            return left(new AppError.UnexpectedError(e));
          }
       }
    }

@@ -5,11 +5,11 @@ import {
    RecipeRepositoryNotFoundException,
    RecipeRepositoryError,
    FoodRepositoryError,
-} from './../../infrastructure';
-import { IFoodRecipeServiceDataProvider } from './interfaces/FoodRecipeServiceDataProvider';
-import { FoodRecipeServiceDataProviderError } from './errors/FoodRecipeServiceDataProviderError';
-import { AggregateID } from '@shared';
-import { IMealsType } from './../../domain';
+} from "./../../infrastructure";
+import { IFoodRecipeServiceDataProvider } from "./interfaces/FoodRecipeServiceDataProvider";
+import { FoodRecipeServiceDataProviderError } from "./errors/FoodRecipeServiceDataProviderError";
+import { AggregateID } from "@shared";
+import { IMealsType } from "./../../domain";
 export class FoodRecipeServiceDataProvider implements IFoodRecipeServiceDataProvider {
    constructor(
       private foodRepo: FoodRepository,

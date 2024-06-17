@@ -1,4 +1,4 @@
-import { Mapper, BaseEntityProps } from '@shared';
+import { Mapper, BaseEntityProps } from "@shared";
 import {
    Recipe,
    MealsType,
@@ -11,10 +11,10 @@ import {
    IQuantity,
    PreparationStep,
    IPreparationStep,
-} from './../../domain';
-import { RecipePersistenceDto } from './../dtos/RecipePersistenceDto';
-import { RecipePersistenceType } from './../repositories/types';
-import { RecipeDto, QuantityDto, IngredientDto, MealsCategoryDto, MealsTypeDto, PreparationStepDto } from './../../application';
+} from "./../../domain";
+import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
+import { RecipePersistenceType } from "./../repositories/types";
+import { RecipeDto, QuantityDto, IngredientDto, MealsCategoryDto, MealsTypeDto, PreparationStepDto } from "./../../application";
 export class RecipeMapper implements Mapper<Recipe, RecipePersistenceDto, RecipeDto> {
    toPersistence(recipe: Recipe): RecipePersistenceDto {
       const persistenceRecipe: RecipePersistenceDto = {

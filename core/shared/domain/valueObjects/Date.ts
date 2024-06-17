@@ -1,10 +1,11 @@
-import { ValueObject } from './../ValueObject';
-import { Guard } from './../../core';
-import { DateManager } from './../../utils';
-import { ArgumentNotProvidedException, InvalidArgumentFormatError, ArgumentOutOfRangeException, ArgumentInvalidException } from '../../exceptions';
+import { ValueObject } from "./../ValueObject";
+import { Guard, Result } from "./../../core";
+import { ExceptionBase } from "./../../exceptions";
+import { DateManager } from "./../../utils";
+import { ArgumentNotProvidedException, InvalidArgumentFormatError, ArgumentOutOfRangeException, ArgumentInvalidException } from "../../exceptions";
 export class CDate extends ValueObject<string> {
    constructor(date?: string) {
-      if (Guard.isEmpty(date)) {
+      if (Guard.isEmpty(date).succeeded) {
          const actDate = new Date();
          super({ value: DateManager.formatDate(actDate) });
       } else {
@@ -13,8 +14,8 @@ export class CDate extends ValueObject<string> {
    }
 
    protected validate(props: { value: string }): void {
-      if (Guard.isEmpty(props.value)) {
-         throw new ArgumentNotProvidedException('La date ne peut pas être vide.');
+      if (Guard.isEmpty(props.value).succeeded) {
+         throw new ArgumentNotProvidedException("La date ne peut pas être vide.");
       }
       // Tableau des expressions régulières pour les formats de date supportés
       const dateFormatsRegex = [
@@ -32,7 +33,7 @@ export class CDate extends ValueObject<string> {
       }
 
       if (!validFormat) {
-         throw new InvalidArgumentFormatError('Format de date invalide. Utilisez le format YYYY-MM-DD, DD/MM/YYYY ou MM/DD/YYYY.');
+         throw new InvalidArgumentFormatError("Format de date invalide. Utilisez le format YYYY-MM-DD, DD/MM/YYYY ou MM/DD/YYYY.");
       }
       // Valider l'année, le mois et le jour en fonction du format détecté
       const parts = props.value.split(/[\/-]/);
@@ -56,12 +57,12 @@ export class CDate extends ValueObject<string> {
       }
 
       if (month < 1 || month > 12) {
-         throw new ArgumentOutOfRangeException('Mois de date invalide. Utilisez des valeurs entre 1 et 12.');
+         throw new ArgumentOutOfRangeException("Mois de date invalide. Utilisez des valeurs entre 1 et 12.");
       }
 
       const daysInMonth = new Date(year, month, 0).getDate();
       if (day < 1 || day > daysInMonth) {
-         throw new ArgumentOutOfRangeException('Jour de date invalide. Assurez-vous que le jour est valide pour le mois donné.');
+         throw new ArgumentOutOfRangeException("Jour de date invalide. Assurez-vous que le jour est valide pour le mois donné.");
       }
    }
 
@@ -93,5 +94,15 @@ export class CDate extends ValueObject<string> {
 
    get date(): string {
       return this.props.value;
+   }
+   static create(date?: string): Result<CDate> {
+      try {
+         const cdate = new CDate(date);
+         return Result.ok<CDate>(cdate);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<CDate>(`[${e.code}]:${e.message}`)
+            : Result.fail<CDate>(`Erreur inattendue. ${CDate?.constructor.name}`);
+      }
    }
 }

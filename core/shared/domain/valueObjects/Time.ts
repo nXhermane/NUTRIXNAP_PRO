@@ -1,6 +1,12 @@
-import { ValueObject } from './../ValueObject';
-import { Guard } from './../../core';
-import { ArgumentNotProvidedException, InvalidArgumentFormatError, ArgumentOutOfRangeException, ArgumentInvalidException } from '../../exceptions';
+import { ValueObject } from "./../ValueObject";
+import { Guard, Result } from "./../../core";
+import {
+   ArgumentNotProvidedException,
+   InvalidArgumentFormatError,
+   ArgumentOutOfRangeException,
+   ArgumentInvalidException,
+   ExceptionBase,
+} from "../../exceptions";
 
 export class Time extends ValueObject<string> {
    constructor(time: string) {
@@ -8,7 +14,7 @@ export class Time extends ValueObject<string> {
    }
 
    protected validate(props: { value: string }): void {
-      if (Guard.isEmpty(props.value)) {
+      if (Guard.isEmpty(props.value).succeeded) {
          throw new ArgumentNotProvidedException("L'heure ne peut pas être vide.");
       }
 
@@ -19,18 +25,18 @@ export class Time extends ValueObject<string> {
          throw new InvalidArgumentFormatError("Format d'heure invalide. Utilisez le format HH:mm.");
       }
 
-      const [hours, minutes] = props.value.split(':').map(Number);
+      const [hours, minutes] = props.value.split(":").map(Number);
 
       if (isNaN(hours) || isNaN(minutes)) {
-         throw new ArgumentInvalidException('Heure invalide. Assurez-vous que les heures et les minutes sont des nombres valides.');
+         throw new ArgumentInvalidException("Heure invalide. Assurez-vous que les heures et les minutes sont des nombres valides.");
       }
 
       if (hours < 0 || hours > 23) {
-         throw new ArgumentOutOfRangeException('Heures invalides. Utilisez des valeurs entre 0 et 23.');
+         throw new ArgumentOutOfRangeException("Heures invalides. Utilisez des valeurs entre 0 et 23.");
       }
 
       if (minutes < 0 || minutes > 59) {
-         throw new ArgumentOutOfRangeException('Minutes invalides. Utilisez des valeurs entre 0 et 59.');
+         throw new ArgumentOutOfRangeException("Minutes invalides. Utilisez des valeurs entre 0 et 59.");
       }
    }
 
@@ -63,8 +69,19 @@ export class Time extends ValueObject<string> {
    }
 
    private formatTime(date: Date): string {
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
       return `${hours}:${minutes}`;
+   }
+
+   static create(props: string): Result<Time> {
+      try {
+         const time = new Time(props);
+         return Result.ok<Time>(time);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<Time>(`[${e.code}]:${e.message}`)
+            : Result.fail<Time>(`Unexpected Error. ${Time?.constructor.name}`);
+      }
    }
 }

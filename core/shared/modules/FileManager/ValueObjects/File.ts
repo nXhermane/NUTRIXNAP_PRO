@@ -1,5 +1,5 @@
-import { ValueObject } from './../../../domain';
-import { ArgumentInvalidException } from './../../../exceptions';
+import { ValueObject } from "./../../../domain";
+import { ArgumentInvalidException } from "./../../../exceptions";
 
 export interface IFile {
    uri: string;
@@ -13,16 +13,16 @@ export class File extends ValueObject<IFile> {
       if (!this.isExternalResource(props.uri) && !this.isInternalResource(props.uri)) throw new ArgumentInvalidException("l'uri n'est pas valide.");
    }
    isExternalResource(uri: string = this.props.uri): boolean {
-      return uri.includes('http://') || uri.includes('https://') ? true : false;
+      return uri.includes("http://") || uri.includes("https://") ? true : false;
    }
    isInternalResource(uri: string = this.props.uri): boolean {
-      return uri.includes('file://') || uri.includes('content://') || uri.includes('asset://') ? true : false;
+      return uri.includes("file://") || uri.includes("content://") || uri.includes("asset://") ? true : false;
    }
    get uri(): string {
       return this.props.uri;
    }
    get type(): string {
-      const uriArr = this.props.uri.split('.');
+      const uriArr = this.props.uri.split(".");
       return uriArr[uriArr.length - 1]?.trim().toLowerCase();
    }
    get name(): string {

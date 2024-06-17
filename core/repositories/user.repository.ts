@@ -1,9 +1,9 @@
-import { IUserRepository, UserEntity, IDatabase, CreateUserType, UpdateUserType } from '@/core/interfaces';
-import { TableNames } from '@/core/constants';
-import Database, { db } from '@/core/db/db.config';
-import { Knex } from 'knex';
-import * as Crypto from 'expo-crypto';
-import { DateManager } from '@/core/utility';
+import { IUserRepository, UserEntity, IDatabase, CreateUserType, UpdateUserType } from "@/core/interfaces";
+import { TableNames } from "@/core/constants";
+import Database, { db } from "@/core/db/db.config";
+import { Knex } from "knex";
+import * as Crypto from "expo-crypto";
+import { DateManager } from "@/core/utility";
 
 export default class UserRepository implements IUserRepository {
    private db: IDatabase | null = null;
@@ -34,29 +34,29 @@ export default class UserRepository implements IUserRepository {
 
    private async createUsersTable(): Promise<void> {
       await this.knex?.schema.createTable(UserRepository.tableName, (table) => {
-         table.increments('id').primary();
-         table.string('name', 200).notNullable();
-         table.string('lastname', 100);
-         table.string('firstname', 100);
-         table.enu('gender', ['M', 'F', 'O']);
-         table.string('country', 100);
-         table.string('email', 200).unique();
-         table.string('tel', 100);
-         table.date('birthday');
-         table.string('profession', 200);
-         table.string('profil_img', 300);
-         table.string('password', 255);
-         table.uuid('unique_id').notNullable();
+         table.increments("id").primary();
+         table.string("name", 200).notNullable();
+         table.string("lastname", 100);
+         table.string("firstname", 100);
+         table.enu("gender", ["M", "F", "O"]);
+         table.string("country", 100);
+         table.string("email", 200).unique();
+         table.string("tel", 100);
+         table.date("birthday");
+         table.string("profession", 200);
+         table.string("profil_img", 300);
+         table.string("password", 255);
+         table.uuid("unique_id").notNullable();
          table.timestamps(true, true, true);
       });
    }
 
    async findById(id: number): Promise<UserEntity | null> {
       try {
-         const user = await this.knex!<UserEntity>(UserRepository.tableName)?.select().where('id', id).first();
+         const user = await this.knex!<UserEntity>(UserRepository.tableName)?.select().where("id", id).first();
          return user || null;
       } catch (error) {
-         console.error('Error finding user by ID:', error);
+         console.error("Error finding user by ID:", error);
          return null;
       }
    }
@@ -77,10 +77,10 @@ export default class UserRepository implements IUserRepository {
                country: user?.country,
                unique_id: Crypto.randomUUID(),
             })
-            .returning('id');
+            .returning("id");
          return id || null;
       } catch (error) {
-         console.error('Error creating user:', error);
+         console.error("Error creating user:", error);
          return null;
       }
    }
@@ -90,7 +90,7 @@ export default class UserRepository implements IUserRepository {
          const users = await this.knex!<UserEntity>(UserRepository.tableName)?.select();
          return users;
       } catch (error) {
-         console.error('Error finding all users:', error);
+         console.error("Error finding all users:", error);
          return [];
       }
    }
@@ -99,20 +99,20 @@ export default class UserRepository implements IUserRepository {
       try {
          const date = DateManager.dateToTimestamps(new Date());
          await this.knex!<UserEntity>(UserRepository.tableName)
-            ?.where('id', user.id)
+            ?.where("id", user.id)
             .update({ ...user, updatedAt: date });
          return ((await this.findById(user.id)) as UserEntity) || user;
       } catch (error) {
-         console.error('Error updating user:', error);
+         console.error("Error updating user:", error);
          return user as UserEntity;
       }
    }
 
    async delete(id: number): Promise<void> {
       try {
-         await this.knex!<UserEntity>(UserRepository.tableName)?.where('id', id).del();
+         await this.knex!<UserEntity>(UserRepository.tableName)?.where("id", id).del();
       } catch (error) {
-         console.error('Error deleting user:', error);
+         console.error("Error deleting user:", error);
       }
    }
 }

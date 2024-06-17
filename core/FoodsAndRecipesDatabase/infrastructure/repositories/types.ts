@@ -1,4 +1,4 @@
-import { RecipePersistenceDto } from './../dtos/RecipePersistenceDto';
+import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
 export interface FoodName {
    foodId: number;
    foodCode: string;
@@ -44,7 +44,7 @@ export interface RecipePersistenceType extends RecipePersistenceDto {
    typeNameF: string;
 }
 
-export interface FoodPersistenceType extends Omit<FoodName, 'foodGroupId'>, FoodGroup {
+export interface FoodPersistenceType extends Omit<FoodName, "foodGroupId">, FoodGroup {
    nutrients: string;
 }
 export type NutrientPersistenceArray = [

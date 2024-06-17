@@ -1,7 +1,7 @@
-import search from './search';
-import createPatternAlphabet from './createPatternAlphabet';
+import search from "./search";
+import createPatternAlphabet from "./createPatternAlphabet";
 
-import Config from './../config';
+import Config from "./../config";
 
 const MAX_BITS = Config.MAX_BITS;
 export interface BitapSearchOptions {

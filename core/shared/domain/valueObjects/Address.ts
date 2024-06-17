@@ -1,6 +1,6 @@
-import { ValueObject } from './../ValueObject';
-import { Guard } from '../../core';
-import { ArgumentNotProvidedException } from './../../exceptions';
+import { ValueObject } from "./../ValueObject";
+import { Guard, Result } from "../../core";
+import { ArgumentNotProvidedException } from "./../../exceptions";
 export interface IAddress {
    street?: string;
    city?: string;
@@ -14,21 +14,21 @@ export class Address extends ValueObject<IAddress> {
    }
 
    protected validate(props: IAddress): void {
-      if (Guard.isEmpty(props.country)) {
-         throw new ArgumentNotProvidedException('Le pays de doit etre founir.');
+      if (Guard.isEmpty(props.country).succeeded) {
+         throw new ArgumentNotProvidedException("Le pays de doit etre founir.");
       }
    }
 
    get street(): string {
-      return this.props?.street || '';
+      return this.props?.street || "";
    }
 
    get city(): string {
-      return this.props?.city || '';
+      return this.props?.city || "";
    }
 
    get postalCode(): string {
-      return this.props?.postalCode || '';
+      return this.props?.postalCode || "";
    }
 
    get country(): string {
@@ -41,5 +41,14 @@ export class Address extends ValueObject<IAddress> {
 
    toString(): string {
       return this.getFormattedAddress();
+   }
+   static create(props: IAddress): Result<Address> {
+      try {
+         const address = new Address(props);
+         return Result.ok<Address>(address);
+      } catch (e: any) {
+         if (e instanceof ArgumentNotProvidedException) return Result.fail<Address>(`[${e.code}]:${e.message}`);
+         return Result.fail<Address>("Erreur inattendue.");
+      }
    }
 }

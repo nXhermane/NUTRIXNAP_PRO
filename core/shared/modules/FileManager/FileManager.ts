@@ -1,4 +1,4 @@
-import { File } from './ValueObjects/File';
+import { File } from "./ValueObjects/File";
 export interface FileData {
    file: File;
    dirname?: string;

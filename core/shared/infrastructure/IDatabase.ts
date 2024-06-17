@@ -1,5 +1,5 @@
-import { SQLiteDatabase } from 'expo-sqlite';
-import { Knex } from 'knex';
+import { SQLiteDatabase } from "expo-sqlite";
+import { Knex } from "knex";
 
 export interface IDatabase {
    db: SQLiteDatabase | null;

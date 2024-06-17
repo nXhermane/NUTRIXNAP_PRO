@@ -1,8 +1,8 @@
-import Trie, { TrieOptions, TrieNodeValue, Value, TrieResultValue } from './trie';
+import Trie, { TrieOptions, TrieNodeValue, Value, TrieResultValue } from "./trie";
 
-import Config from './config';
-import { isDefined } from './helpers/types';
-import NGramIndex, { NGramOptions, DataTypeInside } from './compressedNGram/NGramIndex';
+import Config from "./config";
+import { isDefined } from "./helpers/types";
+import NGramIndex, { NGramOptions, DataTypeInside } from "./compressedNGram/NGramIndex";
 export interface SearchEngineResult<T> extends DataTypeInside<T> {}
 export interface SearchEngineOptions extends Partial<NGramOptions> {}
 export interface ISearchEngine<T> {
@@ -46,7 +46,7 @@ export class SearchEngine<T extends Value = Value> implements ISearchEngine<T> {
    }
    reconstruct(searchEngineData: string): boolean {
       try {
-         if (searchEngineData === undefined) throw new Error('Can not be reconstruct searchEngine with undefined value');
+         if (searchEngineData === undefined) throw new Error("Can not be reconstruct searchEngine with undefined value");
          this.nGramIndex.reconstruct(JSON.parse(searchEngineData) as { index: string; data: string });
          return true;
       } catch (e) {

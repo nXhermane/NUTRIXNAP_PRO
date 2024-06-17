@@ -1,10 +1,10 @@
-import { INutritionCalculatorService } from './interfaces/INutritionCalculatorService';
-import { Recipe } from './../aggregates/Recipe';
-import { FoodRepository } from './../../infrastructure';
-import { IIngredient } from './../value-objects/Ingredient';
-import { IQuantity } from './../value-objects/Quantity';
-import { INutrient } from './../entities/Nutrient';
-import { BaseEntityProps } from '@shared';
+import { INutritionCalculatorService } from "./interfaces/INutritionCalculatorService";
+import { Recipe } from "./../aggregates/Recipe";
+import { FoodRepository } from "./../../infrastructure";
+import { IIngredient } from "./../value-objects/Ingredient";
+import { IQuantity } from "./../value-objects/Quantity";
+import { INutrient } from "./../entities/Nutrient";
+import { BaseEntityProps } from "@shared";
 export class NutritionCalculatorService implements INutritionCalculatorService {
    constructor(private foodRepo: FoodRepository) {}
    async calculateRecipeNutritionalValue(recipe: Recipe): Promise<(INutrient & BaseEntityProps)[]> {

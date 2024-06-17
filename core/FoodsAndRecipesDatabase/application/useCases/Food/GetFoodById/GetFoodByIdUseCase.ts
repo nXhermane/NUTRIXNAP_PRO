@@ -1,11 +1,11 @@
-import { GetFoodByIdError } from './GetFoodByIdError';
-import { GetFoodByIdResponse } from './GetFoodByIdResponse';
-import { GetFoodByIdRequest } from './GetFoodByIdRequest';
-import { UseCase, Mapper } from '@shared';
-import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from './../../../../infrastructure';
-import { Food } from './../../../../domain';
-import { FoodDto } from './../sharedType';
-import { FoodPersistenceType } from './../../../../infrastructure/repositories/types';
+import { GetFoodByIdErrors } from "./GetFoodByIdErrors";
+import { GetFoodByIdResponse } from "./GetFoodByIdResponse";
+import { GetFoodByIdRequest } from "./GetFoodByIdRequest";
+import { UseCase, Mapper, Result, AppError, left, right } from "@shared";
+import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
+import { Food } from "./../../../../domain";
+import { FoodDto } from "./../sharedType";
+import { FoodPersistenceType } from "./../../../../infrastructure/repositories/types";
 
 export class GetFoodByIdUseCase implements UseCase<GetFoodByIdRequest, GetFoodByIdResponse> {
    constructor(
@@ -16,12 +16,12 @@ export class GetFoodByIdUseCase implements UseCase<GetFoodByIdRequest, GetFoodBy
    async execute(request: GetFoodByIdRequest): Promise<GetFoodByIdResponse> {
       try {
          const food = await this.repo.getFoodById(request.foodId);
-         return this.mapper.toResponse(food) as GetFoodByIdResponse;
+         return right(Result.ok<FoodDto>(this.mapper.toResponse(food)));
       } catch (e) {
-         if (e instanceof FoodRepositoryNotFoundException || e instanceof FoodRepositoryError) {
-            throw new GetFoodByIdError(e.message, e, e.metadata);
+         if (e instanceof FoodRepositoryNotFoundException) {
+            return left(new GetFoodByIdErrors.FoodNotFoundError(e.toJSON()));
          } else {
-            throw new GetFoodByIdError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+            return left(new AppError.UnexpectedError(e));
          }
       }
    }

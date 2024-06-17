@@ -7,7 +7,7 @@ import {
    IFoodDiaryMapper,
    FoodId,
    FoodQuantity,
-} from '@/core/interfaces';
+} from "@/core/interfaces";
 
 export default class FoodDiaryMapper implements IFoodDiaryMapper {
    constructor() {}

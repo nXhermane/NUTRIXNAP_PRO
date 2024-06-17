@@ -5,12 +5,12 @@ import {
    MINIMUM_NUTRIENTS_ERROR,
    DUPLICATE_NUTRIENTS_ERROR,
    FOOD_UPDATE_RESTRICTED_ERROR,
-} from './../constants';
+} from "./../constants";
 
-import { Quantity as FoodQuantity, IQuantity as IFoodQuantity } from './../value-objects/Quantity';
-import { FoodGroup, IFoodGroup } from './../entities/FoodGroup';
-import { Nutrient, INutrient } from './../entities/Nutrient';
-import { AggregateRoot, CreateEntityProps, BaseEntityProps, EmptyStringError, DuplicateValueError, AuthValueError } from '@shared';
+import { Quantity as FoodQuantity, IQuantity as IFoodQuantity } from "./../value-objects/Quantity";
+import { FoodGroup, IFoodGroup } from "./../entities/FoodGroup";
+import { Nutrient, INutrient } from "./../entities/Nutrient";
+import { AggregateRoot, CreateEntityProps, BaseEntityProps, EmptyStringError, DuplicateValueError, AuthValueError, Guard } from "@shared";
 
 export interface IFood {
    foodCode: string;
@@ -89,13 +89,13 @@ export class Food extends AggregateRoot<IFood> {
       }
    }
    validate(): void {
-      if (this.props.foodCode.trim() === '' || !this.props.foodCode) {
+      if (Guard.isEmpty(this.props.foodCode).succeeded) {
          throw new EmptyStringError(INVALID_FOOD_CODE_ERROR);
       }
-      if (this.props.foodName.trim() === '' || !this.props.foodName) {
+      if (Guard.isEmpty(this.props.foodName).succeeded) {
          throw new EmptyStringError(INVALID_FOOD_NAME_ERROR);
       }
-      if (this.props.foodOrigin.trim() === '' || !this.props.foodOrigin) {
+      if (Guard.isEmpty(this.props.foodOrigin).succeeded) {
          throw new EmptyStringError(INVALID_FOOD_ORIGIN_ERROR);
       }
       this.props.foodGroup.validate();
@@ -127,7 +127,7 @@ export class Food extends AggregateRoot<IFood> {
     */
 
    private verifyIfFoodCanBeUpdate() {
-      if (this.props.foodOrigin.trim() != 'me') throw new AuthValueError(FOOD_UPDATE_RESTRICTED_ERROR);
+      if (this.props.foodOrigin.trim() != "me") throw new AuthValueError(FOOD_UPDATE_RESTRICTED_ERROR);
    }
 
    private findExistingNutrientIndex(newNutrient: Nutrient): number {

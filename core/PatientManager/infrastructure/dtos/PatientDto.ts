@@ -1,8 +1,8 @@
-import { BaseEntityProps, AggregateID } from '@shared';
+import { BaseEntityProps, AggregateID } from "@shared";
 
 export interface PatientDto extends BaseEntityProps {
    name: string;
-   gender: 'M' | 'F' | 'O';
+   gender: "M" | "F" | "O";
    contact: { email: string; phoneNumber: string };
    address: {
       street?: string;

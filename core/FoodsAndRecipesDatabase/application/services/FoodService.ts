@@ -1,4 +1,4 @@
-import { IFoodService } from './interfaces/FoodService';
+import { IFoodService } from "./interfaces/FoodService";
 import {
    GetFoodByIdRequest,
    GetFoodByIdResponse,
@@ -8,12 +8,9 @@ import {
    SearchFoodResponse,
    SearchFoodRequest,
    GetAllFoodResponse,
-   GetFoodByIdError,
-   GetAllFoodError,
-   GetFoodByFoodGroupError,
-   SearchFoodError,
-} from './../useCases';
-import { Message, UseCase } from '@shared';
+   FoodDto,
+} from "./../useCases";
+import { Message, UseCase, AppServiceResponse } from "@shared";
 
 export class FoodService implements IFoodService {
    constructor(
@@ -23,40 +20,36 @@ export class FoodService implements IFoodService {
       private searchFoodUC: UseCase<SearchFoodRequest, SearchFoodResponse>,
    ) {}
 
-   async getFoodById(req: GetFoodByIdRequest): Promise<GetFoodByIdResponse | Message> {
-      try {
-         const res = await this.getFoodByIdUC.execute(req);
-         return res;
-      } catch (e: any) {
-         if (e instanceof GetFoodByIdError) return new Message('error', e.message);
-         return new Message('error', 'Unspected Error.Retry this action.');
+   async getFoodById(req: GetFoodByIdRequest): Promise<AppServiceResponse<FoodDto> | Message> {
+      const res = await this.getFoodByIdUC.execute(req);
+      if (res.isLeft()) {
+         return new Message("error", JSON.stringify(res.value.err));
+      } else {
+         return { data: res.value.val as FoodDto };
       }
    }
-   async getAllFood(req: GetAllFoodRequest): Promise<GetAllFoodResponse | Message> {
-      try {
-         const res = await this.getAllFoodUC.execute(req);
-         return res;
-      } catch (e: any) {
-         if (e instanceof GetAllFoodError) return new Message('error', e.message);
-         return new Message('error', 'Unspected Error.Retry this action.');
+   async getAllFood(req: GetAllFoodRequest): Promise<AppServiceResponse<FoodDto[]> | Message> {
+      const res = await this.getAllFoodUC.execute(req);
+      if (res.isLeft()) {
+         return new Message("error", JSON.stringify(res.value.err));
+      } else {
+         return { data: res.value.val as FoodDto[] };
       }
    }
-   async getFoodByGroupId(req: GetFoodByFoodGroupRequest): Promise<GetFoodByFoodGroupResponse | Message> {
-      try {
-         const res = await this.getFoodByGroupUC.execute(req);
-         return res;
-      } catch (e: any) {
-         if (e instanceof GetFoodByFoodGroupError) return new Message('error', e.message);
-         return new Message('error', 'Unspected Error.Retry this action.');
+   async getFoodByGroupId(req: GetFoodByFoodGroupRequest): Promise<AppServiceResponse<FoodDto[]> | Message> {
+      const res = await this.getFoodByGroupUC.execute(req);
+      if (res.isLeft()) {
+         return new Message("error", JSON.stringify(res.value.err));
+      } else {
+         return { data: res.value.val as FoodDto[] };
       }
    }
-   async search(req: SearchFoodRequest): Promise<SearchFoodResponse | Message> {
-      try {
-         const res = await this.searchFoodUC.execute(req);
-         return res;
-      } catch (e) {
-         if (e instanceof SearchFoodError) return new Message('error', e.message);
-         return new Message('error', 'Unspected Error.Retry this action.');
+   async search(req: SearchFoodRequest): Promise<AppServiceResponse<FoodDto[]> | Message> {
+      const res = await this.searchFoodUC.execute(req);
+      if (res.isLeft()) {
+         return new Message("error", JSON.stringify(res.value.err));
+      } else {
+         return { data: res.value.val as FoodDto[] };
       }
    }
 }

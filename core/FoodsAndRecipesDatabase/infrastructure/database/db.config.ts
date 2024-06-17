@@ -1,9 +1,9 @@
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
-import { openDatabaseAsync, SQLiteDatabase } from 'expo-sqlite';
-import ExpoSQLiteDialect from '@expo/knex-expo-sqlite-dialect';
-import { Knex, knex } from 'knex';
-import { IDatabase } from '@shared';
+import * as FileSystem from "expo-file-system";
+import { Asset } from "expo-asset";
+import { openDatabaseAsync, SQLiteDatabase } from "expo-sqlite";
+import ExpoSQLiteDialect from "@expo/knex-expo-sqlite-dialect";
+import { Knex, knex } from "knex";
+import { IDatabase } from "@shared";
 
 export default class Database implements IDatabase {
    public db: SQLiteDatabase | null = null;
@@ -11,24 +11,24 @@ export default class Database implements IDatabase {
    private static instance: Database;
    private constructor() {}
    private async downloadDb(): Promise<void> {
-      if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
-         await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
+      if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + "SQLite")).exists) {
+         await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "SQLite");
       }
       await FileSystem.downloadAsync(
-         Asset.fromModule(require('./../../../../assets/db/foods&Recipes.sqlite')).uri,
-         FileSystem.documentDirectory + 'SQLite/foods&Recipes.sqlite',
+         Asset.fromModule(require("./../../../../assets/db/foods&Recipes.sqlite")).uri,
+         FileSystem.documentDirectory + "SQLite/foods&Recipes.sqlite",
       );
    }
    private async init(): Promise<void> {
       await this.downloadDb();
       if (!this.db) {
-         this.db = await openDatabaseAsync('foods&Recipes.sqlite');
+         this.db = await openDatabaseAsync("foods&Recipes.sqlite");
       } else this.db = Database.instance.db;
       if (!this.knex)
          this.knex = knex({
             client: ExpoSQLiteDialect,
             connection: {
-               filename: 'foods&Recipes.sqlite',
+               filename: "foods&Recipes.sqlite",
             },
             useNullAsDefault: true,
          });

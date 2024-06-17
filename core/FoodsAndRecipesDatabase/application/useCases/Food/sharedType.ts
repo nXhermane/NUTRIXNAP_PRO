@@ -1,4 +1,4 @@
-import { NutrientDto, QuantityDto } from './../sharedType';
+import { NutrientDto, QuantityDto } from "./../sharedType";
 export type FoodDto = {
    foodId: number;
    foodCode: string;

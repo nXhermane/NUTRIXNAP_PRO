@@ -1,3 +1,3 @@
-export * from './randomUUID';
-export * from './DateManager';
-export * from './convertPropsToObject';
+export * from "./randomUUID";
+export * from "./DateManager";
+export * from "./convertPropsToObject";

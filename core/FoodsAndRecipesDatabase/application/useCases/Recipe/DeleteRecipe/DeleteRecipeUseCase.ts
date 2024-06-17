@@ -1,18 +1,17 @@
-import { DeleteRecipeError } from './DeleteRecipeError';
-import { DeleteRecipeRequest } from './DeleteRecipeRequest';
-import { DeleteRecipeResponse } from './DeleteRecipeResponse';
-import { UseCase } from '@shared';
-import { RecipeRepository, RecipeRepositoryError } from './../../../../infrastructure';
+import { DeleteRecipeRequest } from "./DeleteRecipeRequest";
+import { DeleteRecipeResponse } from "./DeleteRecipeResponse";
+import { UseCase, AppError, Result, left, right } from "@shared";
+import { RecipeRepository, RecipeRepositoryError } from "./../../../../infrastructure";
 export class DeleteRecipeUseCase implements UseCase<DeleteRecipeRequest, DeleteRecipeResponse> {
    constructor(private repo: RecipeRepository) {}
 
    async execute(request: DeleteRecipeRequest): Promise<DeleteRecipeResponse> {
       try {
          this.repo.delete(request.recipeId);
-         return true;
+         return right(Result.ok<boolean>(true));
       } catch (e) {
-         if (e instanceof RecipeRepositoryError) return false;
-         throw new DeleteRecipeError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+         if (e instanceof RecipeRepositoryError) return right(Result.ok<boolean>(false));
+         return left(new AppError.UnexpectedError(e));
       }
    }
 }

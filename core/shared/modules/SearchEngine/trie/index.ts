@@ -1,7 +1,7 @@
-import TrieNode from './trieNode';
-import BitapSearch, { BitapSearchOptions } from './../bitap';
-import getFn from './../helpers/get';
-import { isArray, isString, isDefined } from './../helpers/types';
+import TrieNode from "./trieNode";
+import BitapSearch, { BitapSearchOptions } from "./../bitap";
+import getFn from "./../helpers/get";
+import { isArray, isString, isDefined } from "./../helpers/types";
 export type Value =
    | {
         [key: string]: any;
@@ -26,7 +26,7 @@ export default class Trie<T extends Value> {
       prefixSearch: false,
    } as TrieOptions;
    private keys: string[] = [];
-   private readonly defaultKey: string = 'item';
+   private readonly defaultKey: string = "item";
    private data: Map<number, TrieNodeValue<T>> = new Map();
    private idCounter: number = 0;
    private resultId: Set<number> = new Set();
@@ -40,10 +40,10 @@ export default class Trie<T extends Value> {
          this.options = { ...this.options, ...options } as TrieOptions;
          if (isDefined(this.options?.keys)) {
             if (isArray(this.options.keys)) {
-               this.keys = (this.options.keys! as string[]).map((key: string) => this.defaultKey + '.' + key);
+               this.keys = (this.options.keys! as string[]).map((key: string) => this.defaultKey + "." + key);
             }
             if (isString(this.options.keys)) {
-               this.keys.push((this.defaultKey + '.' + this.options.keys!) as string);
+               this.keys.push((this.defaultKey + "." + this.options.keys!) as string);
             }
          } else {
             this.keys.push(this.defaultKey);
@@ -73,7 +73,7 @@ export default class Trie<T extends Value> {
          }
       } else {
          const normalizedText = (getFn(trieNodeValue, this.keys[0]) as string).toLowerCase();
-         for (const char of normalizedText.split(' ')) {
+         for (const char of normalizedText.split(" ")) {
             if (!node.children.has(char)) {
                node.children.set(char, new TrieNode<number>());
             }
@@ -120,7 +120,7 @@ export default class Trie<T extends Value> {
       const fuzziResults: TrieResultValue<T>[] = [];
       const start = Date.now();
       const searcher = new BitapSearch(pattern, this.options?.searchOption);
-      this.collectFuzziValueRecursiveInTrie(this.root, '', normalizedPattern, fuzziResults, searcher, validate);
+      this.collectFuzziValueRecursiveInTrie(this.root, "", normalizedPattern, fuzziResults, searcher, validate);
       this.resultId = new Set();
       this.counter = 0;
       return fuzziResults;
@@ -228,7 +228,7 @@ export default class Trie<T extends Value> {
          }
       }
       const end = Date.now();
-      console.log('SEARCH WITH ITERATE', end - start, 'ms', fuzziResults.length);
+      console.log("SEARCH WITH ITERATE", end - start, "ms", fuzziResults.length);
    }
 }
 /**

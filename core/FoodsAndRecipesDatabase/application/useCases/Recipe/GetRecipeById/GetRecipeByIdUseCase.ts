@@ -1,10 +1,10 @@
-import { GetRecipeByIdError } from './GetRecipeByIdError';
-import { GetRecipeByIdResponse } from './GetRecipeByIdResponse';
-import { GetRecipeByIdRequest } from './GetRecipeByIdRequest';
-import { UseCase, Mapper } from '@shared';
-import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException, RecipePersistenceDto } from './../../../../infrastructure';
-import { Recipe } from './../../../../domain';
-import { RecipeDto } from './../sharedType';
+import { GetRecipeByIdErrors } from "./GetRecipeByIdErrors";
+import { GetRecipeByIdResponse } from "./GetRecipeByIdResponse";
+import { GetRecipeByIdRequest } from "./GetRecipeByIdRequest";
+import { UseCase, Mapper, AppError, Result, left, right } from "@shared";
+import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException, RecipePersistenceDto } from "./../../../../infrastructure";
+import { Recipe } from "./../../../../domain";
+import { RecipeDto } from "./../sharedType";
 
 export class GetRecipeByIdUseCase implements UseCase<GetRecipeByIdRequest, GetRecipeByIdResponse> {
    constructor(
@@ -15,12 +15,12 @@ export class GetRecipeByIdUseCase implements UseCase<GetRecipeByIdRequest, GetRe
    async execute(request: GetRecipeByIdRequest): Promise<GetRecipeByIdResponse> {
       try {
          const recipe = await this.repo.getRecipeById(request.recipeId);
-         return this.mapper.toResponse(recipe) as GetRecipeByIdResponse;
+         return right(Result.ok<RecipeDto>(this.mapper.toResponse(recipe)));
       } catch (e) {
-         if (e instanceof RecipeRepositoryNotFoundException || e instanceof RecipeRepositoryError) {
-            throw new GetRecipeByIdError(e.message, e, e.metadata);
+         if (e instanceof RecipeRepositoryNotFoundException) {
+            return left(new GetRecipeByIdErrors.RecipeNotFoundError(e, request.recipeId));
          } else {
-            throw new GetRecipeByIdError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+            return left(new AppError.UnexpectedError(e));
          }
       }
    }

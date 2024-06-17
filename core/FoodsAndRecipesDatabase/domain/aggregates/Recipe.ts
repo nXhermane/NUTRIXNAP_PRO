@@ -1,11 +1,11 @@
-import { INVALID_INGREDIENT_LIST, INVALID_PREPARATION_LIST, INVALID_COOKING_TIME } from './../constants';
+import { INVALID_INGREDIENT_LIST, INVALID_PREPARATION_LIST, INVALID_COOKING_TIME } from "./../constants";
 
-import { AggregateRoot, CreateEntityProps, BaseEntityProps, EmptyStringError, ArgumentNotProvidedException } from '@shared';
-import { Ingredient, IIngredient } from './../value-objects/Ingredient';
-import { PreparationStep, IPreparationStep } from './../value-objects/PreparationStep';
-import { Quantity, IQuantity } from './../value-objects/Quantity';
-import { MealsType, IMealsType } from './../value-objects/MealsType';
-import { MealsCategory, IMealsCategory } from './../value-objects/MealsCategory';
+import { AggregateRoot, CreateEntityProps, BaseEntityProps, EmptyStringError, ArgumentNotProvidedException, Guard } from "@shared";
+import { Ingredient, IIngredient } from "./../value-objects/Ingredient";
+import { PreparationStep, IPreparationStep } from "./../value-objects/PreparationStep";
+import { Quantity, IQuantity } from "./../value-objects/Quantity";
+import { MealsType, IMealsType } from "./../value-objects/MealsType";
+import { MealsCategory, IMealsCategory } from "./../value-objects/MealsCategory";
 export interface IRecipe {
    name: string;
    type: MealsType;
@@ -137,6 +137,6 @@ export class Recipe extends AggregateRoot<IRecipe> {
       if (cookingTime <= 0) {
          throw new Error(INVALID_COOKING_TIME);
       }
-      if (!this.props.name || this.props.name.trim() === '') throw new EmptyStringError();
+      if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError();
    }
 }

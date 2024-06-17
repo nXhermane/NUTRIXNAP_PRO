@@ -1,6 +1,8 @@
-import { ValueObject } from './../ValueObject';
-import { Email } from './Email';
-import { PhoneNumber } from './PhoneNumber';
+import { ValueObject } from "./../ValueObject";
+import { Email } from "./Email";
+import { PhoneNumber } from "./PhoneNumber";
+import { Result } from "./../../core";
+import { ExceptionBase } from "./../../exceptions";
 export interface ContactProps {
    email: Email;
    phoneNumber: PhoneNumber;
@@ -25,5 +27,15 @@ export class Contact extends ValueObject<ContactProps> {
 
    public toString(): string {
       return `Email: ${this.email}, Phone: ${this.phoneNumber}`;
+   }
+   static create(props: ContactProps): Result<Contact> {
+      try {
+         const contact = new Contact(props);
+         return Result.ok<Contact>(contact);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<Contact>(`[${e.code}]:${e.message}`)
+            : Result.fail<Contact>(`Erreur inattendue. ${Contact.constructor.name}`);
+      }
    }
 }

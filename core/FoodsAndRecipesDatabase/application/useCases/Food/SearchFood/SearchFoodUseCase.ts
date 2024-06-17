@@ -1,15 +1,14 @@
-import { SearchFoodError } from './SearchFoodError';
-import { SearchFoodResponse } from './SearchFoodResponse';
-import { SearchFoodRequest } from './SearchFoodRequest';
-import { UseCase, Mapper, SearchEngineResult, ISearchEngine } from '@shared';
+import { SearchFoodResponse } from "./SearchFoodResponse";
+import { SearchFoodRequest } from "./SearchFoodRequest";
+import { UseCase, Mapper, AppError, left, right, Result, SearchEngineResult, ISearchEngine } from "@shared";
+import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
+import { Food } from "./../../../../domain";
+import { FoodDto } from "./../sharedType";
+import { FoodPersistenceType } from "./../../../../infrastructure/repositories/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from './../../../../infrastructure';
-import { Food } from './../../../../domain';
-import { FoodDto } from './../sharedType';
-import { FoodPersistenceType } from './../../../../infrastructure/repositories/types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodResponse> {
-   private readonly searchItemStoreKey = 'foodSearchEngine';
+   private readonly searchItemStoreKey = "foodSearchEngine";
    private activeTime = 4 * 60 * 1000;
    private timeOutId: ReturnType<typeof setTimeout> | null = null;
    private isReset: boolean = false;
@@ -29,9 +28,9 @@ export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodR
             await this.initSearchEngine();
          }
          const results = this.searchEngine.search(request.searchValue);
-         return results.map((result: SearchEngineResult<FoodDto>) => result.item) as SearchFoodResponse;
+         return right(Result.ok<FoodDto[]>(results.map((result: SearchEngineResult<FoodDto>) => result.item)));
       } catch (e) {
-         throw new SearchFoodError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+         return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -56,10 +55,7 @@ export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodR
                if (e instanceof FoodRepositoryNotFoundException || e instanceof FoodRepositoryError) {
                   isFinish = true;
                } else {
-                  throw new SearchFoodError(`Unexpected error: ${e?.constructor.name}`, e as Error, {
-                     isFinish,
-                     countPage,
-                  });
+                  throw new AppError.UnexpectedError(e);
                }
             }
          }

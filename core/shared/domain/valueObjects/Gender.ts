@@ -1,10 +1,10 @@
-import { ValueObject } from './../ValueObject';
-import { Guard } from './../../core';
-import { ArgumentInvalidException } from '../../exceptions';
+import { ValueObject } from "./../ValueObject";
+import { ArgumentInvalidException, ExceptionBase } from "../../exceptions";
+import { Result } from "./../../core";
 export enum Sexe {
-   MALE = 'M',
-   FEMALE = 'F',
-   OTHER = 'O',
+   MALE = "M",
+   FEMALE = "F",
+   OTHER = "O",
 }
 
 export class Gender extends ValueObject<Sexe> {
@@ -14,7 +14,7 @@ export class Gender extends ValueObject<Sexe> {
 
    protected validate(props: { value: Sexe }): void {
       if (!Object.values(Sexe).includes(props.value)) {
-         throw new ArgumentInvalidException('Sexe invalide.');
+         throw new ArgumentInvalidException("Sexe invalide.");
       }
    }
 
@@ -29,19 +29,29 @@ export class Gender extends ValueObject<Sexe> {
    public isOther(): boolean {
       return this.props.value === Sexe.OTHER;
    }
-   get sexe(): 'M' | 'F' | 'O' {
+   get sexe(): "M" | "F" | "O" {
       return this.props.value;
    }
    public toString(): string {
       switch (this.props.value) {
          case Sexe.MALE:
-            return 'Masculin';
+            return "Masculin";
          case Sexe.FEMALE:
-            return 'Féminin';
+            return "Féminin";
          case Sexe.OTHER:
-            return 'Autre';
+            return "Autre";
          default:
-            return 'Inconnu';
+            return "Inconnu";
+      }
+   }
+   static create(sexe: "M" | "F" | "O"): Result<Gender> {
+      try {
+         const gender = new Gender(sexe as Sexe);
+         return Result.ok<Gender>(gender);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<Gender>(`[${e.code}]:${e.message}`)
+            : Result.fail<Gender>(`Erreur inattendue. ${Gender?.constructor.name}`);
       }
    }
 }

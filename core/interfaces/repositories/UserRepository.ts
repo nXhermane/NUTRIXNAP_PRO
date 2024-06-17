@@ -1,4 +1,4 @@
-import { UserEntity, CreateUserType, UpdateUserType } from '@/core/interfaces';
+import { UserEntity, CreateUserType, UpdateUserType } from "@/core/interfaces";
 export default interface IUserRepository {
    findById(id: number): Promise<UserEntity | null>;
    create(user: CreateUserType): Promise<number | null>;

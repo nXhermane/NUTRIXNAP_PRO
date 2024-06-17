@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { View, Text } from 'react-native';
-import { UserService, PatientService, FoodDiaryService } from './services';
-import { UserRepository, PatientRepository, FoodDiaryRepository } from './repositories';
+import React, { createContext, useState, useEffect, useMemo } from "react";
+import { View, Text } from "react-native";
+import { UserService, PatientService, FoodDiaryService } from "./services";
+import { UserRepository, PatientRepository, FoodDiaryRepository } from "./repositories";
 import {
    IUserService,
    IPatientService,
@@ -14,15 +14,15 @@ import {
    UpdateFoodDiaryDto,
    FoodId,
    FoodQuantity,
-} from '@/core/interfaces';
-import './FoodsAndRecipesDatabase';
+} from "@/core/interfaces";
+import "./FoodsAndRecipesDatabase";
 
-import { FoodDiaryMapper } from '@/core/mappers';
-import * as SQLite from 'expo-sqlite/next';
+import { FoodDiaryMapper } from "@/core/mappers";
+import * as SQLite from "expo-sqlite/next";
 
 export interface CoreInterface {
    userS: IUserService;
-   user: Omit<UserEntity, 'password'> | null;
+   user: Omit<UserEntity, "password"> | null;
    setUser: (user: UserEntity) => void;
    patientS: IPatientService;
    foodDiaryS: IFoodDiaryService;

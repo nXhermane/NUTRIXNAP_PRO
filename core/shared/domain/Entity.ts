@@ -1,7 +1,7 @@
-import { EntityUniqueID } from './EntityUniqueId';
-import { DateManager, convertPropsToObject } from '../utils';
-import { Guard } from './../core';
-import { ValueObject } from './ValueObject';
+import { EntityUniqueID } from "./EntityUniqueId";
+import { DateManager, convertPropsToObject } from "../utils";
+import { Guard } from "./../core";
+import { ValueObject } from "./ValueObject";
 export type AggregateID = string | number;
 
 export interface BaseEntityProps {
@@ -104,11 +104,11 @@ export abstract class Entity<EntityProps> {
    private validateProps(props: EntityProps): void {
       const MAX_PROPS = 50;
 
-      if (Guard.isEmpty(props)) {
-         throw new Error('Entity props should not be empty');
+      if (Guard.isEmpty(props).succeeded) {
+         throw new Error("Entity props should not be empty");
       }
-      if (typeof props !== 'object') {
-         throw new Error('Entity props should be an object');
+      if (typeof props !== "object") {
+         throw new Error("Entity props should be an object");
       }
       if (Object.keys(props as any).length > MAX_PROPS) {
          throw new Error(`Entity props should not have more than ${MAX_PROPS} properties`);

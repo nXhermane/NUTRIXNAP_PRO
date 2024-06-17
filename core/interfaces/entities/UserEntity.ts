@@ -3,7 +3,7 @@ export default interface UserEntity {
    email: string;
    firstname: string;
    lastname: string;
-   gender: 'M' | 'F' | 'O';
+   gender: "M" | "F" | "O";
    country: string;
    tel: string;
    profil_img: string;

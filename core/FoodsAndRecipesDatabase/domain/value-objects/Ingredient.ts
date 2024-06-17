@@ -1,7 +1,7 @@
-import { INVALID_FOOD_REFERENCE_ERROR, EMPTY_FOOD_REFERENCE_ERROR } from './../constants';
-import { ValueObject, InvalidReference } from '@shared';
-import { Quantity, IQuantity } from './Quantity';
-import { AggregateID, EmptyStringError } from '@shared';
+import { INVALID_FOOD_REFERENCE_ERROR, EMPTY_FOOD_REFERENCE_ERROR } from "./../constants";
+import { ValueObject, InvalidReference, Guard } from "@shared";
+import { Quantity, IQuantity } from "./Quantity";
+import { AggregateID, EmptyStringError } from "@shared";
 export interface IIngredient {
    name: string;
    quantity: Quantity;
@@ -27,7 +27,7 @@ export class Ingredient extends ValueObject<IIngredient> {
       }
    }
    validate(props: IIngredient) {
-      if (String(props.foodId).trim() === '' || !props.foodId) {
+      if (Guard.isEmpty(props.foodId).succeeded) {
          throw new EmptyStringError(EMPTY_FOOD_REFERENCE_ERROR);
       }
    }

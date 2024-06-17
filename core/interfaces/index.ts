@@ -1,44 +1,44 @@
 /**
  * @interface db  import
  */
-import IDatabase from './db/db';
+import IDatabase from "./db/db";
 /**
  * @interface Repository import
  */
-import IUserRepository from './repositories/UserRepository';
-import IPatientRepository from './repositories/PatientRepository';
-import IFoodDiaryRepository from './repositories/FoodDiaryRepository';
+import IUserRepository from "./repositories/UserRepository";
+import IPatientRepository from "./repositories/PatientRepository";
+import IFoodDiaryRepository from "./repositories/FoodDiaryRepository";
 /**
  * @interface Services import
  */
-import IUserService from './services/UserService';
-import IPatientService from './services/PatientService';
-import IFoodDiaryService from './services/FoodDiaryService';
+import IUserService from "./services/UserService";
+import IPatientService from "./services/PatientService";
+import IFoodDiaryService from "./services/FoodDiaryService";
 /**
  * @interface Entities import
  */
-import UserEntity from './entities/UserEntity';
-import PatientEntity from './entities/PatientEntity';
-import FoodDiaryEntity from './entities/FoodDiaryEntity';
+import UserEntity from "./entities/UserEntity";
+import PatientEntity from "./entities/PatientEntity";
+import FoodDiaryEntity from "./entities/FoodDiaryEntity";
 /**
  * @interface DTOs import
  */
-import FoodDiaryDTO from './dtos/foodDiaryDTO';
+import FoodDiaryDTO from "./dtos/foodDiaryDTO";
 /**
  * @interface Mappers import
  */
-import IFoodDiaryMapper from './mappers/FoodDiaryMapper';
+import IFoodDiaryMapper from "./mappers/FoodDiaryMapper";
 /**
  * @Types OtherTypes import
  */
-import { SearchPatientOptions } from './types';
+import { SearchPatientOptions } from "./types";
 
 /**
  * @Types import couche specific type
  */
-import { CreateUserType, UpdateUserType } from './types/user.type';
-import { CreatePatientType, UpdatePatientType } from './types/patient.type';
-import { UpdateFoodDiaryType, CreateFoodDiaryType, UpdateFoodDiaryDto, FoodId, FoodQuantity } from './types/foodDiary.type';
+import { CreateUserType, UpdateUserType } from "./types/user.type";
+import { CreatePatientType, UpdatePatientType } from "./types/patient.type";
+import { UpdateFoodDiaryType, CreateFoodDiaryType, UpdateFoodDiaryDto, FoodId, FoodQuantity } from "./types/foodDiary.type";
 
 /**
  * @Export all core types and interfaces

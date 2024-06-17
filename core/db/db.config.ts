@@ -1,9 +1,9 @@
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
-import { openDatabaseAsync, SQLiteDatabase, addDatabaseChangeListener } from 'expo-sqlite';
-import ExpoSQLiteDialect from '@expo/knex-expo-sqlite-dialect';
-import { Knex, knex } from 'knex';
-import { IDatabase } from './../interfaces';
+import * as FileSystem from "expo-file-system";
+import { Asset } from "expo-asset";
+import { openDatabaseAsync, SQLiteDatabase, addDatabaseChangeListener } from "expo-sqlite";
+import ExpoSQLiteDialect from "@expo/knex-expo-sqlite-dialect";
+import { Knex, knex } from "knex";
+import { IDatabase } from "./../interfaces";
 
 export default class Database implements IDatabase {
    public db: SQLiteDatabase | null = null;
@@ -11,18 +11,18 @@ export default class Database implements IDatabase {
    private static instance: Database;
    private constructor() {}
    private async downloadDb(): Promise<void> {
-      if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'db')).exists) {
-         await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'db');
+      if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + "db")).exists) {
+         await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "db");
       }
       await FileSystem.downloadAsync(
-         Asset.fromModule(require('./../../assets/db/nutrition.sqlite')).uri,
-         FileSystem.documentDirectory + 'db/nutrixnap.sqlite',
+         Asset.fromModule(require("./../../assets/db/nutrition.sqlite")).uri,
+         FileSystem.documentDirectory + "db/nutrixnap.sqlite",
       );
    }
    private async init(): Promise<void> {
       await this.downloadDb();
       if (!this.db) {
-         this.db = await openDatabaseAsync('nutrixnap.sqlite', {
+         this.db = await openDatabaseAsync("nutrixnap.sqlite", {
             enableChangeListener: true,
          });
       } else this.db = Database.instance.db;
@@ -30,7 +30,7 @@ export default class Database implements IDatabase {
          this.knex = knex({
             client: ExpoSQLiteDialect,
             connection: {
-               filename: 'nutrixnap.sqlite',
+               filename: "nutrixnap.sqlite",
             },
             useNullAsDefault: true,
          });

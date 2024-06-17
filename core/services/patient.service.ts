@@ -1,4 +1,4 @@
-import { IPatientService, IPatientRepository, PatientEntity, SearchPatientOptions, CreatePatientType, UpdatePatientType } from '@/core/interfaces';
+import { IPatientService, IPatientRepository, PatientEntity, SearchPatientOptions, CreatePatientType, UpdatePatientType } from "@/core/interfaces";
 export default class UserService implements IPatientService {
    constructor(private repository: IPatientRepository) {}
 

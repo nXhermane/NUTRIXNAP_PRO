@@ -1,5 +1,5 @@
-import { Recipe, IMealsType, IMealsCategory } from './../../../domain';
-import { AggregateID } from '@shared';
+import { Recipe, IMealsType, IMealsCategory } from "./../../../domain";
+import { AggregateID } from "@shared";
 export interface RecipeRepository {
    save(recipe: Recipe): Promise<void>;
    delete(recipeId: AggregateID): Promise<void>;

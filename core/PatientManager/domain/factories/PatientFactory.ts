@@ -1,8 +1,8 @@
-import { Contact, Address, HumanName, Result, Birthday, Sexe, Gender, Email, PhoneNumber, AggregateID, Image } from '@shared';
-import { Patient } from './../aggregates/Patient';
+import { Contact, Address, HumanName, Result, Birthday, Sexe, Gender, Email, PhoneNumber, AggregateID, Image } from "@shared";
+import { Patient } from "./../aggregates/Patient";
 export type CreatePatientProps = {
    name: string;
-   gender: 'M' | 'F' | 'O';
+   gender: "M" | "F" | "O";
    contact: { email: string; tel: string };
    address: {
       street?: string;
@@ -28,7 +28,7 @@ export class PatientFactory {
          });
          const address = new Address({ ...createPatientProps.address });
          const birthday = new Birthday(createPatientProps.birthday);
-         const occupation = createPatientProps?.occupation || '';
+         const occupation = createPatientProps?.occupation || "";
          const images = createPatientProps.images.map((uri: string) => new Image(uri));
          const newPatient = new Patient({
             props: {

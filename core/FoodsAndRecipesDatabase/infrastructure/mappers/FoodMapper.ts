@@ -1,7 +1,7 @@
-import { Mapper, BaseEntityProps } from '@shared';
-import { Food, FoodGroup, Nutrient, INutrient, Quantity } from './../../domain';
-import { FoodDto, NutrientDto, QuantityDto } from './../../application';
-import { FoodPersistenceType, FoodGroup as FoodGroupType, NutrientPersistenceArray } from './../repositories/types';
+import { Mapper, BaseEntityProps } from "@shared";
+import { Food, FoodGroup, Nutrient, INutrient, Quantity } from "./../../domain";
+import { FoodDto, NutrientDto, QuantityDto } from "./../../application";
+import { FoodPersistenceType, FoodGroup as FoodGroupType, NutrientPersistenceArray } from "./../repositories/types";
 export class FoodMapper implements Mapper<Food, FoodPersistenceType, FoodDto> {
    toPersistence(entity: Food): FoodPersistenceType {
       return {} as FoodPersistenceType;
@@ -15,7 +15,7 @@ export class FoodMapper implements Mapper<Food, FoodPersistenceType, FoodDto> {
             foodGroupNameF: record.groupNameF,
          },
       });
-      const nutrientsData = record.nutrients === null ? [] : (JSON.parse('[' + record.nutrients + ']') as NutrientPersistenceArray[]);
+      const nutrientsData = record.nutrients === null ? [] : (JSON.parse("[" + record.nutrients + "]") as NutrientPersistenceArray[]);
       const foodNutrients = nutrientsData.map((nutrient: NutrientPersistenceArray) => {
          return new Nutrient({
             id: nutrient[1],
@@ -34,11 +34,11 @@ export class FoodMapper implements Mapper<Food, FoodPersistenceType, FoodDto> {
          });
       });
 
-      const foodQuantity = new Quantity({ value: 100, unit: 'g' });
+      const foodQuantity = new Quantity({ value: 100, unit: "g" });
       const foodProps = {
          foodName: record.foodName,
          foodCode: record.foodCode,
-         foodSource: record.foodSource ? record.foodSource : '',
+         foodSource: record.foodSource ? record.foodSource : "",
          foodOrigin: record.foodOrigin,
          foodNameTranslate: {
             inFrench: record.foodNameF,
@@ -58,7 +58,7 @@ export class FoodMapper implements Mapper<Food, FoodPersistenceType, FoodDto> {
          return {
             nutrientId: nutrient.id as number,
             nutrientName: nutrient.nutrientName,
-            nutrientNameF: nutrient?.nutrientNameTranslate?.inFrench || '',
+            nutrientNameF: nutrient?.nutrientNameTranslate?.inFrench || "",
             nutrientCode: nutrient.nutrientCode,
             nutrientUnit: nutrient.nutrientUnit,
             tagname: nutrient.nutrientINFOODSTagName,
@@ -80,7 +80,7 @@ export class FoodMapper implements Mapper<Food, FoodPersistenceType, FoodDto> {
          groupNameF: entity.foodGroup.foodGroupNameF,
          nutrients: nutrients,
          // scientificName: entity.scientificName,
-         quantity: { unit: 'g', value: 100 },
+         quantity: { unit: "g", value: 100 },
       };
       return food;
    }

@@ -1,4 +1,4 @@
-import { UserEntity, UpdateUserType, CreateUserType } from '@/core/interfaces';
+import { UserEntity, UpdateUserType, CreateUserType } from "@/core/interfaces";
 export default interface UserService {
    checkIfUserExist(): Promise<boolean>;
    getUserById(id: number): Promise<UserEntity | null>;

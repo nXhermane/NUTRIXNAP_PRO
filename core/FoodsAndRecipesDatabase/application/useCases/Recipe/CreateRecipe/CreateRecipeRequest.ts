@@ -1,6 +1,6 @@
-import { IngredientDto, PreparationStepDto } from './../sharedType';
-import { QuantityDto } from './../../sharedType';
-import { AggregateID } from '@shared';
+import { IngredientDto, PreparationStepDto } from "./../sharedType";
+import { QuantityDto } from "./../../sharedType";
+import { AggregateID } from "@shared";
 export type CreateRecipeRequest = {
    quantity: QuantityDto;
    typeId: AggregateID;

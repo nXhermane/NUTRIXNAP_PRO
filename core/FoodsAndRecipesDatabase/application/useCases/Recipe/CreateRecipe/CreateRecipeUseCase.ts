@@ -1,9 +1,9 @@
-import { CreateRecipeError } from './CreateRecipeError';
-import { CreateRecipeRequest } from './CreateRecipeRequest';
-import { CreateRecipeResponse } from './CreateRecipeResponse';
-import { RecipeFactrory, CreateRecipeProps, IQuantity, IIngredient, IPreparationStep } from './../../../../domain';
-import { UseCase } from '@shared';
-import { RecipeRepository, RecipeRepositoryError } from './../../../../infrastructure';
+import { CreateRecipeErrors } from "./CreateRecipeErrors";
+import { CreateRecipeRequest } from "./CreateRecipeRequest";
+import { CreateRecipeResponse } from "./CreateRecipeResponse";
+import { RecipeFactrory, CreateRecipeProps, IQuantity, IIngredient, IPreparationStep } from "./../../../../domain";
+import { UseCase, Result, left, right, AppError, AggregateID } from "@shared";
+import { RecipeRepository, RecipeRepositoryError } from "./../../../../infrastructure";
 export class CreateRecipeUseCase implements UseCase<CreateRecipeRequest, CreateRecipeResponse> {
    constructor(
       private repo: RecipeRepository,
@@ -20,14 +20,12 @@ export class CreateRecipeUseCase implements UseCase<CreateRecipeRequest, CreateR
             type,
             category,
          } as CreateRecipeProps);
-         if (recipe.isFailure) throw new CreateRecipeError(`Create Recipe Failed`);
+         if (recipe.isFailure) return left(new CreateRecipeErrors.CreateRecipeFailed(recipe.err));
          this.repo.save(recipe.val);
-         return {
-            recipeId: recipe.val.id,
-         } as CreateRecipeResponse;
+         return right(Result.ok<AggregateID>(recipe.val.id));
       } catch (e) {
-         if (e instanceof RecipeRepositoryError) throw new CreateRecipeError(e.message, e, e.metadata);
-         throw new CreateRecipeError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+         if (e instanceof RecipeRepositoryError) return left(new CreateRecipeErrors.RecipeRepoError(e));
+         return left(new AppError.UnexpectedError(e));
       }
    }
 }

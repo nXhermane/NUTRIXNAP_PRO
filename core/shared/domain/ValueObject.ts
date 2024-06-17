@@ -1,6 +1,6 @@
-import { Guard } from './../core';
-import { convertPropsToObject } from './../utils';
-import { ArgumentNotProvidedException } from './../exceptions/exceptions';
+import { Guard } from "./../core";
+import { convertPropsToObject } from "./../utils";
+import { ArgumentNotProvidedException } from "./../exceptions/exceptions";
 /**
  * Domain Primitive is an object that contains only a single value
  */
@@ -50,13 +50,13 @@ export abstract class ValueObject<T> {
    }
 
    private checkIfEmpty(props: ValueObjectProps<T>): void {
-      if (Guard.isEmpty(props) || (this.isDomainPrimitive(props) && Guard.isEmpty(props.value))) {
-         throw new ArgumentNotProvidedException('Property cannot be empty');
+      if (Guard.isEmpty(props).succeeded || (this.isDomainPrimitive(props) && Guard.isEmpty(props.value).succeeded)) {
+         throw new ArgumentNotProvidedException("Property cannot be empty");
       }
    }
 
    private isDomainPrimitive(obj: unknown): obj is DomainPrimitive<T & (Primitives | Date)> {
-      if (Object.prototype.hasOwnProperty.call(obj, 'value')) {
+      if (Object.prototype.hasOwnProperty.call(obj, "value")) {
          return true;
       }
       return false;

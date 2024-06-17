@@ -16,12 +16,15 @@ export abstract class ExceptionBase extends Error {
       Error.captureStackTrace(this, this.constructor);
    }
 
-   toJSON(): SerializedException {
+   toSerialized(): SerializedException {
       return {
          cause: JSON.stringify(this.cause),
          message: this.message,
          metadata: this.metadata,
          stack: this.stack,
       };
+   }
+   toJSON(): string {
+      return JSON.stringify(this.toSerialized());
    }
 }

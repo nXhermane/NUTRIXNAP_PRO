@@ -1,4 +1,4 @@
-import { IUserService, UserEntity, IUserRepository, UpdateUserType, CreateUserType } from '@/core/interfaces';
+import { IUserService, UserEntity, IUserRepository, UpdateUserType, CreateUserType } from "@/core/interfaces";
 
 export default class UserService implements IUserService {
    constructor(private repository: IUserRepository) {}

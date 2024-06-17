@@ -1,4 +1,6 @@
-import { CDate } from './Date';
+import { CDate } from "./Date";
+import { Result } from "./../../core";
+import { ExceptionBase } from "./../../exceptions";
 export class Birthday extends CDate {
    constructor(date: string) {
       super(date);
@@ -23,5 +25,14 @@ export class Birthday extends CDate {
 
    get birthday(): string {
       return super.date;
+   }
+   static create(date: string): Result<Birthday> {
+      try {
+         const birthday = new Birthday(date);
+         return Result.ok<Birthday>(birthday);
+      } catch (e: any) {
+         if (e instanceof ExceptionBase) return Result.fail<Birthday>(`[${e.code}:${e.message}]`);
+         return Result.fail<Birthday>(`Erreur inattendue.${Birthday.constructor.name}`);
+      }
    }
 }

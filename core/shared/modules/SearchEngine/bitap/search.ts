@@ -1,7 +1,7 @@
-import computeScore from './computeScore';
-import convertMaskToIndices from './convertMaskToIndices';
-import Config from './../config';
-import * as ErrorMsg from './../errorMsg';
+import computeScore from "./computeScore";
+import convertMaskToIndices from "./convertMaskToIndices";
+import Config from "./../config";
+import * as ErrorMsg from "./../errorMsg";
 
 const MAX_BITS = Config.MAX_BITS;
 

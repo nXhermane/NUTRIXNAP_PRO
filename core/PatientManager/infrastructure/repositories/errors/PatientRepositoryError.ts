@@ -1,4 +1,4 @@
-import { ExceptionBase, INTERNAL_SERVER_ERROR, NOT_FOUND } from '@shared';
+import { ExceptionBase, INTERNAL_SERVER_ERROR, NOT_FOUND } from "@shared";
 export class PatientRepositoryError extends ExceptionBase {
    code = INTERNAL_SERVER_ERROR;
 }

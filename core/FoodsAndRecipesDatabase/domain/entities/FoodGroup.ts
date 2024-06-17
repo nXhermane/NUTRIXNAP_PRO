@@ -1,5 +1,5 @@
-import { INVALID_FOOD_GROUP_CODE_ERROR, EMPTY_FOOD_GROUP_NAME_ERROR } from './../constants';
-import { Entity, CreateEntityProps, EmptyStringError } from '@shared';
+import { INVALID_FOOD_GROUP_CODE_ERROR, EMPTY_FOOD_GROUP_NAME_ERROR } from "./../constants";
+import { Entity, CreateEntityProps, EmptyStringError, Guard } from "@shared";
 
 export interface IFoodGroup {
    foodGroupCode: string;
@@ -23,17 +23,17 @@ export class FoodGroup extends Entity<IFoodGroup> {
       return this.props.foodGroupNameF;
    }
    get foodGroupDescription(): string {
-      return this.props?.foodGroupDescription || '';
+      return this.props?.foodGroupDescription || "";
    }
    set foodGroupDescription(foodGroupDescription: string) {
       this.props.foodGroupDescription = foodGroupDescription;
    }
 
    validate(): void {
-      if (!this.props.foodGroupCode || this.props.foodGroupCode.trim() === '') {
+      if (Guard.isEmpty(this.props.foodGroupCode).succeeded) {
          throw new EmptyStringError(INVALID_FOOD_GROUP_CODE_ERROR);
       }
-      if (!this.props.foodGroupName || this.props.foodGroupName.trim() === '') {
+      if (Guard.isEmpty(this.props.foodGroupName).succeeded) {
          throw new EmptyStringError(EMPTY_FOOD_GROUP_NAME_ERROR);
       }
    }

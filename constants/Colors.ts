@@ -1,5 +1,3 @@
-import { Appearance } from 'react-native';
-
 interface ColorPalette {
    white: string;
    blue: string;

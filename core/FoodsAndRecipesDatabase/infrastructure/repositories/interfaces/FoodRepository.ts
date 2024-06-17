@@ -1,5 +1,5 @@
-import { Food } from './../../../domain/aggregates/Food';
-import { AggregateID, Paginated } from '@shared';
+import { Food } from "./../../../domain/aggregates/Food";
+import { AggregateID, Paginated } from "@shared";
 export interface FoodRepository {
    save?(food: Food): Promise<Food>;
    delete?(foodId: AggregateID, foodOrigin: string): Promise<void>;

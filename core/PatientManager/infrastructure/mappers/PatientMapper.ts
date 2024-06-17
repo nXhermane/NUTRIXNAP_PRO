@@ -1,7 +1,7 @@
-import { Mapper, Contact, Email, PhoneNumber, Sexe, Address, IAddress, Gender, Birthday, HumanName, Image } from '@shared';
-import { PatientDto } from './../dtos/PatientDto';
-import { Patient } from './../../domain';
-import { PatientPersistenceType } from './../repositories/types';
+import { Mapper, Contact, Email, PhoneNumber, Sexe, Address, IAddress, Gender, Birthday, HumanName, Image } from "@shared";
+import { PatientDto } from "./../dtos/PatientDto";
+import { Patient } from "./../../domain";
+import { PatientPersistenceType } from "./../repositories/types";
 export class PatientMapper implements Mapper<Patient, PatientPersistenceType, PatientDto> {
    toPersistence(entity: Patient): PatientPersistenceType {
       return {

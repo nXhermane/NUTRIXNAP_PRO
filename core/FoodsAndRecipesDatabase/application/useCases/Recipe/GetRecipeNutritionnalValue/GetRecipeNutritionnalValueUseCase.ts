@@ -1,10 +1,10 @@
-import { GetRecipeNutritionnalValueError } from './GetRecipeNutritionnalValueError';
-import { GetRecipeNutritionnalValueRequest } from './GetRecipeNutritionnalValueRequest';
-import { GetRecipeNutritionnalValueResponse } from './GetRecipeNutritionnalValueResponse';
-import { UseCase } from '@shared';
-import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException } from './../../../../infrastructure';
-import { INutritionCalculatorService } from './../../../../domain';
-import { NutrientDto } from './../../sharedType';
+import { GetRecipeNutritionnalValueErrors } from "./GetRecipeNutritionnalValueErrors";
+import { GetRecipeNutritionnalValueRequest } from "./GetRecipeNutritionnalValueRequest";
+import { GetRecipeNutritionnalValueResponse } from "./GetRecipeNutritionnalValueResponse";
+import { UseCase, AppError, Result, left, right, AggregateID } from "@shared";
+import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException } from "./../../../../infrastructure";
+import { INutritionCalculatorService } from "./../../../../domain";
+import { NutrientDto } from "./../../sharedType";
 export class GetRecipeNutritionnalValueUseCase implements UseCase<GetRecipeNutritionnalValueRequest, GetRecipeNutritionnalValueResponse> {
    constructor(
       private repo: RecipeRepository,
@@ -25,15 +25,17 @@ export class GetRecipeNutritionnalValueUseCase implements UseCase<GetRecipeNutri
             nutrientValue: nutrient.nutrientValue,
             originalValue: nutrient?.originalValue || String(nutrient.nutrientValue),
          }));
-         return {
-            recipeId: request.recipeId,
-            nutrients: nutrients as NutrientDto[],
-         } as GetRecipeNutritionnalValueResponse;
+         return right(
+            Result.ok<{ recipeId: AggregateID; nutrients: NutrientDto[] }>({
+               recipeId: request.recipeId,
+               nutrients: nutrients as NutrientDto[],
+            }),
+         );
       } catch (e) {
-         if (e instanceof RecipeRepositoryNotFoundException || e instanceof RecipeRepositoryError) {
-            throw new GetRecipeNutritionnalValueError(e.message, e, e.metadata);
+         if (e instanceof RecipeRepositoryNotFoundException) {
+            return left(new GetRecipeNutritionnalValueErrors.RecipeNotFoundError(e, request.recipeId));
          } else {
-            throw new GetRecipeNutritionnalValueError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+            return left(new AppError.UnexpectedError(e));
          }
       }
    }

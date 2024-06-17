@@ -1,7 +1,7 @@
 export default interface PatientEntity {
    name: string;
    email: string;
-   gender: 'M' | 'F' | 'O';
+   gender: "M" | "F" | "O";
    country: string;
    tel: string;
    profil_img: string;

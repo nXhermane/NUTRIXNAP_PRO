@@ -1,20 +1,20 @@
-import { Quantity, IQuantity } from './../value-objects/Quantity';
-import { MealsType, IMealsType } from './../value-objects/MealsType';
-import { MealsCategory, IMealsCategory } from './../value-objects/MealsCategory';
-import { Ingredient, IIngredient } from './../value-objects/Ingredient';
-import { PreparationStep, IPreparationStep } from './../value-objects/PreparationStep';
-import { Recipe, IRecipe } from './../aggregates/Recipe';
-import { Result } from '@shared';
-import { FoodRepository } from './../../infrastructure';
+import { Quantity, IQuantity } from "./../value-objects/Quantity";
+import { MealsType, IMealsType } from "./../value-objects/MealsType";
+import { MealsCategory, IMealsCategory } from "./../value-objects/MealsCategory";
+import { Ingredient, IIngredient } from "./../value-objects/Ingredient";
+import { PreparationStep, IPreparationStep } from "./../value-objects/PreparationStep";
+import { Recipe, IRecipe } from "./../aggregates/Recipe";
+import { Result } from "@shared";
+import { FoodRepository } from "./../../infrastructure";
 export type CreateRecipeProps = {
    quantity: IQuantity;
    type: IMealsType;
    category: IMealsCategory;
-   ingredients: (Omit<IIngredient, 'quantity'> & {
+   ingredients: (Omit<IIngredient, "quantity"> & {
       quantity: IQuantity;
    })[];
    preparationMethod: IPreparationStep[];
-} & Omit<IRecipe, 'type' | 'category' | 'ingredients' | 'preparationMethod' | 'quantity'>;
+} & Omit<IRecipe, "type" | "category" | "ingredients" | "preparationMethod" | "quantity">;
 
 export class RecipeFactrory {
    constructor(private foodRepository: FoodRepository) {}
@@ -27,7 +27,7 @@ export class RecipeFactrory {
          const newIngredients: Ingredient[] = await Promise.all(
             ingredients.map(
                async (
-                  ingProps: Omit<IIngredient, 'quantity'> & {
+                  ingProps: Omit<IIngredient, "quantity"> & {
                      quantity: IQuantity;
                   },
                ) => {
@@ -60,7 +60,7 @@ export class RecipeFactrory {
       }
    }
    async createIngredient(
-      ingProps: Omit<IIngredient, 'quantity'> & {
+      ingProps: Omit<IIngredient, "quantity"> & {
          quantity: IQuantity;
       },
    ): Promise<Result<Ingredient>> {

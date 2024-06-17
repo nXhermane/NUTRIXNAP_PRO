@@ -1,5 +1,6 @@
-import { ArgumentInvalidException } from '../../exceptions';
-import { CDate } from './Date';
+import { ArgumentInvalidException, ExceptionBase } from "../../exceptions";
+import { CDate } from "./Date";
+import { Result } from "./../../core";
 export class RegistrationDate extends CDate {
    constructor(date: string) {
       super(date);
@@ -18,5 +19,15 @@ export class RegistrationDate extends CDate {
    }
    toString(): string {
       return super.date;
+   }
+   static create(date: string): Result<RegistrationDate> {
+      try {
+         const rDate = new RegistrationDate(date);
+         return Result.ok<RegistrationDate>(rDate);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<RegistrationDate>(`[${e.code}]:${e.message}`)
+            : Result.fail<RegistrationDate>(`Unexpected Error. ${RegistrationDate?.constructor.name}`);
+      }
    }
 }

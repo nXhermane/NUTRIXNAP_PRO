@@ -1,3 +1,3 @@
-import TableNames from './tableNames';
+import TableNames from "./tableNames";
 
 export { TableNames };

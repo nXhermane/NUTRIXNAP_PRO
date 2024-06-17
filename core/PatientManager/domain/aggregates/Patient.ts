@@ -14,7 +14,7 @@ import {
    IAddress,
    EmptyStringError,
    Image,
-} from '@shared';
+} from "@shared";
 
 export interface IPatient {
    name: HumanName;
@@ -38,7 +38,7 @@ export class Patient extends AggregateRoot<IPatient> {
       this.props.name = name;
    }
 
-   get gender(): 'M' | 'F' | 'O' {
+   get gender(): "M" | "F" | "O" {
       return this.props.gender.sexe;
    }
 
@@ -108,10 +108,10 @@ export class Patient extends AggregateRoot<IPatient> {
       return this.props.birthday.age;
    }
    validate(): void {
-      if (Guard.isEmpty(this.props.medicalRecordId)) throw new EmptyStringError("L'id du dossier medicale ne doit pas etre vide.");
-      if (!this.props.name.isValid()) throw new ArgumentInvalidException('Le nom du patient doit etre valide');
-      if (!this.props.gender.isValid()) throw new ArgumentInvalidException('Le genre du patient doit etre valide');
-      if (!this.props.contact.isValid()) throw new ArgumentInvalidException('Le contact du patient doit etre valide');
+      if (Guard.isEmpty(this.props.medicalRecordId).succeeded) throw new EmptyStringError("L'id du dossier medicale ne doit pas etre vide.");
+      if (!this.props.name.isValid()) throw new ArgumentInvalidException("Le nom du patient doit etre valide");
+      if (!this.props.gender.isValid()) throw new ArgumentInvalidException("Le genre du patient doit etre valide");
+      if (!this.props.contact.isValid()) throw new ArgumentInvalidException("Le contact du patient doit etre valide");
       if (!this.props.address.isValid()) throw new ArgumentInvalidException("L'address du patient doit etre valide");
       if (!this.props.birthday.isValid() || this.props.birthday.age < 5)
          throw new ArgumentInvalidException("La date de naissance du patient doit etre valide ou l'age doit au moins 5 ans");

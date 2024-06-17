@@ -1,4 +1,4 @@
-import { FoodDiaryEntity, FoodDiaryDTO, UpdateFoodDiaryDto, IFoodDiaryService, IFoodDiaryRepository, IFoodDiaryMapper } from '@/core/interfaces';
+import { FoodDiaryEntity, FoodDiaryDTO, UpdateFoodDiaryDto, IFoodDiaryService, IFoodDiaryRepository, IFoodDiaryMapper } from "@/core/interfaces";
 
 export default class FoodDiaryService implements IFoodDiaryService {
    constructor(

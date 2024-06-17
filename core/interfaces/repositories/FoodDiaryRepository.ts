@@ -1,4 +1,4 @@
-import { FoodDiaryEntity, UpdateFoodDiaryType, CreateFoodDiaryType } from '@/core/interfaces';
+import { FoodDiaryEntity, UpdateFoodDiaryType, CreateFoodDiaryType } from "@/core/interfaces";
 
 export default interface FoodDiaryRepository {
    findById(id: number): Promise<FoodDiaryEntity | null>;

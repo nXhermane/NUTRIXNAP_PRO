@@ -1,5 +1,5 @@
-import { Knex } from 'knex';
-import { TransactionManager } from './TransactionManager';
+import { Knex } from "knex";
+import { TransactionManager } from "./TransactionManager";
 export class KnexTransactionManager implements TransactionManager {
    constructor(private knex: Knex) {}
    async transaction<T>(operation: (trx: Knex.Transaction) => Promise<T>): Promise<T> {

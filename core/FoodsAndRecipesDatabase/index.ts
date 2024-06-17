@@ -16,11 +16,11 @@ import {
    FoodRecipeServiceDataProvider,
    IFoodRecipeServiceDataProvider,
    FoodRecipeServiceDataProviderError,
-} from './application';
-import { RecipeFactrory, NutritionCalculatorService } from './domain';
-import { FoodMapper, db as FoodDb, FoodRepositoryImplDb, RecipeRepositoryImplDb, RecipeMapper } from './infrastructure';
-import { SearchEngine } from '@shared';
-import { Knex } from 'knex';
+} from "./application";
+import { RecipeFactrory, NutritionCalculatorService } from "./domain";
+import { FoodMapper, db as FoodDb, FoodRepositoryImplDb, RecipeRepositoryImplDb, RecipeMapper } from "./infrastructure";
+import { SearchEngine } from "@shared";
+import { Knex } from "knex";
 export interface IFoodAndRecipe {
    food: IFoodService;
    recipe: IRecipeService;
@@ -42,7 +42,7 @@ export class FoodAndRecipe {
          const recipeRepo = new RecipeRepositoryImplDb(knexDb as Knex, recipeMapper);
 
          const searchEngine = new SearchEngine<FoodDto>([], {
-            keys: 'foodName',
+            keys: "foodName",
          });
 
          const recipeFactory = new RecipeFactrory(foodRepo);

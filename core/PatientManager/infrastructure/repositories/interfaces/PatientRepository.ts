@@ -1,5 +1,5 @@
-import { Patient } from './../../../domain';
-import { AggregateID, Paginated } from '@shared';
+import { Patient } from "./../../../domain";
+import { AggregateID, Paginated } from "@shared";
 export interface PatientRepository {
    save(patient: Patient, trx?: any): Promise<void>;
    getById(patiemtId: AggregateID): Promise<Patient>;

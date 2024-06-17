@@ -1,8 +1,8 @@
-import { FoodDiaryEntity, UpdateFoodDiaryType, CreateFoodDiaryType, IFoodDiaryRepository, IDatabase } from '@/core/interfaces';
-import { Knex } from 'knex';
-import Database, { db } from '@/core/db/db.config';
-import { DateManager } from '@/core/utility';
-import { TableNames } from '@/core/constants';
+import { FoodDiaryEntity, UpdateFoodDiaryType, CreateFoodDiaryType, IFoodDiaryRepository, IDatabase } from "@/core/interfaces";
+import { Knex } from "knex";
+import Database, { db } from "@/core/db/db.config";
+import { DateManager } from "@/core/utility";
+import { TableNames } from "@/core/constants";
 export default class FoodDiaryRepository implements IFoodDiaryRepository {
    private db: IDatabase | null = null;
    private knex: Knex | null = null;
@@ -30,17 +30,17 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
    }
    private async createTable(): Promise<void> {
       await this.knex?.schema.createTable(FoodDiaryRepository.tableName, (table) => {
-         table.increments('id').primary();
-         table.uuid('patient_unique_id').notNullable();
-         table.json('foodIds');
-         table.json('foodQuantities');
-         table.date('date');
-         table.string('meals', 400);
-         table.string('mealsType', 200);
-         table.text('observations');
-         table.json('images');
+         table.increments("id").primary();
+         table.uuid("patient_unique_id").notNullable();
+         table.json("foodIds");
+         table.json("foodQuantities");
+         table.date("date");
+         table.string("meals", 400);
+         table.string("mealsType", 200);
+         table.text("observations");
+         table.json("images");
          table.timestamps(true, true, true);
-         table.foreign('patient_unique_id').references(FoodDiaryRepository.dependTableNames + '.unique_id');
+         table.foreign("patient_unique_id").references(FoodDiaryRepository.dependTableNames + ".unique_id");
       });
    }
    async create(foodDiary: CreateFoodDiaryType): Promise<number | null> {
@@ -56,30 +56,30 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
                observations: foodDiary.observations,
                images: foodDiary.images,
             })
-            .returning('id');
+            .returning("id");
 
          return id as number;
       } catch (error) {
-         console.error('Error creating FoodDiary:', error);
+         console.error("Error creating FoodDiary:", error);
          return null;
       }
    }
    async findById(id: number): Promise<FoodDiaryEntity | null> {
       try {
-         const foodDiary = await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)?.select().where('id', id).first();
+         const foodDiary = await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)?.select().where("id", id).first();
          return foodDiary || null;
       } catch (error) {
-         console.error('Error finding FoodDiary by ID:', error);
+         console.error("Error finding FoodDiary by ID:", error);
          return null;
       }
    }
    async findByPatientUniqueId(patient_unique_id: string): Promise<FoodDiaryEntity[]> {
       try {
-         const foodDiary = await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)?.select().where('patient_unique_id', patient_unique_id);
+         const foodDiary = await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)?.select().where("patient_unique_id", patient_unique_id);
 
          return foodDiary;
       } catch (error) {
-         console.error('Error finding FoodDiary by PatientUniqueId:', error);
+         console.error("Error finding FoodDiary by PatientUniqueId:", error);
          return [];
       }
    }
@@ -89,7 +89,7 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
          const foodDiaries = await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)?.select();
          return foodDiaries;
       } catch (error) {
-         console.error('Error finding all FoodDiary:', error);
+         console.error("Error finding all FoodDiary:", error);
          return [];
       }
    }
@@ -97,11 +97,11 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
       try {
          const date = DateManager.dateToTimestamps(new Date());
          await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)
-            ?.where('id', foodDiary.id)
+            ?.where("id", foodDiary.id)
             .update({ ...foodDiary, updatedAt: date });
          return (await this.findById(foodDiary.id)) as FoodDiaryEntity;
       } catch (error) {
-         console.error('Error updating FoodDiary:', error);
+         console.error("Error updating FoodDiary:", error);
          return foodDiary as FoodDiaryEntity;
       }
       return foodDiary as FoodDiaryEntity;
@@ -109,9 +109,9 @@ export default class FoodDiaryRepository implements IFoodDiaryRepository {
 
    async delete(id: number): Promise<void> {
       try {
-         await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)?.where('id', id).del();
+         await this.knex!<FoodDiaryEntity>(FoodDiaryRepository.tableName)?.where("id", id).del();
       } catch (error) {
-         console.error('Error deleting FoodDiary:', error);
+         console.error("Error deleting FoodDiary:", error);
       }
    }
 }

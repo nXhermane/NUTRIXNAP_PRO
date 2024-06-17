@@ -1,4 +1,4 @@
-import Config from './../config';
+import Config from "./../config";
 
 function convertMaskToIndices(matchmask: boolean[] = [], minMatchCharLength: number = Config.minMatchCharLength): [number, number][] {
    const indices: [number, number][] = [];

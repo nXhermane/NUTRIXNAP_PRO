@@ -1,11 +1,11 @@
-import { UseCase, Mapper } from '@shared';
-import { GetAllFoodRequest } from './GetAllFoodRequest';
-import { GetAllFoodResponse } from './GetAllFoodResponse';
-import { GetAllFoodError } from './GetAllFoodError';
-import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from './../../../../infrastructure';
-import { Food } from './../../../../domain';
-import { FoodDto } from './../sharedType';
-import { FoodPersistenceType } from './../../../../infrastructure/repositories/types';
+import { UseCase, Mapper, Result, left, right, AppError } from "@shared";
+import { GetAllFoodRequest } from "./GetAllFoodRequest";
+import { GetAllFoodResponse } from "./GetAllFoodResponse";
+import { GetAllFoodErrors } from "./GetAllFoodErrors";
+import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
+import { Food } from "./../../../../domain";
+import { FoodDto } from "./../sharedType";
+import { FoodPersistenceType } from "./../../../../infrastructure/repositories/types";
 
 export class GetAllFoodUseCase implements UseCase<GetAllFoodRequest, GetAllFoodResponse> {
    constructor(
@@ -16,14 +16,14 @@ export class GetAllFoodUseCase implements UseCase<GetAllFoodRequest, GetAllFoodR
    async execute(request: GetAllFoodRequest = {}): Promise<GetAllFoodResponse> {
       try {
          const foods = await this.repo.getAllFood(request?.foodOrigin, request?.paginated);
-         return foods.map((food: Food) => this.mapper.toResponse(food));
+         return right(Result.ok<FoodDto[]>(foods.map((food: Food) => this.mapper.toResponse(food))));
       } catch (e) {
          if (e instanceof FoodRepositoryNotFoundException) {
-            return [] as GetAllFoodResponse;
+            return right(Result.ok<FoodDto[]>([]));
          } else if (e instanceof FoodRepositoryError) {
-            throw new GetAllFoodError(e.message, e, e.metadata);
+            return left(new GetAllFoodErrors.FoodRepositoryError(e.toJSON()));
          } else {
-            throw new GetAllFoodError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+            return left(new AppError.UnexpectedError(e));
          }
       }
    }
