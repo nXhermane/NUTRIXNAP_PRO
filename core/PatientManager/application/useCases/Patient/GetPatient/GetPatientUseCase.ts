@@ -20,8 +20,7 @@ export class GetPatientUseCase implements UseCase<GetPatientRequest, GetPatientR
    async execute(request: GetPatientRequest): Promise<GetPatientResponse> {
       try {
          const patient = await this.repo.getById(request.patientId);
-         const { medicalRecordId, ...otherProps } = this.mapper.toResponse(patient);
-         return otherProps as GetPatientResponse;
+         return this.mapper.toResponse(patient) as GetPatientResponse;
       } catch (e) {
          if (e instanceof PatientRepositoryNotFoundException || e instanceof PatientRepositoryError) {
             throw new GetPatientError(e.message, e as Error, e.metadata);

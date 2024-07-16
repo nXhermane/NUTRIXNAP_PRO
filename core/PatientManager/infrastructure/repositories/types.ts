@@ -5,13 +5,12 @@ export interface Timestamps {
 }
 
 export interface PatientPersistenceType extends Timestamps {
-   id: AggregateID;
+   id: string;
    name: string;
-   gender: "M" | "F" | "O";
-   contact: string;
-   address: string;
-   birthday: string;
-   occupation: string;
-   images: string;
-   medicalRecordId: AggregateID;
+   gender: "M" | "F" | "O" | null;
+   contact: { email: string; phoneNumber: string } | null;
+   address: { street?: string; city?: string; postalCode?: string; country: string } | null;
+   birthday: string | null;
+   occupation: string | null;
+   images: string[] | null;
 }

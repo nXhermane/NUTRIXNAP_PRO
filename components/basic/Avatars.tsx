@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Image, Pressable, ViewStyle } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { AntDesign } from '@expo/vector-icons';
-import { ThemeInterface, useTheme, useThemeStyles } from '@/theme';
-import Animated from 'react-native-reanimated';
+import { StyleSheet, Text, View, Image, Pressable, ViewStyle } from "react-native";
+import React, { useEffect, useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
+import { ThemeInterface, useTheme, useThemeStyles } from "@/theme";
+import Animated from "react-native-reanimated";
 interface Props {
    s?: number;
    bg?: string;
@@ -37,10 +37,10 @@ const Avatars = React.forwardRef((props: Props, ref) => {
          ]}
       >
          {!icon && !image && letter && <Text style={[style.letter, { color, fontSize: (s * 0.8) / 2 }]}>{letter}</Text>}
-         {!icon && letter && image && image?.uri != '' && <Image source={image} style={{ height: s, width: s }} resizeMode={'cover'} />}
-         {!icon && image && image?.uri == '' && letter && <Text style={[style.letter, { color, fontSize: (s * 0.8) / 2 }]}>{letter}</Text>}
+         {!icon && letter && image && image?.uri != "" && <Image source={image} style={{ height: s, width: s }} resizeMode={"cover"} />}
+         {!icon && image && image?.uri == "" && letter && <Text style={[style.letter, { color, fontSize: ((s * 0.8) / 2) }]}>{letter}</Text>}
 
-         {!icon && !letter && image && <Image source={image} style={{ height: s, width: s }} resizeMode={'cover'} />}
+         {!icon && !letter && image && <Image source={image} style={{ height: s, width: s }} resizeMode={"cover"} />}
          {!letter && !image && icon && icon}
       </AnimatedPressable>
    );
@@ -50,12 +50,12 @@ export default Avatars;
 const styles = (theme: ThemeInterface) =>
    StyleSheet.create({
       avatars: {
-         justifyContent: 'center',
-         alignItems: 'center',
-         overflow: 'hidden',
+         justifyContent: "center",
+         alignItems: "center",
+         overflow: "hidden",
       },
       letter: {
-         fontFamily: 'inter',
-         fontWeight: 'bold',
+         fontFamily: "inter",
+         fontWeight: "bold",
       },
    });

@@ -1,3 +1,7 @@
+
+> nutrixnap@1.0.0 ts:check
+> tsc
+
 app/(drawer)/(home)/_layout.tsx(33,43): error TS2339: Property 'focused' does not exist on type 'BottomTabBarButtonProps'.
 app/(drawer)/(home)/_layout.tsx(60,16): error TS2353: Object literal may only specify known properties, and 'tabBar' does not exist in type 'HeaderOptions & { title?: string | undefined; tabBarLabel?: string | ((props: { focused: boolean; color: string; position: LabelPosition; children: string; }) => ReactNode) | undefined; ... 24 more ...; freezeOnBlur?: boolean | undefined; } & { ...; }'.
 app/(drawer)/(home)/_layout.tsx(97,17): error TS7006: Parameter 'theme' implicitly has an 'any' type.
@@ -662,11 +666,6 @@ components/tabs/patient/SearchPatient.tsx(25,19): error TS7031: Binding element 
 components/tabs/patient/SearchPatient.tsx(25,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
 components/tabs/patient/Top.tsx(20,19): error TS7031: Binding element 'colors' implicitly has an 'any' type.
 components/tabs/patient/Top.tsx(20,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
-core/PatientManager/application/useCases/Patient/CreatePatient/CreatePatientUseCase.ts(18,53): error TS2345: Argument of type '{ name: string; gender: "M" | "F" | "O"; birthday: string; images: string[]; address: { street?: string | undefined; city?: string | undefined; postalCode?: string | undefined; country: string; }; contact: { ...; }; occupation?: string | undefined; }' is not assignable to parameter of type 'CreatePatientProps'.
-  Property 'medicalRecordId' is missing in type '{ name: string; gender: "M" | "F" | "O"; birthday: string; images: string[]; address: { street?: string | undefined; city?: string | undefined; postalCode?: string | undefined; country: string; }; contact: { ...; }; occupation?: string | undefined; }' but required in type 'CreatePatientProps'.
-core/PatientManager/domain/factories/PatientFactory.ts(26,13): error TS2740: Type 'Result<Email>' is missing the following properties from type 'Email': validate, getValue, props, equals, and 4 more.
-core/PatientManager/infrastructure/repositories/PatientRepositoryImplDb.ts(2,19): error TS2305: Module '"./../../domain"' has no exported member 'MedicalRecord'.
-core/shared/domain/valueObjects/HumanName.ts(37,30): error TS2304: Cannot find name 'ExceptionBase'.
 hooks/useImagePicker.ts(28,17): error TS7034: Variable 'images' implicitly has type 'any[]' in some locations where its type cannot be determined.
 hooks/useImagePicker.ts(29,13): error TS18047: 'image.assets' is possibly 'null'.
 hooks/useImagePicker.ts(39,21): error TS7005: Variable 'images' implicitly has an 'any[]' type.

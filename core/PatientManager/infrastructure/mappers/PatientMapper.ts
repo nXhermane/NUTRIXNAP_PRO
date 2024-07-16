@@ -5,33 +5,32 @@ import { PatientPersistenceType } from "./../repositories/types";
 export class PatientMapper implements Mapper<Patient, PatientPersistenceType, PatientDto> {
    toPersistence(entity: Patient): PatientPersistenceType {
       return {
-         id: entity.id,
+         id: String(entity.id),
          name: entity.name,
          gender: entity.gender,
-         contact: JSON.stringify(entity.contact),
-         address: JSON.stringify(entity.address),
+         contact: entity.contact,
+         address: entity.address,
          birthday: entity.birthday,
          occupation: entity.occupation as string,
-         images: JSON.stringify(entity.images),
-         medicalRecordId: entity.medicalRecordId,
+         images: entity.images,
          createdAt: entity.createdAt,
          updatedAt: entity.updatedAt,
       };
    }
    toDomain(record: PatientPersistenceType): Patient {
-      const contactData = JSON.parse(record.contact);
-      const contact = new Contact({
-         email: new Email(contactData.email),
-         phoneNumber: new PhoneNumber(contactData.phoneNumber),
-      });
-      const addressData = JSON.parse(record.address);
-      const address = new Address(addressData as IAddress);
-      const gender = new Gender(record.gender as Sexe);
-      const name = new HumanName(record.name);
-      const birthday = new Birthday(record.birthday);
-      const imagesData = JSON.parse(record.images) as string[];
+      const contactData = record.contact as { email: string; phoneNumber: string };
+      const contact = Contact.create({
+         email: Email.create(contactData?.email).val,
+         phoneNumber: PhoneNumber.create(contactData?.phoneNumber).val,
+      }).val;
+
+      const address = Address.create(record?.address as IAddress).val;
+      const gender = Gender.create(record.gender as "M" | "F" | "O").val;
+      const name = HumanName.create(record.name).val;
+      const birthday = Birthday.create(record.birthday as string).val;
+      const imagesData = record.images as string[];
       const images = imagesData.map((uri: string) => new Image(uri));
-      const { occupation, createdAt, updatedAt, id, medicalRecordId } = record;
+      const { occupation, createdAt, updatedAt, id } = record;
       return new Patient({
          id,
          createdAt,
@@ -42,8 +41,7 @@ export class PatientMapper implements Mapper<Patient, PatientPersistenceType, Pa
             address,
             gender,
             birthday,
-            occupation,
-            medicalRecordId,
+            occupation: occupation as string,
             images,
          },
       });
@@ -58,7 +56,6 @@ export class PatientMapper implements Mapper<Patient, PatientPersistenceType, Pa
          birthday: entity.birthday,
          occupation: entity.occupation,
          images: entity.images,
-         medicalRecordId: entity.medicalRecordId,
          createdAt: entity.createdAt,
          updatedAt: entity.updatedAt,
       };

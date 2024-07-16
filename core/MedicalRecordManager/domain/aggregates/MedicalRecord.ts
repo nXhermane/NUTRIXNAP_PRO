@@ -119,7 +119,9 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
          if (indexOfFoodDiary !== -1) this.props.foodDiaries[indexOfFoodDiary] = foodDiary;
       });
    }
-
+   get objectives(): (BaseEntityProps & IObjective)[] {
+      return this.props.objectives.map((objective: Objective) => objective.getProps());
+   }
    get foodDiaries(): (BaseEntityProps & IFoodDiary)[] {
       return this.props.foodDiaries.map((foodDiary: FoodDiary) => foodDiary.getProps());
    }

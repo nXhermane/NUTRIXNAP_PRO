@@ -12,7 +12,6 @@ export type CreatePatientProps = {
    };
    birthday: string;
    occupation?: string;
-   medicalRecordId: AggregateID;
    images: string[];
 };
 
@@ -23,7 +22,7 @@ export class PatientFactory {
          const name = new HumanName(createPatientProps.name);
          const gender = new Gender(createPatientProps.gender as Sexe);
          const contact = new Contact({
-            email: Email.create(createPatientProps.contact.email),
+            email: Email.create(createPatientProps.contact.email).val,
             phoneNumber: new PhoneNumber(createPatientProps.contact.tel),
          });
          const address = new Address({ ...createPatientProps.address });
@@ -39,7 +38,6 @@ export class PatientFactory {
                birthday,
                occupation,
                images,
-               medicalRecordId: createPatientProps.medicalRecordId,
             },
          });
          return Result.ok<Patient>(newPatient);

@@ -12,6 +12,5 @@ export interface PatientDto extends BaseEntityProps {
    };
    birthday: string;
    occupation?: string;
-   medicalRecordId: AggregateID;
    images: string[];
 }

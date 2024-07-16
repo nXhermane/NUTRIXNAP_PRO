@@ -1,38 +1,72 @@
-import { AggregateID } from "@shared";
+import { AggregateID, IQuantity } from "@shared";
+import {
+   IWaterConsumptionRange,
+   FoodStory,
+   MedicalStory,
+   Objective,
+   FoodDiary,
+   PatientMeasurements,
+   PersonalAndSocialStory,
+   ConsultationInformation,
+} from "./../../domain";
 export interface Timestamps {
    createdAt: string;
    updatedAt: string;
 }
+export type EatingBehavior = {
+   date: string;
+   eatingBehavior: string;
+};
+
+export type MealType = {
+   withCompany: boolean;
+   watchingTv: boolean;
+   sittingAtTable: boolean;
+   foodItems: {
+      foodId?: number | string;
+      recipeId?: number | string;
+      isRecipe: boolean;
+      isHomeMade: boolean;
+      quantity: IQuantity;
+   }[];
+   mealTypeId: number | string;
+   description: string;
+};
+export type FoodType = { name: string; foodId: number | string };
 export interface FoodDiaryPersistenceType extends Timestamps {
    id: AggregateID;
    date: string;
-   meal: string;
+   meal: MealType;
    observation: string;
-   images: string;
-   medicalRecordId: AggregateID;
+   images: string[];
 }
+export type ObjectiveBody =
+   | {
+        measureTypeId: number | string;
+        value: number;
+        description?: string;
+     }
+   | { description: string };
 export interface ConsultationInformationPersistenceType extends Timestamps {
    id: AggregateID;
    consultationMotive: string;
    expectations: string;
    clinicalObjective: string;
    otherInformation: string;
-   medicalRecordId: AggregateID;
 }
 export interface FoodStoryPersistenceType extends Timestamps {
    id: AggregateID;
    bedtime: string;
    wakeUpTime: string;
-   dietTypes: string;
-   favoriteFoods: string;
-   foodAversions: string;
-   allergies: string;
-   foodIntolerances: string;
-   nutritionalDeficiencies: string;
-   waterConsumption: string;
+   dietTypes: AggregateID[];
+   favoriteFoods: FoodType[];
+   foodAversions: FoodType[];
+   allergies: AggregateID[];
+   foodIntolerances: AggregateID[];
+   nutritionalDeficiencies: AggregateID[];
+   waterConsumption: IWaterConsumptionRange;
    numberOfMealsPerDay: number;
    otherInformation: string;
-   medicalRecordId: AggregateID;
 }
 export interface MedicalStoryPersistenceType extends Timestamps {
    id: AggregateID;
@@ -41,15 +75,13 @@ export interface MedicalStoryPersistenceType extends Timestamps {
    personalBackground: string;
    familyBackground: string;
    otherInformation: string;
-   medicalRecordId: AggregateID;
 }
 export interface ObjectivePersistenceType extends Timestamps {
    id: AggregateID;
    type: "Measure" | "General";
    timeframe: string;
-   body: string;
+   body: ObjectiveBody;
    status: "InProgress" | "Achieved" | "NotAchieved";
-   medicalRecordId: AggregateID;
 }
 export interface PersonalAndSocialStoryPersistenceType extends Timestamps {
    id: AggregateID;
@@ -61,14 +93,12 @@ export interface PersonalAndSocialStoryPersistenceType extends Timestamps {
    physicalActivity: "Sedentary" | "Lightly Active" | "Moderately Active" | "Very Active" | "Extremely Active";
    ethnicity: "Caucasian" | "Asian" | "Black";
    otherInformation: string;
-   medicalRecordId: AggregateID;
 }
 export interface PatientMeasurementPersistenceType extends Timestamps {
    id: AggregateID;
    anthropometricMeasurements: string;
    bodyCompositionMeasurements: string;
    medicalAnalysisResults: string;
-   medicalRecordId: AggregateID;
 }
 export interface MedicalRecordTableType extends Timestamps {
    id: AggregateID;
@@ -76,14 +106,16 @@ export interface MedicalRecordTableType extends Timestamps {
    eatingBehaviors: string;
 }
 export interface MedicalRecordPersistenceType {
-   medicalRecord: MedicalRecordTableType;
-   foodDiaries: FoodDiaryPersistenceType[];
-   consultationInformation: ConsultationInformationPersistenceType;
-   foodStory: FoodStoryPersistenceType;
-   medicalStory: MedicalStoryPersistenceType;
-   objectives: ObjectivePersistenceType[];
-   personalAndSocialStory: PersonalAndSocialStoryPersistenceType;
-   patientMeasurement: PatientMeasurementPersistenceType;
+   id: AggregateID;
+   medicalStoryId: AggregateID;
+   foodStoryId: AggregateID;
+   foodDiaryIds: AggregateID[];
+   objectiveIds: AggregateID[];
+   patientMeasurementId: AggregateID;
+   personalAndSocialStoryId: AggregateID;
+   consultationInformationId: AggregateID;
+   status: "Active" | "New" | "Inactive";
+   eatingBehaviors: EatingBehavior[];
 }
 
 export interface MeasurementTypePersistenceType extends Timestamps {
@@ -93,4 +125,15 @@ export interface MeasurementTypePersistenceType extends Timestamps {
    measureCategory: "Antropometry" | "MedicalAnalysis" | "BodyCompositiona";
    measureCode: string;
    unit: string;
+}
+export interface MedicalRecordPersistenceRecordType extends Timestamps {
+   foodStory: FoodStory;
+   medicalStory: MedicalStory;
+   objectives: Objective[];
+   foodDiaries: FoodDiary[];
+   patientMeasurements: PatientMeasurements;
+   personalAndSocialStory: PersonalAndSocialStory;
+   status: "Active" | "New" | "Inactive";
+   eatingBehaviors: EatingBehavior[];
+   consultationInformation: ConsultationInformation;
 }

@@ -23,7 +23,7 @@ export interface IPatient {
    address: Address;
    birthday: Birthday;
    occupation?: string;
-   medicalRecordId: AggregateID;
+
    images: Image[];
 }
 export class Patient extends AggregateRoot<IPatient> {
@@ -81,10 +81,6 @@ export class Patient extends AggregateRoot<IPatient> {
       this.props.occupation = occupation;
    }
 
-   get medicalRecordId(): AggregateID {
-      return this.props.medicalRecordId;
-   }
-
    get images(): string[] {
       return this.props.images.map((img: Image) => img.uri);
    }
@@ -108,7 +104,6 @@ export class Patient extends AggregateRoot<IPatient> {
       return this.props.birthday.age;
    }
    validate(): void {
-      if (Guard.isEmpty(this.props.medicalRecordId).succeeded) throw new EmptyStringError("L'id du dossier medicale ne doit pas etre vide.");
       if (!this.props.name.isValid()) throw new ArgumentInvalidException("Le nom du patient doit etre valide");
       if (!this.props.gender.isValid()) throw new ArgumentInvalidException("Le genre du patient doit etre valide");
       if (!this.props.contact.isValid()) throw new ArgumentInvalidException("Le contact du patient doit etre valide");

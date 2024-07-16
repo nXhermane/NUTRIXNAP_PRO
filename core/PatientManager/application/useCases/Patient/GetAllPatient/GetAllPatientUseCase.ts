@@ -21,8 +21,7 @@ export class GetAllPatientUseCase implements UseCase<GetAllPatientRequest, GetAl
       try {
          const patients = await this.repo.getAll(request?.paginated);
          return patients.map((patient: Patient) => {
-            const { medicalRecordId, ...otherProps } = this.mapper.toResponse(patient);
-            return otherProps;
+            return this.mapper.toResponse(patient);
          }) as GetAllPatientResponse;
       } catch (e) {
          if (e instanceof PatientRepositoryNotFoundException || e instanceof PatientRepositoryError) {
