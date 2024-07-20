@@ -33,7 +33,7 @@ export class FoodAndRecipe {
    private static instance: IFoodAndRecipe | null = null;
 
    static async getInstance(): Promise<IFoodAndRecipe> {
-      if (this.instance === null) {
+      if (FoodAndRecipe.instance === null) {
          const db = await FoodDb;
          const knexDb = db.knex;
          const foodMapper = new FoodMapper();

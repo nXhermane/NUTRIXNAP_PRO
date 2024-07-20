@@ -15,20 +15,20 @@ export default class Database implements IDatabase {
          await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "SQLite");
       }
       await FileSystem.downloadAsync(
-         Asset.fromModule(require("./PatientManager.sqlite")).uri,
-         FileSystem.documentDirectory + "SQLite/PatientManager.sqlite",
+         Asset.fromModule(require("./medicalRecord.sqlite")).uri,
+         FileSystem.documentDirectory + "SQLite/medicalRecord.sqlite",
       );
    }
    private async init(): Promise<void> {
       await this.downloadDb();
       if (!this.db) {
-         this.db = await openDatabaseAsync("PatientManager.sqlite");
+         this.db = await openDatabaseAsync("medicalRecord.sqlite");
       } else this.db = Database.instance.db;
       if (!this.knex)
          this.knex = knex({
             client: ExpoSQLiteDialect,
             connection: {
-               filename: "PatientManager.sqlite",
+               filename: "medicalRecord.sqlite",
             },
             useNullAsDefault: true,
          });

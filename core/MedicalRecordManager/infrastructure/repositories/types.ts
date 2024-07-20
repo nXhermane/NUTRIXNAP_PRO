@@ -118,14 +118,7 @@ export interface MedicalRecordPersistenceType {
    eatingBehaviors: EatingBehavior[];
 }
 
-export interface MeasurementTypePersistenceType extends Timestamps {
-   id: AggregateID;
-   name: string;
-   nameF: string;
-   measureCategory: "Antropometry" | "MedicalAnalysis" | "BodyCompositiona";
-   measureCode: string;
-   unit: string;
-}
+
 export interface MedicalRecordPersistenceRecordType extends Timestamps {
    foodStory: FoodStory;
    medicalStory: MedicalStory;

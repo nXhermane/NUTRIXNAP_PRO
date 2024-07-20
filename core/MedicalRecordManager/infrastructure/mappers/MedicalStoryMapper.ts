@@ -2,11 +2,7 @@ import { MedicalStory } from "./../../domain";
 import { Mapper } from "@shared";
 import { MedicalStoryPersistenceType } from "./../repositories/types";
 import { MedicalStoryDto } from "./../dtos/MedicalStoryDto";
-export class MedicalStoryMapper extends Mapper<
-   MedicalStory,
-   MedicalStoryPersistenceType,
-   MedicalStoryDto
-> {
+export class MedicalStoryMapper extends Mapper<MedicalStory, MedicalStoryPersistenceType, MedicalStoryDto> {
    toPersistence(entity: MedicalStory): MedicalStoryPersistenceType {
       return entity.getProps();
    }

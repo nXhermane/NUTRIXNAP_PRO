@@ -1,2 +1,2 @@
 import { PatientDto } from "./../../../../infrastructure";
-export type GetAllPatientResponse =PatientDto[];
+export type GetAllPatientResponse = PatientDto[];

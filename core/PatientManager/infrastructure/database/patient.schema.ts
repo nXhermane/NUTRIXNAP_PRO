@@ -29,5 +29,3 @@ export const patients = sqliteTable("patients", {
       .default(sql`CURRENT_TIMESTAMP`)
       .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
-
-

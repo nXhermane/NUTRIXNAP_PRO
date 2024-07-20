@@ -7,7 +7,7 @@ export class DeleteRecipeUseCase implements UseCase<DeleteRecipeRequest, DeleteR
 
    async execute(request: DeleteRecipeRequest): Promise<DeleteRecipeResponse> {
       try {
-         this.repo.delete(request.recipeId);
+         await this.repo.delete(request.recipeId);
          return right(Result.ok<boolean>(true));
       } catch (e) {
          if (e instanceof RecipeRepositoryError) return right(Result.ok<boolean>(false));

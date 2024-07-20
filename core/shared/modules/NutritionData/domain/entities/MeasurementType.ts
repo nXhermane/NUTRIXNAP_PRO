@@ -1,5 +1,7 @@
-import { Entity, CreateEntityProps, Guard, EmptyStringError, AggregateID, PatientMeasurementCategory, ArgumentOutOfRangeException } from "@shared";
-
+import { Entity, CreateEntityProps, AggregateID } from "./../../../../domain";
+import { EmptyStringError, ArgumentOutOfRangeException } from "./../../../../exceptions";
+import { Guard, Result } from "./../../../../core";
+import { PatientMeasurementCategory } from "./../../../../constants";
 export interface IMeasurementType {
    name: string;
    unit: string;
@@ -51,5 +53,14 @@ export class MeasurementType extends Entity<IMeasurementType> {
       if (!Object.values(PatientMeasurementCategory).includes(this.props.measureCategory as PatientMeasurementCategory))
          throw new ArgumentOutOfRangeException("Cette categorie de mesure du patient n'est pas prise en charge");
       this._isValid = true;
+   }
+   static create(props: IMeasurementType): Result<MeasurementType> {
+      try {
+         const measue = new MeasurementType({ props });
+         return Result.ok<MeasurementType>(measue);
+      } catch (e: any) {
+         if (e instanceof (ArgumentOutOfRangeException || EmptyStringError)) return Result.fail<MeasurementType>(`[${e.code}]:${e.message}`);
+         return Result.fail<MeasurementType>("Erreur inattendue.");
+      }
    }
 }

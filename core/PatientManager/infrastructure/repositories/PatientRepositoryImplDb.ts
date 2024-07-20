@@ -61,7 +61,11 @@ export class PatientRepositoryImplDb implements PatientRepository {
    }
 
    private async checkIfExist(patientId: AggregateID): Promise<boolean> {
-      const patient = await this.db.select().from(patients).where(eq(patients.id, patientId as string)).get();
+      const patient = await this.db
+         .select()
+         .from(patients)
+         .where(eq(patients.id, patientId as string))
+         .get();
       return !!patient;
    }
 }

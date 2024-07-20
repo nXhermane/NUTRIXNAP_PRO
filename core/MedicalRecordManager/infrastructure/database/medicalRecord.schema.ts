@@ -51,7 +51,6 @@ export type EatingBehavior = {
    eatingBehavior: string;
 };
 
-
 export const medicalStories = sqliteTable("medical_stories", {
    id: text("id").primaryKey(),
    pathologies: text("pathologies"),
