@@ -21,7 +21,11 @@ export class MedicalStoryRepositoryImpl implements MedicalStoryRepository {
          const persistenceMedicalStory = this.mapper.toPersistence(medicalStory);
          const exist = await this.checkIfExist(persistenceMedicalStory.id);
          if (!exist) await (trx || this.db).insert(medicalStories).values(persistenceMedicalStory);
-         else await (trx || this.db).update(medicalStories).set(persistenceMedicalStory).where(eq(medicalStories.id, persistenceMedicalStory.id));
+         else
+            await (trx || this.db)
+               .update(medicalStories)
+               .set(persistenceMedicalStory)
+               .where(eq(medicalStories.id, persistenceMedicalStory.id as string));
       } catch (e: any) {
          throw new MedicalStoryRepositoryError("Erreur lors de la sauvegarde de l'histoire medicale(MedicalStory)", e as Error, {});
       }

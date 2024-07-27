@@ -1,7 +1,7 @@
-import { PatientMeasurement } from "./../../../domain";
+import { PatientMeasurements } from "./../../../domain";
 import { AggregateID, Paginated } from "@shared";
 export interface PatientMeasurementRepository {
-   save(patientMeasurement: PatientMeasurement, trx?: any): Promise<void>;
-   getById(patientMeasurementId: AggregateID): Promise<PatientMeasurement>;
+   save(patientMeasurement: PatientMeasurements, trx?: any): Promise<void>;
+   getById(patientMeasurementId: AggregateID): Promise<PatientMeasurements>;
    delete(patientMeasurementId: AggregateID, trx?: any): Promise<void>;
 }

@@ -6,6 +6,7 @@ import {
    INTERNAL_SERVER_ERROR,
    NOT_FOUND,
    AUTHORIZATION_ERROR,
+   CREATION_FAILED,
 } from "./exception.code";
 import { ExceptionBase } from "./exception.base";
 
@@ -123,4 +124,11 @@ export class InvalidReference extends ExceptionBase {
       super(msg);
    }
    readonly code = ARGUMENT_INVALID;
+}
+export class ObjectCreationError extends ExceptionBase {
+   static readonly message = "Failed to create the object";
+   constructor(msg = ObjectCreationError.message) {
+      super(msg);
+   }
+   readonly code = CREATION_FAILED;
 }

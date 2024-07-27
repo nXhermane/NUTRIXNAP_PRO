@@ -1,6 +1,6 @@
 import { foodDiaries } from "./../database/medicalRecord.schema";
 import { FoodDiaryRepository } from "./interfaces";
-import { AggregateID, Result, Mapper, Paginated } from "@shared";
+import { AggregateID, Result, Mapper, Paginated, DateManager } from "@shared";
 import { FoodDiary } from "./../../domain";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { eq } from "drizzle-orm";
@@ -21,7 +21,11 @@ export class FoodDiaryRepositoryImpl implements FoodDiaryRepository {
          const persistenceFoodDiary = this.mapper.toPersistence(foodDiary);
          const exist = await this.checkIfExist(persistenceFoodDiary.id);
          if (!exist) await (trx || this.db).insert(foodDiaries).values(persistenceFoodDiary);
-         else await (trx || this.db).update(foodDiaries).set(persistenceFoodDiary).where(eq(foodDiaries.id, persistenceFoodDiary.id));
+         else
+            await (trx || this.db)
+               .update(foodDiaries)
+               .set(persistenceFoodDiary)
+               .where(eq(foodDiaries.id, persistenceFoodDiary.id as string));
       } catch (e: any) {
          throw new FoodDiaryError("Erreur lors de la sauvegarde du Journal Alimentaire (FoodDiary)", e as Error, {});
       }
@@ -37,7 +41,8 @@ export class FoodDiaryRepositoryImpl implements FoodDiaryRepository {
             throw new FoodDiaryNotFoundException("FoodDiary non trouvée pour l'ID donné", new Error(""), {
                foodDiaryId,
             });
-         return this.mapper.toDomain(foodDiary as FoodDiaryPersistenceType);
+         const { date, ...otherProps } = foodDiary;
+         return this.mapper.toDomain({ ...otherProps, date: DateManager.formatDate(date as Date) } as FoodDiaryPersistenceType);
       } catch (e: any) {
          throw new FoodDiaryError("Erreur lors de la récupération du FoodDiary par ID", e as Error, {
             foodDiaryId,
@@ -48,7 +53,7 @@ export class FoodDiaryRepositoryImpl implements FoodDiaryRepository {
       try {
          await (trx || this.db).delete(foodDiaries).where(eq(foodDiaries.id, foodDiaryId as string));
       } catch (error: any) {
-         throw new PatientRepositoryError("Erreur lors de la suppression du FoodDiary", error as Error, {});
+         throw new FoodDiaryError("Erreur lors de la suppression du FoodDiary", error as Error, {});
       }
    }
    private async checkIfExist(foodDiaryId: AggregateID): Promise<boolean> {

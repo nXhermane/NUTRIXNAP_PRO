@@ -23,9 +23,9 @@ export class GetAllMeasurementTypeUseCase implements UseCase<GetAllMeasurementTy
                   measurementCategory: measure.measureCategory as "Antropometry" | "MedicalAnalysis" | "BodyComposition",
                   measureTypeId: measure.id,
                   unit: measure.unit,
-                  name:measure.name,
-                  nameF:measure.nameF,
-                  code:measure.code
+                  name: measure.name,
+                  nameF: measure.nameF,
+                  code: measure.code,
                })),
             ),
          );

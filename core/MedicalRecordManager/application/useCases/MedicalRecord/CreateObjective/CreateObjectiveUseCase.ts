@@ -1,15 +1,12 @@
 import { CreateObjectiveError } from "./CreateObjectiveError";
 import { CreateObjectiveRequest } from "./CreateObjectiveRequest";
 import { CreateObjectiveResponse } from "./CreateObjectiveResponse";
-import { MedicalRecordFactory, MedicalRecord, Objective } from "./../../../../domain";
+import { MedicalRecord, Objective } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
 import { UseCase, AggregateID } from "@shared";
 
 export class CreateObjectiveUseCase implements UseCase<CreateObjectiveRequest, CreateObjectiveResponse> {
-   constructor(
-      private medicalRecordRepo: MedicalRecordRepository,
-      private medicalRecordFactory: MedicalRecordFactory,
-   ) {}
+   constructor(private medicalRecordRepo: MedicalRecordRepository) {}
 
    async execute(request: CreateObjectiveRequest): Promise<CreateObjectiveResponse> {
       try {
@@ -24,7 +21,7 @@ export class CreateObjectiveUseCase implements UseCase<CreateObjectiveRequest, C
    }
 
    private async createObjective(request: CreateObjectiveRequest): Promise<Objective> {
-      const objective = await this.medicalRecordFactory.createObjective(request.data);
+      const objective = await Objective.create(request.data);
       if (objective.isFailure) throw new CreateObjectiveError("Create Objective failed.", objective.err as unknown as Error);
       return objective.val;
    }

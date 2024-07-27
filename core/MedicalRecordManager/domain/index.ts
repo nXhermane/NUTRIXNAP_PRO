@@ -5,7 +5,6 @@ export * from "./aggregates/MedicalRecord";
 export * from "./entities/ConsultationInformation";
 export * from "./entities/FoodDiary";
 export * from "./entities/FoodStory";
-export * from "./entities/MeasurementType";
 export * from "./entities/MedicalStory";
 export * from "./entities/Objective";
 export * from "./entities/PatientMeasurements";
@@ -23,6 +22,9 @@ export * from "./value-objects/MedicalAnalysisResult";
 export * from "./value-objects/WaterConsumptionRange";
 
 // Factories Export
-export * from "./factories/MedicalRecordFactory";
+export * from "./factories/createMeasurementFactory";
 
 // Services Export
+
+// Types export
+export * from "./types";

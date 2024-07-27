@@ -9,6 +9,7 @@ import {
    PersonalAndSocialStory,
    ConsultationInformation,
 } from "./../../domain";
+import { TimeFrame, Measurement } from "./../database/medicalRecord.schema";
 export interface Timestamps {
    createdAt: string;
    updatedAt: string;
@@ -79,7 +80,7 @@ export interface MedicalStoryPersistenceType extends Timestamps {
 export interface ObjectivePersistenceType extends Timestamps {
    id: AggregateID;
    type: "Measure" | "General";
-   timeframe: string;
+   timeframe: TimeFrame;
    body: ObjectiveBody;
    status: "InProgress" | "Achieved" | "NotAchieved";
 }
@@ -96,9 +97,9 @@ export interface PersonalAndSocialStoryPersistenceType extends Timestamps {
 }
 export interface PatientMeasurementPersistenceType extends Timestamps {
    id: AggregateID;
-   anthropometricMeasurements: string;
-   bodyCompositionMeasurements: string;
-   medicalAnalysisResults: string;
+   anthropometricMeasurements: Measurement[];
+   bodyCompositionMeasurements: Measurement[];
+   medicalAnalysisResults: Measurement[];
 }
 export interface MedicalRecordTableType extends Timestamps {
    id: AggregateID;
@@ -106,20 +107,20 @@ export interface MedicalRecordTableType extends Timestamps {
    eatingBehaviors: string;
 }
 export interface MedicalRecordPersistenceType {
-   id: AggregateID;
-   medicalStoryId: AggregateID;
-   foodStoryId: AggregateID;
+   id: string;
+   medicalStoryId: string;
+   foodStoryId: string;
    foodDiaryIds: AggregateID[];
    objectiveIds: AggregateID[];
-   patientMeasurementId: AggregateID;
-   personalAndSocialStoryId: AggregateID;
-   consultationInformationId: AggregateID;
+   patientMeasurementId: string;
+   personalAndSocialStorieId: string;
+   consultationInformationId: string;
    status: "Active" | "New" | "Inactive";
    eatingBehaviors: EatingBehavior[];
 }
 
-
 export interface MedicalRecordPersistenceRecordType extends Timestamps {
+   id: AggregateID;
    foodStory: FoodStory;
    medicalStory: MedicalStory;
    objectives: Objective[];

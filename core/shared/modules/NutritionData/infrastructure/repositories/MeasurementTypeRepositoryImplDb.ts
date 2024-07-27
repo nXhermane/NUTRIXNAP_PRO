@@ -27,8 +27,7 @@ export class MeasurementTypeRepositoryImplDb implements MeasurementTypeRepositor
          };
          const exist = await this.checkIfExist(measurementTypePersistence.id);
          if (!exist) await this.db.insert(measurementTypes).values(measurementTypePersistence);
-         else
-            await this.db.update(measurementTypes).set(measurementTypePersistence).where(eq(measurementTypes.id, measurementTypePersistence.id));
+         else await this.db.update(measurementTypes).set(measurementTypePersistence).where(eq(measurementTypes.id, measurementTypePersistence.id));
       } catch (error) {
          throw new MeasurementTypeRepositoryError("Erreur lors de la sauvegarde du type de mesure.", error as Error, {});
       }
@@ -52,7 +51,7 @@ export class MeasurementTypeRepositoryImplDb implements MeasurementTypeRepositor
    async getAll(measurementCategory?: "Antropometry" | "MedicalAnalysis" | "BodyComposition"): Promise<MeasurementType[]> {
       try {
          const query = this.db.select().from(measurementTypes);
-         if (measurementCategory) query.where(eq(measurementTypes.measureCategory, measurementCategory ));
+         if (measurementCategory) query.where(eq(measurementTypes.measureCategory, measurementCategory));
          const allMeasurementType = await query.all();
          if (allMeasurementType.length === 0) throw new MeasurementTypeRepositoryNotFoundException("Aucun type dr mesure trouvé", new Error(""), {});
          return allMeasurementType.map((measurementType: any) => this.mapToDomain(measurementType));
@@ -61,14 +60,14 @@ export class MeasurementTypeRepositoryImplDb implements MeasurementTypeRepositor
       }
    }
 
-   async getAllId(measurementCategory?: "Antropometry" | "MedicalAnalysis" | "BodyComposition"): Promise<{ id: AggregateID; code: string; }[]> {
+   async getAllId(measurementCategory?: "Antropometry" | "MedicalAnalysis" | "BodyComposition"): Promise<{ id: AggregateID; code: string }[]> {
       const measurementTypes = await this.getAll(measurementCategory);
       return measurementTypes.map((measurementType: MeasurementType) => ({ id: measurementType.id, code: measurementType.code }));
    }
 
    async delete(measurementTypeId: AggregateID): Promise<void> {
       try {
-         await this.db.delete(measurementTypes).where(eq(measurementTypes.id,measurementTypeId as string))
+         await this.db.delete(measurementTypes).where(eq(measurementTypes.id, measurementTypeId as string));
       } catch (error) {
          throw new MeasurementTypeRepositoryError("Erreur lors de la suppression du type de mesure", error as Error, { measurementTypeId });
       }
@@ -83,7 +82,7 @@ export class MeasurementTypeRepositoryImplDb implements MeasurementTypeRepositor
       return !!measurementType;
    }
 
-   private mapToDomain(measurementTypePersistence:any): MeasurementType {
+   private mapToDomain(measurementTypePersistence: any): MeasurementType {
       const { id, createdAt, updatedAt, measureCode, measureCategory, nameF, name, unit } = measurementTypePersistence;
       return new MeasurementType({
          id,

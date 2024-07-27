@@ -1,2 +1,2 @@
-export * from "./MeasurementTypeService"
-export * from "./interfaces/MeasurementTypeService"
+export * from "./MeasurementTypeService";
+export * from "./interfaces/MeasurementTypeService";

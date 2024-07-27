@@ -25,7 +25,7 @@ export class ConsultationInformationRepositoryImpl implements ConsultationInform
             await (trx || this.db)
                .update(consultationInformations)
                .set(persistenceConsutationInfo)
-               .where(eq(consultationInformations.id, persistenceConsutationInfo.id));
+               .where(eq(consultationInformations.id, persistenceConsutationInfo.id as string));
       } catch (e: any) {
          throw new ConsultationInformationError(
             "Erreur lors de la sauvegarde des Information de Consultation(ConsultationInformation)",
@@ -56,7 +56,7 @@ export class ConsultationInformationRepositoryImpl implements ConsultationInform
       try {
          await (trx || this.db).delete(consultationInformations).where(eq(consultationInformations.id, consultationInfoId as string));
       } catch (error: any) {
-         throw new PatientRepositoryError("Erreur lors de la suppression du ConsultationInformation", error as Error, {});
+         throw new ConsultationInformationError("Erreur lors de la suppression du ConsultationInformation", error as Error, {});
       }
    }
    private async checkIfExist(consultationInfoId: AggregateID): Promise<boolean> {

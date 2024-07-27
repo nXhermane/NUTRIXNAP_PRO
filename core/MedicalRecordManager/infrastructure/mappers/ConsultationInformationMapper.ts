@@ -2,11 +2,9 @@ import { ConsultationInformation } from "./../../domain";
 import { Mapper } from "@shared";
 import { ConsultationInformationPersistenceType } from "./../repositories/types";
 import { ConsultationInformationDto } from "./../dtos/ConsultationInformationDto";
-export class ConsultationInformationMapper extends Mapper<
-   ConsultationInformation,
-   ConsultationInformationPersistenceType,
-   ConsultationInformationDto
-> {
+export class ConsultationInformationMapper
+   implements Mapper<ConsultationInformation, ConsultationInformationPersistenceType, ConsultationInformationDto>
+{
    toPersistence(entity: ConsultationInformation): ConsultationInformationPersistenceType {
       return entity.getProps();
    }

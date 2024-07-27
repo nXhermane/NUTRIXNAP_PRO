@@ -9,8 +9,10 @@ import {
    Ethnicity,
    GastrointestinalState,
    PittsburghSleepQuality,
+   Result,
+   ExceptionBase,
 } from "@shared";
-
+import { CreatePersonalAndSocialStoryProps } from "./../types";
 export interface IPersonalAndSocialStory {
    gastrointestinalState: GastrointestinalState;
    sleepQuality: PittsburghSleepQuality;
@@ -93,5 +95,26 @@ export class PersonalAndSocialStory extends Entity<IPersonalAndSocialStory> {
          throw new ArgumentOutOfRangeException("Invalid ethnicity.");
       }
       this._isValid = true;
+   }
+   static create(personalAndSocialStory?: CreatePersonalAndSocialStoryProps): Result<PersonalAndSocialStory> {
+      try {
+         const newPersAndSocStory = new PersonalAndSocialStory({
+            props: {
+               gastrointestinalState: (personalAndSocialStory?.gastrointestinalState as GastrointestinalState) || GastrointestinalState.Regular,
+               sleepQuality: (personalAndSocialStory?.sleepQuality as PittsburghSleepQuality) || PittsburghSleepQuality.Good,
+               isSmoker: personalAndSocialStory?.isSmoker || false,
+               isAlcoholConsumer: personalAndSocialStory?.isAlcoholConsumer || false,
+               maritalStatus: (personalAndSocialStory?.maritalStatus as MaritalStatus) || MaritalStatus.Single,
+               physicalActivity: (personalAndSocialStory?.physicalActivity as PhysicalActivityLevel) || PhysicalActivityLevel.Sedentary,
+               ethnicity: (personalAndSocialStory?.ethnicity as Ethnicity) || Ethnicity.Caucasian,
+               otherInformation: personalAndSocialStory?.otherInformation || "",
+            },
+         });
+         return Result.ok<PersonalAndSocialStory>(newPersAndSocStory);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<PersonalAndSocialStory>(`[${e.code}]:${e.message}`)
+            : Result.fail<PersonalAndSocialStory>(`Erreur inattendue. ${PersonalAndSocialStory.constructor.name}`);
+      }
    }
 }

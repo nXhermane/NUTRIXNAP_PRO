@@ -1,15 +1,12 @@
 import { CreateEatingBehaviorError } from "./CreateEatingBehaviorError";
 import { CreateEatingBehaviorRequest } from "./CreateEatingBehaviorRequest";
 import { CreateEatingBehaviorResponse } from "./CreateEatingBehaviorResponse";
-import { MedicalRecordFactory, MedicalRecord, EatingBehavior } from "./../../../../domain";
+import { MedicalRecord, EatingBehavior } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
 import { UseCase, AggregateID } from "@shared";
 
 export class CreateObjectiveUseCase implements UseCase<CreateEatingBehaviorRequest, CreateEatingBehaviorResponse> {
-   constructor(
-      private medicalRecordRepo: MedicalRecordRepository,
-      private medicalRecordFactory: MedicalRecordFactory,
-   ) {}
+   constructor(private medicalRecordRepo: MedicalRecordRepository) {}
 
    async execute(request: CreateEatingBehaviorRequest): Promise<CreateEatingBehaviorResponse> {
       try {
@@ -29,7 +26,7 @@ export class CreateObjectiveUseCase implements UseCase<CreateEatingBehaviorReque
    }
 
    private createEatingBehavior(request: CreateEatingBehaviorRequest): EatingBehavior {
-      const eatingBehavior = this.medicalRecordFactory.createEatingBehavior(request.data);
+      const eatingBehavior = EatingBehavior.create(request.data);
       if (eatingBehavior.isFailure) throw new CreateEatingBehaviorError("Create Eating Behavior failed.", eatingBehavior.err as unknown as Error);
       return eatingBehavior.val;
    }

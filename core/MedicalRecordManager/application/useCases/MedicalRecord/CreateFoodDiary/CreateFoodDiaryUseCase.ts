@@ -1,14 +1,14 @@
 import { CreateFoodDiaryError } from "./CreateFoodDiaryError";
 import { CreateFoodDiaryRequest } from "./CreateFoodDiaryRequest";
 import { CreateFoodDiaryResponse } from "./CreateFoodDiaryResponse";
-import { MedicalRecordFactory, MedicalRecord, FoodDiary } from "./../../../../domain";
+import { MedicalRecord, FoodDiary } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
 import { Image, FileManager, UseCase, AggregateID } from "@shared";
 
 export class CreatePatientUseCase implements UseCase<CreateFoodDiaryRequest, CreateFoodDiaryResponse> {
    constructor(
       private medicalRecordRepo: MedicalRecordRepository,
-      private medicalRecordFactory: MedicalRecordFactory,
+
       private fileManager: FileManager,
    ) {}
 
@@ -27,7 +27,7 @@ export class CreatePatientUseCase implements UseCase<CreateFoodDiaryRequest, Cre
    }
 
    private async createFoodDiary(request: CreateFoodDiaryRequest): Promise<FoodDiary> {
-      const foodDiary = await this.medicalRecordFactory.createFoodDiary(request.data);
+      const foodDiary = await FoodDiary.create(request.data);
       if (foodDiary.isFailure) throw new CreateFoodDiaryError("Create Food Diary failed.");
       return foodDiary.val;
    }

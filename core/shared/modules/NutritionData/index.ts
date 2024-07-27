@@ -9,8 +9,10 @@ import {
 } from "./application";
 import { MeasurementTypeRepositoryImplDb, db } from "./infrastructure";
 import { SQLiteDatabase } from "expo-sqlite";
+import { IFoodRecipeServiceDataProvider, FoodAndRecipe } from "@foodAndRecipe";
 export interface INutritionData {
    measurement: IMeasurementTypeService;
+   foodAndRecipeProvider: IFoodRecipeServiceDataProvider;
 }
 
 export class NutritionData {
@@ -31,8 +33,12 @@ export class NutritionData {
 
          NutritionData.instance = {
             measurement: measurementService,
+            foodAndRecipeProvider: (await FoodAndRecipe.getInstance()).api.foodAndRecipeDataProvider,
          };
       }
       return NutritionData.instance as INutritionData;
    }
 }
+export * from "./domain";
+export * from "./infrastructure";
+export * from "./application";

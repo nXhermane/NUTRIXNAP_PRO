@@ -10,4 +10,3 @@ export * from "./MedicalStoryDto";
 export * from "./ObjectiveDto";
 export * from "./PatientMeasurementDto";
 export * from "./PersonalAndSocialStoryDto";
-export * from "./MeasurementDto";

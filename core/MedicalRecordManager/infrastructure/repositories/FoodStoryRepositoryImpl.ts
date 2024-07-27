@@ -1,6 +1,6 @@
 import { foodStories } from "./../database/medicalRecord.schema";
 import { FoodStoryRepository } from "./interfaces";
-import { AggregateID, Result, Mapper, Paginated } from "@shared";
+import { AggregateID, Result, Mapper, Paginated, DateManager } from "@shared";
 import { FoodStory } from "./../../domain";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { eq } from "drizzle-orm";
@@ -21,7 +21,11 @@ export class FoodStoryRepositoryImpl implements FoodStoryRepository {
          const persistenceFoodStory = this.mapper.toPersistence(foodStory);
          const exist = await this.checkIfExist(persistenceFoodStory.id);
          if (!exist) await (trx || this.db).insert(foodStories).values(persistenceFoodStory);
-         else await (trx || this.db).update(foodStories).set(persistenceFoodStory).where(eq(foodStories.id, persistenceFoodStory.id));
+         else
+            await (trx || this.db)
+               .update(foodStories)
+               .set(persistenceFoodStory)
+               .where(eq(foodStories.id, persistenceFoodStory.id as string));
       } catch (e: any) {
          throw new FoodStoryRepositoryError("Erreur lors de la sauvegarde de l'histoire alimentaire(FoodStory)", e as Error, {});
       }
@@ -37,6 +41,7 @@ export class FoodStoryRepositoryImpl implements FoodStoryRepository {
             throw new FoodStoryRepositoryNotFoundException("FoodStory non trouvée pour l'ID donné", new Error(""), {
                foodStoryId,
             });
+
          return this.mapper.toDomain(foodStory as FoodStoryPersistenceType);
       } catch (e: any) {
          throw new FoodStoryRepositoryError("Erreur lors de la récupération du FoodStory par ID", e as Error, {

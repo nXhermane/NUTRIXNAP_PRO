@@ -7,10 +7,14 @@ import {
    Time,
    AggregateID,
    InvalidReference,
+   ExceptionBase,
+   Result,
+   NutritionData,
 } from "@shared";
 import { FavoriteFood, IFavoriteFood } from "./../value-objects/FavoriteFood";
 import { Aversion, IAversion } from "./../value-objects/Aversion";
 import { WaterConsumptionRange, IWaterConsumptionRange } from "./../value-objects/WaterConsumptionRange";
+import { CreateFoodStoryProps } from "./../types";
 export interface IFoodStory {
    bedtime: Time;
    wakeUpTime: Time;
@@ -170,5 +174,46 @@ export class FoodStory extends Entity<IFoodStory> {
             throw new ArgumentInvalidException(`Un aliment ne doit être a la fois une aversion et un aliment préferé.`);
       }
       this._isValid = true;
+   }
+   static async create(foodStory?: CreateFoodStoryProps): Promise<Result<FoodStory>> {
+      try {
+         const recipeAndFoodProvider = (await NutritionData.getInstance()).foodAndRecipeProvider;
+         const foodIds: AggregateID[] = await recipeAndFoodProvider.getAllFoodIds();
+         const newfoodStory = new FoodStory({
+            props: {
+               bedtime: new Time(foodStory?.bedtime || "22:30"),
+               wakeUpTime: new Time(foodStory?.wakeUpTime || "06:00"),
+               dietTypes: new Set<AggregateID>(foodStory?.dietTypes || []),
+               favoriteFoods:
+                  foodStory?.favoriteFoods?.map((favFood: any) => {
+                     const newFavFood = new FavoriteFood(favFood);
+                     newFavFood.validateFoodId(foodIds);
+                     return newFavFood;
+                  }) || [],
+               foodAversions:
+                  foodStory?.foodAversions?.map((aveFood: IAversion) => {
+                     const newAver = new Aversion(aveFood);
+                     newAver.validateFoodId(foodIds);
+                     return newAver;
+                  }) || [],
+               allergies: new Set<AggregateID>(foodStory?.allergies || []),
+               foodIntolerances: new Set<AggregateID>(foodStory?.foodIntolerances || []),
+               nutritionalDeficiencies: new Set<AggregateID>(foodStory?.nutritionalDeficiencies || []),
+               waterConsumption: new WaterConsumptionRange(
+                  foodStory?.waterConsumption || {
+                     lowerBound: 1.5,
+                     upperBound: 2,
+                  },
+               ),
+               numberOfMealsPerDay: foodStory?.numberOfMealsPerDay || 3,
+               otherInformation: foodStory?.otherInformation || "",
+            },
+         });
+         return Result.ok<FoodStory>(newfoodStory);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<FoodStory>(`[${e.code}]:${e.message}`)
+            : Result.fail<FoodStory>(`Erreur inattendue. ${FoodStory.constructor.name}`);
+      }
    }
 }

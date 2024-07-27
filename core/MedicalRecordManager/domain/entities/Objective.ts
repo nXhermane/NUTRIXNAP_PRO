@@ -12,8 +12,14 @@ import {
    ObjectiveType,
    ObjectiveStatus,
    AggregateID,
+   NutritionData,
+   CDate,
+   DateManager,
+   ExceptionBase,
+   Result,
+   AppServiceResponse,
 } from "@shared";
-
+import { CreateObjectiveProps } from "./../types";
 export interface IObjective {
    type: ObjectiveType;
    timeframe: Timeframe;
@@ -102,6 +108,35 @@ export class Objective extends Entity<IObjective> {
          if (!isValidGeneralObjectie) throw new EmptyStringError("Pour un objective de type Generale , la description doit etre fournir.");
       } else {
          throw new ArgumentInvalidException("Le type d'objective est invalide ou non prise en charge.");
+      }
+   }
+   static async create(objective: CreateObjectiveProps): Promise<Result<Objective>> {
+      try {
+         const timeframe = new Timeframe({
+            start: new CDate(DateManager.formatDate(objective.timeframe.start)),
+            end: new CDate(DateManager.formatDate(objective.timeframe.end)),
+         });
+         const type = objective.type as ObjectiveType;
+         const status = ObjectiveStatus.InProgress;
+         const newObjective = new Objective({
+            props: { timeframe, type, status, ...objective.body },
+         });
+         if (newObjective.isMeasure()) {
+            const measureIds = (
+               (await (await NutritionData.getInstance()).measurement.getAllMeasureTypeId({})) as AppServiceResponse<
+                  {
+                     id: AggregateID;
+                     code: string;
+                  }[]
+               >
+            ).data.map((data: { id: AggregateID; code: string }) => data.id);
+            newObjective.validateMeasureId(measureIds);
+         }
+         return Result.ok<Objective>(newObjective);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<Objective>(`[${e.code}]:${e.message}`)
+            : Result.fail<Objective>(`Erreur inattendue. ${Objective.constructor.name}`);
       }
    }
 }

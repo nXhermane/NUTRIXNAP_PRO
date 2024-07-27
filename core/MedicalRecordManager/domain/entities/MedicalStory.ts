@@ -1,5 +1,5 @@
-import { Entity, CreateEntityProps } from "@shared";
-
+import { Entity, CreateEntityProps, ExceptionBase, Result } from "@shared";
+import { CreateMedicalStoryProps } from "./../types";
 export interface IMedicalStory {
    pathologies: string;
    drugie: string;
@@ -44,5 +44,23 @@ export class MedicalStory extends Entity<IMedicalStory> {
    }
    validate(): void {
       this._isValid = true;
+   }
+   static create(medicalStory?: CreateMedicalStoryProps): Result<MedicalStory> {
+      try {
+         const newMedicalStory = new MedicalStory({
+            props: {
+               pathologies: medicalStory?.pathologies || "",
+               drugie: medicalStory?.drugie || "",
+               personalBackground: medicalStory?.personalBackground || "",
+               familyBackground: medicalStory?.familyBackground || "",
+               otherInformation: medicalStory?.otherInformation || "",
+            },
+         });
+         return Result.ok<MedicalStory>(newMedicalStory);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<MedicalStory>(`[${e.code}]:${e.message}`)
+            : Result.fail<MedicalStory>(`Erreur inattendue. ${MedicalStory.constructor.name}`);
+      }
    }
 }

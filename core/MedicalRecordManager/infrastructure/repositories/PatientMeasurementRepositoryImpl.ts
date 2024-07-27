@@ -5,14 +5,14 @@ import { PatientMeasurements } from "./../../domain";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { eq } from "drizzle-orm";
 import { SQLiteDatabase } from "expo-sqlite";
-import { PatientMeasurementsPersistenceType } from "./types";
-import { PatientMeasurementsDto } from "./../dtos";
+import { PatientMeasurementPersistenceType } from "./types";
+import { PatientMeasurementDto } from "./../dtos";
 import { PatientMeasurementRepositoryError, PatientMeasurementRepositoryNotFoundException } from "./errors/PatientMeasurementRepositoryError";
 export class PatientMeasurementRepositoryImpl implements PatientMeasurementRepository {
    private db;
    constructor(
       expo: SQLiteDatabase,
-      private mapper: Mapper<PatientMeasurements, PatientMeasurementsPersistenceType, PatientMeasurementsDto>,
+      private mapper: Mapper<PatientMeasurements, PatientMeasurementPersistenceType, PatientMeasurementDto>,
    ) {
       this.db = drizzle(expo);
    }
@@ -25,7 +25,7 @@ export class PatientMeasurementRepositoryImpl implements PatientMeasurementRepos
             await (trx || this.db)
                .update(patientMeasurements)
                .set(persistencePatientMeasurements)
-               .where(eq(patientMeasurements.id, persistencePatientMeasurements.id));
+               .where(eq(patientMeasurements.id, persistencePatientMeasurements.id as string));
       } catch (e: any) {
          throw new PatientMeasurementRepositoryError("Erreur lors de la sauvegarde des mesures du patient (PatientMeasurements)", e as Error, {});
       }
@@ -41,7 +41,7 @@ export class PatientMeasurementRepositoryImpl implements PatientMeasurementRepos
             throw new PatientMeasurementRepositoryNotFoundException("PatientMeasurements non trouvée pour l'ID donné", new Error(""), {
                patientMeasureId,
             });
-         return this.mapper.toDomain(patientMeasure as PatientMeasurementsPersistenceType);
+         return this.mapper.toDomain(patientMeasure as PatientMeasurementPersistenceType);
       } catch (e: any) {
          throw new PatientMeasurementRepositoryError("Erreur lors de la récupération du PatientMeasurements par ID", e as Error, {
             patientMeasureId,

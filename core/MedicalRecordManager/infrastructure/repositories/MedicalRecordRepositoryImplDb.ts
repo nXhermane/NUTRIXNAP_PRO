@@ -57,7 +57,10 @@ export class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
             if (!exist) {
                await tx.insert(medicalRecords).values(persistenceMedicalRecord);
             } else {
-               await tx.update(medicalRecords).set(persistenceMedicalRecord).where(eq(medicalRecords.id, persistenceMedicalRecord.id));
+               await tx
+                  .update(medicalRecords)
+                  .set(persistenceMedicalRecord)
+                  .where(eq(medicalRecords.id, persistenceMedicalRecord.id as string));
             }
          });
       } catch (e: any) {
@@ -92,11 +95,20 @@ export class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
             .get();
 
          await this.db.transaction(async (tx) => {
-            const { medicalStoryId, foodStoryId, consultationInformationId, patientMeasurementId, objectiveIds, foodDiaryIds } = medicalRecordRaw;
+            const {
+               medicalStoryId,
+               foodStoryId,
+               consultationInformationId,
+               patientMeasurementId,
+               objectiveIds,
+               foodDiaryIds,
+               personalAndSocialStorieId,
+            } = medicalRecordRaw as MedicalRecordPersistenceType;
             await this.repositories.medicalStoryRepo.delete(medicalStoryId, tx);
             await this.repositories.foodStoryRepo.delete(foodStoryId, tx);
             await this.repositories.consultationInfoRepo.delete(consultationInformationId, tx);
             await this.repositories.patientMeasurementRepo.delete(patientMeasurementId, tx);
+            await this.repositories.personalAndSocialStoryRepo.delete(personalAndSocialStorieId, tx);
             await Promise.all(objectiveIds.map((objId) => this.repositories.objectiveRepo.delete(objId, tx)));
             await Promise.all(foodDiaryIds.map((foodDiaryId) => this.repositories.foodDiaryRepo.delete(foodDiaryId, tx)));
             await tx.delete(medicalRecords).where(eq(medicalRecords.id, medicalRecordId as string));

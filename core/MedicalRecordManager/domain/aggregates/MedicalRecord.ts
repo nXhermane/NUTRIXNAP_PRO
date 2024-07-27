@@ -1,4 +1,15 @@
-import { AggregateRoot, CreateEntityProps, BaseEntityProps, AggregateID, InvalidReference, Guard, ArgumentInvalidException } from "@shared";
+import {
+   AggregateRoot,
+   CreateEntityProps,
+   BaseEntityProps,
+   AggregateID,
+   InvalidReference,
+   Guard,
+   ArgumentInvalidException,
+   ExceptionBase,
+   Result,
+   ObjectCreationError,
+} from "@shared";
 import { FoodDiary, IFoodDiary } from "./../entities/FoodDiary";
 import { ConsultationInformation, IConsultationInformation } from "./../entities/ConsultationInformation";
 import { FoodStory, IFoodStory } from "./../entities/FoodStory";
@@ -10,6 +21,7 @@ import { EatingBehavior, IEatingBehavior } from "./../value-objects/EatingBehavi
 import { IAnthropometricMeasurement, AnthropometricMeasurement } from "./../value-objects/AnthropometricMeasurement";
 import { IBodyCompositionMeasurement, BodyCompositionMeasurement } from "./../value-objects/BodyCompositionMeasurement";
 import { IMedicalAnalysisResult, MedicalAnalysisResult } from "./../value-objects/MedicalAnalysisResult";
+import { CreateMedicalRecordProps } from "./../types";
 export interface IMedicalRecord {
    foodDiaries: FoodDiary[];
    consultationInformation: ConsultationInformation;
@@ -146,5 +158,46 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
    }
    validate(): void {
       this._isValid = true;
+   }
+   static async create(createMedicalRecordProps?: CreateMedicalRecordProps): Promise<Result<MedicalRecord>> {
+      try {
+         const medicalStoryResult = MedicalStory.create(createMedicalRecordProps?.medicalStory);
+         if (medicalStoryResult.isFailure) throw new ObjectCreationError(String(medicalStoryResult.err));
+         const medicalStory = medicalStoryResult.val;
+         const foodStoryResult = await FoodStory.create(createMedicalRecordProps?.foodStory);
+         if (foodStoryResult.isFailure) throw new ObjectCreationError(String(foodStoryResult.err));
+         const foodStory = foodStoryResult.val;
+         const consultationInfoResult = ConsultationInformation.create(createMedicalRecordProps?.consultationInformation);
+         if (consultationInfoResult.isFailure) throw new ObjectCreationError(String(consultationInfoResult.err));
+         const consultationInformation = consultationInfoResult.val;
+         const measure = new PatientMeasurements({
+            props: {
+               anthropometricMeasurements: [],
+               bodyCompositionMeasurements: [],
+               medicalAnalysisResults: [],
+            },
+         });
+         const personalAndSocialStoryResult = PersonalAndSocialStory.create(createMedicalRecordProps?.personalAndSocialStory);
+         if (personalAndSocialStoryResult.isFailure) throw new ObjectCreationError(String(personalAndSocialStoryResult.err));
+         const personalAndSocialStory = personalAndSocialStoryResult.val;
+         const medicalRecordProps = {
+            foodDiaries: [] as FoodDiary[],
+            objectives: [] as Objective[],
+            eatingBehaviors: [] as EatingBehavior[],
+            medicalStory,
+            consultationInformation,
+            measure,
+            personalAndSocialStory,
+            foodStory,
+         };
+         const medicalRecord = new MedicalRecord({
+            props: medicalRecordProps,
+         });
+         return Result.ok<MedicalRecord>(medicalRecord);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<MedicalRecord>(`[${e.code}]:${e.message}`)
+            : Result.fail<MedicalRecord>(`Erreur inattendue. ${MedicalRecord.constructor.name}`);
+      }
    }
 }

@@ -139,9 +139,9 @@ export const objectives = sqliteTable("objectives", {
 
 export const patientMeasurements = sqliteTable("patient_measurements", {
    id: text("id").primaryKey(),
-   anthropometricMeasurements: text("anthropometricMeasurements", { mode: "json" }).$type<Measurement>(),
-   bodyCompositionMeasurements: text("bodyCompositionMeasurements", { mode: "json" }).$type<Measurement>(),
-   medicalAnalysisResults: text("medicalAnalysisResults", { mode: "json" }).$type<Measurement>(),
+   anthropometricMeasurements: text("anthropometricMeasurements", { mode: "json" }).$type<Measurement[]>(),
+   bodyCompositionMeasurements: text("bodyCompositionMeasurements", { mode: "json" }).$type<Measurement[]>(),
+   medicalAnalysisResults: text("medicalAnalysisResults", { mode: "json" }).$type<Measurement[]>(),
    createdAt: text("createdAt")
       .notNull()
       .default(sql`CURRENT_TIMESTAMP`),

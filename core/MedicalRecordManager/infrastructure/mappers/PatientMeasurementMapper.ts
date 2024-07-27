@@ -9,13 +9,13 @@ import {
    MedicalAnalysisResult,
 } from "./../../domain";
 import { Mapper, RegistrationDate } from "@shared";
-import { PatientMeasurementsPersistenceType } from "./../repositories/types";
-import { PatientMeasurementsDto } from "./../dtos/PatientMeasurementsDto";
+import { PatientMeasurementPersistenceType } from "./../repositories/types";
+import { PatientMeasurementDto } from "./../dtos/PatientMeasurementDto";
 import { AnthropometricMeasurementDto } from "./../dtos/AnthropometricMeasurementDto";
 import { BodyCompositionMeasurementDto } from "./../dtos/BodyCompositionMeasurementDto";
 import { MedicalAnalysisResultDto } from "./../dtos/MedicalAnalysisResultDto";
-export class PatientMeasurementMapper extends Mapper<PatientMeasurements, PatientMeasurementsPersistenceType, PatientMeasurementsDto> {
-   toPersistence(entity: PatientMeasurements): PatientMeasurementsPersistenceType {
+export class PatientMeasurementMapper implements Mapper<PatientMeasurements, PatientMeasurementPersistenceType, PatientMeasurementDto> {
+   toPersistence(entity: PatientMeasurements): PatientMeasurementPersistenceType {
       return {
          id: entity.id,
          anthropometricMeasurements: entity.anthropometricMeasurements.map((anth: IAnthropometricMeasurement) => ({
@@ -43,7 +43,7 @@ export class PatientMeasurementMapper extends Mapper<PatientMeasurements, Patien
          updatedAt: entity.updatedAt,
       };
    }
-   toDomain(record: PatientMeasurementsPersistenceType): PatientMeasurements {
+   toDomain(record: PatientMeasurementPersistenceType): PatientMeasurements {
       const anthropometricMeasurementsData = record.anthropometricMeasurements as (Omit<IAnthropometricMeasurement, "date"> & { date: string })[];
       const anthropometricMeasurements = anthropometricMeasurementsData.map(
          (anth: Omit<IAnthropometricMeasurement, "date"> & { date: string }) =>
@@ -88,7 +88,7 @@ export class PatientMeasurementMapper extends Mapper<PatientMeasurements, Patien
          },
       });
    }
-   toResponse(entity: PatientMeasurements): PatientMeasurementsDto {
+   toResponse(entity: PatientMeasurements): PatientMeasurementDto {
       return {
          anthropometricMeasurements: entity.anthropometricMeasurements.map((anthM: IAnthropometricMeasurement) => ({
             date: anthM.date.toString(),

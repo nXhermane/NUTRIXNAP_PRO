@@ -21,7 +21,11 @@ export class ObjectiveRepositoryImpl implements ObjectiveRepository {
          const persistenceObjective = this.mapper.toPersistence(objective);
          const exist = await this.checkIfExist(persistenceObjective.id);
          if (!exist) await (trx || this.db).insert(objectives).values(persistenceObjective);
-         else await (trx || this.db).update(objectives).set(persistenceObjective).where(eq(objectives.id, persistenceObjective.id));
+         else
+            await (trx || this.db)
+               .update(objectives)
+               .set(persistenceObjective)
+               .where(eq(objectives.id, persistenceObjective.id as string));
       } catch (e: any) {
          throw new ObjectiveRepositoryError("Erreur lors de la sauvegarde de l'Objective (Objective)", e as Error, {});
       }

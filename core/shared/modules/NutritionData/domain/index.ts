@@ -1,1 +1,1 @@
-export * from "./entities/MeasurementType"
+export * from "./entities/MeasurementType";

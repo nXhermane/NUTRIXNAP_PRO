@@ -1,8 +1,8 @@
 import { FoodStory, FavoriteFood, WaterConsumptionRange, IWaterConsumptionRange, IFavoriteFood, IAversion, Aversion } from "./../../domain";
-import { Mapper, Time } from "@shared";
+import { Mapper, Time, AggregateID } from "@shared";
 import { FoodStoryPersistenceType } from "./../repositories/types";
 import { FoodStoryDto } from "./../dtos/FoodStoryDto";
-export class FoodStoryMapper extends Mapper<FoodStory, FoodStoryPersistenceType, FoodStoryDto> {
+export class FoodStoryMapper implements Mapper<FoodStory, FoodStoryPersistenceType, FoodStoryDto> {
    toPersistence(entity: FoodStory): FoodStoryPersistenceType {
       return {
          id: entity.id,

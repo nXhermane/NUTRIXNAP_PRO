@@ -86,4 +86,3 @@ export class PatientMeasurements extends Entity<IPatientMeasurements> {
       this._isValid = true;
    }
 }
-("");

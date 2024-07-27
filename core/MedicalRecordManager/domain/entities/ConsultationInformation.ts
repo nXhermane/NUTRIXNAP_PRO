@@ -1,5 +1,5 @@
-import { Entity, CreateEntityProps, Guard, ArgumentInvalidException, ArgumentOutOfRangeException, AggregateID } from "@shared";
-
+import { Entity, CreateEntityProps, Guard, ArgumentInvalidException, ArgumentOutOfRangeException, AggregateID, ExceptionBase, Result } from "@shared";
+import { CreateConsultationInformationProps } from "./../types";
 export interface IConsultationInformation {
    consultationMotive: string;
    expectations: string;
@@ -36,5 +36,22 @@ export class ConsultationInformation extends Entity<IConsultationInformation> {
    }
    validate(): void {
       this._isValid = true;
+   }
+   static create(consultationInformation?: CreateConsultationInformationProps): Result<ConsultationInformation> {
+      try {
+         const newConsultInfo = new ConsultationInformation({
+            props: {
+               consultationMotive: consultationInformation?.consultationMotive || "",
+               expectations: consultationInformation?.expectations || "",
+               clinicalObjective: consultationInformation?.clinicalObjective || "",
+               otherInformation: consultationInformation?.otherInformation || "",
+            },
+         });
+         return Result.ok<ConsultationInformation>(newConsultInfo);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<ConsultationInformation>(`[${e.code}]:${e.message}`)
+            : Result.fail<ConsultationInformation>(`Erreur inattendue. ${ConsultationInformation.constructor.name}`);
+      }
    }
 }

@@ -2,7 +2,7 @@ import { AddMeasurementError } from "./AddMeasurementError";
 import { AddMeasurementRequest } from "./AddMeasurementRequest";
 import { AddMeasurementResponse } from "./AddMeasurementResponse";
 import {
-   MedicalRecordFactory,
+   createMeasurementFactory,
    MedicalRecord,
    AnthropometricMeasurement,
    BodyCompositionMeasurement,
@@ -12,10 +12,7 @@ import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../.
 import { UseCase, AggregateID } from "@shared";
 
 export class AddMeasurementUseCase implements UseCase<AddMeasurementRequest, AddMeasurementResponse> {
-   constructor(
-      private medicalRecordRepo: MedicalRecordRepository,
-      private medicalRecordFactory: MedicalRecordFactory,
-   ) {}
+   constructor(private medicalRecordRepo: MedicalRecordRepository) {}
 
    async execute(request: AddMeasurementRequest): Promise<AddMeasurementResponse> {
       try {
@@ -31,7 +28,7 @@ export class AddMeasurementUseCase implements UseCase<AddMeasurementRequest, Add
    private async createMeasurement(
       request: AddMeasurementRequest,
    ): Promise<AnthropometricMeasurement | BodyCompositionMeasurement | MedicalAnalysisResult> {
-      const measurement = await this.medicalRecordFactory.createMeasurement(request.data);
+      const measurement = await createMeasurementFactory(request.data);
       if (measurement.isFailure) throw new AddMeasurementError("Create Measurement  failed.", measurement.err as unknown as Error);
       return measurement.val;
    }

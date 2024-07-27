@@ -1,8 +1,8 @@
 import { Objective, IObjective } from "./../../domain";
-import { Mapper, ObjectiveType, Timeframe, ITimeframe, ObjectiveStatus } from "@shared";
+import { Mapper, ObjectiveType, Timeframe, ITimeframe, ObjectiveStatus, CDate } from "@shared";
 import { ObjectivePersistenceType } from "./../repositories/types";
 import { ObjectiveDto } from "./../dtos/ObjectiveDto";
-export class ObjectiveMapper extends Mapper<Objective, ObjectivePersistenceType, ObjectiveDto> {
+export class ObjectiveMapper implements Mapper<Objective, ObjectivePersistenceType, ObjectiveDto> {
    toPersistence(entity: Objective): ObjectivePersistenceType {
       return {
          id: entity.id,
@@ -26,7 +26,7 @@ export class ObjectiveMapper extends Mapper<Objective, ObjectivePersistenceType,
    }
    toDomain(record: ObjectivePersistenceType): Objective {
       const type = record.type as ObjectiveType;
-      const timeframe = new Timeframe(record.timeframe as ITimeframe);
+      const timeframe = new Timeframe({ start: new CDate(record.timeframe.start), end: new CDate(record.timeframe.end) });
       const body = record.body;
       const status = record.status as ObjectiveStatus;
       const { id, createdAt, updatedAt } = record;

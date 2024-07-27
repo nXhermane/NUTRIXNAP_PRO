@@ -71,7 +71,7 @@ export class FoodAndRecipe {
             api: { foodAndRecipeDataProvider },
          };
       }
-      return this.instance;
+      return this.instance as IFoodAndRecipe;
    }
 }
 

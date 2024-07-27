@@ -1,7 +1,21 @@
-import { Entity, CreateEntityProps, BaseEntityProps, RegistrationDate, Image, Guard, ArgumentInvalidException } from "@shared";
+import {
+   Entity,
+   CreateEntityProps,
+   BaseEntityProps,
+   RegistrationDate,
+   Image,
+   Guard,
+   ArgumentInvalidException,
+   Result,
+   NutritionData,
+   Quantity,
+   DateManager,
+   ExceptionBase,
+} from "@shared";
 
 import { FoodDiaryMealEntry, IFoodDiaryMealEntry } from "./../value-objects/FoodDiaryMealEntry";
-
+import { FoodDiaryFoodItem } from "./../value-objects/FoodDiaryFoodItem";
+import { CreateFoodDiaryProps, FoodItemProps } from "./../types";
 export interface IFoodDiary {
    date: RegistrationDate;
    meal: FoodDiaryMealEntry;
@@ -45,5 +59,46 @@ export class FoodDiary extends Entity<IFoodDiary> {
    validate(): void {
       if (Guard.isEmpty(this.props.meal).succeeded) throw new ArgumentInvalidException("Lr repas consommée ne doit pas etre vide.");
       this._isValid = true;
+   }
+   static async create(foodDiary: CreateFoodDiaryProps): Promise<Result<FoodDiary>> {
+      try {
+         const recipeAndFoodProvider = (await NutritionData.getInstance()).foodAndRecipeProvider;
+         const mealTypeIds = await recipeAndFoodProvider.getAllMealTypeIds();
+         const foodIds = await recipeAndFoodProvider.getAllFoodIds();
+         const recipeIds = await recipeAndFoodProvider.getAllRecipeIds();
+         const { date, meal, images, ...otherFoodDiaryProps } = foodDiary;
+         const { foodItems, ...othetMealProps } = meal;
+         const newFoodItems = foodItems.map((item: FoodItemProps) => {
+            const { quantity, ...otherProps } = item;
+            const newQuantity = new Quantity(item.quantity);
+            const newFoodItem = new FoodDiaryFoodItem({
+               ...otherProps,
+               quantity: newQuantity,
+            });
+            newFoodItem.validateFoodId(foodIds);
+            newFoodItem.validateRecipeId(recipeIds);
+            return newFoodItem;
+         });
+
+         const newMeal = new FoodDiaryMealEntry({
+            foodItems: newFoodItems,
+            ...othetMealProps,
+         });
+         newMeal.validateMealType(mealTypeIds);
+         const newImages = images.map((uri: string) => new Image(uri));
+         const newFoodDiary = new FoodDiary({
+            props: {
+               date: new RegistrationDate(DateManager.formatDate(date)),
+               meal: newMeal,
+               images: newImages,
+               ...otherFoodDiaryProps,
+            },
+         });
+         return Result.ok<FoodDiary>(newFoodDiary);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<FoodDiary>(`[${e.code}]:${e.message}`)
+            : Result.fail<FoodDiary>(`Erreur inattendue. ${FoodDiary.constructor.name}`);
+      }
    }
 }

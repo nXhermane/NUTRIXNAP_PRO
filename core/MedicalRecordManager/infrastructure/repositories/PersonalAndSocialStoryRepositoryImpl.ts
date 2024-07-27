@@ -23,12 +23,12 @@ export class PersonalAndSocialStoryRepositoryImpl implements PersonalAndSocialSt
       try {
          const persistencePersonalAndSocialStory = this.mapper.toPersistence(personalAndSocialStory);
          const exist = await this.checkIfExist(persistencePersonalAndSocialStory.id);
-         if (!exist) await (t4x || this.db).insert(personalAndSocialStories).values(persistencePersonalAndSocialStory);
+         if (!exist) await (trx || this.db).insert(personalAndSocialStories).values(persistencePersonalAndSocialStory);
          else
             await (trx || this.db)
                .update(personalAndSocialStories)
                .set(persistencePersonalAndSocialStory)
-               .where(eq(personalAndSocialStories.id, persistencePersonalAndSocialStory.id));
+               .where(eq(personalAndSocialStories.id, persistencePersonalAndSocialStory.id as string));
       } catch (e: any) {
          throw new PersonalAndSocialStoryRepositoryError(
             "Erreur lors de la sauvegarde de l'histoire personnelle et sociale (PersonalAndSocialStory)",

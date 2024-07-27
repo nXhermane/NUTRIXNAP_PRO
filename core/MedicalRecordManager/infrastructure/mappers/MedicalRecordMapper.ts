@@ -9,7 +9,7 @@ import {
    PatientMeasurements,
    PersonalAndSocialStory,
 } from "./../../domain";
-import { Mapper, BaseEntityProps, Entity, AggregateID } from "@shared";
+import { Mapper, BaseEntityProps, Entity, AggregateID, RegistrationDate } from "@shared";
 import {
    MedicalRecordPersistenceType,
    MedicalRecordPersistenceRecordType,
@@ -44,23 +44,26 @@ export class MedicalRecordMapper implements Mapper<MedicalRecord, MedicalRecordP
    ) {}
    toPersistence(entity: MedicalRecord): MedicalRecordPersistenceType {
       return {
-         id: entity.id,
-         medicalStoryId: entity.getMedicalStory().id,
-         foodStoryId: entity.getFoodStory().id,
-         consultationInformationId: entity.getConsultationInformation().id,
-         personalAndSocialStoryId: entity.getPersonalAndSocialStory().id,
-         patientMeasurementId: entity.getMeasure().id,
+         id: entity.id as string,
+         medicalStoryId: entity.getMedicalStory().id as string,
+         foodStoryId: entity.getFoodStory().id as string,
+         consultationInformationId: entity.getConsultationInformation().id as string,
+         personalAndSocialStorieId: entity.getPersonalAndSocialStory().id as string,
+         patientMeasurementId: entity.getMeasure().id as string,
          foodDiaryIds: entity.foodDiaries.map((foodDiary: any) => foodDiary.id as AggregateID),
          objectiveIds: entity.objectives.map((objective: any) => objective.id),
-         eatingBehaviors: entity.getEatingBehavior(),
+         eatingBehaviors: entity.getEatingBehavior().map((eatBeh: any) => ({
+            date: eatBeh.date.toString(),
+            eatingBehavior: eatBeh.eatingBehavior,
+         })),
          status: "Active",
       };
    }
    toDomain(record: MedicalRecordPersistenceRecordType): MedicalRecord {
-      const { id, updateAt, createdAt, status } = record;
+      const { id, updatedAt, createdAt, status } = record;
       return new MedicalRecord({
          id,
-         updateAt,
+         updatedAt,
          createdAt,
          props: {
             foodDiaries: record.foodDiaries,
@@ -70,7 +73,13 @@ export class MedicalRecordMapper implements Mapper<MedicalRecord, MedicalRecordP
             medicalStory: record.medicalStory,
             objectives: record.objectives,
             personalAndSocialStory: record.personalAndSocialStory,
-            eatingBehaviors: record.eatingBehaviors,
+            eatingBehaviors: record.eatingBehaviors.map(
+               (eatBehav: any) =>
+                  new EatingBehavior({
+                     date: new RegistrationDate(eatBehav.date),
+                     eatingBehavior: eatBehav.eatingBehavior,
+                  }),
+            ),
          },
       });
    }
