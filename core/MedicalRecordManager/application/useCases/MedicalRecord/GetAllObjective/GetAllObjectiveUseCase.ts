@@ -1,10 +1,10 @@
-import { GetAllObjectiveError } from "./GetAllObjectiveError";
+import { GetAllObjectiveErrors } from "./GetAllObjectiveErrors";
 import { GetAllObjectiveRequest } from "./GetAllObjectiveRequest";
 import { GetAllObjectiveResponse } from "./GetAllObjectiveResponse";
 import { MedicalRecord } from "./../../../../domain";
 import { MedicalRecordDto, MedicalRecordPersistenceType, ObjectiveDto } from "./../../../../infrastructure";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID, Mapper } from "@shared";
+import { UseCase, AggregateID, Mapper, Result, right, left, AppError } from "@shared";
 
 export class GetAllObjectiveUseCase implements UseCase<GetAllObjectiveRequest, GetAllObjectiveResponse> {
    constructor(
@@ -16,9 +16,11 @@ export class GetAllObjectiveUseCase implements UseCase<GetAllObjectiveRequest, G
       try {
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          const objectives = this.getAllObjectiveToMedicalRecord(medicalRecord);
-         return { objectives };
+         return right(Result.ok<ObjectiveDto[]>(objectives));
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof GetAllObjectiveErrors.MedicalRecordNotFoundError)
+            return left(new GetAllObjectiveErrors.MedicalRecordNotFoundError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -26,19 +28,12 @@ export class GetAllObjectiveUseCase implements UseCase<GetAllObjectiveRequest, G
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new GetAllObjectiveError("Failed to retrieve medical record.", e as Error);
+         throw new GetAllObjectiveErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
    private getAllObjectiveToMedicalRecord(medicalRecord: MedicalRecord): ObjectiveDto[] {
       const reponseMedicalRecord = this.medicalRecordMapper.toResponse(medicalRecord);
       return reponseMedicalRecord.objectives;
-   }
-
-   private handleErrors(e: any, request: GetAllObjectiveRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new GetAllObjectiveError(e.message, e as Error, e.metadata);
-      }
-      throw new GetAllObjectiveError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

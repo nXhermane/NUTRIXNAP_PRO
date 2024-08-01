@@ -1,21 +1,20 @@
 import { CreatePatientError } from "./CreatePatientError";
 import { CreatePatientRequest } from "./CreatePatientRequest";
 import { CreatePatientResponse } from "./CreatePatientResponse";
-import { PatientFactory, CreatePatientProps } from "./../../../../domain";
+import { CreatePatientProps, Patient } from "./../../../../domain";
 import { UseCase, TransactionManager, FileManager, Image } from "@shared";
 import { PatientRepository, PatientRepositoryError } from "./../../../../infrastructure";
 
 export class CreatePatientUseCase implements UseCase<CreatePatientRequest, CreatePatientResponse> {
    constructor(
       private patientRepo: PatientRepository,
-      private patientFactory: PatientFactory,
       private transactionManager: TransactionManager,
       private fileManager: FileManager,
    ) {}
 
    async execute(request: CreatePatientRequest): Promise<CreatePatientResponse> {
       try {
-         const patient = this.patientFactory.create({
+         const patient = Patient.create({
             ...request,
          });
          if (patient.isFailure) throw new CreatePatientError(`Create Patient Failed`);

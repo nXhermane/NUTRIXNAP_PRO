@@ -1,4 +1,4 @@
-export * from "./GetMedicalStoryError";
+export * from "./GetMedicalStoryErrors";
 export * from "./GetMedicalStoryRequest";
 export * from "./GetMedicalStoryResponse";
 export * from "./GetMedicalStoryUseCase";

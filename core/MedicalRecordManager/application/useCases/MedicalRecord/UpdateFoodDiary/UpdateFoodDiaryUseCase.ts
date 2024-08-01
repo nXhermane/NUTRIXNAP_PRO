@@ -1,4 +1,4 @@
-import { UpdateFoodDiaryError } from "./UpdateFoodDiaryError";
+import { UpdateFoodDiaryErrors } from "./UpdateFoodDiaryErrors";
 import { UpdateFoodDiaryRequest } from "./UpdateFoodDiaryRequest";
 import { UpdateFoodDiaryResponse } from "./UpdateFoodDiaryResponse";
 import {
@@ -11,7 +11,20 @@ import {
    IFoodDiaryFoodItem,
 } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError, MedicalRecordDto, MedicalRecordPersistenceType } from "./../../../../infrastructure";
-import { UseCase, AggregateID, FileManager, Quantity, Image, BaseEntityProps, DateManager, RegistrationDate } from "@shared";
+import {
+   UseCase,
+   AggregateID,
+   FileManager,
+   Quantity,
+   Image,
+   BaseEntityProps,
+   DateManager,
+   RegistrationDate,
+   Result,
+   AppError,
+   left,
+   right,
+} from "@shared";
 
 export class UpdateFoodDiaryUseCase implements UseCase<UpdateFoodDiaryRequest, UpdateFoodDiaryResponse> {
    constructor(
@@ -27,8 +40,13 @@ export class UpdateFoodDiaryUseCase implements UseCase<UpdateFoodDiaryRequest, U
          this.saveFoodDiaryImages(foodDiary, medicalRecord.id);
          this.updateMedicalRecord(medicalRecord, foodDiary);
          await this.saveMedicalRecord(medicalRecord);
+         return right(Result.ok<void>());
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof UpdateFoodDiaryErrors.MedicalRecordNotFoundError)
+            return left(new UpdateFoodDiaryErrors.MedicalRecordNotFoundError(e.err.message));
+         else if (e instanceof UpdateFoodDiaryErrors.MedicalRecordRepoError)
+            return left(new UpdateFoodDiaryErrors.MedicalRecordRepoError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -36,7 +54,7 @@ export class UpdateFoodDiaryUseCase implements UseCase<UpdateFoodDiaryRequest, U
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new UpdateFoodDiaryError("Failed to retrieve medical record.", e as Error);
+         throw new UpdateFoodDiaryErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
@@ -89,14 +107,7 @@ export class UpdateFoodDiaryUseCase implements UseCase<UpdateFoodDiaryRequest, U
       try {
          await this.medicalRecordRepo.save(medicalRecord);
       } catch (e) {
-         throw new UpdateFoodDiaryError("Failed to save medical record.", e as Error);
+         throw new UpdateFoodDiaryErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: UpdateFoodDiaryRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new UpdateFoodDiaryError(e.message, e as Error, e.metadata);
-      }
-      throw new UpdateFoodDiaryError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

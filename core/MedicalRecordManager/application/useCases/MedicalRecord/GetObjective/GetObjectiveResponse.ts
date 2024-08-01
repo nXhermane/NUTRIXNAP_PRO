@@ -1,5 +1,4 @@
-import { AggregateID } from "@shared";
+import { AggregateID, Result, Either, AppError } from "@shared";
 import { ObjectiveDto } from "./../../../../infrastructure";
-export type GetObjectiveResponse = {
-   objective: ObjectiveDto;
-};
+import { GetObjectiveErrors } from "./GetObjectiveErrors";
+export type GetObjectiveResponse = Either<AppError.UnexpectedError | GetObjectiveErrors.MedicalRecordNotFoundError, Result<ObjectiveDto>>;

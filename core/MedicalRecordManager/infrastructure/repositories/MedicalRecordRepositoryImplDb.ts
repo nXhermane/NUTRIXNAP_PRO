@@ -12,7 +12,7 @@ import {
 import { AggregateID, Mapper } from "@shared";
 import { MedicalRecord, FoodDiary, Objective } from "./../../domain";
 import { drizzle } from "drizzle-orm/expo-sqlite";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { SQLiteDatabase } from "expo-sqlite";
 import { MedicalRecordPersistenceType } from "./types";
 import { MedicalRecordDto } from "./../dtos";
@@ -68,21 +68,23 @@ export class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
       }
    }
 
-   async getById(medicalRecordId: AggregateID): Promise<MedicalRecord> {
+   async getById(medicalRecordOrPatientId: AggregateID): Promise<MedicalRecord> {
       try {
          const medicalRecord = await this.db
             .select()
             .from(medicalRecords)
-            .where(eq(medicalRecords.id, medicalRecordId as string))
+            .where(or(eq(medicalRecords.id, medicalRecordOrPatientId as string), eq(medicalRecords.patientId, medicalRecordOrPatientId as string)))
             .get();
 
          if (!medicalRecord) {
-            throw new MedicalRecordRepositoryNotFoundException("MedicalRecord non trouvée pour l'ID donné", new Error(""), { medicalRecordId });
+            throw new MedicalRecordRepositoryNotFoundException("MedicalRecord non trouvée pour l'ID donné", new Error(""), {
+               medicalRecordOrPatientId,
+            });
          }
 
          return this.mapper.toDomain(medicalRecord as MedicalRecordPersistenceType);
       } catch (e: any) {
-         throw new MedicalRecordRepositoryError("Erreur lors de la récupération du MedicalRecord par ID", e as Error, { medicalRecordId });
+         throw new MedicalRecordRepositoryError("Erreur lors de la récupération du MedicalRecord par ID", e as Error, { medicalRecordOrPatientId });
       }
    }
 

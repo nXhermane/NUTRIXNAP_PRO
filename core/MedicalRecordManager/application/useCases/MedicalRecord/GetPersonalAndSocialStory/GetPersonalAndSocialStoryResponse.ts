@@ -1,5 +1,7 @@
-import { AggregateID } from "@shared";
+import { AggregateID, Either, Result, AppError } from "@shared";
 import { PersonalAndSocialStoryDto } from "./../../../../infrastructure";
-export type GetPersonalAndSocialStoryResponse = {
-   personalAndSocialStory: PersonalAndSocialStoryDto;
-};
+import { GetPersonalAndSocialStoryErrors } from "./GetPersonalAndSocialStoryErrors";
+export type GetPersonalAndSocialStoryResponse = Either<
+   AppError.UnexpectedError | GetPersonalAndSocialStoryErrors.MedicalRecordNotFoundError,
+   Result<PersonalAndSocialStoryDto>
+>;

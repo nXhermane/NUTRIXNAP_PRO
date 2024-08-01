@@ -1,14 +1,13 @@
-import { CreateFoodDiaryError } from "./CreateFoodDiaryError";
+import { CreateFoodDiaryErrors } from "./CreateFoodDiaryErrors";
 import { CreateFoodDiaryRequest } from "./CreateFoodDiaryRequest";
 import { CreateFoodDiaryResponse } from "./CreateFoodDiaryResponse";
 import { MedicalRecord, FoodDiary } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { Image, FileManager, UseCase, AggregateID } from "@shared";
+import { Image, FileManager, UseCase, AggregateID, Result, left, right, AppError } from "@shared";
 
 export class CreatePatientUseCase implements UseCase<CreateFoodDiaryRequest, CreateFoodDiaryResponse> {
    constructor(
       private medicalRecordRepo: MedicalRecordRepository,
-
       private fileManager: FileManager,
    ) {}
 
@@ -19,16 +18,23 @@ export class CreatePatientUseCase implements UseCase<CreateFoodDiaryRequest, Cre
          await this.saveFoodDiaryImages(foodDiary, medicalRecord.id);
          this.addFoodDiaryToMedicalRecord(medicalRecord, foodDiary);
          await this.saveMedicalRecord(medicalRecord);
-
-         return { foodDiaryId: foodDiary.id };
+         return right(Result.ok<AggregateID>(foodDiary.id));
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof CreateFoodDiaryErrors.FoodDiaryFactoryError) {
+            return left(new CreateFoodDiaryErrors.FoodDiaryFactoryError(e.err.message));
+         } else if (e instanceof CreateFoodDiaryErrors.MedicalRecordNotFoundError) {
+            return left(new CreateFoodDiaryErrors.MedicalRecordNotFoundError(e.err.message));
+         } else if (e instanceof CreateFoodDiaryErrors.MedicalRecordRepoError) {
+            return left(new CreateFoodDiaryErrors.MedicalRecordRepoError(e.err.message));
+         } else {
+            return left(new AppError.UnexpectedError(e));
+         }
       }
    }
 
    private async createFoodDiary(request: CreateFoodDiaryRequest): Promise<FoodDiary> {
       const foodDiary = await FoodDiary.create(request.data);
-      if (foodDiary.isFailure) throw new CreateFoodDiaryError("Create Food Diary failed.");
+      if (foodDiary.isFailure) throw new CreateFoodDiaryErrors.FoodDiaryFactoryError(foodDiary.err);
       return foodDiary.val;
    }
 
@@ -36,7 +42,7 @@ export class CreatePatientUseCase implements UseCase<CreateFoodDiaryRequest, Cre
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new CreateFoodDiaryError("Failed to retrieve medical record.", e as Error);
+         throw new CreateFoodDiaryErrors.MedicalRecordNotFoundError(e);
       }
    }
 
@@ -62,14 +68,7 @@ export class CreatePatientUseCase implements UseCase<CreateFoodDiaryRequest, Cre
       try {
          await this.medicalRecordRepo.save(medicalRecord);
       } catch (e) {
-         throw new CreateFoodDiaryError("Failed to save medical record.", e as Error);
+         throw new CreateFoodDiaryErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: CreateFoodDiaryRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new CreateFoodDiaryError(e.message, e as Error, e.metadata);
-      }
-      throw new CreateFoodDiaryError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

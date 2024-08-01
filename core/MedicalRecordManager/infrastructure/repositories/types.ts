@@ -108,6 +108,7 @@ export interface MedicalRecordTableType extends Timestamps {
 }
 export interface MedicalRecordPersistenceType {
    id: string;
+   patientId: string;
    medicalStoryId: string;
    foodStoryId: string;
    foodDiaryIds: AggregateID[];
@@ -121,6 +122,7 @@ export interface MedicalRecordPersistenceType {
 
 export interface MedicalRecordPersistenceRecordType extends Timestamps {
    id: AggregateID;
+   patientId: AggregateID;
    foodStory: FoodStory;
    medicalStory: MedicalStory;
    objectives: Objective[];

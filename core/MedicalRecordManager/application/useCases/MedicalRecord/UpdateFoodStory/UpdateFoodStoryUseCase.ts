@@ -1,4 +1,4 @@
-import { UpdateFoodStoryError } from "./UpdateFoodStoryError";
+import { UpdateFoodStoryErrors } from "./UpdateFoodStoryErrors";
 import { UpdateFoodStoryRequest } from "./UpdateFoodStoryRequest";
 import { UpdateFoodStoryResponse } from "./UpdateFoodStoryResponse";
 import {
@@ -18,7 +18,7 @@ import {
    MedicalRecordDto,
    MedicalRecordPersistenceType,
 } from "./../../../../infrastructure";
-import { UseCase, AggregateID, Time } from "@shared";
+import { UseCase, AggregateID, Time, Result, AppError, left, right } from "@shared";
 
 export class UpdateFoodStoryUseCase implements UseCase<UpdateFoodStoryRequest, UpdateFoodStoryResponse> {
    constructor(private medicalRecordRepo: MedicalRecordRepository) {}
@@ -30,8 +30,13 @@ export class UpdateFoodStoryUseCase implements UseCase<UpdateFoodStoryRequest, U
          this.updateFoodStory(foodStory, request.data);
          this.updateMedicalRecord(medicalRecord, foodStory);
          await this.saveMedicalRecord(medicalRecord);
+         return right(Result.ok<void>());
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof UpdateFoodStoryErrors.MedicalRecordNotFoundError)
+            return left(new UpdateFoodStoryErrors.MedicalRecordNotFoundError(e.err.message));
+         else if (e instanceof UpdateFoodStoryErrors.MedicalRecordRepoError)
+            return left(new UpdateFoodStoryErrors.MedicalRecordRepoError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -39,7 +44,7 @@ export class UpdateFoodStoryUseCase implements UseCase<UpdateFoodStoryRequest, U
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new UpdateFoodStoryError("Failed to retrieve medical record.", e as Error);
+         throw new UpdateFoodStoryErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
@@ -126,14 +131,7 @@ export class UpdateFoodStoryUseCase implements UseCase<UpdateFoodStoryRequest, U
       try {
          await this.medicalRecordRepo.save(medicalRecord);
       } catch (e) {
-         throw new UpdateFoodStoryError("Failed to save medical record.", e as Error);
+         throw new UpdateFoodStoryErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: UpdateFoodStoryRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new UpdateFoodStoryError(e.message, e as Error, e.metadata);
-      }
-      throw new UpdateFoodStoryError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

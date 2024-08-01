@@ -1,10 +1,10 @@
-import { GetMedicalStoryError } from "./GetMedicalStoryError";
+import { GetMedicalStoryErrors } from "./GetMedicalStoryErrors";
 import { GetMedicalStoryRequest } from "./GetMedicalStoryRequest";
 import { GetMedicalStoryResponse } from "./GetMedicalStoryResponse";
 import { MedicalRecord } from "./../../../../domain";
 import { MedicalRecordDto, MedicalRecordPersistenceType, MedicalStoryDto } from "./../../../../infrastructure";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID, Mapper } from "@shared";
+import { UseCase, AggregateID, Mapper, Result, AppError, left, right } from "@shared";
 
 export class GetMedicalStoryUseCase implements UseCase<GetMedicalStoryRequest, GetMedicalStoryResponse> {
    constructor(
@@ -16,9 +16,11 @@ export class GetMedicalStoryUseCase implements UseCase<GetMedicalStoryRequest, G
       try {
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          const medicalStory = this.getMedicalStoryStoryToMedicalRecord(medicalRecord);
-         return { medicalStory };
+         return right(Result.ok<MedicalStoryDto>(medicalStory));
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof GetMedicalStoryErrors.MedicalRecordNotFoundError)
+            return left(new GetMedicalStoryErrors.MedicalRecordNotFoundError(e.err.message));
+         return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -26,19 +28,12 @@ export class GetMedicalStoryUseCase implements UseCase<GetMedicalStoryRequest, G
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new GetMedicalStoryError("Failed to retrieve medical record.", e as Error);
+         throw new GetMedicalStoryErrors.MedicalRecordNotFoundError(e);
       }
    }
 
    private getMedicalStoryStoryToMedicalRecord(medicalRecord: MedicalRecord): MedicalStoryDto {
       const reponseMedicalRecord = this.medicalRecordMapper.toResponse(medicalRecord);
       return reponseMedicalRecord.medicalStory as MedicalStoryDto;
-   }
-
-   private handleErrors(e: any, request: GetMedicalStoryRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new GetMedicalStoryError(e.message, e as Error, e.metadata);
-      }
-      throw new GetMedicalStoryError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

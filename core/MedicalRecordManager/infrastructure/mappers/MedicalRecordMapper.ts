@@ -45,6 +45,7 @@ export class MedicalRecordMapper implements Mapper<MedicalRecord, MedicalRecordP
    toPersistence(entity: MedicalRecord): MedicalRecordPersistenceType {
       return {
          id: entity.id as string,
+         patientId: entity.patientId as string,
          medicalStoryId: entity.getMedicalStory().id as string,
          foodStoryId: entity.getFoodStory().id as string,
          consultationInformationId: entity.getConsultationInformation().id as string,
@@ -66,6 +67,7 @@ export class MedicalRecordMapper implements Mapper<MedicalRecord, MedicalRecordP
          updatedAt,
          createdAt,
          props: {
+            patientId: record.patientId,
             foodDiaries: record.foodDiaries,
             consultationInformation: record.consultationInformation,
             measure: record.patientMeasurements,
@@ -98,6 +100,7 @@ export class MedicalRecordMapper implements Mapper<MedicalRecord, MedicalRecordP
          })),
          measure: this.mapper.patientMeasure.toResponse(entityProps.measure),
          id: entityProps.id,
+         patientId: entityProps.patientId,
          createdAt: entityProps.createdAt,
          updatedAt: entityProps.updatedAt,
       };

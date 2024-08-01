@@ -14,8 +14,14 @@ import {
    IAddress,
    EmptyStringError,
    Image,
+   Result,
+   ExceptionBase,
+   PhoneNumber,
+   Email,
+   Sexe,
 } from "@shared";
-
+import { PatientCreatedEvent } from "./../events";
+import { CreatePatientProps } from "./../types";
 export interface IPatient {
    name: HumanName;
    gender: Gender;
@@ -110,5 +116,37 @@ export class Patient extends AggregateRoot<IPatient> {
       if (!this.props.address.isValid()) throw new ArgumentInvalidException("L'address du patient doit etre valide");
       if (!this.props.birthday.isValid() || this.props.birthday.age < 5)
          throw new ArgumentInvalidException("La date de naissance du patient doit etre valide ou l'age doit au moins 5 ans");
+   }
+
+   static create(createPatientProps: CreatePatientProps): Result<Patient> {
+      try {
+         const name = new HumanName(createPatientProps.name);
+         const gender = new Gender(createPatientProps.gender as Sexe);
+         const contact = new Contact({
+            email: Email.create(createPatientProps.contact.email).val,
+            phoneNumber: new PhoneNumber(createPatientProps.contact.tel),
+         });
+         const address = new Address({ ...createPatientProps.address });
+         const birthday = new Birthday(createPatientProps.birthday);
+         const occupation = createPatientProps?.occupation || "";
+         const images = createPatientProps.images.map((uri: string) => new Image(uri));
+         const newPatient = new Patient({
+            props: {
+               name,
+               gender,
+               contact,
+               address,
+               birthday,
+               occupation,
+               images,
+            },
+         });
+         newPatient.addDomainEvent(new PatientCreatedEvent(newPatient.id));
+         return Result.ok<Patient>(newPatient);
+      } catch (e: any) {
+         return e instanceof ExceptionBase
+            ? Result.fail<Patient>(`[${e.code}]:${e.message}`)
+            : Result.fail<Patient>(`Erreur inattendue. ${Patient.constructor.name}`);
+      }
    }
 }

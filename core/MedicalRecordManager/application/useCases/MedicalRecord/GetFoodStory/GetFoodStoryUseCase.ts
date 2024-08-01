@@ -1,10 +1,10 @@
-import { GetFoodStoryError } from "./GetFoodStoryError";
+import { GetFoodStoryErrors } from "./GetFoodStoryErrors";
 import { GetFoodStoryRequest } from "./GetFoodStoryRequest";
 import { GetFoodStoryResponse } from "./GetFoodStoryResponse";
 import { MedicalRecord } from "./../../../../domain";
 import { MedicalRecordDto, MedicalRecordPersistenceType, FoodStoryDto } from "./../../../../infrastructure";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID, Mapper } from "@shared";
+import { UseCase, AggregateID, Mapper, Result, left, right, AppError } from "@shared";
 
 export class GetFoodStoryUseCase implements UseCase<GetFoodStoryRequest, GetFoodStoryResponse> {
    constructor(
@@ -16,9 +16,11 @@ export class GetFoodStoryUseCase implements UseCase<GetFoodStoryRequest, GetFood
       try {
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          const foodStory = this.getFoodStoryToMedicalRecord(medicalRecord);
-         return { foodStory };
+         return right(Result.ok<FoodStoryDto>(foodStory));
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof GetFoodStoryErrors.MedicalRecordNotFoundError)
+            return left(new GetFoodStoryErrors.MedicalRecordNotFoundError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -26,19 +28,12 @@ export class GetFoodStoryUseCase implements UseCase<GetFoodStoryRequest, GetFood
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new GetFoodStoryError("Failed to retrieve medical record.", e as Error);
+         throw new GetFoodStoryErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
    private getFoodStoryToMedicalRecord(medicalRecord: MedicalRecord): FoodStoryDto {
       const reponseMedicalRecord = this.medicalRecordMapper.toResponse(medicalRecord);
       return reponseMedicalRecord.foodStory as FoodStoryDto;
-   }
-
-   private handleErrors(e: any, request: GetFoodStoryRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new GetFoodStoryError(e.message, e as Error, e.metadata);
-      }
-      throw new GetFoodStoryError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

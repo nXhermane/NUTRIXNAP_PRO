@@ -1,9 +1,9 @@
-import { CreateObjectiveError } from "./CreateObjectiveError";
+import { CreateObjectiveErrors } from "./CreateObjectiveErrors";
 import { CreateObjectiveRequest } from "./CreateObjectiveRequest";
 import { CreateObjectiveResponse } from "./CreateObjectiveResponse";
 import { MedicalRecord, Objective } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID } from "@shared";
+import { UseCase, AggregateID, AppError, Result, right, left } from "@shared";
 
 export class CreateObjectiveUseCase implements UseCase<CreateObjectiveRequest, CreateObjectiveResponse> {
    constructor(private medicalRecordRepo: MedicalRecordRepository) {}
@@ -14,15 +14,23 @@ export class CreateObjectiveUseCase implements UseCase<CreateObjectiveRequest, C
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          this.addObjectiveToMedicalRecord(medicalRecord, objective);
          await this.saveMedicalRecord(medicalRecord);
-         return { objectiveId: objective.id };
+         return right(Result.ok<AggregateID>(objective.id));
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof CreateObjectiveErrors.ObjectiveFactoryError) {
+            return left(new CreateObjectiveErrors.ObjectiveFactoryError(e.err.message));
+         } else if (e instanceof CreateObjectiveErrors.MedicalRecordNotFoundError) {
+            return left(new CreateObjectiveErrors.MedicalRecordNotFoundError(e.err.message));
+         } else if (e instanceof CreateObjectiveErrors.MedicalRecordRepoError) {
+            return left(new CreateObjectiveErrors.MedicalRecordRepoError(e.err.message));
+         } else {
+            return left(new AppError.UnexpectedError(e));
+         }
       }
    }
 
    private async createObjective(request: CreateObjectiveRequest): Promise<Objective> {
       const objective = await Objective.create(request.data);
-      if (objective.isFailure) throw new CreateObjectiveError("Create Objective failed.", objective.err as unknown as Error);
+      if (objective.isFailure) throw new CreateObjectiveErrors.ObjectiveFactoryError(objective.err);
       return objective.val;
    }
 
@@ -30,7 +38,7 @@ export class CreateObjectiveUseCase implements UseCase<CreateObjectiveRequest, C
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new CreateObjectiveError("Failed to retrieve medical record.", e as Error);
+         throw new CreateObjectiveErrors.MedicalRecordNotFoundError(e);
       }
    }
 
@@ -42,14 +50,7 @@ export class CreateObjectiveUseCase implements UseCase<CreateObjectiveRequest, C
       try {
          await this.medicalRecordRepo.save(medicalRecord);
       } catch (e) {
-         throw new CreateObjectiveError("Failed to save medical record.", e as Error);
+         throw new CreateObjectiveErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: CreateObjectiveRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new CreateObjectiveError(e.message, e as Error, e.metadata);
-      }
-      throw new CreateObjectiveError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

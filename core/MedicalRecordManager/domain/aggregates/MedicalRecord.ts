@@ -31,11 +31,15 @@ export interface IMedicalRecord {
    objectives: Objective[];
    personalAndSocialStory: PersonalAndSocialStory;
    eatingBehaviors: EatingBehavior[];
+   patientId: AggregateID;
 }
 
 export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
    constructor(createMediaclRecordProps: CreateEntityProps<IMedicalRecord>) {
       super(createMediaclRecordProps);
+   }
+   get patientId(): AggregateID {
+      return this.props.patientId;
    }
    addMeasurement(...measurements: (AnthropometricMeasurement | MedicalAnalysisResult | BodyCompositionMeasurement)[]) {
       measurements.forEach((measurement) => {
@@ -159,7 +163,7 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
    validate(): void {
       this._isValid = true;
    }
-   static async create(createMedicalRecordProps?: CreateMedicalRecordProps): Promise<Result<MedicalRecord>> {
+   static async create(patientId: AggregateID, createMedicalRecordProps?: CreateMedicalRecordProps): Promise<Result<MedicalRecord>> {
       try {
          const medicalStoryResult = MedicalStory.create(createMedicalRecordProps?.medicalStory);
          if (medicalStoryResult.isFailure) throw new ObjectCreationError(String(medicalStoryResult.err));
@@ -189,6 +193,7 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
             measure,
             personalAndSocialStory,
             foodStory,
+            patientId,
          };
          const medicalRecord = new MedicalRecord({
             props: medicalRecordProps,

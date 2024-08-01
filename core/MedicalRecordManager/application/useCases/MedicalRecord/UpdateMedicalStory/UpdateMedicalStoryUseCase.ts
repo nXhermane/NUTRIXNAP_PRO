@@ -1,9 +1,9 @@
-import { UpdateMedicalStoryError } from "./UpdateMedicalStoryError";
+import { UpdateMedicalStoryErrors } from "./UpdateMedicalStoryErrors";
 import { UpdateMedicalStoryRequest } from "./UpdateMedicalStoryRequest";
 import { UpdateMedicalStoryResponse } from "./UpdateMedicalStoryResponse";
 import { MedicalRecord, MedicalStory, type CreateMedicalStoryProps } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError, MedicalRecordDto, MedicalRecordPersistenceType } from "./../../../../infrastructure";
-import { UseCase, AggregateID } from "@shared";
+import { UseCase, AggregateID, left, right, Result, AppError } from "@shared";
 
 export class UpdateMedicalStoryUseCase implements UseCase<UpdateMedicalStoryRequest, UpdateMedicalStoryResponse> {
    constructor(private medicalRecordRepo: MedicalRecordRepository) {}
@@ -15,8 +15,13 @@ export class UpdateMedicalStoryUseCase implements UseCase<UpdateMedicalStoryRequ
          this.updateMedicalStory(medicalStory, request.data);
          this.updateMedicalRecord(medicalRecord, medicalStory);
          await this.saveMedicalRecord(medicalRecord);
+         return right(Result.ok<void>());
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof UpdateMedicalStoryErrors.MedicalRecordNotFoundError)
+            return left(new UpdateMedicalStoryErrors.MedicalRecordNotFoundError(e.err.message));
+         else if (e instanceof UpdateMedicalStoryErrors.MedicalRecordRepoError)
+            return left(new UpdateMedicalStoryErrors.MedicalRecordRepoError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -24,7 +29,7 @@ export class UpdateMedicalStoryUseCase implements UseCase<UpdateMedicalStoryRequ
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new UpdateMedicalStoryError("Failed to retrieve medical record.", e as Error);
+         throw new UpdateMedicalStoryErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
@@ -49,14 +54,7 @@ export class UpdateMedicalStoryUseCase implements UseCase<UpdateMedicalStoryRequ
       try {
          await this.medicalRecordRepo.save(medicalRecord);
       } catch (e) {
-         throw new UpdateMedicalStoryError("Failed to save medical record.", e as Error);
+         throw new UpdateMedicalStoryErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: UpdateMedicalStoryRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new UpdateMedicalStoryError(e.message, e as Error, e.metadata);
-      }
-      throw new UpdateMedicalStoryError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

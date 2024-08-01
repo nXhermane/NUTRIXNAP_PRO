@@ -1,11 +1,11 @@
-import { CreateEatingBehaviorError } from "./CreateEatingBehaviorError";
+import { CreateEatingBehaviorErrors } from "./CreateEatingBehaviorErrors";
 import { CreateEatingBehaviorRequest } from "./CreateEatingBehaviorRequest";
 import { CreateEatingBehaviorResponse } from "./CreateEatingBehaviorResponse";
 import { MedicalRecord, EatingBehavior } from "./../../../../domain";
-import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID } from "@shared";
+import { MedicalRecordRepository, MedicalRecordRepositoryError, EatingBehaviorDto } from "./../../../../infrastructure";
+import { UseCase, AggregateID, Result, right, left, AppError } from "@shared";
 
-export class CreateObjectiveUseCase implements UseCase<CreateEatingBehaviorRequest, CreateEatingBehaviorResponse> {
+export class CreateEatingBehaviorUseCase implements UseCase<CreateEatingBehaviorRequest, CreateEatingBehaviorResponse> {
    constructor(private medicalRecordRepo: MedicalRecordRepository) {}
 
    async execute(request: CreateEatingBehaviorRequest): Promise<CreateEatingBehaviorResponse> {
@@ -14,20 +14,28 @@ export class CreateObjectiveUseCase implements UseCase<CreateEatingBehaviorReque
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          this.addEatingBehaviorToMedicalRecord(medicalRecord, eatingBehavior);
          await this.saveMedicalRecord(medicalRecord);
-         return {
-            eatingBehavior: {
+         return right(
+            Result.ok<EatingBehaviorDto>({
                date: eatingBehavior.date,
                eatingBehavior: eatingBehavior.eatingBehavior,
-            },
-         };
+            }),
+         );
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof CreateEatingBehaviorErrors.EatingBehaviorFactoryError) {
+            return left(new CreateEatingBehaviorErrors.EatingBehaviorFactoryError(e.err.message));
+         } else if (e instanceof CreateEatingBehaviorErrors.MedicalRecordNotFoundError) {
+            return left(new CreateEatingBehaviorErrors.MedicalRecordNotFoundError(e.err.message));
+         } else if (e instanceof CreateEatingBehaviorErrors.MedicalRecordRepoError) {
+            return left(new CreateEatingBehaviorErrors.MedicalRecordRepoError(e.err.message));
+         } else {
+            return left(new AppError.UnexpectedError(e));
+         }
       }
    }
 
    private createEatingBehavior(request: CreateEatingBehaviorRequest): EatingBehavior {
       const eatingBehavior = EatingBehavior.create(request.data);
-      if (eatingBehavior.isFailure) throw new CreateEatingBehaviorError("Create Eating Behavior failed.", eatingBehavior.err as unknown as Error);
+      if (eatingBehavior.isFailure) throw new CreateEatingBehaviorErrors.EatingBehaviorFactoryError(eatingBehavior.err);
       return eatingBehavior.val;
    }
 
@@ -35,7 +43,7 @@ export class CreateObjectiveUseCase implements UseCase<CreateEatingBehaviorReque
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new CreateEatingBehaviorError("Failed to retrieve medical record.", e as Error);
+         throw new CreateEatingBehaviorErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
@@ -47,14 +55,7 @@ export class CreateObjectiveUseCase implements UseCase<CreateEatingBehaviorReque
       try {
          await this.medicalRecordRepo.save(medicalRecord);
       } catch (e) {
-         throw new CreateEatingBehaviorError("Failed to save medical record.", e as Error);
+         throw new CreateEatingBehaviorErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: CreateEatingBehaviorRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new CreateEatingBehaviorError(e.message, e as Error, e.metadata);
-      }
-      throw new CreateEatingBehaviorError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

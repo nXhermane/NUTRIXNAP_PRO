@@ -1,4 +1,4 @@
-import { AddMeasurementError } from "./AddMeasurementError";
+import { AddMeasurementErrors } from "./AddMeasurementErrors";
 import { AddMeasurementRequest } from "./AddMeasurementRequest";
 import { AddMeasurementResponse } from "./AddMeasurementResponse";
 import {
@@ -9,7 +9,7 @@ import {
    MedicalAnalysisResult,
 } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID } from "@shared";
+import { UseCase, AggregateID, Result, left, right, AppError } from "@shared";
 
 export class AddMeasurementUseCase implements UseCase<AddMeasurementRequest, AddMeasurementResponse> {
    constructor(private medicalRecordRepo: MedicalRecordRepository) {}
@@ -20,8 +20,17 @@ export class AddMeasurementUseCase implements UseCase<AddMeasurementRequest, Add
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          this.addMeasurementToMedicalRecord(medicalRecord, measurement);
          await this.saveMedicalRecord(medicalRecord);
+         return right(Result.ok<void>());
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof AddMeasurementErrors.MeasurementFactoryError) {
+            return left(new AddMeasurementErrors.MeasurementFactoryError(e.err.message));
+         } else if (e instanceof AddMeasurementErrors.MedicalRecordNotFoundError) {
+            return left(new AddMeasurementErrors.MedicalRecordNotFoundError(e.err.message));
+         } else if (e instanceof AddMeasurementErrors.MedicalRecordRepoError) {
+            return left(new AddMeasurementErrors.MedicalRecordRepoError(e.err.message));
+         } else {
+            return left(new AppError.UnexpectedError(e));
+         }
       }
    }
 
@@ -29,15 +38,15 @@ export class AddMeasurementUseCase implements UseCase<AddMeasurementRequest, Add
       request: AddMeasurementRequest,
    ): Promise<AnthropometricMeasurement | BodyCompositionMeasurement | MedicalAnalysisResult> {
       const measurement = await createMeasurementFactory(request.data);
-      if (measurement.isFailure) throw new AddMeasurementError("Create Measurement  failed.", measurement.err as unknown as Error);
+      if (measurement.isFailure) throw new AddMeasurementErrors.MeasurementFactoryError(measurement.err);
       return measurement.val;
    }
 
-   private async getMedicalRecord(medicalRecordId: AggregateID): Promise<MedicalRecord> {
+   private async getMedicalRecord(medicalRecordOrPatientId: AggregateID): Promise<MedicalRecord> {
       try {
-         return await this.medicalRecordRepo.getById(medicalRecordId);
-      } catch (e) {
-         throw new AddMeasurementError("Failed to retrieve medical record.", e as Error);
+         return await this.medicalRecordRepo.getById(medicalRecordOrPatientId);
+      } catch (e: any) {
+         throw new AddMeasurementErrors.MedicalRecordNotFoundError(e, medicalRecordOrPatientId);
       }
    }
 
@@ -51,15 +60,8 @@ export class AddMeasurementUseCase implements UseCase<AddMeasurementRequest, Add
    private async saveMedicalRecord(medicalRecord: MedicalRecord) {
       try {
          await this.medicalRecordRepo.save(medicalRecord);
-      } catch (e) {
-         throw new AddMeasurementError("Failed to save medical record.", e as Error);
+      } catch (e: any) {
+         throw new AddMeasurementErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: AddMeasurementRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new AddMeasurementError(e.message, e as Error, e.metadata);
-      }
-      throw new AddMeasurementError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

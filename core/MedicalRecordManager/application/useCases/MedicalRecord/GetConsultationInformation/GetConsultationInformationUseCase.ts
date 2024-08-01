@@ -1,10 +1,10 @@
-import { GetConsultationInformationError } from "./GetConsultationInformationError";
+import { GetConsultationInformationErrors } from "./GetConsultationInformationErrors";
 import { GetConsultationInformationRequest } from "./GetConsultationInformationRequest";
 import { GetConsultationInformationResponse } from "./GetConsultationInformationResponse";
 import { MedicalRecord } from "./../../../../domain";
 import { MedicalRecordDto, MedicalRecordPersistenceType, ConsultationInformationDto } from "./../../../../infrastructure";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID, Mapper } from "@shared";
+import { UseCase, AggregateID, Mapper, Result, AppError, left, right } from "@shared";
 
 export class GetConsultationInformationUseCase implements UseCase<GetConsultationInformationRequest, GetConsultationInformationResponse> {
    constructor(
@@ -16,9 +16,11 @@ export class GetConsultationInformationUseCase implements UseCase<GetConsultatio
       try {
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          const consultationInformation = this.getConsultationInformationToMedicalRecord(medicalRecord);
-         return { consultationInformation };
+         return right(Result.ok<ConsultationInformationDto>(consultationInformation));
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof GetConsultationInformationErrors.MedicalRecordNotFoundError)
+            return left(new GetConsultationInformationErrors.MedicalRecordNotFoundError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -26,19 +28,12 @@ export class GetConsultationInformationUseCase implements UseCase<GetConsultatio
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new GetConsultationInformationError("Failed to retrieve medical record.", e as Error);
+         throw new GetConsultationInformationErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
    private getConsultationInformationToMedicalRecord(medicalRecord: MedicalRecord): ConsultationInformationDto {
       const reponseMedicalRecord = this.medicalRecordMapper.toResponse(medicalRecord);
       return reponseMedicalRecord.consultationInformation;
-   }
-
-   private handleErrors(e: any, request: GetConsultationInformationRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new GetConsultationInformationError(e.message, e as Error, e.metadata);
-      }
-      throw new GetConsultationInformationError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

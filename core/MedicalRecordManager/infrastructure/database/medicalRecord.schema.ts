@@ -168,6 +168,7 @@ export const consultationInformations = sqliteTable("consultation_informations",
 
 export const medicalRecords = sqliteTable("medical_records", {
    id: text("id").primaryKey(),
+   patientId: text("patientId"),
    medicalStoryId: text("medicalStoryId").references((): AnySQLiteColumn => medicalStories.id),
    foodStoryId: text("foodStoryId").references((): AnySQLiteColumn => foodStories.id),
    foodDiaryIds: text("foodDiaryIds", { mode: "json" }).$type<(number | string)[]>(),

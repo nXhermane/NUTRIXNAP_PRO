@@ -1,10 +1,10 @@
-import { GetFoodDiaryError } from "./GetFoodDiaryError";
+import { GetFoodDiaryErrors } from "./GetFoodDiaryErrors";
 import { GetFoodDiaryRequest } from "./GetFoodDiaryRequest";
 import { GetFoodDiaryResponse } from "./GetFoodDiaryResponse";
 import { MedicalRecord } from "./../../../../domain";
 import { MedicalRecordDto, MedicalRecordPersistenceType, FoodDiaryDto } from "./../../../../infrastructure";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
-import { UseCase, AggregateID, Mapper } from "@shared";
+import { UseCase, AggregateID, Mapper, Result, left, right, AppError } from "@shared";
 
 export class GetFoodDiaryUseCase implements UseCase<GetFoodDiaryRequest, GetFoodDiaryResponse> {
    constructor(
@@ -16,9 +16,11 @@ export class GetFoodDiaryUseCase implements UseCase<GetFoodDiaryRequest, GetFood
       try {
          const medicalRecord = await this.getMedicalRecord(request.patientId);
          const foodDiary = this.getFoodDiaryToMedicalRecord(medicalRecord, request.foodDiaryId);
-         return { foodDiary };
+         return right(Result.ok<FoodDiaryDto>(foodDiary));
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof GetFoodDiaryErrors.MedicalRecordNotFoundError)
+            return left(new GetFoodDiaryErrors.MedicalRecordNotFoundError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -26,19 +28,12 @@ export class GetFoodDiaryUseCase implements UseCase<GetFoodDiaryRequest, GetFood
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new GetFoodDiaryError("Failed to retrieve medical record.", e as Error);
+         throw new GetFoodDiaryErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
    private getFoodDiaryToMedicalRecord(medicalRecord: MedicalRecord, foodDiaryId: AggregateID): FoodDiaryDto {
       const reponseMedicalRecord = this.medicalRecordMapper.toResponse(medicalRecord);
       return reponseMedicalRecord.foodDiaries.find((foodDairy: FoodDiaryDto) => foodDairy.id === foodDiaryId) as FoodDiaryDto;
-   }
-
-   private handleErrors(e: any, request: GetFoodDiaryRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new GetFoodDiaryError(e.message, e as Error, e.metadata);
-      }
-      throw new GetFoodDiaryError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

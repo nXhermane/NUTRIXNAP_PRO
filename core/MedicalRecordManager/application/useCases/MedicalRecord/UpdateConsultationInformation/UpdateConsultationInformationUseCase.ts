@@ -1,4 +1,4 @@
-import { UpdateConsultationInformationError } from "./UpdateConsultationInformationError";
+import { UpdateConsultationInformationErrors } from "./UpdateConsultationInformationErrors";
 import { UpdateConsultationInformationRequest } from "./UpdateConsultationInformationRequest";
 import { UpdateConsultationInformationResponse } from "./UpdateConsultationInformationResponse";
 import { MedicalRecord, ConsultationInformation, type CreateConsultationInformationProps } from "./../../../../domain";
@@ -9,7 +9,7 @@ import {
    MedicalRecordDto,
    MedicalRecordPersistenceType,
 } from "./../../../../infrastructure";
-import { UseCase, AggregateID } from "@shared";
+import { UseCase, AggregateID, Result, left, right, AppError } from "@shared";
 
 export class UpdateConsultationInformationUseCase implements UseCase<UpdateConsultationInformationRequest, UpdateConsultationInformationResponse> {
    constructor(private medicalRecordRepo: MedicalRecordRepository) {}
@@ -21,8 +21,13 @@ export class UpdateConsultationInformationUseCase implements UseCase<UpdateConsu
          this.updateConsultationInformation(consultationInformation, request.data);
          this.updateMedicalRecord(medicalRecord, consultationInformation);
          await this.saveMedicalRecord(medicalRecord);
+         return right(Result.ok<void>());
       } catch (e: any) {
-         this.handleErrors(e, request);
+         if (e instanceof UpdateConsultationInformationErrors.MedicalRecordNotFoundError)
+            return left(new UpdateConsultationInformationErrors.MedicalRecordNotFoundError(e.err.message));
+         else if (e instanceof UpdateConsultationInformationErrors.MedicalRecordRepoError)
+            return left(new UpdateConsultationInformationErrors.MedicalRecordRepoError(e.err.message));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 
@@ -30,7 +35,7 @@ export class UpdateConsultationInformationUseCase implements UseCase<UpdateConsu
       try {
          return await this.medicalRecordRepo.getById(medicalRecordId);
       } catch (e) {
-         throw new UpdateConsultationInformationError("Failed to retrieve medical record.", e as Error);
+         throw new UpdateConsultationInformationErrors.MedicalRecordNotFoundError(e, medicalRecordId);
       }
    }
 
@@ -54,14 +59,7 @@ export class UpdateConsultationInformationUseCase implements UseCase<UpdateConsu
       try {
          await this.medicalRecordRepo.save(medicalRecord);
       } catch (e) {
-         throw new UpdateConsultationInformationError("Failed to save medical record.", e as Error);
+         throw new UpdateConsultationInformationErrors.MedicalRecordRepoError(e);
       }
-   }
-
-   private handleErrors(e: any, request: UpdateConsultationInformationRequest): never {
-      if (e instanceof MedicalRecordRepositoryError) {
-         throw new UpdateConsultationInformationError(e.message, e as Error, e.metadata);
-      }
-      throw new UpdateConsultationInformationError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
    }
 }

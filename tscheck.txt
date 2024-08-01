@@ -668,6 +668,7 @@ components/tabs/patient/Top.tsx(20,19): error TS7031: Binding element 'colors' i
 components/tabs/patient/Top.tsx(20,27): error TS7031: Binding element 'size' implicitly has an 'any' type.
 core/PatientManager/application/useCases/Patient/CreatePatient/CreatePatientUseCase.ts(1,36): error TS2307: Cannot find module './CreatePatientError' or its corresponding type declarations.
 core/PatientManager/application/useCases/Patient/CreatePatient/index.ts(1,15): error TS2307: Cannot find module './CreatePatientError' or its corresponding type declarations.
+core/PatientManager/index.ts(1,15): error TS2307: Cannot find module './application' or its corresponding type declarations.
 hooks/useImagePicker.ts(28,17): error TS7034: Variable 'images' implicitly has type 'any[]' in some locations where its type cannot be determined.
 hooks/useImagePicker.ts(29,13): error TS18047: 'image.assets' is possibly 'null'.
 hooks/useImagePicker.ts(39,21): error TS7005: Variable 'images' implicitly has an 'any[]' type.

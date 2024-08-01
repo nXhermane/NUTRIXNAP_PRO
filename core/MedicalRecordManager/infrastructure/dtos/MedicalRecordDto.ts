@@ -7,7 +7,7 @@ import { PersonalAndSocialStoryDto } from "./PersonalAndSocialStoryDto";
 import { ObjectiveDto } from "./ObjectiveDto";
 import { EatingBehaviorDto } from "./EatingBehaviorDto";
 import { PatientMeasurementDto } from "./PatientMeasurementDto";
-
+import { AggregateID } from "@shared";
 export interface MedicalRecordDto extends BaseEntityProps {
    foodDiaries: FoodDiaryDto[];
    consultationInformation: ConsultationInformationDto;
@@ -17,4 +17,5 @@ export interface MedicalRecordDto extends BaseEntityProps {
    objectives: ObjectiveDto[];
    eatingBehaviors: EatingBehaviorDto[];
    measure: PatientMeasurementDto;
+   patientId: AggregateID;
 }
