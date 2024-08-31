@@ -1,7 +1,7 @@
 import { GetRecipeNutritionnalValueErrors } from "./GetRecipeNutritionnalValueErrors";
 import { GetRecipeNutritionnalValueRequest } from "./GetRecipeNutritionnalValueRequest";
 import { GetRecipeNutritionnalValueResponse } from "./GetRecipeNutritionnalValueResponse";
-import { UseCase, AppError, Result, left, right, AggregateID } from "@shared";
+import { UseCase, AppError, Result, left, right, AggregateID } from "./../../../../../shared";
 import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException } from "./../../../../infrastructure";
 import { INutritionCalculatorService } from "./../../../../domain";
 import { NutrientDto } from "./../../sharedType";

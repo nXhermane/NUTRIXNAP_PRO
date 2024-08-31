@@ -2,7 +2,7 @@ import { CreateRecipeErrors } from "./CreateRecipeErrors";
 import { CreateRecipeRequest } from "./CreateRecipeRequest";
 import { CreateRecipeResponse } from "./CreateRecipeResponse";
 import { RecipeFactrory, CreateRecipeProps, IQuantity, IIngredient, IPreparationStep } from "./../../../../domain";
-import { UseCase, Result, left, right, AppError, AggregateID } from "@shared";
+import { UseCase, Result, left, right, AppError, AggregateID } from "./../../../../../shared";
 import { RecipeRepository, RecipeRepositoryError } from "./../../../../infrastructure";
 export class CreateRecipeUseCase implements UseCase<CreateRecipeRequest, CreateRecipeResponse> {
    constructor(

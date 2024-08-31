@@ -1,4 +1,4 @@
-import { AggregateID } from "@shared";
+import { AggregateID } from "./../../../../../../domain";
 export type GetMeasurementTypeRequest = {
    idOrCode: AggregateID;
 };

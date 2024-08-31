@@ -2,7 +2,6 @@ import { PatientMeasurementCategory } from "./../../../../constants";
 import { AggregateID } from "./../../../../domain";
 import { MeasurementTypeRepository } from "./interfaces";
 import { MeasurementType } from "./../../domain";
-import { MeasurementTypePersistenceType } from "./types";
 import { MeasurementTypeRepositoryError, MeasurementTypeRepositoryNotFoundException } from "./errors/MeasurementTypeRepositoryError";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { eq } from "drizzle-orm";

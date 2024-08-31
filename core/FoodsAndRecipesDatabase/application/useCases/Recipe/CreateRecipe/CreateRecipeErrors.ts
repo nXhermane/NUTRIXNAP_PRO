@@ -1,4 +1,4 @@
-import { Result, UseCaseError } from "@shared";
+import { Result, UseCaseError } from "./../../../../../shared";
 
 export namespace CreateRecipeErrors {
    export class CreateRecipeFailed extends Result<UseCaseError> {

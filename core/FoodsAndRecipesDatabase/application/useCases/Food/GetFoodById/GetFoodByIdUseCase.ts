@@ -1,7 +1,7 @@
 import { GetFoodByIdErrors } from "./GetFoodByIdErrors";
 import { GetFoodByIdResponse } from "./GetFoodByIdResponse";
 import { GetFoodByIdRequest } from "./GetFoodByIdRequest";
-import { UseCase, Mapper, Result, AppError, left, right } from "@shared";
+import { UseCase, Mapper, Result, AppError, left, right } from "./../../../../../shared";
 import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
 import { Food } from "./../../../../domain";
 import { FoodDto } from "./../sharedType";

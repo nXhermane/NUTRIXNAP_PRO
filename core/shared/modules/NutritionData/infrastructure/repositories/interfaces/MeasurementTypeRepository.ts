@@ -1,4 +1,4 @@
-import { AggregateID } from "@shared";
+import { AggregateID } from "./../../../../../domain";
 import { MeasurementType } from "./../../../domain";
 export interface MeasurementTypeRepository {
    save(measuementType: MeasurementType): Promise<void>;

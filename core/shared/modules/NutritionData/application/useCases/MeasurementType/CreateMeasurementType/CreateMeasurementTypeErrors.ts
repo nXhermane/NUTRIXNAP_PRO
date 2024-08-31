@@ -1,4 +1,5 @@
-import { Result, UseCaseError } from "@shared";
+import { Result } from "./../../../../../../core";
+import { UseCaseError} from "./../../../../../../application"
 
 export namespace CreateMeasurementTypeErrors {
    export class CreateMeasurementTypeFailed extends Result<UseCaseError> {

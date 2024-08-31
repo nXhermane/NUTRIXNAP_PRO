@@ -9,7 +9,7 @@ import {
 } from "./application";
 import { MeasurementTypeRepositoryImplDb, db } from "./infrastructure";
 import { SQLiteDatabase } from "expo-sqlite";
-import { IFoodRecipeServiceDataProvider, FoodAndRecipe } from "@foodAndRecipe";
+import { IFoodRecipeServiceDataProvider, FoodAndRecipe } from "./../../../FoodsAndRecipesDatabase";
 export interface INutritionData {
    measurement: IMeasurementTypeService;
    foodAndRecipeProvider: IFoodRecipeServiceDataProvider;
@@ -39,6 +39,6 @@ export class NutritionData {
       return NutritionData.instance as INutritionData;
    }
 }
-export * from "./domain";
-export * from "./infrastructure";
-export * from "./application";
+// export * from "./domain";
+// export * from "./infrastructure";
+// export * from "./application";

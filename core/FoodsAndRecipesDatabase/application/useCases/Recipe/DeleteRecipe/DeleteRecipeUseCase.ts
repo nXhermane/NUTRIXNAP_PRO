@@ -1,6 +1,6 @@
 import { DeleteRecipeRequest } from "./DeleteRecipeRequest";
 import { DeleteRecipeResponse } from "./DeleteRecipeResponse";
-import { UseCase, AppError, Result, left, right } from "@shared";
+import { UseCase, AppError, Result, left, right } from "./../../../../../shared";
 import { RecipeRepository, RecipeRepositoryError } from "./../../../../infrastructure";
 export class DeleteRecipeUseCase implements UseCase<DeleteRecipeRequest, DeleteRecipeResponse> {
    constructor(private repo: RecipeRepository) {}

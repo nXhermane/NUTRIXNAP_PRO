@@ -1,4 +1,4 @@
-import { UseCase, Mapper, Result, AppError, left, right } from "@shared";
+import { UseCase, Mapper, Result, AppError, left, right } from "./../../../../../shared";
 import { GetAllRecipeRequest } from "./GetAllRecipeRequest";
 import { GetAllRecipeResponse } from "./GetAllRecipeResponse";
 import { GetAllRecipeErrors } from "./GetAllRecipeErrors";

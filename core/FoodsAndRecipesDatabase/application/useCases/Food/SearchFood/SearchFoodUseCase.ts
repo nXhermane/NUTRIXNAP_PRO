@@ -1,6 +1,6 @@
 import { SearchFoodResponse } from "./SearchFoodResponse";
 import { SearchFoodRequest } from "./SearchFoodRequest";
-import { UseCase, Mapper, AppError, left, right, Result, SearchEngineResult, ISearchEngine } from "@shared";
+import { UseCase, Mapper, AppError, left, right, Result, SearchEngineResult, ISearchEngine } from "./../../../../../shared";
 import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
 import { Food } from "./../../../../domain";
 import { FoodDto } from "./../sharedType";

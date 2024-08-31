@@ -1,4 +1,4 @@
-import { Entity, CreateEntityProps, AggregateID } from "./../../../../domain";
+import { Entity, CreateEntityProps } from "./../../../../domain";
 import { EmptyStringError, ArgumentOutOfRangeException } from "./../../../../exceptions";
 import { Guard, Result } from "./../../../../core";
 import { PatientMeasurementCategory } from "./../../../../constants";

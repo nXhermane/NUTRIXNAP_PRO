@@ -1,14 +1,9 @@
 import { GetMeasurementTypeErrors } from "./GetMeasurementTypeErrors";
 import { GetMeasurementTypeRequest } from "./GetMeasurementTypeRequest";
 import { GetMeasurementTypeResponse } from "./GetMeasurementTypeResponse";
-import { UseCase, Mapper, AppError, Result, left, right } from "@shared";
-import { IMeasurementType, MeasurementType } from "./../../../../domain";
-import {
-   MeasurementTypeDto,
-   MeasurementTypeRepository,
-   MeasurementTypeRepositoryError,
-   MeasurementTypeRepositoryNotFoundException,
-} from "./../../../../infrastructure";
+import { UseCase, AppError } from "./../../../../../../application";
+import { Result, left, right } from "./../../../../../../core";
+import { MeasurementTypeDto, MeasurementTypeRepository, MeasurementTypeRepositoryNotFoundException } from "./../../../../infrastructure";
 
 export class GetMeasurementTypeUseCase implements UseCase<GetMeasurementTypeRequest, GetMeasurementTypeResponse> {
    constructor(private repo: MeasurementTypeRepository) {}
