@@ -3,6 +3,7 @@ export * from "./CreateEatingBehavior";
 export * from "./CreateFoodDiary";
 export * from "./CreateMedicalRecord";
 export * from "./CreateObjective";
+export * from "./DeleteMedicalRecord";
 export * from "./GetAllFoodDiary";
 export * from "./GetAllObjective";
 export * from "./GetConsultationInformation";

@@ -8,13 +8,13 @@ export namespace CreateFoodDiaryErrors {
    }
    export class MedicalRecordRepoError extends Result<UseCaseError> {
       constructor(err: any) {
-         const message = `MedicalRecord Repository Error. Try this operation after a few moment.`;
+         const message = `MedicalRecord Repository Error. Try this operation after a few moment.[Error]:${err?.toJSON() || err}`;
          super(false, { message } as UseCaseError);
       }
    }
    export class FoodDiaryFactoryError extends Result<UseCaseError> {
       constructor(e: any) {
-         const message = `Food Diary Creation error.`;
+         const message = `Food Diary Creation error.[Error]:${e?.toJSON() || e}`;
          super(false, { message } as UseCaseError);
       }
    }

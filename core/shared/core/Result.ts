@@ -46,6 +46,23 @@ export class Result<T> {
       }
       return Result.ok();
    }
+   public static encapsulate<U>(func: () => U): Result<U> {
+      try {
+         const result = func();
+         return Result.ok<U>(result);
+      } catch (e: any) {
+         return Result.fail<U>(e as any);
+      }
+   }
+   public static async encapsulateAsync<U>(func: () => Promise<U>): Promise<Result<U>> {
+      try {
+         const result = await func();
+         return Result.ok<U>(result);
+      } catch (e: any) {
+         return Result.fail<U>(e as any);
+      }
+   }
+   
 }
 
 export type Either<L, A> = Left<L, A> | Right<L, A>;

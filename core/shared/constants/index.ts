@@ -7,3 +7,7 @@ export * from "./PatientMeasureCategory";
 export * from "./ObjectiveType";
 export * from "./ObjectiveStatus";
 export * from "./PittsburghSleepQuality";
+export * from "./NutritionistSpecialities";
+export * from "./NutritionistServiceType";
+export * from "./NutritionistServicePatientType"
+export * from "./env"

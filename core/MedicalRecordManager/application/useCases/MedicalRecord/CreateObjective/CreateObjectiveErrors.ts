@@ -8,13 +8,13 @@ export namespace CreateObjectiveErrors {
    }
    export class MedicalRecordRepoError extends Result<UseCaseError> {
       constructor(err: any) {
-         const message = `MedicalRecord Repository Error. Try this operation after a few moment.`;
+         const message = `MedicalRecord Repository Error. Try this operation after a few moment.[Error]:${err?.toJSON() || err}`;
          super(false, { message } as UseCaseError);
       }
    }
    export class ObjectiveFactoryError extends Result<UseCaseError> {
       constructor(e: any) {
-         const message = `Objective Creation error.`;
+         const message = `Objective Creation error.[Error]:${e?.toJSON() || e}`;
          super(false, { message } as UseCaseError);
       }
    }

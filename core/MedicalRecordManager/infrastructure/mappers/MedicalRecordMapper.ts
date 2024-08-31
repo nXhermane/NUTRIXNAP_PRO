@@ -58,6 +58,8 @@ export class MedicalRecordMapper implements Mapper<MedicalRecord, MedicalRecordP
             eatingBehavior: eatBeh.eatingBehavior,
          })),
          status: "Active",
+         createdAt: entity.createdAt,
+         updatedAt: entity.updatedAt,
       };
    }
    toDomain(record: MedicalRecordPersistenceRecordType): MedicalRecord {

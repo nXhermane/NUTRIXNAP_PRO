@@ -106,7 +106,7 @@ export interface MedicalRecordTableType extends Timestamps {
    status: "Active" | "New" | "Inactive";
    eatingBehaviors: string;
 }
-export interface MedicalRecordPersistenceType {
+export interface MedicalRecordPersistenceType extends Timestamps {
    id: string;
    patientId: string;
    medicalStoryId: string;

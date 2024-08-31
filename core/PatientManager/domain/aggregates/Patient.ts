@@ -20,7 +20,7 @@ import {
    Email,
    Sexe,
 } from "@shared";
-import { PatientCreatedEvent } from "./../events";
+import { PatientCreatedEvent, PatientDeletedEvent } from "./../events";
 import { CreatePatientProps } from "./../types";
 export interface IPatient {
    name: HumanName;
@@ -147,6 +147,12 @@ export class Patient extends AggregateRoot<IPatient> {
          return e instanceof ExceptionBase
             ? Result.fail<Patient>(`[${e.code}]:${e.message}`)
             : Result.fail<Patient>(`Erreur inattendue. ${Patient.constructor.name}`);
+      }
+   }
+   public delete(): void {
+      if (!this.isDeleted) {
+         super.delete();
+         this.addDomainEvent(new PatientDeletedEvent(this.id))
       }
    }
 }

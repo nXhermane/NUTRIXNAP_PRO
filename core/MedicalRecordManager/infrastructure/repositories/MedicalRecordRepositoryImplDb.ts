@@ -14,7 +14,7 @@ import { MedicalRecord, FoodDiary, Objective } from "./../../domain";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { eq, or } from "drizzle-orm";
 import { SQLiteDatabase } from "expo-sqlite";
-import { MedicalRecordPersistenceType } from "./types";
+import { MedicalRecordPersistenceType, MedicalRecordPersistenceRecordType } from "./types";
 import { MedicalRecordDto } from "./../dtos";
 import { MedicalRecordRepositoryError, MedicalRecordRepositoryNotFoundException } from "./errors/MedicalRecordRepositoryError";
 
@@ -81,8 +81,8 @@ export class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
                medicalRecordOrPatientId,
             });
          }
-
-         return this.mapper.toDomain(medicalRecord as MedicalRecordPersistenceType);
+         const record = await this.__getAllDataToMakeRecord(medicalRecord as unknown as MedicalRecordPersistenceType);
+         return this.mapper.toDomain(record);
       } catch (e: any) {
          throw new MedicalRecordRepositoryError("Erreur lors de la récupération du MedicalRecord par ID", e as Error, { medicalRecordOrPatientId });
       }
@@ -119,7 +119,42 @@ export class MedicalRecordRepositoryImpl implements MedicalRecordRepository {
          throw new MedicalRecordRepositoryError("Erreur lors de la suppression du MedicalRecord", error as Error, {});
       }
    }
+   private async __getAllDataToMakeRecord(medicalRecord: MedicalRecordPersistenceType): Promise<MedicalRecordPersistenceRecordType> {
+      const {
+         medicalStoryId,
+         foodStoryId,
+         consultationInformationId,
+         patientMeasurementId,
+         objectiveIds,
+         foodDiaryIds,
+         personalAndSocialStorieId,
+         id,
+         status,
+         patientId,
+         ...otherMedicalRecordProps
+      } = medicalRecord;
+      const medicalStory = await this.repositories.medicalStoryRepo.getById(medicalStoryId);
+      const foodStory = await this.repositories.foodStoryRepo.getById(foodStoryId);
+      const consultationInformation = await this.repositories.consultationInfoRepo.getById(consultationInformationId);
+      const patientMeasurements = await this.repositories.patientMeasurementRepo.getById(patientMeasurementId);
+      const personalAndSocialStory = await this.repositories.personalAndSocialStoryRepo.getById(personalAndSocialStorieId);
+      const objectives = await Promise.all(objectiveIds.map((objId) => this.repositories.objectiveRepo.getById(objId)));
+      const foodDiaries = await Promise.all(foodDiaryIds.map((foodDiaryId) => this.repositories.foodDiaryRepo.getById(foodDiaryId)));
 
+      return {
+         medicalStory,
+         foodStory,
+         consultationInformation,
+         patientMeasurements,
+         personalAndSocialStory,
+         objectives,
+         foodDiaries,
+         id: id as unknown as AggregateID,
+         patientId: patientId as unknown as AggregateID,
+         status: status as unknown as "Active" | "New" | "Inactive",
+         ...otherMedicalRecordProps,
+      } as MedicalRecordPersistenceRecordType;
+   }
    private async checkIfExist(medicalRecordId: AggregateID): Promise<boolean> {
       const medicalRecord = await this.db
          .select()

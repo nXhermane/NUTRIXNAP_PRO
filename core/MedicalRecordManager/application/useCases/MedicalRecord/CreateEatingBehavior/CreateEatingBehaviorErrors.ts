@@ -8,13 +8,13 @@ export namespace CreateEatingBehaviorErrors {
    }
    export class MedicalRecordRepoError extends Result<UseCaseError> {
       constructor(err: any) {
-         const message = `MedicalRecord Repository Error. Try this operation after a few moment.`;
+         const message = `MedicalRecord Repository Error. Try this operation after a few moment.[Error]:${err?.toJSON() || err}`;
          super(false, { message } as UseCaseError);
       }
    }
    export class EatingBehaviorFactoryError extends Result<UseCaseError> {
       constructor(e: any) {
-         const message = `Eating Behavior Creation error.`;
+         const message = `Eating Behavior Creation error.[Error]:${e?.toJSON() || e}`;
          super(false, { message } as UseCaseError);
       }
    }

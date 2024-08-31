@@ -1,7 +1,7 @@
-import { GetPatientError } from "./GetPatientError";
+import { GetPatientErrors } from "./GetPatientErrors";
 import { GetPatientRequest } from "./GetPatientRequest";
 import { GetPatientResponse } from "./GetPatientResponse";
-import { UseCase, Mapper } from "@shared";
+import { UseCase, Mapper, Result, AppError, left, right } from "@shared";
 import {
    PatientRepository,
    PatientRepositoryError,
@@ -20,13 +20,10 @@ export class GetPatientUseCase implements UseCase<GetPatientRequest, GetPatientR
    async execute(request: GetPatientRequest): Promise<GetPatientResponse> {
       try {
          const patient = await this.repo.getById(request.patientId);
-         return this.mapper.toResponse(patient) as GetPatientResponse;
+         return right(Result.ok<PatientDto>(this.mapper.toResponse(patient)));
       } catch (e) {
-         if (e instanceof PatientRepositoryNotFoundException || e instanceof PatientRepositoryError) {
-            throw new GetPatientError(e.message, e as Error, e.metadata);
-         } else {
-            throw new GetPatientError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
-         }
+         if (e instanceof PatientRepositoryNotFoundException) return left(new GetPatientErrors.PatientNotFoundError(e, request.patientId));
+         else return left(new AppError.UnexpectedError(e));
       }
    }
 }

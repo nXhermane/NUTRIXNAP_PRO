@@ -1,14 +1,13 @@
-import { CreatePatientError } from "./CreatePatientError";
+import { CreatePatientErrors } from "./CreatePatientErrors";
 import { CreatePatientRequest } from "./CreatePatientRequest";
 import { CreatePatientResponse } from "./CreatePatientResponse";
 import { CreatePatientProps, Patient } from "./../../../../domain";
-import { UseCase, TransactionManager, FileManager, Image } from "@shared";
+import { UseCase, FileManager, Image, Result, AppError, left, right ,AggregateID} from "@shared";
 import { PatientRepository, PatientRepositoryError } from "./../../../../infrastructure";
 
 export class CreatePatientUseCase implements UseCase<CreatePatientRequest, CreatePatientResponse> {
    constructor(
       private patientRepo: PatientRepository,
-      private transactionManager: TransactionManager,
       private fileManager: FileManager,
    ) {}
 
@@ -17,7 +16,7 @@ export class CreatePatientUseCase implements UseCase<CreatePatientRequest, Creat
          const patient = Patient.create({
             ...request,
          });
-         if (patient.isFailure) throw new CreatePatientError(`Create Patient Failed`);
+         if (patient.isFailure) return left(new CreatePatientErrors.PatientFactoryError(patient.err));
          const images = await Promise.all(
             patient.val.getImage().map(
                async (img: Image) =>
@@ -28,15 +27,11 @@ export class CreatePatientUseCase implements UseCase<CreatePatientRequest, Creat
             ),
          );
          patient.val.images = images as Image[];
-         await this.transactionManager.transaction<void>(async (context: any) => {
-            await this.patientRepo.save(patient.val, context);
-         });
-         return {
-            patientId: patient.val.id,
-         } as CreatePatientResponse;
-      } catch (e: any) {
-         if (e instanceof PatientRepositoryError) throw new CreatePatientError(e.message, e as Error, e.metadata);
-         throw new CreatePatientError(`Unexpected error: ${e?.constructor.name}`, e as Error, request);
+         await this.patientRepo.save(patient.val);
+         return right(Result.ok<AggregateID>(patient.val.id));
+      } catch (e) {
+         if (e instanceof PatientRepositoryError) return left(new CreatePatientErrors.PatientRepoError(e));
+         return left(new AppError.UnexpectedError(e));
       }
    }
 }

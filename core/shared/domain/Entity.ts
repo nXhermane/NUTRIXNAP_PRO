@@ -21,6 +21,7 @@ export abstract class Entity<EntityProps> {
    private readonly _createdAt: string;
    private _updatedAt: string;
    protected _isValid: boolean = false;
+   protected _isDeleted: boolean = false;
    public readonly props: EntityProps;
    constructor({ createdAt, updatedAt, id, props }: CreateEntityProps<EntityProps>) {
       this._id = new EntityUniqueID(id);
@@ -121,5 +122,11 @@ export abstract class Entity<EntityProps> {
       } catch (e) {
          return this._isValid;
       }
+   }
+   get isDeleted(): boolean {
+      return this._isDeleted;
+   }
+   public delete(): void {
+      this._isDeleted = true;
    }
 }
