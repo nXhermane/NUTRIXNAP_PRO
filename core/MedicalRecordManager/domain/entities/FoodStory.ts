@@ -1,7 +1,6 @@
 import {
    Entity,
    CreateEntityProps,
-   Guard,
    ArgumentInvalidException,
    ArgumentOutOfRangeException,
    Time,
@@ -10,7 +9,7 @@ import {
    ExceptionBase,
    Result,
    NutritionData,
-} from "@shared";
+} from "./../../../shared";
 import { FavoriteFood, IFavoriteFood } from "./../value-objects/FavoriteFood";
 import { Aversion, IAversion } from "./../value-objects/Aversion";
 import { WaterConsumptionRange, IWaterConsumptionRange } from "./../value-objects/WaterConsumptionRange";

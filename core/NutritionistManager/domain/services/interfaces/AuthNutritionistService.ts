@@ -1,10 +1,10 @@
 import { Nutritionist } from "./../../aggregates/Nutritionist";
-import { Result } from "@shared";
+import { Email, Result } from "@shared";
 export interface IAuthNutritionistService {
    signUp(nutritionist: Nutritionist, password: string): Promise<Result<boolean>>;
    //   signUpWithGoogle(nutritionist: Nutritionist, googleIdToken: string): Promise<Result<boolean>>;
 
-   login(nutritionist: Nutritionist, password: string): Promise<Result<{ accessToken: string; refreshToken: string }>>;
+   login(email: Email, password: string): Promise<Result<{ accessToken: string; refreshToken: string }>>;
    // loginWithGoogle(nutritionist: Nutritionist, googleIdToken: string): Promise<Result<{ accessToken: string; refreshToken: string }>>;
 
    validateAccessToken(token: string): Promise<Result<boolean>>;

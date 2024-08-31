@@ -2,7 +2,7 @@ import { IAuthNutritionistService } from "./interfaces/AuthNutritionistService";
 import { NutritionistRepository, NutritionistRepositoryNotFoundException, RefreshTokenRepository } from "./../../infrastructure";
 import { Nutritionist } from "./../aggregates/Nutritionist";
 import bcrypt from "bcryptjs";
-import { Result, ENV } from "@shared";
+import { Result, ENV, Email } from "@shared";
 
 import jwt from "jsonwebtoken";
 
@@ -12,7 +12,7 @@ export class AuthNutritionistService implements IAuthNutritionistService {
       private refreshTokenRepo: RefreshTokenRepository,
    ) {}
 
-   private async checkEmailExistence(email: string): Promise<Result<boolean>> {
+   private async checkEmailExistence(email: Email): Promise<Result<boolean>> {
       const emailExist = await Result.encapsulateAsync<Nutritionist>(async () => {
          return this.repo.getByEmail(email);
       });

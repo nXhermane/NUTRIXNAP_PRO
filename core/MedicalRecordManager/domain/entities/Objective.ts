@@ -18,7 +18,7 @@ import {
    ExceptionBase,
    Result,
    AppServiceResponse,
-} from "@shared";
+} from "./../../../shared";
 import { CreateObjectiveProps } from "./../types";
 export interface IObjective {
    type: ObjectiveType;

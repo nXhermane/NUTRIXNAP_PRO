@@ -1,4 +1,4 @@
 import { CreateNutritionistProps } from "./../../../domain";
 export type SignUpRequest = {
-   data: CreateNutritionistProps & { password: string };
+   data: { password: string }  & CreateNutritionistProps;
 };

@@ -1,7 +1,6 @@
 import {
    Entity,
    CreateEntityProps,
-   BaseEntityProps,
    RegistrationDate,
    Image,
    Guard,
@@ -11,7 +10,7 @@ import {
    Quantity,
    DateManager,
    ExceptionBase,
-} from "@shared";
+} from "./../../../shared";
 
 import { FoodDiaryMealEntry, IFoodDiaryMealEntry } from "./../value-objects/FoodDiaryMealEntry";
 import { FoodDiaryFoodItem } from "./../value-objects/FoodDiaryFoodItem";
