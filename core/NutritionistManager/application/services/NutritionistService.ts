@@ -1,22 +1,22 @@
-import { AppServiceResponse, Message } from "@shared";
+import { AppServiceResponse, Message, UseCase } from "@shared";
 import {
    SignUpRequest,
    SignInRequest,
    ValidateTokenRequest,
    RefreshTokenRequest,
-   SignUpUseCase,
-   SignInUseCase,
-   ValidateTokenUseCase,
-   RefreshTokenUseCase,
+   SignUpResponse,
+   SignInResponse,
+   ValidateTokenResponse,
+   RefreshTokenResponse,
 } from "../useCases";
 import { INutritionistService } from "./interfaces/NutritionistService";
 
 export class NutritionistService implements INutritionistService {
    constructor(
-      private signUpUC: SignUpUseCase,
-      private signInUC: SignInUseCase,
-      private validatetokenUC: ValidateTokenUseCase,
-      private refreshTokenUC: RefreshTokenUseCase,
+      private signUpUC: UseCase<SignUpRequest,SignUpResponse>,
+      private signInUC: UseCase<SignInRequest,SignInResponse>,
+      private validatetokenUC: UseCase<ValidateTokenRequest,ValidateTokenResponse>,
+      private refreshTokenUC: UseCase<RefreshTokenRequest,RefreshTokenResponse>
    ) {}
    async signUp(req: SignUpRequest): Promise<AppServiceResponse<void> | Message> {
       const res = await this.signUpUC.execute(req);

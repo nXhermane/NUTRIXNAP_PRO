@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from "expo-sqlite";
-import { IMedicalRecordService } from "./application/services";
+import { IMedicalRecordService, MedicalRecordService } from "./application/services";
 import {
    ConsultationInformationRepositoryImpl,
    FoodDiaryRepositoryImpl,
@@ -19,6 +19,27 @@ import { ObjectiveMapper } from "./infrastructure/mappers/ObjectiveMapper";
 import { PersonalAndSocialStoryMapper } from "./infrastructure/mappers/PersonalAndSocialStoryMapper";
 import { MedicalRecordMapper } from "./infrastructure/mappers/MedicalRecordMapper";
 import { PatientMeasurementMapper } from "./infrastructure/mappers/PatientMeasurementMapper";
+import {
+   AddMeasurementUseCase,
+   CreateEatingBehaviorUseCase,
+   CreateFoodDiaryUseCase,
+   CreateMedicalRecordUseCase,
+   CreateObjectiveUseCase,
+   DeleteMedicalRecordUseCase,
+   GetAllFoodDiaryUseCase,
+   GetAllObjectiveUseCase,
+   GetConsultationInformationUseCase,
+   GetFoodDiaryUseCase,
+   GetFoodStoryUseCase,
+   GetMedicalStoryUseCase,
+   GetObjectiveUseCase,
+   GetPersonalAndSocialStoryUseCase,
+   UpdateConsultationInformationUseCase,
+   UpdateFoodDiaryUseCase,
+   UpdateFoodStoryUseCase,
+   UpdateMedicalStoryUseCase,
+} from "./application/useCases";
+import { FileManagerExpo } from "../shared";
 
 export interface IMedicalRecordManager extends IMedicalRecordService {}
 export class MedicalRecordManager {
@@ -26,6 +47,7 @@ export class MedicalRecordManager {
    static async getInstance(): Promise<IMedicalRecordManager> {
       if (MedicalRecordManager.instance) {
          const expo = (await db).db;
+         const fileManager = new FileManagerExpo();
          const consultationInfoMapper = new ConsultationInformationMapper();
          const foodDiaryMapper = new FoodDiaryMapper();
          const foodStoryMapper = new FoodStoryMapper();
@@ -58,9 +80,47 @@ export class MedicalRecordManager {
             patientMeasurementRepo: patientMeasurementRepo,
             objectiveRepo: objectiveRepo,
          });
-         
+         const addMeasureUC = new AddMeasurementUseCase(medicalRecordRepo);
+         const createEatingBehaviorUC = new CreateEatingBehaviorUseCase(medicalRecordRepo);
+         const createFoodDiaryUC = new CreateFoodDiaryUseCase(medicalRecordRepo, fileManager);
+         const createMedicalRecordUC = new CreateMedicalRecordUseCase(medicalRecordRepo);
+         const createObjectiveUC = new CreateObjectiveUseCase(medicalRecordRepo);
+         const deleteMedicalRecordUC = new DeleteMedicalRecordUseCase(medicalRecordRepo);
+         const getAllFoodDiaryUC = new GetAllFoodDiaryUseCase(medicalRecordRepo, medicalRecodMapper);
+         const getAllObjectiveUC = new GetAllObjectiveUseCase(medicalRecordRepo, medicalRecodMapper);
+         const getConsultInfoUC = new GetConsultationInformationUseCase(medicalRecordRepo, medicalRecodMapper);
+         const getFoodDiaryUC = new GetFoodDiaryUseCase(medicalRecordRepo, medicalRecodMapper);
+         const getFoodStoryUC = new GetFoodStoryUseCase(medicalRecordRepo, medicalRecodMapper);
+         const getMedicalStoryUC = new GetMedicalStoryUseCase(medicalRecordRepo, medicalRecodMapper);
+         const getObjectiveUC = new GetObjectiveUseCase(medicalRecordRepo, medicalRecodMapper);
+         const getPersonalAndSocialStoryUC = new GetPersonalAndSocialStoryUseCase(medicalRecordRepo, medicalRecodMapper);
+         const updateConsultInfoUC = new UpdateConsultationInformationUseCase(medicalRecordRepo);
+         const updateFoodDiaryUC = new UpdateFoodDiaryUseCase(medicalRecordRepo, fileManager);
+         const updateFoodStoryUC = new UpdateFoodStoryUseCase(medicalRecordRepo);
+         const updateMedicalStoryUC = new UpdateMedicalStoryUseCase(medicalRecordRepo);
 
+         MedicalRecordManager.instance = new MedicalRecordService(
+            addMeasureUC,
+            createMedicalRecordUC,
+            deleteMedicalRecordUC,
+            createEatingBehaviorUC,
+            createFoodDiaryUC,
+            createObjectiveUC,
+            getAllFoodDiaryUC,
+            getAllObjectiveUC,
+            getConsultInfoUC,
+            getFoodDiaryUC,
+            getFoodStoryUC,
+            getMedicalStoryUC,
+            getObjectiveUC,
+            getPersonalAndSocialStoryUC,
+            updateConsultInfoUC,
+            updateFoodDiaryUC,
+            updateFoodStoryUC,
+            updateMedicalStoryUC,
+         );
       }
       return MedicalRecordManager.instance as IMedicalRecordManager;
    }
 }
+

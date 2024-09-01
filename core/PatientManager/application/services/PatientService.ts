@@ -1,23 +1,23 @@
-import { AppServiceResponse, AggregateID, Message } from "@shared";
+import { AppServiceResponse, AggregateID, Message, UseCase } from "@shared";
 import { PatientDto } from "../../infrastructure";
 import {
    CreatePatientRequest,
    GetPatientRequest,
    GetAllPatientRequest,
    DeletePatientRequest,
-   CreatePatientUseCase,
-   GetPatientUseCase,
-   GetAllPatientUseCase,
-   DeletePatientUseCase,
+   CreatePatientResponse,
+   GetPatientResponse,
+   GetAllPatientResponse,
+   DeletePatientResponse,
 } from "../useCases";
 import { IPatientService } from "./interfaces/PatientService";
 
 export class PatientService implements IPatientService {
    constructor(
-      private createPatientUC: CreatePatientUseCase,
-      private getPatientUC: GetPatientUseCase,
-      private getAllPatientUC: GetAllPatientUseCase,
-      private deletePatientUC: DeletePatientUseCase,
+      private createPatientUC: UseCase<CreatePatientRequest, CreatePatientResponse>,
+      private getPatientUC: UseCase<GetPatientRequest, GetPatientResponse>,
+      private getAllPatientUC: UseCase<GetAllPatientRequest, GetAllPatientResponse>,
+      private deletePatientUC: UseCase<DeletePatientRequest, DeletePatientResponse>,
    ) {}
    async createPatient(req: CreatePatientRequest): Promise<AppServiceResponse<AggregateID> | Message> {
       const res = await this.createPatientUC.execute(req);
