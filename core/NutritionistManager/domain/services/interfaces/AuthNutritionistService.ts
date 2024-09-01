@@ -7,7 +7,7 @@ export interface IAuthNutritionistService {
    login(email: Email, password: string): Promise<Result<{ accessToken: string; refreshToken: string }>>;
    // loginWithGoogle(nutritionist: Nutritionist, googleIdToken: string): Promise<Result<{ accessToken: string; refreshToken: string }>>;
 
-   validateAccessToken(token: string): Promise<Result<boolean>>;
+   validateAccessToken(token: string): Promise<Result<{ unique_id: string; email: string }>>;
    refreshAccessToken(refreshToken: string): Promise<Result<{ accessToken: string; refreshToken: string }>>;
 
    // verifyPassword(email: string, password: string): Promise<boolean>;
