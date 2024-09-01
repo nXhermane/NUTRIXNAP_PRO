@@ -5,7 +5,7 @@ import { MedicalRecord, FoodDiary } from "./../../../../domain";
 import { MedicalRecordRepository, MedicalRecordRepositoryError } from "./../../../../infrastructure";
 import { Image, FileManager, UseCase, AggregateID, Result, left, right, AppError } from "@shared";
 
-export class CreatePatientUseCase implements UseCase<CreateFoodDiaryRequest, CreateFoodDiaryResponse> {
+export class CreateFoodDiaryUseCase implements UseCase<CreateFoodDiaryRequest, CreateFoodDiaryResponse> {
    constructor(
       private medicalRecordRepo: MedicalRecordRepository,
       private fileManager: FileManager,
