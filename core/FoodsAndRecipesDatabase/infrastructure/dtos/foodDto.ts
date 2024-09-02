@@ -6,7 +6,6 @@ export type FoodDto = {
     foodCode: string;
     foodName: string;
     foodNameF: string;
-      scientificName?: string;
     foodSource: string;
     foodOrigin: string;
     groupId: string

@@ -1,12 +1,12 @@
 import { Mapper } from "@shared";
 import { Nutrient } from "../../domain";
-import { NutrientPersistenceArray, NutrientPersistenceType } from "../repositories";
+import { NutrientPersistenceType } from "../repositories";
 import { NutrientDto } from "../dtos";
 
 export class NutrientMapper implements Mapper<Nutrient, NutrientPersistenceType, NutrientDto> {
    toPersistence(entity: Nutrient): NutrientPersistenceType {
       const nutrientPersistence: NutrientPersistenceType = {
-         nutrientNameId: entity.id as string,
+         nutrientId: entity.id as string,
          nutrientCode: entity.nutrientCode,
          nutrientDecimal: entity.nutrientDecimals.toString(),
          nutrientName: entity.nutrientNameE,
@@ -21,7 +21,7 @@ export class NutrientMapper implements Mapper<Nutrient, NutrientPersistenceType,
    }
    toDomain(record: NutrientPersistenceType): Nutrient {
       return new Nutrient({
-         id: record.nutrientNameId,
+         id: record.nutrientId,
          createdAt: record.createdAt,
          updatedAt: record.updatedAt,
          props: {

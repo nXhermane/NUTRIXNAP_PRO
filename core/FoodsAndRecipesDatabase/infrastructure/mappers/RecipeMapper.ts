@@ -1,20 +1,8 @@
-import { Mapper, BaseEntityProps } from "@shared";
-import {
-   Recipe,
-   MealsType,
-   IMealsType,
-   MealsCategory,
-   IMealsCategory,
-   Ingredient,
-   IIngredient,
-   Quantity,
-   IQuantity,
-   PreparationStep,
-   IPreparationStep,
-} from "./../../domain";
+import { IQuantity, Mapper } from "@shared";
+import { Recipe, MealsType, MealsCategory, Ingredient, IIngredient, FoodQuantity, PreparationStep, IPreparationStep } from "./../../domain";
 import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
 import { RecipePersistenceType } from "./../repositories/types";
-import { RecipeDto, QuantityDto, IngredientDto, MealsCategoryDto, MealsTypeDto, PreparationStepDto } from "./../../application";
+import { RecipeDto, QuantityDto, MealsCategoryDto, MealsTypeDto, PreparationStepDto } from "./../dtos";
 export class RecipeMapper implements Mapper<Recipe, RecipePersistenceDto, RecipeDto> {
    toPersistence(recipe: Recipe): RecipePersistenceDto {
       const persistenceRecipe: RecipePersistenceDto = {
@@ -43,7 +31,7 @@ export class RecipeMapper implements Mapper<Recipe, RecipePersistenceDto, Recipe
 
       const newIngredients = convertToIIngredientArray.map((ing: IIngredient) => new Ingredient(ing));
       const newPreparationMethod = converToPreparationStepArray.map((preparationStep: IPreparationStep) => new PreparationStep(preparationStep));
-      const newQuantity = new Quantity(convertToIQunatity);
+      const newQuantity = new FoodQuantity(convertToIQunatity);
       const newCategory = new MealsCategory({
          categoryId: record.categoryId,
          name: record.categoryName,
