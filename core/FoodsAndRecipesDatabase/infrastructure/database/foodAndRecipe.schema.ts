@@ -1,4 +1,5 @@
 
+import { sql } from "drizzle-orm";
 import { sqliteTable, integer, text, primaryKey, unique, index, foreignKey } from "drizzle-orm/sqlite-core";
 // Définition des tables
 
@@ -8,6 +9,13 @@ export const foodGroups = sqliteTable("food_groups", {
    groupCode: text("groupCode", { length: 15 }),
    groupName: text("groupName", { length: 255 }),
    groupNameF: text("groupNameF", { length: 255 }),
+   createdAt: text("createdAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+   updatedAt: text("updatedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
 
 // Table food_names
@@ -24,6 +32,13 @@ export const foodNames = sqliteTable(
       scientificName: text("scientificName", { length: 155 }),
       foodSource: text("foodSource", { length: 255 }),
       foodOrigin: text("foodOrigin", { length: 100 }),
+      createdAt: text("createdAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+   updatedAt: text("updatedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
    },
    (table) => ({
       foodCodeIndex: index("foodCodeIndex").on(table.foodCode),
@@ -46,6 +61,13 @@ export const nutrientNames = sqliteTable(
       nutrientSymbol: text("nutrientSymbol", { length: 10 }),
       tagname: text("tagname", { length: 20 }),
       nutrientDecimal: text("nutrientDecimal", { length: 15 }),
+      createdAt: text("createdAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+   updatedAt: text("updatedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
    },
    (table) => ({
       nutrientIdIndex: index("nutrientIdIndex").on(table.nutrientId),
@@ -77,6 +99,13 @@ export const mealsTypes = sqliteTable("meals_types", {
    typeId: text("typeId").primaryKey(),
    name: text("name"),
    nameF: text("nameF"),
+   createdAt: text("createdAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+   updatedAt: text("updatedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
 
 // Table meals_categories
@@ -84,6 +113,13 @@ export const mealsCategories = sqliteTable("meals_categories", {
    categoryId: text("categoryId").primaryKey(),
    name: text("name", { length: 200 }),
    nameF: text("nameF", { length: 200 }),
+   createdAt: text("createdAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+   updatedAt: text("updatedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
 
 // Table recipes
@@ -102,4 +138,11 @@ export const recipes = sqliteTable("recipes", {
    cookingTime: integer("cookingTime"),
    quantity: text("quantity"), // Stockage des JSON sous forme de texte
    description: text("description"),
+   createdAt: text("createdAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+   updatedAt: text("updatedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });

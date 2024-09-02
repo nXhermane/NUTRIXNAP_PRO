@@ -1,6 +1,10 @@
 import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
-export interface FoodName {
-   foodId: number;
+export interface Timestamp {
+   createdAt: string;
+   updatedAt: string;
+}
+export interface FoodNamePersistenceType extends Timestamp {
+   foodId: string;
    foodCode: string;
    foodGroupId: number;
    foodName: string;
@@ -10,15 +14,14 @@ export interface FoodName {
    foodOrigin: string;
 }
 
-export interface FoodGroup {
+export interface FoodGroup extends Timestamp {
    groupId: number;
    groupCode: string;
    groupName: string;
    groupNameF: string;
 }
 
-export interface NutrientAmount {
-   foodId: number | string;
+export interface NutrientAmountPersitenceType {
    nutrientId: number;
    nutrientValue: number;
    originalValue: string;
