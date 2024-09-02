@@ -2,15 +2,26 @@ import {
    INVALID_FOOD_CODE_ERROR,
    INVALID_FOOD_NAME_ERROR,
    INVALID_FOOD_ORIGIN_ERROR,
-   MINIMUM_NUTRIENTS_ERROR,
    DUPLICATE_NUTRIENTS_ERROR,
    FOOD_UPDATE_RESTRICTED_ERROR,
 } from "./../constants";
 
-import { Quantity as FoodQuantity, IQuantity as IFoodQuantity } from "./../value-objects/Quantity";
+import { FoodQuantity } from "./../value-objects/Quantity";
 import { FoodGroup, IFoodGroup } from "./../entities/FoodGroup";
-import { Nutrient, INutrient } from "./../entities/Nutrient";
-import { AggregateRoot, CreateEntityProps, BaseEntityProps, EmptyStringError, DuplicateValueError, AuthValueError, Guard } from "@shared";
+import {
+   AggregateRoot,
+   CreateEntityProps,
+   BaseEntityProps,
+   EmptyStringError,
+   DuplicateValueError,
+   AuthValueError,
+   Guard,
+   Result,
+   ExceptionBase,
+   IQuantity,
+} from "@shared";
+import { CreateFoodProps } from "../types";
+import { INutrientAmount, NutrientAmount } from "../value-objects/NutrientAmount";
 
 export interface IFood {
    foodCode: string;
@@ -23,8 +34,7 @@ export interface IFood {
       inFrench?: string;
       inEnglish?: string;
    };
-
-   foodNutrients: Nutrient[];
+   foodNutrients: NutrientAmount[];
 }
 
 export class Food extends AggregateRoot<IFood> {
@@ -44,14 +54,14 @@ export class Food extends AggregateRoot<IFood> {
    get foodSource(): string {
       return this.props.foodSource;
    }
-   get foodQuantity(): IFoodQuantity {
+   get foodQuantity(): IQuantity {
       return this.props.foodQuantity.unpack();
    }
    get foodGroup(): IFoodGroup & BaseEntityProps {
       return this.props.foodGroup.getProps();
    }
-   get foodNutrients(): (INutrient & BaseEntityProps)[] {
-      return this.props.foodNutrients.map((nutrient: Nutrient) => nutrient.getProps());
+   get foodNutrients(): INutrientAmount[] {
+      return this.props.foodNutrients.map((nutrient: NutrientAmount) => nutrient.unpack());
    }
    get foodNameF(): string {
       return this.props?.foodNameTranslate?.inFrench ?? this.props.foodName;
@@ -73,20 +83,24 @@ export class Food extends AggregateRoot<IFood> {
          inEnglish: value,
       };
    }
-   addNutrientsToFood(createNutrientProps: CreateEntityProps<INutrient>) {
-      this.verifyIfFoodCanBeUpdate();
-      const nutrient = new Nutrient(createNutrientProps);
-
-      const existingNutrientIndex = this.findExistingNutrientIndex(nutrient);
-      if (existingNutrientIndex !== -1) {
-         this.props.foodNutrients[existingNutrientIndex] = nutrient;
-      } else {
-         this.props.foodNutrients.push(nutrient);
-      }
-
-      if (!this.validateNutrientIsUnique(this.props.foodNutrients)) {
-         throw new DuplicateValueError(DUPLICATE_NUTRIENTS_ERROR);
-      }
+   addNutrientsToFood(...nutrientAmounts: INutrientAmount[]): Result<boolean> {
+      let addResult: Result<boolean>[] = [] as Result<boolean>[];
+      nutrientAmounts.forEach((value: INutrientAmount) => {
+         this.verifyIfFoodCanBeUpdate();
+         const nutrient = new NutrientAmount(value);
+         const existingNutrientIndex = this.findExistingNutrientIndex(nutrient);
+         if (existingNutrientIndex !== -1) {
+            this.props.foodNutrients[existingNutrientIndex] = nutrient;
+         } else {
+            this.props.foodNutrients.push(nutrient);
+         }
+         if (!this.validateNutrientIsUnique(this.props.foodNutrients)) {
+            addResult.push(Result.fail<boolean>("the duplicated nutrient "));
+            return;
+         }
+         addResult.push(Result.ok<boolean>(true));
+      });
+      return Result.combine(addResult);
    }
    validate(): void {
       if (Guard.isEmpty(this.props.foodCode).succeeded) {
@@ -109,11 +123,10 @@ export class Food extends AggregateRoot<IFood> {
       }
       this._isValid = true;
    }
-   private validateNutrientIsUnique(foodNutrients: Nutrient[]): boolean {
+   private validateNutrientIsUnique(foodNutrients: NutrientAmount[]): boolean {
       const nutrientSetArray = new Set();
       for (const nutrient of foodNutrients) {
-         nutrient.validate();
-         const key = JSON.stringify(nutrient.nutrientCode + nutrient.nutrientINFOODSTagName);
+         const key = JSON.stringify(nutrient.unpack().nutrientId);
          if (nutrientSetArray.has(key)) {
             return false;
          }
@@ -130,9 +143,33 @@ export class Food extends AggregateRoot<IFood> {
       if (this.props.foodOrigin.trim() != "me") throw new AuthValueError(FOOD_UPDATE_RESTRICTED_ERROR);
    }
 
-   private findExistingNutrientIndex(newNutrient: Nutrient): number {
+   private findExistingNutrientIndex(newNutrient: NutrientAmount): number {
       return this.props.foodNutrients.findIndex((nutrient) => {
-         return nutrient.equals(newNutrient);
+         return nutrient.unpack().nutrientId === newNutrient.unpack().nutrientId;
       });
+   }
+   static create(createFoodProps: CreateFoodProps): Result<Food> {
+      const { foodQuantity, foodGroup, foodNutrients, ...otherProps } = createFoodProps;
+      try {
+         const newQuantity = FoodQuantity.create(foodQuantity);
+         if (newQuantity.isFailure) return Result.fail<Food>(`[Error]: ${(newQuantity.err as any)?.toJSON() || newQuantity.err}`);
+         const newFoodGroup = new FoodGroup(createFoodProps.foodGroup);
+         const nutrientAmountResult = foodNutrients.map((value: INutrientAmount) => NutrientAmount.create(value));
+         const validateResult = Result.combine(nutrientAmountResult);
+         if (validateResult.isFailure) return Result.fail<Food>(`[Error]: ${(validateResult.err as any)?.toJSON() || validateResult.err}`);
+         const food = new Food({
+            props: {
+               foodGroup: newFoodGroup,
+               foodQuantity: newQuantity.val,
+               foodNutrients: nutrientAmountResult.map((value: Result<NutrientAmount>) => value.val),
+               ...otherProps,
+            },
+         });
+         return Result.ok<Food>(food);
+      } catch (error) {
+         return error instanceof ExceptionBase
+            ? Result.fail<Food>(`[${error.code}]:${error.message}`)
+            : Result.fail<Food>(`Erreur inattendue. ${Food.constructor.name}`);
+      }
    }
 }

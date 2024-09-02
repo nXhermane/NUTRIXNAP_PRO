@@ -5,10 +5,11 @@ import { IIngredient } from "./../value-objects/Ingredient";
 import { IQuantity } from "./../value-objects/Quantity";
 import { INutrient } from "./../entities/Nutrient";
 import { BaseEntityProps } from "@shared";
+import { INutrientAmount } from "../value-objects/NutrientAmount";
 export class NutritionCalculatorService implements INutritionCalculatorService {
    constructor(private foodRepo: FoodRepository) {}
-   async calculateRecipeNutritionalValue(recipe: Recipe): Promise<(INutrient & BaseEntityProps)[]> {
-      const nutritionalValue: { [key: string]: INutrient & BaseEntityProps } = {};
+   async calculateRecipeNutritionalValue(recipe: Recipe): Promise<INutrientAmount[]>{
+      const nutritionalValue: { [key: string]: INutrientAmount } = {};
       const ingredients = recipe.ingredients;
 
       // Récupération asynchrone des données des aliments

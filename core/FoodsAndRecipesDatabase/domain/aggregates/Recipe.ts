@@ -1,11 +1,21 @@
 import { INVALID_INGREDIENT_LIST, INVALID_PREPARATION_LIST, INVALID_COOKING_TIME } from "./../constants";
 
-import { AggregateRoot, CreateEntityProps, BaseEntityProps, EmptyStringError, ArgumentNotProvidedException, Guard } from "@shared";
+import {
+   AggregateRoot,
+   CreateEntityProps,
+   EmptyStringError,
+   ArgumentNotProvidedException,
+   Guard,
+   ExceptionBase,
+   Result,
+   IQuantity,
+} from "@shared";
 import { Ingredient, IIngredient } from "./../value-objects/Ingredient";
 import { PreparationStep, IPreparationStep } from "./../value-objects/PreparationStep";
-import { Quantity, IQuantity } from "./../value-objects/Quantity";
+import { FoodQuantity } from "./../value-objects/Quantity";
 import { MealsType, IMealsType } from "./../value-objects/MealsType";
 import { MealsCategory, IMealsCategory } from "./../value-objects/MealsCategory";
+import { CreateRecipeProps } from "../types";
 export interface IRecipe {
    name: string;
    type: MealsType;
@@ -13,7 +23,7 @@ export interface IRecipe {
    ingredients: Ingredient[];
    preparationMethod: PreparationStep[];
    cookingTime: number;
-   quantity: Quantity;
+   quantity: FoodQuantity;
    description: string;
    author: string;
    nameTranslate?: {
@@ -108,7 +118,7 @@ export class Recipe extends AggregateRoot<IRecipe> {
       this.props.cookingTime = newCookingTime;
       this.validate();
    }
-   updateQuantity(newQuantity: Quantity): void {
+   updateQuantity(newQuantity: FoodQuantity): void {
       this.props.quantity = newQuantity;
       this.validate();
    }
@@ -138,5 +148,36 @@ export class Recipe extends AggregateRoot<IRecipe> {
          throw new Error(INVALID_COOKING_TIME);
       }
       if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError();
+   }
+
+   static async create(createRecipeProps: CreateRecipeProps): Promise<Result<Recipe>> {
+      const { quantity, preparationMethod, category, type, ingredients, ...otherRecipeProps } = createRecipeProps;
+      try {
+         const newQuantity = FoodQuantity.create(quantity);
+         if (newQuantity.isFailure) return Result.fail<Recipe>(`[Error]: ${(newQuantity.err as any)?.toJSON() || newQuantity.err}`);
+         const ingredientResults = await Promise.all(
+            ingredients.map(async (value: Omit<IIngredient, "quantity"> & { quantity: IQuantity }) => await Ingredient.create(value)),
+         );
+         const preparationStepResult = preparationMethod.map((value: IPreparationStep) => new PreparationStep(value));
+         const mealsCategory = new MealsCategory(category);
+         const mealsType = new MealsType(type);
+         const validateResult = Result.combine(ingredientResults);
+         if (validateResult.isFailure) return Result.fail<Recipe>(`[Error]: ${(validateResult.err as any)?.toJSON() || validateResult.err}`);
+         const recipe = new Recipe({
+            props: {
+               quantity: newQuantity.val,
+               category: mealsCategory,
+               type: mealsType,
+               preparationMethod: preparationStepResult,
+               ingredients: ingredientResults.map((value: Result<Ingredient>) => value.val),
+               ...otherRecipeProps,
+            },
+         });
+         return Result.ok<Recipe>(recipe);
+      } catch (error) {
+         return error instanceof ExceptionBase
+            ? Result.fail<Recipe>(`[${error.code}]:${error.message}`)
+            : Result.fail<Recipe>(`Erreur inattendue. ${Recipe.constructor.name}`);
+      }
    }
 }
