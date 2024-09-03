@@ -5,10 +5,9 @@ import {
    GetAllRecipeRequest,
    GetRecipeByIdRequest,
    GetRecipeNutritionnalValueRequest,
-   RecipeDto,
-   NutrientDto,
+   NutritionalValue,
 } from "./../../useCases";
-
+import { RecipeDto } from "./../../../infrastructure";
 export interface IRecipeService {
    createRecipe(req: CreateRecipeRequest): Promise<AppServiceResponse<AggregateID> | Message>;
    deleteRecipe(req: DeleteRecipeRequest): Promise<AppServiceResponse<boolean> | Message>;
@@ -16,5 +15,5 @@ export interface IRecipeService {
    getAllRecipe(req: GetAllRecipeRequest): Promise<AppServiceResponse<RecipeDto[]> | Message>;
    getRecipeNutritionnalValue(
       req: GetRecipeNutritionnalValueRequest,
-   ): Promise<AppServiceResponse<{ recipeId: AggregateID; nutrients: NutrientDto[] }> | Message>;
+   ): Promise<AppServiceResponse<{ recipeId: AggregateID; nutrients: NutritionalValue[] }> | Message>;
 }

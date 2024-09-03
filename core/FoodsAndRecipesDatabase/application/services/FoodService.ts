@@ -8,9 +8,9 @@ import {
    SearchFoodResponse,
    SearchFoodRequest,
    GetAllFoodResponse,
-   FoodDto,
 } from "./../useCases";
 import { Message, UseCase, AppServiceResponse } from "@shared";
+import { FoodDto } from "../../infrastructure";
 
 export class FoodService implements IFoodService {
    constructor(

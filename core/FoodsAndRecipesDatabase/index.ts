@@ -12,15 +12,15 @@ import {
    GetAllRecipeUseCase,
    GetRecipeByIdUseCase,
    GetRecipeNutritionnalValueUseCase,
-   FoodDto,
    FoodRecipeServiceDataProvider,
    IFoodRecipeServiceDataProvider,
    FoodRecipeServiceDataProviderError,
 } from "./application";
-import { RecipeFactrory, NutritionCalculatorService } from "./domain";
-import { FoodMapper, db as FoodDb, FoodRepositoryImplDb, RecipeRepositoryImplDb, RecipeMapper } from "./infrastructure";
+import {  NutritionCalculatorService } from "./domain";
+import { FoodMapper, FoodRepositoryImpl, RecipeRepositoryImpl, RecipeMapper, NutrientRepositoryImpl, NutrientMapper, FoodGroupMapper, FoodGroupRepositoryImpl, FoodDto } from "./infrastructure";
 import { SearchEngine } from "@shared";
-import { Knex } from "knex";
+import { db } from "./infrastructure/database/db.config";
+import { SQLiteDatabase } from "expo-sqlite";
 export interface IFoodAndRecipe {
    food: IFoodService;
    recipe: IRecipeService;
@@ -34,19 +34,22 @@ export class FoodAndRecipe {
 
    static async getInstance(): Promise<IFoodAndRecipe> {
       if (FoodAndRecipe.instance === null) {
-         const db = await FoodDb;
-         const knexDb = db.knex;
+         const expo = (await db).db
          const foodMapper = new FoodMapper();
          const recipeMapper = new RecipeMapper();
-         const foodRepo = new FoodRepositoryImplDb(knexDb as Knex, foodMapper);
-         const recipeRepo = new RecipeRepositoryImplDb(knexDb as Knex, recipeMapper);
+         const nutrientMapper = new NutrientMapper()
+         const foodGroupMapper = new FoodGroupMapper()
+         const nutrientRepo = new NutrientRepositoryImpl(expo as SQLiteDatabase,nutrientMapper)
+         const foodGroupRepo = new FoodGroupRepositoryImpl(expo as SQLiteDatabase,foodGroupMapper)
+         const foodRepo = new FoodRepositoryImpl(expo as SQLiteDatabase,foodMapper,foodGroupRepo)
+         const recipeRepo = new RecipeRepositoryImpl(expo as SQLiteDatabase,recipeMapper)
 
          const searchEngine = new SearchEngine<FoodDto>([], {
             keys: "foodName",
          });
 
-         const recipeFactory = new RecipeFactrory(foodRepo);
-         const getFoodByIdUC = new GetFoodByIdUseCase(foodRepo, foodMapper);
+   
+         const getFoodByIdUC = new GetFoodByIdUseCase(foodRepo,foodMapper)
          const getAllFoodUC = new GetAllFoodUseCase(foodRepo, foodMapper);
          const getFoodByGroupUC = new GetFoodByFoodGroupUseCase(foodRepo, foodMapper);
          const searchFoodUC = new SearchFoodUseCase(foodRepo, foodMapper, searchEngine);
@@ -55,13 +58,13 @@ export class FoodAndRecipe {
 
          const nutritionCalculator = new NutritionCalculatorService(foodRepo);
 
-         const createRecipeUC = new CreateRecipeUseCase(recipeRepo, recipeFactory);
+         const createRecipeUC = new CreateRecipeUseCase(recipeRepo);
          const deleteRecipeUC = new DeleteRecipeUseCase(recipeRepo);
          const getRecipeByIdUC = new GetRecipeByIdUseCase(recipeRepo, recipeMapper);
 
          const getAllRecipeUC = new GetAllRecipeUseCase(recipeRepo, recipeMapper);
 
-         const getRecipeNutritionnalValueUC = new GetRecipeNutritionnalValueUseCase(recipeRepo, nutritionCalculator);
+         const getRecipeNutritionnalValueUC = new GetRecipeNutritionnalValueUseCase(recipeRepo, nutritionCalculator,nutrientRepo);
 
          const recipeService = new RecipeService(createRecipeUC, deleteRecipeUC, getRecipeByIdUC, getAllRecipeUC, getRecipeNutritionnalValueUC);
          const foodAndRecipeDataProvider = new FoodRecipeServiceDataProvider(foodRepo, recipeRepo);

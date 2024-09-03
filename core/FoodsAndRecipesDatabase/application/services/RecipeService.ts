@@ -10,10 +10,10 @@ import {
    GetRecipeByIdResponse,
    GetRecipeNutritionnalValueRequest,
    GetRecipeNutritionnalValueResponse,
-   RecipeDto,
-   NutrientDto,
+   NutritionalValue
 } from "./../useCases";
 import { IRecipeService } from "./interfaces/RecipeService";
+import { RecipeDto } from "../../infrastructure";
 export class RecipeService implements IRecipeService {
    constructor(
       private createUC: UseCase<CreateRecipeRequest, CreateRecipeResponse>,
@@ -57,12 +57,12 @@ export class RecipeService implements IRecipeService {
    }
    async getRecipeNutritionnalValue(
       req: GetRecipeNutritionnalValueRequest,
-   ): Promise<AppServiceResponse<{ recipeId: AggregateID; nutrients: NutrientDto[] }> | Message> {
+   ): Promise<AppServiceResponse<{ recipeId: AggregateID; nutrients: NutritionalValue[] }> | Message> {
       const res = await this.getNutritionnalValueUC.execute(req);
       if (res.isLeft()) {
          return new Message("error", JSON.stringify(res.value.err));
       } else {
-         return { data: res.value.val as { recipeId: AggregateID; nutrients: NutrientDto[] } };
+         return { data: res.value.val as { recipeId: AggregateID; nutrients: NutritionalValue[] } };
       }
    }
 }

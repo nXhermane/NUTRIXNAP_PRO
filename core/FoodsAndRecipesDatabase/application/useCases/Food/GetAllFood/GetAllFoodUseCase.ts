@@ -1,16 +1,14 @@
-import { UseCase, Mapper, Result, left, right, AppError } from "./../../../../../shared";
+import { UseCase, Mapper, Result, left, right, AppError } from "@shared"
 import { GetAllFoodRequest } from "./GetAllFoodRequest";
 import { GetAllFoodResponse } from "./GetAllFoodResponse";
 import { GetAllFoodErrors } from "./GetAllFoodErrors";
-import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
+import { FoodDto, FoodNamePersistenceType, FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
 import { Food } from "./../../../../domain";
-import { FoodDto } from "./../sharedType";
-import { FoodPersistenceType } from "./../../../../infrastructure/repositories/types";
 
 export class GetAllFoodUseCase implements UseCase<GetAllFoodRequest, GetAllFoodResponse> {
    constructor(
       private repo: FoodRepository,
-      private mapper: Mapper<Food, FoodPersistenceType, FoodDto>,
+      private mapper: Mapper<Food, FoodNamePersistenceType, FoodDto>,
    ) {}
 
    async execute(request: GetAllFoodRequest = {}): Promise<GetAllFoodResponse> {

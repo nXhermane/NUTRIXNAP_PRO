@@ -110,4 +110,8 @@ export class Guard {
          return { succeeded: true };
       }
    }
+   public static isString(value: any): IGuardResult {
+      const isString = typeof value === "string";
+      return isString ? { succeeded: true } : { succeeded: false };
+   }
 }

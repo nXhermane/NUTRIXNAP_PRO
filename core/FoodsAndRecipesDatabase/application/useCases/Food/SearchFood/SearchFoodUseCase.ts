@@ -1,10 +1,8 @@
 import { SearchFoodResponse } from "./SearchFoodResponse";
 import { SearchFoodRequest } from "./SearchFoodRequest";
-import { UseCase, Mapper, AppError, left, right, Result, SearchEngineResult, ISearchEngine } from "./../../../../../shared";
-import { FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
+import { UseCase, Mapper, AppError, left, right, Result, SearchEngineResult, ISearchEngine } from "@shared";
+import { FoodDto, FoodNamePersistenceType, FoodRepository, FoodRepositoryError, FoodRepositoryNotFoundException } from "./../../../../infrastructure";
 import { Food } from "./../../../../domain";
-import { FoodDto } from "./../sharedType";
-import { FoodPersistenceType } from "./../../../../infrastructure/repositories/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodResponse> {
@@ -15,7 +13,7 @@ export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodR
    private _defaultLimit = 500;
    constructor(
       private repo: FoodRepository,
-      private mapper: Mapper<Food, FoodPersistenceType, FoodDto>,
+      private mapper: Mapper<Food, FoodNamePersistenceType, FoodDto>,
       private searchEngine: ISearchEngine<FoodDto>,
    ) {
       this.initSearchEngine();
@@ -23,7 +21,7 @@ export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodR
 
    async execute(request: SearchFoodRequest): Promise<SearchFoodResponse> {
       try {
-         this.clearTimmer();
+         this.clearTimer();
          if (this.isReset) {
             await this.initSearchEngine();
          }
@@ -60,7 +58,7 @@ export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodR
             }
          }
       }
-      this.setTimmer();
+      this.setTimer();
    }
    private async storeSearchEngineDataAndReset() {
       try {
@@ -89,12 +87,12 @@ export class SearchFoodUseCase implements UseCase<SearchFoodRequest, SearchFoodR
       }
    }
 
-   private setTimmer() {
+   private setTimer() {
       this.timeOutId = setTimeout(async () => {
          await this.storeSearchEngineDataAndReset();
       }, this.activeTime);
    }
-   private clearTimmer() {
+   private clearTimer() {
       if (this.timeOutId != null) clearTimeout(this.timeOutId);
    }
 }

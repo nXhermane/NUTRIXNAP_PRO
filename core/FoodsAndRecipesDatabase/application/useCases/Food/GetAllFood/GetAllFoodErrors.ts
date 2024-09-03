@@ -1,4 +1,4 @@
-import { UseCaseError, Result } from "./../../../../../shared";
+import { UseCaseError, Result } from "@shared";
 
 export namespace GetAllFoodErrors {
    export class FoodRepositoryError extends Result<UseCaseError> {

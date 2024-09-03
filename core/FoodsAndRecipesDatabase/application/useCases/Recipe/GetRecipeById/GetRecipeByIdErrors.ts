@@ -1,4 +1,4 @@
-import { UseCaseError, Result, AggregateID } from "./../../../../../shared";
+import { UseCaseError, Result, AggregateID } from "@shared";
 
 export namespace GetRecipeByIdErrors {
    export class RecipeNotFoundError extends Result<UseCaseError> {

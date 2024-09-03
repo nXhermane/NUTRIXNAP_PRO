@@ -2,35 +2,31 @@ import { INutritionCalculatorService } from "./interfaces/INutritionCalculatorSe
 import { Recipe } from "./../aggregates/Recipe";
 import { FoodRepository } from "./../../infrastructure";
 import { IIngredient } from "./../value-objects/Ingredient";
-import { IQuantity } from "./../value-objects/Quantity";
-import { INutrient } from "./../entities/Nutrient";
-import { BaseEntityProps } from "@shared";
+import { IQuantity } from "@shared";
 import { INutrientAmount } from "../value-objects/NutrientAmount";
 export class NutritionCalculatorService implements INutritionCalculatorService {
    constructor(private foodRepo: FoodRepository) {}
-   async calculateRecipeNutritionalValue(recipe: Recipe): Promise<INutrientAmount[]>{
+   async calculateRecipeNutritionalValue(recipe: Recipe): Promise<INutrientAmount[]> {
       const nutritionalValue: { [key: string]: INutrientAmount } = {};
       const ingredients = recipe.ingredients;
 
       // Récupération asynchrone des données des aliments
       const ingredientWithNutrientValue = await Promise.all(
          ingredients.map(async (ingredient: IIngredient) => {
-            const food = await this.foodRepo.getFoodById(ingredient.foodId);
+            const food = await this.foodRepo.getById(ingredient.foodId);
             const nutrientValues = this.convertNutrientQuantityToNewQuantity(food.foodNutrients, food.foodQuantity, ingredient.quantity.unpack());
             return { ingredient, nutrientValues };
          }),
       );
 
       // Agrégation des valeurs nutritionnelles par nutriment
-      ingredientWithNutrientValue.forEach(({ ingredient, nutrientValues }) => {
-         nutrientValues.forEach((nutrient: INutrient & BaseEntityProps) => {
-            const existingNutrient = nutritionalValue[nutrient.nutrientINFOODSTagName];
+      ingredientWithNutrientValue.forEach(({  nutrientValues }) => {
+         nutrientValues.forEach((nutrient: INutrientAmount) => {
+            const existingNutrient = nutritionalValue[nutrient.nutrientId];
             if (existingNutrient) {
-               existingNutrient.nutrientValue += nutrient.nutrientValue;
+               existingNutrient.value += nutrient.value;
             } else {
-               nutritionalValue[nutrient.nutrientINFOODSTagName] = {
-                  ...nutrient,
-               };
+               nutritionalValue[nutrient.nutrientId] = nutrient;
             }
          });
       });
@@ -45,15 +41,11 @@ export class NutritionCalculatorService implements INutritionCalculatorService {
     * ||newNutrientValue=prevValue*newQuantity/prevQuantity
     * */
 
-   convertNutrientQuantityToNewQuantity(
-      nutrients: (INutrient & BaseEntityProps)[],
-      prevQuantity: IQuantity,
-      newQuantity: IQuantity,
-   ): (INutrient & BaseEntityProps)[] {
+   convertNutrientQuantityToNewQuantity(nutrients: INutrientAmount[], prevQuantity: IQuantity, newQuantity: IQuantity): INutrientAmount[] {
       const prevValue = prevQuantity.unit === newQuantity.unit ? prevQuantity.value : 0;
       const newValue = prevQuantity.unit === newQuantity.unit ? newQuantity.value : 0;
-      return nutrients.map((nutrient: INutrient & BaseEntityProps) => {
-         nutrient.nutrientValue = (nutrient.nutrientValue * newValue) / prevValue;
+      return nutrients.map((nutrient: INutrientAmount) => {
+         nutrient.value = (nutrient.value * newValue) / prevValue;
          return nutrient;
       });
    }

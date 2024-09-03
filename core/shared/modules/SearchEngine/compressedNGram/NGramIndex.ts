@@ -1,5 +1,4 @@
-import uniqueIdGenerator from "./../helpers/uniqueIdGenerator";
-import { isArray, isString, isDefined } from "./../helpers/types";
+import { isArray, isDefined } from "./../helpers/types";
 import getFn from "./../helpers/get";
 import levenshteinDistance from "./../helpers/levenshteinDistance";
 import BitapSearch, { BitapSearchOptions } from "./../bitap";
@@ -11,11 +10,6 @@ const Config = {
    withBitap: true,
 };
 
-type dataType =
-   | {
-        [key: string]: any;
-     }
-   | string;
 export interface DataTypeInside<T> {
    item: T;
    relevance: number;
@@ -59,7 +53,6 @@ export default class NGramIndex<T> {
       } else {
          return [this._defaultKey];
       }
-      throw new Error("Vous devez definir une clé à indexer");
    }
 
    private generateNGrams(text: string): string[] {

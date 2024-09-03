@@ -1,6 +1,5 @@
-import Trie, { TrieOptions, TrieNodeValue, Value, TrieResultValue } from "./trie";
+import { Value } from "./trie";
 
-import Config from "./config";
 import { isDefined } from "./helpers/types";
 import NGramIndex, { NGramOptions, DataTypeInside } from "./compressedNGram/NGramIndex";
 export interface SearchEngineResult<T> extends DataTypeInside<T> {}
@@ -35,7 +34,7 @@ export class SearchEngine<T extends Value = Value> implements ISearchEngine<T> {
       if (!isDefined(item)) return;
       this.nGramIndex.indexDoc(item);
    }
-   search(pattern: string, validate = (doc: SearchEngineResult<T>) => true): SearchEngineResult<T>[] {
+   search(pattern: string, validate = (_doc: SearchEngineResult<T>) => true): SearchEngineResult<T>[] {
       return this.nGramIndex.search(pattern, validate);
    }
    reset() {

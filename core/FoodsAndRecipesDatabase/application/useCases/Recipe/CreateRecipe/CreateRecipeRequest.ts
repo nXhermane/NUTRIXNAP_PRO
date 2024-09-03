@@ -1,10 +1,11 @@
-import { IngredientDto, PreparationStepDto } from "./../sharedType";
-import { QuantityDto } from "./../../sharedType";
+
+import { IngredientDto, PreparationStepDto, QuantityDto } from "./../../../..//infrastructure";
 import { AggregateID } from "./../../../../../shared";
+import { IMealsCategory, IMealsType } from "./../../../../domain";
 export type CreateRecipeRequest = {
    quantity: QuantityDto;
-   typeId: AggregateID;
-   categoryId: AggregateID;
+   type: AggregateID | Omit<IMealsType, "typeId">;
+   category: AggregateID | Omit<IMealsCategory, "categoryId">;
    ingredients: IngredientDto[];
    preparationMethod: PreparationStepDto[];
    name: string;

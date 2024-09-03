@@ -1,4 +1,4 @@
-import { Either, AppError, Result } from "./../../../../../shared";
+import { Either, AppError, Result } from "@shared";
 import { GetRecipeByIdErrors } from "./GetRecipeByIdErrors";
-import { RecipeDto } from "./../sharedType";
+import { RecipeDto } from "./../../../../infrastructure";
 export type GetRecipeByIdResponse = Either<AppError.UnexpectedError | GetRecipeByIdErrors.RecipeNotFoundError, Result<RecipeDto>>;

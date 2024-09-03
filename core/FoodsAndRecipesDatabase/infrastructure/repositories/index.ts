@@ -6,6 +6,7 @@ export * from "./RecipeRepositoryImpl";
 export * from "./errors/FoodGroupRepositoryErrors";
 export * from "./errors/FoodRepositoryError";
 export * from "./errors/NutrientRepositoryErrors";
+export * from "./errors/RecipeRepositoryError";
 export * from "./RecipeRepositoryImpl";
 export * from "./interfaces/FoodGroupRepository";
 export * from "./interfaces/FoodRepository";

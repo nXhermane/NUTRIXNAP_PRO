@@ -1,14 +1,5 @@
-import {
-   GetFoodByIdRequest,
-   GetFoodByIdResponse,
-   GetAllFoodRequest,
-   GetAllFoodResponse,
-   GetFoodByFoodGroupRequest,
-   GetFoodByFoodGroupResponse,
-   SearchFoodResponse,
-   SearchFoodRequest,
-   FoodDto,
-} from "./../../useCases";
+import { FoodDto } from "./../../../infrastructure";
+import { GetFoodByIdRequest, GetAllFoodRequest, GetFoodByFoodGroupRequest, SearchFoodRequest } from "./../../useCases";
 import { Message, AppServiceResponse } from "@shared";
 
 export interface IFoodService {

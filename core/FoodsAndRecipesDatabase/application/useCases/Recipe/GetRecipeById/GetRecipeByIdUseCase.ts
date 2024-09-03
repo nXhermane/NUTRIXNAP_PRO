@@ -1,15 +1,14 @@
 import { GetRecipeByIdErrors } from "./GetRecipeByIdErrors";
 import { GetRecipeByIdResponse } from "./GetRecipeByIdResponse";
 import { GetRecipeByIdRequest } from "./GetRecipeByIdRequest";
-import { UseCase, Mapper, AppError, Result, left, right } from "./../../../../../shared";
-import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException, RecipePersistenceDto } from "./../../../../infrastructure";
+import { UseCase, Mapper, AppError, Result, left, right } from "@shared";
+import { RecipeRepository, RecipeRepositoryNotFoundException, RecipePersistenceType, RecipeDto } from "./../../../../infrastructure";
 import { Recipe } from "./../../../../domain";
-import { RecipeDto } from "./../sharedType";
 
 export class GetRecipeByIdUseCase implements UseCase<GetRecipeByIdRequest, GetRecipeByIdResponse> {
    constructor(
       private repo: RecipeRepository,
-      private mapper: Mapper<Recipe, RecipePersistenceDto, RecipeDto>,
+      private mapper: Mapper<Recipe, RecipePersistenceType, RecipeDto>,
    ) {}
 
    async execute(request: GetRecipeByIdRequest): Promise<GetRecipeByIdResponse> {

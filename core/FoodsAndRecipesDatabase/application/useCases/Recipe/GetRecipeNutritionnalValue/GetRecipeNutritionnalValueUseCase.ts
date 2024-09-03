@@ -1,34 +1,30 @@
 import { GetRecipeNutritionnalValueErrors } from "./GetRecipeNutritionnalValueErrors";
 import { GetRecipeNutritionnalValueRequest } from "./GetRecipeNutritionnalValueRequest";
-import { GetRecipeNutritionnalValueResponse } from "./GetRecipeNutritionnalValueResponse";
-import { UseCase, AppError, Result, left, right, AggregateID } from "./../../../../../shared";
-import { RecipeRepository, RecipeRepositoryError, RecipeRepositoryNotFoundException } from "./../../../../infrastructure";
-import { INutritionCalculatorService } from "./../../../../domain";
-import { NutrientDto } from "./../../sharedType";
+import { GetRecipeNutritionnalValueResponse, NutritionalValue } from "./GetRecipeNutritionnalValueResponse";
+import { UseCase, AppError, Result, left, right, AggregateID } from "@shared";
+import { NutrientRepository, RecipeRepository, RecipeRepositoryNotFoundException } from "./../../../../infrastructure";
+import { INutrientAmount, INutritionCalculatorService } from "./../../../../domain";
+
 export class GetRecipeNutritionnalValueUseCase implements UseCase<GetRecipeNutritionnalValueRequest, GetRecipeNutritionnalValueResponse> {
    constructor(
       private repo: RecipeRepository,
       private service: INutritionCalculatorService,
+      private nutRepo: NutrientRepository,
    ) {}
 
    async execute(request: GetRecipeNutritionnalValueRequest): Promise<GetRecipeNutritionnalValueResponse> {
       try {
          const recipe = await this.repo.getRecipeById(request.recipeId);
-         const nutrients = (await this.service.calculateRecipeNutritionalValue(recipe)).map((nutrient: any) => ({
-            nutrientId: nutrient.id,
-            nutrientName: nutrient.nutrientName,
-            nutrientNameF: nutrient?.nutrientNameTranslate?.inFrench || nutrient.name,
-            nutrientCode: nutrient.nutrientCode,
-            nutrientUnit: nutrient.nutrientUnit,
-            tagname: nutrient.nutrientINFOODSTagName,
-            nutrientDecimal: nutrient.nutrientDecimal,
-            nutrientValue: nutrient.nutrientValue,
-            originalValue: nutrient?.originalValue || String(nutrient.nutrientValue),
-         }));
+         const nutrients = await Promise.all(
+            (await this.service.calculateRecipeNutritionalValue(recipe)).map(async (nutrient: INutrientAmount) => {
+               const nut = await this.nutRepo.getById(nutrient.nutrientId);
+               return { name: nut.nutrientNameE, nameF: nut.nutrientNameF, tagname: nut.nutrientINFOODSTagName, unit: nut.nutrientUnit, ...nutrient };
+            }),
+         );
          return right(
-            Result.ok<{ recipeId: AggregateID; nutrients: NutrientDto[] }>({
+            Result.ok<{ recipeId: AggregateID; nutrients: NutritionalValue[] }>({
                recipeId: request.recipeId,
-               nutrients: nutrients as NutrientDto[],
+               nutrients: nutrients as NutritionalValue[],
             }),
          );
       } catch (e) {
