@@ -15,9 +15,20 @@ import {
    FoodRecipeServiceDataProvider,
    IFoodRecipeServiceDataProvider,
    FoodRecipeServiceDataProviderError,
+   FoodAndRecipeApi,
 } from "./application";
-import {  NutritionCalculatorService } from "./domain";
-import { FoodMapper, FoodRepositoryImpl, RecipeRepositoryImpl, RecipeMapper, NutrientRepositoryImpl, NutrientMapper, FoodGroupMapper, FoodGroupRepositoryImpl, FoodDto } from "./infrastructure";
+import { NutritionCalculatorService } from "./domain";
+import {
+   FoodMapper,
+   FoodRepositoryImpl,
+   RecipeRepositoryImpl,
+   RecipeMapper,
+   NutrientRepositoryImpl,
+   NutrientMapper,
+   FoodGroupMapper,
+   FoodGroupRepositoryImpl,
+   FoodDto,
+} from "./infrastructure";
 import { SearchEngine } from "@shared";
 import { db } from "./infrastructure/database/db.config";
 import { SQLiteDatabase } from "expo-sqlite";
@@ -34,22 +45,21 @@ export class FoodAndRecipe {
 
    static async getInstance(): Promise<IFoodAndRecipe> {
       if (FoodAndRecipe.instance === null) {
-         const expo = (await db).db
+         const expo = (await db).db;
          const foodMapper = new FoodMapper();
          const recipeMapper = new RecipeMapper();
-         const nutrientMapper = new NutrientMapper()
-         const foodGroupMapper = new FoodGroupMapper()
-         const nutrientRepo = new NutrientRepositoryImpl(expo as SQLiteDatabase,nutrientMapper)
-         const foodGroupRepo = new FoodGroupRepositoryImpl(expo as SQLiteDatabase,foodGroupMapper)
-         const foodRepo = new FoodRepositoryImpl(expo as SQLiteDatabase,foodMapper,foodGroupRepo)
-         const recipeRepo = new RecipeRepositoryImpl(expo as SQLiteDatabase,recipeMapper)
+         const nutrientMapper = new NutrientMapper();
+         const foodGroupMapper = new FoodGroupMapper();
+         const nutrientRepo = new NutrientRepositoryImpl(expo as SQLiteDatabase, nutrientMapper);
+         const foodGroupRepo = new FoodGroupRepositoryImpl(expo as SQLiteDatabase, foodGroupMapper);
+         const foodRepo = new FoodRepositoryImpl(expo as SQLiteDatabase, foodMapper, foodGroupRepo);
+         const recipeRepo = new RecipeRepositoryImpl(expo as SQLiteDatabase, recipeMapper);
 
          const searchEngine = new SearchEngine<FoodDto>([], {
             keys: "foodName",
          });
 
-   
-         const getFoodByIdUC = new GetFoodByIdUseCase(foodRepo,foodMapper)
+         const getFoodByIdUC = new GetFoodByIdUseCase(foodRepo, foodMapper);
          const getAllFoodUC = new GetAllFoodUseCase(foodRepo, foodMapper);
          const getFoodByGroupUC = new GetFoodByFoodGroupUseCase(foodRepo, foodMapper);
          const searchFoodUC = new SearchFoodUseCase(foodRepo, foodMapper, searchEngine);
@@ -64,18 +74,16 @@ export class FoodAndRecipe {
 
          const getAllRecipeUC = new GetAllRecipeUseCase(recipeRepo, recipeMapper);
 
-         const getRecipeNutritionnalValueUC = new GetRecipeNutritionnalValueUseCase(recipeRepo, nutritionCalculator,nutrientRepo);
-
+         const getRecipeNutritionnalValueUC = new GetRecipeNutritionnalValueUseCase(recipeRepo, nutritionCalculator, nutrientRepo);
          const recipeService = new RecipeService(createRecipeUC, deleteRecipeUC, getRecipeByIdUC, getAllRecipeUC, getRecipeNutritionnalValueUC);
-         const foodAndRecipeDataProvider = new FoodRecipeServiceDataProvider(foodRepo, recipeRepo);
          this.instance = {
             food: foodService,
             recipe: recipeService,
-            api: { foodAndRecipeDataProvider },
+            api: { foodAndRecipeDataProvider: await FoodAndRecipeApi.getInstance() },
          };
       }
       return this.instance as IFoodAndRecipe;
    }
 }
 
-export { IFoodRecipeServiceDataProvider, FoodRecipeServiceDataProviderError };
+export { IFoodRecipeServiceDataProvider };

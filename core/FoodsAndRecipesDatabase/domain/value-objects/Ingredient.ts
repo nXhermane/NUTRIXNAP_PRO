@@ -1,7 +1,8 @@
 import { INVALID_FOOD_REFERENCE_ERROR, EMPTY_FOOD_REFERENCE_ERROR } from "./../constants";
-import { ValueObject, InvalidReference, Guard, ExceptionBase, Result, IQuantity, NutritionData } from "@shared";
+import { ValueObject, InvalidReference, Guard, ExceptionBase, Result, IQuantity } from "@shared";
 import { FoodQuantity } from "./Quantity";
 import { AggregateID, EmptyStringError } from "@shared";
+import { FoodAndRecipeApi } from "../../application/api/instance";
 export interface IIngredient {
    name: string;
    quantity: FoodQuantity;
@@ -36,7 +37,7 @@ export class Ingredient extends ValueObject<IIngredient> {
          const newQuantity = FoodQuantity.create(props.quantity);
          if (newQuantity.isFailure) return Result.fail<Ingredient>(`[Error]: ${(newQuantity.err as any)?.toJSON() || newQuantity.err}`);
          const ingredient = new Ingredient({ ...props, quantity: newQuantity.val });
-         const foodIds = await (await NutritionData.getInstance()).foodAndRecipeProvider.getAllFoodIds();
+         const foodIds = await (await FoodAndRecipeApi.getInstance()).getAllFoodIds();
          const validateResult = Result.encapsulate<boolean>((): boolean => {
             ingredient.validateIngredient(foodIds);
             return true;

@@ -16,7 +16,9 @@
         "./core/shared"
       ],
       "@foodAndRecipe":["./core/FoodsAndRecipesDatabase"],
-      "@patientManager":["./core/PatientManager"]
+      "@patientManager":["./core/PatientManager"],
+      "@nutritionistManager":["./core/NutritionistManager"],
+      "@medicalRecordManager":["./core/MedicalRecordManager"]
     },
     "noImplicitAny": true,
     "experimentalDecorators": true

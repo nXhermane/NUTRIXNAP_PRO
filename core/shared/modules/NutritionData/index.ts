@@ -7,15 +7,12 @@ import {
    GetMeasurementTypeUseCase,
    MeasurementTypeService,
 } from "./application";
-import { MeasurementTypeRepositoryImplDb } from "./infrastructure";
+import { MeasurementTypeRepositoryImplDb, MeasurementTypeDto } from "./infrastructure";
 import { db } from "./infrastructure/database/db.config";
 import { SQLiteDatabase } from "expo-sqlite";
-import { IFoodRecipeServiceDataProvider, FoodAndRecipe } from "./../../../FoodsAndRecipesDatabase";
 export interface INutritionData {
    measurement: IMeasurementTypeService;
-   foodAndRecipeProvider: IFoodRecipeServiceDataProvider;
 }
-
 export class NutritionData {
    private static instance: INutritionData | null = null;
    static async getInstance(): Promise<INutritionData> {
@@ -34,13 +31,9 @@ export class NutritionData {
 
          NutritionData.instance = {
             measurement: measurementService,
-            foodAndRecipeProvider: (await FoodAndRecipe.getInstance()).api.foodAndRecipeDataProvider,
          };
       }
       return NutritionData.instance as INutritionData;
    }
 }
-export * from "./domain";
-export * from "./infrastructure";
-
-// export * from "./application";
+export { MeasurementTypeDto };

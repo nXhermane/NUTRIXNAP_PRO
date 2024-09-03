@@ -8,12 +8,12 @@ import {
    InvalidReference,
    ExceptionBase,
    Result,
-   NutritionData,
 } from "./../../../shared";
 import { FavoriteFood, IFavoriteFood } from "./../value-objects/FavoriteFood";
 import { Aversion, IAversion } from "./../value-objects/Aversion";
 import { WaterConsumptionRange, IWaterConsumptionRange } from "./../value-objects/WaterConsumptionRange";
 import { CreateFoodStoryProps } from "./../types";
+import { FoodAndRecipeApi } from "@/core/FoodsAndRecipesDatabase/application";
 export interface IFoodStory {
    bedtime: Time;
    wakeUpTime: Time;
@@ -176,7 +176,7 @@ export class FoodStory extends Entity<IFoodStory> {
    }
    static async create(foodStory?: CreateFoodStoryProps): Promise<Result<FoodStory>> {
       try {
-         const recipeAndFoodProvider = (await NutritionData.getInstance()).foodAndRecipeProvider;
+         const recipeAndFoodProvider = await FoodAndRecipeApi.getInstance();
          const foodIds: AggregateID[] = await recipeAndFoodProvider.getAllFoodIds();
          const newfoodStory = new FoodStory({
             props: {

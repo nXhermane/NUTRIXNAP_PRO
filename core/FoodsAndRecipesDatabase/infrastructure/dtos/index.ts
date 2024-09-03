@@ -1,4 +1,3 @@
-export * from "./RecipePersistenceDto";
 export * from "./foodDto";
 export * from "./ingredientDto";
 export * from "./mealsCategoryDto";

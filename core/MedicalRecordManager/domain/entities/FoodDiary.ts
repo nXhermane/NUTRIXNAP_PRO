@@ -6,7 +6,6 @@ import {
    Guard,
    ArgumentInvalidException,
    Result,
-   NutritionData,
    Quantity,
    DateManager,
    ExceptionBase,
@@ -15,6 +14,7 @@ import {
 import { FoodDiaryMealEntry, IFoodDiaryMealEntry } from "./../value-objects/FoodDiaryMealEntry";
 import { FoodDiaryFoodItem } from "./../value-objects/FoodDiaryFoodItem";
 import { CreateFoodDiaryProps, FoodItemProps } from "./../types";
+import { FoodAndRecipeApi } from "@/core/FoodsAndRecipesDatabase/application";
 export interface IFoodDiary {
    date: RegistrationDate;
    meal: FoodDiaryMealEntry;
@@ -61,7 +61,7 @@ export class FoodDiary extends Entity<IFoodDiary> {
    }
    static async create(foodDiary: CreateFoodDiaryProps): Promise<Result<FoodDiary>> {
       try {
-         const recipeAndFoodProvider = (await NutritionData.getInstance()).foodAndRecipeProvider;
+         const recipeAndFoodProvider = (await FoodAndRecipeApi.getInstance())
          const mealTypeIds = await recipeAndFoodProvider.getAllMealTypeIds();
          const foodIds = await recipeAndFoodProvider.getAllFoodIds();
          const recipeIds = await recipeAndFoodProvider.getAllRecipeIds();

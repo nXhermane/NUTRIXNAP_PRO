@@ -1,24 +1,17 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
-import { View, Text } from "react-native";
 import { UserService, PatientService, FoodDiaryService } from "./services";
 import { UserRepository, PatientRepository, FoodDiaryRepository } from "./repositories";
 import {
    IUserService,
    IPatientService,
    UserEntity,
-   PatientEntity,
    IUserRepository,
    IPatientRepository,
    IFoodDiaryRepository,
    IFoodDiaryService,
-   UpdateFoodDiaryDto,
-   FoodId,
-   FoodQuantity,
-} from "@/core/interfaces";
-import "./FoodsAndRecipesDatabase";
+} from "./interfaces";
 
-import { FoodDiaryMapper } from "@/core/mappers";
-import * as SQLite from "expo-sqlite/next";
+import { FoodDiaryMapper } from "./mappers";
 
 export interface CoreInterface {
    userS: IUserService;
