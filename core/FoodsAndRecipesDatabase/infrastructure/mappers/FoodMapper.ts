@@ -1,6 +1,6 @@
 import { Mapper } from "@shared";
 import { Food, FoodQuantity } from "./../../domain";
-import { FoodNamePersistenceType, FoodPersistenceType } from "./../repositories/types";
+import { FoodNamePersistenceType, FoodPersistenceType, NutrientAmountPersitenceType } from "./../repositories/types";
 import { INutrientAmount, NutrientAmount } from "../../domain/value-objects/NutrientAmount";
 import { FoodDto } from "../dtos";
 export class FoodMapper implements Mapper<Food, FoodNamePersistenceType, FoodDto> {
@@ -15,6 +15,11 @@ export class FoodMapper implements Mapper<Food, FoodNamePersistenceType, FoodDto
          foodSource: entity.foodSource,
          createdAt: entity.createdAt,
          updatedAt: entity.updatedAt,
+         foodNutrients: entity.foodNutrients.map((value: INutrientAmount) => ({
+            nutrientId: value.nutrientId as string,
+            nutrientValue: value.value,
+            originalValue: value?.originalValue,
+         })),
       };
       return persistenceFood;
    }
@@ -24,7 +29,14 @@ export class FoodMapper implements Mapper<Food, FoodNamePersistenceType, FoodDto
          value: 0,
          unit: "g",
       });
-      const foodNutrientAmounts = foodNutrients.map((value: INutrientAmount) => new NutrientAmount(value));
+      const foodNutrientAmounts = foodNutrients.map(
+         (value: NutrientAmountPersitenceType) =>
+            new NutrientAmount({
+               nutrientId: value.nutrientId,
+               value: value.nutrientValue,
+               originalValue: value?.originalValue,
+            }),
+      );
       return new Food({
          id: otherRecordProps.foodId,
          createdAt: otherRecordProps.createdAt,

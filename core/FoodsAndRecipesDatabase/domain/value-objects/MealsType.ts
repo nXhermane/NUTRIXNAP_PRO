@@ -1,7 +1,7 @@
-import { ValueObject } from "@shared";
+import { AggregateID, ValueObject } from "@shared";
 
 export interface IMealsType {
-   typeId: number;
+   typeId: AggregateID;
    name: string;
    nameF: string;
 }

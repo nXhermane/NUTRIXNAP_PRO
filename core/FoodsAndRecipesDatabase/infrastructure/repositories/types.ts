@@ -1,9 +1,20 @@
-import { FoodGroup, IFoodGroup } from "../../domain";
+import { IQuantity } from "@shared";
+import { FoodGroup, IFoodGroup, IMealsCategory, IMealsType } from "../../domain";
 import { INutrientAmount } from "../../domain/value-objects/NutrientAmount";
 import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
 export interface Timestamp {
    createdAt: string;
    updatedAt: string;
+}
+export interface IngredientType {
+   name: string;
+   quantity: IQuantity;
+   foodId: string | number;
+}
+export interface PreparationStepType {
+   stepNumber: number;
+   description: string;
+   estimatedTime?: number;
 }
 export interface FoodNamePersistenceType extends Timestamp {
    foodId: string;
@@ -14,6 +25,7 @@ export interface FoodNamePersistenceType extends Timestamp {
    scientificName?: string;
    foodSource: string;
    foodOrigin: string;
+   foodNutrients: NutrientAmountPersitenceType[];
 }
 
 export interface FoodGroupPersistenceType extends Timestamp {
@@ -26,7 +38,7 @@ export interface FoodGroupPersistenceType extends Timestamp {
 export interface NutrientAmountPersitenceType {
    nutrientId: string;
    nutrientValue: number;
-   originalValue: string;
+   originalValue?: string;
 }
 
 export interface NutrientName {
@@ -40,18 +52,28 @@ export interface NutrientName {
    nutrientDecimal: string;
 }
 
-export interface RecipePersistenceType extends RecipePersistenceDto {
-   categoryId: number;
-   categoryName: string;
-   categoryNameF: string;
-   typeId: number;
-   typeName: string;
-   typeNameF: string;
+export interface RecipePersistenceType {
+   recipeId: string;
+   name: string;
+   nameF: string;
+   categoryId: string;
+   typeId: string;
+   ingredients: IngredientType[];
+   preparationMethod: PreparationStepType[];
+   cookingTime: number;
+   quantity: IQuantity;
+   description: string;
+   author: string;
+   createdAt: string;
+   updatedAt: string;
+}
+export interface RecipePersistenceRecordType extends Omit<RecipePersistenceType, "categoryId" | "typeId"> {
+   category: IMealsCategory;
+   type: IMealsType;
 }
 
 export interface FoodPersistenceType extends Omit<FoodNamePersistenceType, "foodGroupId"> {
    foodGroup: FoodGroup;
-   foodNutrients: INutrientAmount[];
 }
 export type NutrientPersistenceArray = [
    nutrientValue: number,

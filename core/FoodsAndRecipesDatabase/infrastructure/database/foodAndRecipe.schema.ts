@@ -7,7 +7,7 @@ interface Quantity {
 interface NutrientAmountType {
    nutrientId: string;
    nutrientValue: number;
-   originalValue: string;
+   originalValue?: string;
 }
 interface IngredientType {
    name: string;
@@ -90,10 +90,10 @@ export const recipes = sqliteTable("recipes", {
    recipeId: text("recipeId").primaryKey(),
    name: text("name", { length: 255 }),
    nameF: text("nameF", { length: 255 }),
-   categoryId: integer("categoryId")
+   categoryId: text("categoryId")
       .notNull()
       .references(() => mealsCategories.categoryId),
-   typeId: integer("typeId")
+   typeId: text("typeId")
       .notNull()
       .references(() => mealsTypes.typeId),
    ingredients: text("ingredients", { mode: "json" }).$type<IngredientType[]>(),

@@ -1,5 +1,7 @@
+import { AggregateID } from "@/core/shared";
+
 export type MealsTypeDto = {
-    typeId: number;
+    typeId: AggregateID
     name: string;
     nameF: string;
  };

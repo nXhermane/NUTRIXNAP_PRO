@@ -1,88 +1,82 @@
-import { IQuantity, Mapper } from "@shared";
-import { Recipe, MealsType, MealsCategory, Ingredient, IIngredient, FoodQuantity, PreparationStep, IPreparationStep } from "./../../domain";
-import { RecipePersistenceDto } from "./../dtos/RecipePersistenceDto";
-import { RecipePersistenceType } from "./../repositories/types";
-import { RecipeDto, QuantityDto, MealsCategoryDto, MealsTypeDto, PreparationStepDto } from "./../dtos";
-export class RecipeMapper implements Mapper<Recipe, RecipePersistenceDto, RecipeDto> {
-   toPersistence(recipe: Recipe): RecipePersistenceDto {
-      const persistenceRecipe: RecipePersistenceDto = {
-         recipeId: recipe.id as string,
-         name: recipe.name,
-         nameF: recipe.nameF,
-         categoryId: recipe.category.categoryId,
-         typeId: recipe.type.typeId,
-         ingredients: JSON.stringify(recipe.ingredients),
-         preparationMethod: JSON.stringify(recipe.preparationMethod),
-         cookingTime: recipe.cookingTime,
-         quantity: JSON.stringify(recipe.quantity),
-         description: recipe.description,
-         author: recipe.author,
-         createdAt: recipe.createdAt,
-         updatedAt: recipe.updatedAt,
+import { Mapper } from "@shared";
+import { Recipe, MealsType, MealsCategory, Ingredient, IIngredient, FoodQuantity, PreparationStep } from "./../../domain";
+
+import { RecipeDto } from "./../dtos";
+import { IngredientType, PreparationStepType, RecipePersistenceRecordType, RecipePersistenceType } from "../repositories";
+export class RecipeMapper implements Mapper<Recipe, RecipePersistenceType, RecipeDto> {
+   toPersistence(entity: Recipe): RecipePersistenceType {
+      const recipePersistence: RecipePersistenceType = {
+         recipeId: entity.id as string,
+         name: entity.name,
+         nameF: entity.nameF,
+         categoryId: entity.category.categoryId as string,
+         typeId: entity.type.typeId as string,
+         ingredients: entity.ingredients.map((value: IIngredient) => ({
+            ...value,
+            quantity: value.quantity.unpack(),
+         })),
+         preparationMethod: entity.preparationMethod,
+         cookingTime: entity.cookingTime,
+         quantity: entity.quantity,
+         description: entity.description,
+         createdAt: entity.createdAt,
+         updatedAt: entity.updatedAt,
+         author: entity.author,
       };
-      return persistenceRecipe;
+      return recipePersistence;
    }
-   toDomain(record: RecipePersistenceType): Recipe {
-      const { ingredients, preparationMethod, quantity } = record;
-
-      const convertToIIngredientArray = JSON.parse(ingredients) as IIngredient[];
-      const converToPreparationStepArray = JSON.parse(preparationMethod) as IPreparationStep[];
-      const convertToIQunatity = JSON.parse(quantity) as IQuantity;
-
-      const newIngredients = convertToIIngredientArray.map((ing: IIngredient) => new Ingredient(ing));
-      const newPreparationMethod = converToPreparationStepArray.map((preparationStep: IPreparationStep) => new PreparationStep(preparationStep));
-      const newQuantity = new FoodQuantity(convertToIQunatity);
-      const newCategory = new MealsCategory({
-         categoryId: record.categoryId,
-         name: record.categoryName,
-         nameF: record.categoryNameF,
-      });
-      const newType = new MealsType({
-         typeId: record.typeId,
-         name: record.typeName,
-         nameF: record.typeNameF,
-      });
-
-      return new Recipe({
-         id: record.recipeId,
-         createdAt: record?.createdAt || new Date().toJSON(),
-         updatedAt: record?.updatedAt || new Date().toJSON(),
-         props: {
-            name: record.name,
-            category: newCategory,
-            type: newType,
-            ingredients: newIngredients,
-            preparationMethod: newPreparationMethod,
-            cookingTime: record.cookingTime,
+   toDomain(record: RecipePersistenceRecordType): Recipe {
+      const quantity = new FoodQuantity(record.quantity);
+      const ingredients = record.ingredients.map((value: IngredientType) => {
+         const newQuantity = new FoodQuantity(value.quantity);
+         return new Ingredient({
+            ...value,
             quantity: newQuantity,
+         });
+      });
+      const preparationMethod = record.preparationMethod.map((value: PreparationStepType) => new PreparationStep(value));
+      const type = new MealsType(record.type);
+      const category = new MealsCategory(record.category);
+      const recipe = new Recipe({
+         id: record.recipeId,
+         createdAt: record.createdAt,
+         updatedAt: record.updatedAt,
+         props: {
+            cookingTime: record.cookingTime,
             description: record.description,
             author: record.author,
+            name: record.name,
             nameTranslate: {
                inFrench: record.nameF,
             },
+            quantity,
+            ingredients,
+            preparationMethod,
+            type,
+            category,
          },
       });
+      return recipe;
    }
-   toResponse(recipe: Recipe): RecipeDto {
-      const recipeDto = {
-         name: recipe.name,
-         nameF: recipe.nameF,
-         type: recipe.type as MealsTypeDto,
-         category: recipe.category as MealsCategoryDto,
-         cookingTime: recipe.cookingTime,
-         ingredients: recipe.ingredients.map((ing: IIngredient) => ({
-            name: ing.name,
-            quantity: ing.quantity.unpack(),
-            foodId: ing.foodId,
+   toResponse(entity: Recipe): RecipeDto {
+      const dto: RecipeDto = {
+         id: entity.id,
+         createdAt: entity.createdAt,
+         updatedAt: entity.updatedAt,
+         name: entity.name,
+         nameF: entity.nameF,
+         cookingTime: entity.cookingTime,
+         description: entity.description,
+         author: entity.author,
+         quantity: entity.quantity,
+         ingredients: entity.ingredients.map((value: IIngredient) => ({
+            ...value,
+            quantity: value.quantity.unpack(),
          })),
-         preparationMethod: recipe.preparationMethod as PreparationStepDto[],
-         description: recipe.description,
-         author: recipe.author,
-         quantity: recipe.quantity as QuantityDto,
-         id: recipe.id,
-         createdAt: recipe.createdAt,
-         updatedAt: recipe.updatedAt,
+         preparationMethod: entity.preparationMethod,
+         type: entity.type,
+         category: entity.category,
       };
-      return recipeDto as RecipeDto;
+      return dto;
    }
 }
