@@ -1,21 +1,30 @@
-
-import { sql } from "drizzle-orm";
 import { sqliteTable, integer, text, primaryKey, unique, index, foreignKey } from "drizzle-orm/sqlite-core";
 // Définition des tables
-
+interface Quantity {
+   value: number;
+   unit: string;
+}
+interface NutrientAmountType {
+   nutrientId: string;
+   nutrientValue: number;
+   originalValue: string;
+}
+interface IngredientType {
+   name: string;
+   quantity: Quantity;
+   foodId: string | number;
+}
+interface PreparationStepType {
+   stepNumber: number;
+   description: string;
+   estimatedTime?: number;
+}
 // Table food_groups
 export const foodGroups = sqliteTable("food_groups", {
    groupId: text("groupId").primaryKey(),
    groupCode: text("groupCode", { length: 15 }),
    groupName: text("groupName", { length: 255 }),
    groupNameF: text("groupNameF", { length: 255 }),
-   createdAt: text("createdAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`),
-   updatedAt: text("updatedAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`)
-      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
 
 // Table food_names
@@ -32,13 +41,7 @@ export const foodNames = sqliteTable(
       scientificName: text("scientificName", { length: 155 }),
       foodSource: text("foodSource", { length: 255 }),
       foodOrigin: text("foodOrigin", { length: 100 }),
-      createdAt: text("createdAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`),
-   updatedAt: text("updatedAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`)
-      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
+      foodNutrients: text("foodNutrients", { mode: "json" }).$type<NutrientAmountType[]>(),
    },
    (table) => ({
       foodCodeIndex: index("foodCodeIndex").on(table.foodCode),
@@ -61,36 +64,10 @@ export const nutrientNames = sqliteTable(
       nutrientSymbol: text("nutrientSymbol", { length: 10 }),
       tagname: text("tagname", { length: 20 }),
       nutrientDecimal: text("nutrientDecimal", { length: 15 }),
-      createdAt: text("createdAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`),
-   updatedAt: text("updatedAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`)
-      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
    },
    (table) => ({
       nutrientIdIndex: index("nutrientIdIndex").on(table.nutrientId),
       tagnameIndex: index("tagnameIndex").on(table.tagname),
-   }),
-);
-
-// Table nutrient_amounts
-export const nutrientAmounts = sqliteTable(
-   "nutrient_amounts",
-   {
-      foodId: text("foodId")
-         .notNull()
-         .references(() => foodNames.foodId),
-      nutrientId: text("nutrientId")
-         .notNull()
-         .references(() => nutrientNames.nutrientId),
-      nutrientValue: integer("nutrientValue").notNull().default(0),
-      originalValue: text("originalValue", { length: 15 }),
-   },
-   (table) => ({
-      foodIdIndexNut: index("foodIdIndexNut").on(table.foodId),
-      nutrientIdIndexNut: index("nutrientIdIndexNut").on(table.nutrientId),
    }),
 );
 
@@ -99,13 +76,6 @@ export const mealsTypes = sqliteTable("meals_types", {
    typeId: text("typeId").primaryKey(),
    name: text("name"),
    nameF: text("nameF"),
-   createdAt: text("createdAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`),
-   updatedAt: text("updatedAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`)
-      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
 
 // Table meals_categories
@@ -113,18 +83,11 @@ export const mealsCategories = sqliteTable("meals_categories", {
    categoryId: text("categoryId").primaryKey(),
    name: text("name", { length: 200 }),
    nameF: text("nameF", { length: 200 }),
-   createdAt: text("createdAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`),
-   updatedAt: text("updatedAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`)
-      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
 
 // Table recipes
 export const recipes = sqliteTable("recipes", {
-   recipeId: text("recipeId").primaryKey(), // Utilisation de UUID en tant que texte
+   recipeId: text("recipeId").primaryKey(),
    name: text("name", { length: 255 }),
    nameF: text("nameF", { length: 255 }),
    categoryId: integer("categoryId")
@@ -133,16 +96,9 @@ export const recipes = sqliteTable("recipes", {
    typeId: integer("typeId")
       .notNull()
       .references(() => mealsTypes.typeId),
-   ingredients: text("ingredients"), // Stockage des JSON sous forme de texte
-   preparationMethod: text("preparationMethod"), // Stockage des JSON sous forme de texte
+   ingredients: text("ingredients", { mode: "json" }).$type<IngredientType[]>(),
+   preparationMethod: text("preparationMethod", { mode: "json" }).$type<PreparationStepType[]>(),
    cookingTime: integer("cookingTime"),
-   quantity: text("quantity"), // Stockage des JSON sous forme de texte
+   quantity: text("quantity", { mode: "json" }).$type<Quantity>(),
    description: text("description"),
-   createdAt: text("createdAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`),
-   updatedAt: text("updatedAt")
-      .notNull()
-      .default(sql`CURRENT_TIMESTAMP`)
-      .$onUpdate(() => sql`CURRENT_TIMESTAMP`),
 });
