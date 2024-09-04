@@ -1,4 +1,5 @@
 import { EmptyStringError, Entity, ExceptionBase, Guard, MedicalConditionSeverity, Result, ValueObject } from "@shared";
+import { CreateMedicalConditionProps } from "../types";
 
 export interface IMedicalCondition {
    name: string;
@@ -36,7 +37,7 @@ export class MedicalCondition extends Entity<IMedicalCondition> {
       if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError("Le nom d'un condition médicalud ne doit etre vide");
       this._isValid = true;
    }
-   static create(props: Omit<IMedicalCondition, "severity"> & { severity: "light" | "moderate" | "severe" }): Result<MedicalCondition> {
+   static create(props: CreateMedicalConditionProps): Result<MedicalCondition> {
       try {
          const medicalCond = new MedicalCondition({
             props: { name: props.name, severity: props.severity as MedicalConditionSeverity, recommendation: props.recommendation },

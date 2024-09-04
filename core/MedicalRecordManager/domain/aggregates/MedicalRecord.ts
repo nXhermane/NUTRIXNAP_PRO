@@ -1,12 +1,4 @@
-import {
-   AggregateRoot,
-   CreateEntityProps,
-   BaseEntityProps,
-   AggregateID,
-   ExceptionBase,
-   Result,
-   ObjectCreationError,
-} from "@shared";
+import { AggregateRoot, CreateEntityProps, BaseEntityProps, AggregateID, ExceptionBase, Result, ObjectCreationError } from "@shared";
 import { FoodDiary, IFoodDiary } from "./../entities/FoodDiary";
 import { ConsultationInformation, IConsultationInformation } from "./../entities/ConsultationInformation";
 import { FoodStory, IFoodStory } from "./../entities/FoodStory";
@@ -19,6 +11,7 @@ import { IAnthropometricMeasurement, AnthropometricMeasurement } from "./../valu
 import { IBodyCompositionMeasurement, BodyCompositionMeasurement } from "./../value-objects/BodyCompositionMeasurement";
 import { IMedicalAnalysisResult, MedicalAnalysisResult } from "./../value-objects/MedicalAnalysisResult";
 import { CreateMedicalRecordProps } from "./../types";
+import { ObjectiveAddedEvent, ObjectiveRemovedEvent, objectiveUpdatedEvent } from "../events";
 export interface IMedicalRecord {
    foodDiaries: FoodDiary[];
    consultationInformation: ConsultationInformation;
@@ -59,7 +52,10 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
       for (const foodDiary of foodDiares) this.props.foodDiaries.push(foodDiary);
    }
    addObjective(...objectives: Objective[]) {
-      for (const objective of objectives) this.props.objectives.push(objective);
+      for (const objective of objectives) {
+         this.props.objectives.push(objective);
+         this.addDomainEvent(new ObjectiveAddedEvent(objective));
+      }
    }
    addEatingBehavior(...eatingBehaviors: EatingBehavior[]) {
       for (const eatingBehavior of eatingBehaviors) this.props.eatingBehaviors.push(eatingBehavior);
@@ -122,7 +118,10 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
    updateObjective(...objectives: Objective[]) {
       objectives.forEach((objective: Objective) => {
          const indexOfObjective = this.props.objectives.findIndex((obj: Objective) => obj.equals(objective));
-         if (indexOfObjective !== -1) this.props.objectives[indexOfObjective] = objective;
+         if (indexOfObjective !== -1) {
+            this.props.objectives[indexOfObjective] = objective;
+            this.addDomainEvent(new objectiveUpdatedEvent(objective));
+         }
       });
    }
 
@@ -155,7 +154,10 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
 
    removeObjective(objectiveId: AggregateID) {
       const index = this.props.objectives.findIndex((obj) => obj.id === objectiveId);
-      if (index !== -1) this.props.objectives.splice(index, 1);
+      if (index !== -1) {
+         this.props.objectives.splice(index, 1);
+         this.addDomainEvent(new ObjectiveRemovedEvent(objectiveId));
+      }
    }
    validate(): void {
       this._isValid = true;

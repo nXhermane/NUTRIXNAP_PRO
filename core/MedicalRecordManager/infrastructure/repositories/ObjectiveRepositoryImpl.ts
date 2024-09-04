@@ -1,6 +1,6 @@
 import { objectives } from "./../database/medicalRecord.schema";
 import { ObjectiveRepository } from "./interfaces";
-import { AggregateID, Result, Mapper, Paginated } from "@shared";
+import { AggregateID, Mapper } from "@shared";
 import { Objective } from "./../../domain";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { eq } from "drizzle-orm";

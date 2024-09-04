@@ -1,9 +1,10 @@
-import { AggregateID, BaseEntityProps, Entity, Gender, PhysicalActivityLevel, Result } from "@shared";
+import { AggregateID, BaseEntityProps, Entity, ExceptionBase, Gender, Guard, PhysicalActivityLevel, Result } from "@shared";
 import { Age } from "../value-objects/Age";
 import { Height } from "../value-objects/Height";
 import { Weight } from "../value-objects/Weight";
 import { IMedicalCondition, MedicalCondition } from "./MedicalCondition";
 import { CurrentGoal, ICurrentGoal } from "../value-objects/CurrentGoal";
+import { CreateMedicalConditionProps, CreatePatientProfilProps } from "../types";
 
 export interface IPatientProfil {
    patientId: AggregateID;
@@ -77,12 +78,38 @@ export class PatientProfil extends Entity<IPatientProfil> {
       const index = this.props.medicalCondition.findIndex((medicalCond: MedicalCondition) => medicalCond.id === medicalconditionId);
       if (index != -1) this.props.medicalCondition.splice(index, 1);
    }
-   static create(createPatientProfilProps: any): Result<PatientProfil> {
+   static create(createPatientProfilProps: CreatePatientProfilProps): Result<PatientProfil> {
       try {
-         
+         const patientId = createPatientProfilProps.patientId; // TODO : Cette partir doit etre valider avec la creaction d'un api
+         const physicalActivityLevel = createPatientProfilProps.physicalActivityLevel as PhysicalActivityLevel;
+         const ageResult = Age.create(createPatientProfilProps.age);
+         const genderResult = Gender.create(createPatientProfilProps.gender);
+         const heightResult = Height.create(createPatientProfilProps.height);
+         const weightResult = Weight.create(createPatientProfilProps.weight);
+         const currentGoalResult = CurrentGoal.create(createPatientProfilProps?.currrentGoal || { goalId: "", goalRules: [] }); // TODO : cette partir est a revoir a cause du default Goal
+         const medicalConditionResult = createPatientProfilProps.medicalCondition?.map((medicalCondition: CreateMedicalConditionProps) =>
+            MedicalCondition.create(medicalCondition),
+         );
+         const validateResult = Result.combine([ageResult, genderResult, heightResult, weightResult, currentGoalResult, ...medicalConditionResult]);
+         if (validateResult.isFailure) return Result.fail<PatientProfil>(`[Erreur]: ${(validateResult.err as any)?.toJSON() || validateResult.err}`);
+
+         const patientProfil = new PatientProfil({
+            props: {
+               patientId,
+               physicalActivityLevel,
+               age: ageResult.val,
+               gender: genderResult.val,
+               height: heightResult.val,
+               weight: weightResult.val,
+               currentGoal: currentGoalResult.val,
+               medicalCondition: medicalConditionResult.map((medicalCondResult: Result<MedicalCondition>) => medicalCondResult.val),
+            },
+         });
+         return Result.ok<PatientProfil>(patientProfil);
       } catch (error) {
-         
+         return error instanceof ExceptionBase
+            ? Result.fail<PatientProfil>(`[${error.code}]:${error.message}`)
+            : Result.fail<PatientProfil>(`Erreur inattendue. ${PatientProfil?.constructor.name}`);
       }
-      throw new Error();
    }
 }
