@@ -1,18 +1,13 @@
 import {
    AggregateRoot,
    CreateEntityProps,
-   BaseEntityProps,
    HumanName,
    Gender,
    Contact,
    Address,
    Birthday,
-   AggregateID,
-   InvalidReference,
-   Guard,
    ArgumentInvalidException,
    IAddress,
-   EmptyStringError,
    Image,
    Result,
    ExceptionBase,
@@ -29,7 +24,6 @@ export interface IPatient {
    address: Address;
    birthday: Birthday;
    occupation?: string;
-
    images: Image[];
 }
 export class Patient extends AggregateRoot<IPatient> {

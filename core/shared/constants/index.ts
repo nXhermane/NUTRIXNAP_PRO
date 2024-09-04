@@ -9,5 +9,6 @@ export * from "./ObjectiveStatus";
 export * from "./PittsburghSleepQuality";
 export * from "./NutritionistSpecialities";
 export * from "./NutritionistServiceType";
-export * from "./NutritionistServicePatientType"
-export * from "./env"
+export * from "./NutritionistServicePatientType";
+export * from "./MedicalConditionSeverity"
+export * from "./env";

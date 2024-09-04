@@ -3,7 +3,6 @@ import {
    CreateEntityProps,
    Guard,
    ArgumentOutOfRangeException,
-   AggregateID,
    MaritalStatus,
    PhysicalActivityLevel,
    Ethnicity,

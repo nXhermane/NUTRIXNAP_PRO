@@ -28,6 +28,7 @@ export interface IObjective {
    description?: string;
    status: ObjectiveStatus;
 }
+// des regles doit etre inclure dans l'objectif afin de dire exactement ce que l'objectif veux dire des regles comme diminuer glucide de 30%
 export class Objective extends Entity<IObjective> {
    constructor(createObjective: CreateEntityProps<IObjective>) {
       super(createObjective);

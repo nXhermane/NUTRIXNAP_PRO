@@ -15,7 +15,7 @@ export default class Database implements IDatabase {
          await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "SQLite");
       }
       await FileSystem.downloadAsync(
-         Asset.fromModule(require("./nutritionist.sqlite")).uri,
+         Asset.fromModule(require("./../../../databaseFiles/nutritionist.sqlite")).uri,
          FileSystem.documentDirectory + "SQLite/nutritionist.sqlite",
       );
    }
