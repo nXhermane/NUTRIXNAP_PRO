@@ -5,6 +5,7 @@ import { Weight } from "../value-objects/Weight";
 import { IMedicalCondition, MedicalCondition } from "./MedicalCondition";
 import { CurrentGoal, ICurrentGoal } from "../value-objects/CurrentGoal";
 import { CreateMedicalConditionProps, CreatePatientProfilProps } from "../types";
+import { PatientApi } from "@patientManager/application/api";
 
 export interface IPatientProfil {
    patientId: AggregateID;
@@ -78,9 +79,11 @@ export class PatientProfil extends Entity<IPatientProfil> {
       const index = this.props.medicalCondition.findIndex((medicalCond: MedicalCondition) => medicalCond.id === medicalconditionId);
       if (index != -1) this.props.medicalCondition.splice(index, 1);
    }
-   static create(createPatientProfilProps: CreatePatientProfilProps): Result<PatientProfil> {
+   static async create(createPatientProfilProps: CreatePatientProfilProps): Promise<Result<PatientProfil>> {
       try {
-         const patientId = createPatientProfilProps.patientId; // TODO : Cette partir doit etre valider avec la creaction d'un api
+         const patientId = createPatientProfilProps.patientId;
+         const patientResult = await (await PatientApi.getInstance()).getPatientInfoById(createPatientProfilProps.patientId);
+         if (patientResult.isFailure) return Result.fail<PatientProfil>(`[Erreur]: ${(patientResult.err as any)?.toJSON() || patientResult.err}`);
          const physicalActivityLevel = createPatientProfilProps.physicalActivityLevel as PhysicalActivityLevel;
          const ageResult = Age.create(createPatientProfilProps.age);
          const genderResult = Gender.create(createPatientProfilProps.gender);

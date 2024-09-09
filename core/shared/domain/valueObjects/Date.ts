@@ -77,6 +77,13 @@ export class CDate extends ValueObject<string> {
 
       return today.getMonth() === date.getMonth() && today.getDate() === date.getDate();
    }
+   public isSameDay(cdate: CDate): boolean {
+      const date = new Date(cdate.date);
+      const internalDate = new Date(this.props.value);
+      return (
+         date.getMonth() === internalDate.getMonth() && date.getDate() === internalDate.getDate() && date.getFullYear() === internalDate.getFullYear()
+      );
+   }
 
    public isBefore(date: CDate): boolean {
       const thisDate = new Date(this.props.value);

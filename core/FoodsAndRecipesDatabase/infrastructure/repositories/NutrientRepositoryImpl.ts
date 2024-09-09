@@ -50,20 +50,7 @@ export class NutrientRepositoryImpl implements NutrientRepository {
       try {
          const nutrients = await this.db.select().from(nutrientNames).all();
          if (nutrients.length === 0) throw new FoodgroupRepositoryNotFoundException("Erreur , il n'existe pas de nutrient ");
-         return nutrients.map(
-            (value: {
-               nutrientId: string;
-               nutrientCode: string | null;
-               nutrientName: string | null;
-               nutrientNameF: string | null;
-               nutrientUnit: string | null;
-               nutrientSymbol: string | null;
-               tagname: string | null;
-               nutrientDecimal: string | null;
-               createdAt: string;
-               updatedAt: string;
-            }) => this.mapper.toDomain(value),
-         );
+         return nutrients.map((value) => this.mapper.toDomain(value));
       } catch (error) {
          throw new NutrientRepositoryError("Erreur lors de la recuperation du Nutrient ", error as Error, {});
       }

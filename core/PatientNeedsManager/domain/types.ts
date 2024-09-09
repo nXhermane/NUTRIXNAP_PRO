@@ -15,3 +15,14 @@ export interface CreatePatientProfilProps {
 export interface CreateMedicalConditionProps extends Omit<IMedicalCondition, "severity">{
     severity: "light" | "moderate" | "severe"
 }
+
+export type CreateIntakeDataProps = {
+    date: string;
+    foodOrRecipeId: AggregateID;
+    isRecipe: boolean;
+    nutrients: {
+       value: number;
+       tagname: string;
+       unit: string;
+    }[];
+ }

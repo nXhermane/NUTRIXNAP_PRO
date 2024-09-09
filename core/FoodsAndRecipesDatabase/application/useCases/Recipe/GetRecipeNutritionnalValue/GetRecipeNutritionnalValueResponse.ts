@@ -1,10 +1,11 @@
-import { AggregateID, Either, AppError, Result } from "@shared";
+import { AggregateID, Either, AppError, Result, IQuantity } from "@shared";
 import { GetRecipeNutritionnalValueErrors } from "./GetRecipeNutritionnalValueErrors";
 export type GetRecipeNutritionnalValueResponse = Either<
    AppError.UnexpectedError | GetRecipeNutritionnalValueErrors.RecipeNotFoundError,
    Result<{
       recipeId: AggregateID;
       nutrients: NutritionalValue[];
+      quantity:IQuantity
    }>
 >;
 

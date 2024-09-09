@@ -1,7 +1,7 @@
 import { GetRecipeNutritionnalValueErrors } from "./GetRecipeNutritionnalValueErrors";
 import { GetRecipeNutritionnalValueRequest } from "./GetRecipeNutritionnalValueRequest";
 import { GetRecipeNutritionnalValueResponse, NutritionalValue } from "./GetRecipeNutritionnalValueResponse";
-import { UseCase, AppError, Result, left, right, AggregateID } from "@shared";
+import { UseCase, AppError, Result, left, right, AggregateID, IQuantity } from "@shared";
 import { NutrientRepository, RecipeRepository, RecipeRepositoryNotFoundException } from "./../../../../infrastructure";
 import { INutrientAmount, INutritionCalculatorService } from "./../../../../domain";
 
@@ -22,9 +22,10 @@ export class GetRecipeNutritionnalValueUseCase implements UseCase<GetRecipeNutri
             }),
          );
          return right(
-            Result.ok<{ recipeId: AggregateID; nutrients: NutritionalValue[] }>({
+            Result.ok<{ recipeId: AggregateID; nutrients: NutritionalValue[],quantity:IQuantity }>({
                recipeId: request.recipeId,
                nutrients: nutrients as NutritionalValue[],
+               quantity: recipe.quantity,
             }),
          );
       } catch (e) {
