@@ -28,10 +28,13 @@ export class IntakeDataACL implements IIntakeDataACL {
          const intakeSecondaryDataResult = await this.getIntakeSecondaryData(intakePrimaryDataResult.val);
          if (intakeSecondaryDataResult.isFailure) return Result.fail<Intake[]>(String(intakeSecondaryDataResult.err));
          const createIntakeDataProps = this.generateIntakeProps(intakeSecondaryDataResult.val);
+         const intakeResults = createIntakeDataProps.map((value: CreateIntakeDataProps) => Intake.create(value));
+         const validateResult = Result.combine(intakeResults);
+         if (validateResult.isFailure) return Result.fail(String(validateResult.err));
+         return Result.ok<Intake[]>(intakeResults.map((intakeResult: Result<Intake>) => intakeResult.val));
       } catch (error) {
          return Result.fail<Intake[]>("Unexpected Error" + error);
       }
-      throw new Error();
    }
 
    private async getIntakePrimaryData(patientId: AggregateID): Promise<Result<IntakePrimaryData[]>> {

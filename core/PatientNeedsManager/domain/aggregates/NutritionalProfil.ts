@@ -3,6 +3,7 @@ import { PatientProfil } from "../entities/PatientProfil";
 
 export interface INutritionalProfil {
    patientProfil: PatientProfil;
+   
 }
 
 export class NutritionalProfil extends AggregateRoot<INutritionalProfil> {
