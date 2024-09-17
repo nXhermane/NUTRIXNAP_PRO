@@ -1,14 +1,19 @@
-import { Entity, ExceptionBase, Result } from "@/core/shared";
+import { Entity, ExceptionBase, IQuantity, Result } from "@/core/shared";
 
-type Energy = {
-   tdee: string;
+ export type NutrientNeedsCalculationModel= {
+   isFormular:boolean,
+   value:string,
+   variables:{[key:string]:string}
+}
+export type Energy = {
+  
+}
+export type Macronutrients = {
+   PROCNT: NutrientNeedsCalculationModel;
+   FAT: NutrientNeedsCalculationModel;
+   CHOCDF: NutrientNeedsCalculationModel;
 };
-type Macronutrients = {
-   PROCNT: string;
-   FAT: string;
-   CHOCDF: string;
-};
-type Micronutrients = {};
+type Micronutrients = Map<string,NutrientNeedsCalculationModel>;
 export interface IPatientNeedsModel {
    energy: Energy;
    macronutrients: Macronutrients;

@@ -7,6 +7,12 @@ export class Age extends ValueObject<number> {
    getValue(): number {
       return this.props.value;
    }
+   get age_y():number{
+      return this.props.value
+   }
+   get age_m():number{
+      return 12 * this.props.value
+   }
    protected validate(props: DomainPrimitive<number>): void {
       if (props.value < Age.ageInfLimit || props.value > Age.ageSupLimit)
          throw new ArgumentOutOfRangeException(`Age invalide . L'age doit etre entre ${Age.ageInfLimit} et ${Age.ageSupLimit}`);
