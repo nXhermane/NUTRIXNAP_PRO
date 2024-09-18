@@ -1,7 +1,10 @@
 import { CreateEntityProps, EmptyStringError, Entity, ExceptionBase, Guard, Result } from "@/core/shared";
 
 export type FormularVariables = {
-   [variableAlias: string]: string;
+   [variableAlias: string]: {
+      source: string;
+      variable: string;
+   };
 };
 export interface INutritionFormular {
    name: string;

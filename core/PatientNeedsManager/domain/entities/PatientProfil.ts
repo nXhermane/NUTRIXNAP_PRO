@@ -37,14 +37,32 @@ export class PatientProfil extends Entity<IPatientProfil> {
    set age(age: Age) {
       this.props.age = age;
    }
+   get ageYears(): number {
+      return this.props.age.age_y;
+   }
+   get ageMonths(): number {
+      return this.props.age.age_m;
+   }
    get height(): number {
       return this.props.height.getValue();
+   }
+   get heightInFeet(): number {
+      return this.props.height.toFeet();
+   }
+   get heightInMeters(): number {
+      return this.props.height.toMeters();
+   }
+   get heightInInches(): number {
+      return this.props.height.toInches();
    }
    set height(height: Height) {
       this.props.height = height;
    }
    get weight(): number {
       return this.props.weight.getValue();
+   }
+   get weightInPounds(): number {
+      return this.props.weight.toPounds();
    }
    set weight(weight: Weight) {
       this.props.weight = weight;

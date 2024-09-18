@@ -6,3 +6,7 @@ export interface NutritionFormularRepository {
     delete(id: string,trx?:any):Promise<void>
     getAll(): Promise<NutritionFormular[]>
 }
+
+
+
+
