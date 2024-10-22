@@ -10,10 +10,7 @@ export type NutritionalRef = {
    as?: number;
 };
 export type Variables = {
-   [variableAlias: string]: {
-      source: string;
-      variable: string;
-   };
+   [variableAlias: string]: string;
 };
 export const nutritionalReferencesValues = sqliteTable("nutritional_reference_values", {
    id: text("id").primaryKey(),

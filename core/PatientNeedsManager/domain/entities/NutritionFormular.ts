@@ -1,11 +1,7 @@
 import { CreateEntityProps, EmptyStringError, Entity, ExceptionBase, Guard, Result } from "@/core/shared";
+import { VariableMappingTable } from "./types";
 
-export type FormularVariables = {
-   [variableAlias: string]: {
-      source: string;
-      variable: string;
-   };
-};
+export type FormularVariables = VariableMappingTable
 export interface INutritionFormular {
    name: string;
    expression: string;

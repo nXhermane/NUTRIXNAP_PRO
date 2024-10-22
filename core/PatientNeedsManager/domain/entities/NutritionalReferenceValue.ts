@@ -1,8 +1,9 @@
 import { EmptyStringError, Entity, Guard } from "@/core/shared";
 import { INutritionalRef, NutritionalRef } from "../value-objects/NutritionalRef";
 import { FormularVariables } from "./NutritionFormular";
+import { VariableMappingTable } from "./types";
 
-export type ConditionVariables = FormularVariables;
+export type ConditionVariables = VariableMappingTable;
 export interface INutritionalReferenceValue {
    tagnames: string;
    origin: string;
