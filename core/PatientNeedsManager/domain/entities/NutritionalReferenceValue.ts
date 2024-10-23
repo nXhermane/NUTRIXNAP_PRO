@@ -1,8 +1,15 @@
-import { EmptyStringError, Entity, Guard } from "@/core/shared";
+import { EmptyStringError, Entity, Guard, Result } from "@/core/shared";
 import { INutritionalRef, NutritionalRef } from "../value-objects/NutritionalRef";
 import { FormularVariables } from "./NutritionFormular";
 import { VariableMappingTable } from "./types";
+import SmartCal from "smartcal";
 
+export type VariableObject = { [variableName: string]: any };
+export type NutritionalRecommendedValue = {
+   value: number;
+   unit: string;
+   tagname: string;
+};
 export type ConditionVariables = VariableMappingTable;
 export interface INutritionalReferenceValue {
    tagnames: string;
@@ -57,6 +64,7 @@ export class NutritionalReferenceValue extends Entity<INutritionalReferenceValue
       if (index !== -1) this.props.values.splice(index, 1);
       this.validate();
    }
+
 
    public validate(): void {
       this._isValid = false;

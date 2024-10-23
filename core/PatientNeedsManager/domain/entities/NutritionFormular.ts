@@ -1,7 +1,13 @@
 import { CreateEntityProps, EmptyStringError, Entity, ExceptionBase, Guard, Result } from "@/core/shared";
 import { VariableMappingTable } from "./types";
+import { VariableObject } from "./NutritionalReferenceValue";
+import SmartCal from "smartcal";
 
-export type FormularVariables = VariableMappingTable
+export type FormularVariables = VariableMappingTable;
+export type NutritionFormularResult = {
+   value: number | string;
+   name: string;
+};
 export interface INutritionFormular {
    name: string;
    expression: string;
