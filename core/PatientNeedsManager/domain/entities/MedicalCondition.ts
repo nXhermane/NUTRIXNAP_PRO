@@ -6,6 +6,16 @@ import { CreateMedicalConditionProps } from "../types";
   * Pour ce contexte, nous devons ajouter un champ supplémentaire pour stocker les autres informations concernant la condition médicale comme par exemple la durée de l'exposition à la condition, les symptômes spécifiques, etc...
   * Ce champ est un objet avec des clés et des valeurs qui peuvent être de n'importe quel type, il est donc important de déclarer le type des valeurs pour que TypeScript puis
   */
+
+ /**
+  * La recommandation ici concerne les besoins 
+  * caracteriser par une condition qui doit etre respecter avant l'application de la recommandation
+  * la recomandation {
+   par rapport a l'energy : {[energytype: string]: recommNDtion sous forme de string qui peut etre evaluer par le smart cal
+   par rapport au macronutriment 
+   pAR RApport au micronutriment } 
+ }
+  */
 export interface IMedicalCondition {
    name: string;
    severity: MedicalConditionSeverity;
