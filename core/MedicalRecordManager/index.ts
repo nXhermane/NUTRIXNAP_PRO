@@ -40,6 +40,7 @@ import {
    UpdateMedicalStoryUseCase,
 } from "./application/useCases";
 import { FileManagerExpo } from "../shared";
+import { AfterPatientCreatedEvent, AfterPatientDeletedEvent } from "./application/subscribers";
 
 export interface IMedicalRecordManager extends IMedicalRecordService {}
 export class MedicalRecordManager {
@@ -99,6 +100,10 @@ export class MedicalRecordManager {
          const updateFoodStoryUC = new UpdateFoodStoryUseCase(medicalRecordRepo);
          const updateMedicalStoryUC = new UpdateMedicalStoryUseCase(medicalRecordRepo);
 
+         // Initialise  sucribers for event 
+         const afterPatietnCreatedEvent =  new AfterPatientCreatedEvent(createMedicalRecordUC)
+         const afterPatientDeletedEvent = new AfterPatientDeletedEvent(deleteMedicalRecordUC)
+         
          MedicalRecordManager.instance = new MedicalRecordService(
             addMeasureUC,
             createMedicalRecordUC,

@@ -1,4 +1,4 @@
-import { PatientDeletedEvent } from "@patientManager";
+import { PatientDeletedEvent } from "@/core/PatientManager";
 import { DeleteMedicalRecordRequest, DeleteMedicalRecordResponse } from "./../useCases";
 import { IHandler, UseCase, DomainEvents } from "@shared";
 

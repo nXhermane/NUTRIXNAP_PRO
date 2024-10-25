@@ -11,7 +11,7 @@ import { IAnthropometricMeasurement, AnthropometricMeasurement } from "./../valu
 import { IBodyCompositionMeasurement, BodyCompositionMeasurement } from "./../value-objects/BodyCompositionMeasurement";
 import { IMedicalAnalysisResult, MedicalAnalysisResult } from "./../value-objects/MedicalAnalysisResult";
 import { CreateMedicalRecordProps } from "./../types";
-import { ObjectiveAddedEvent, ObjectiveRemovedEvent, objectiveUpdatedEvent } from "../events";
+import { MeasurementAddedEvent, ObjectiveAddedEvent, ObjectiveRemovedEvent, objectiveUpdatedEvent, PatientMeasurementUpdatedEvent } from "../events";
 export interface IMedicalRecord {
    foodDiaries: FoodDiary[];
    consultationInformation: ConsultationInformation;
@@ -47,6 +47,14 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
                throw new Error("This measurement is not supported.");
          }
       });
+      this.validate();
+      this.addDomainEvent(
+         new MeasurementAddedEvent({
+            patientId: this.patientId,
+            medicalRecordId: this.id,
+            measurements,
+         }),
+      );
    }
    addFoodDiary(...foodDiares: FoodDiary[]) {
       for (const foodDiary of foodDiares) this.props.foodDiaries.push(foodDiary);
@@ -100,8 +108,21 @@ export class MedicalRecord extends AggregateRoot<IMedicalRecord> {
    getEatingBehavior(): IEatingBehavior[] {
       return this.props.eatingBehaviors.map((eatingBehavior: EatingBehavior) => eatingBehavior.unpack());
    }
-   updateMeasure(patientMesurements: PatientMeasurements) {
-      if (patientMesurements.equals(this.props.measure)) this.props.measure = patientMesurements;
+   updateMeasure(patientMeasurements: PatientMeasurements) {
+      if (patientMeasurements.equals(this.props.measure)) this.props.measure = patientMeasurements;
+      this.validate();
+      const patientMeasurementProps = patientMeasurements.getProps();
+      this.addDomainEvent(
+         new PatientMeasurementUpdatedEvent({
+            patientId: this.patientId,
+            medicalRecordId: this.id,
+            measurements: [
+               ...patientMeasurementProps.anthropometricMeasurements,
+               ...patientMeasurementProps.bodyCompositionMeasurements,
+               ...patientMeasurementProps.medicalAnalysisResults,
+            ],
+         }),
+      );
    }
    updateConsultationInformation(consultationInfo: ConsultationInformation) {
       if (consultationInfo.equals(this.props.consultationInformation)) this.props.consultationInformation = consultationInfo;

@@ -6,6 +6,7 @@ export type StandardMedicalConditionCriteria = {
 };
 export interface IStandardMedicalCondition {
    name: string;
+   description: string;
    criteria: StandardMedicalConditionCriteria;
    defaultRecommendation: string[]; // TODO: doit etre remplacer par les classes de recommandation modeliser plustard
 }
@@ -18,18 +19,19 @@ export class StandardMedicalCondition extends Entity<IStandardMedicalCondition> 
       this.props.name = name;
       this.validate();
    }
+   
    get criteria(): StandardMedicalConditionCriteria {
       return this.props.criteria;
    }
-   set criteria(criteria:StandardMedicalConditionCriteria){
-    this.props.criteria = criteria
-    this.validate()
+   set criteria(criteria: StandardMedicalConditionCriteria) {
+      this.props.criteria = criteria;
+      this.validate();
    }
-   addRecommendation(...recommendations:string[]){
-    recommendations.forEach((recommendation:string)=> {
-        this.props.defaultRecommendation.push(recommendation)
-    })
-    this.validate()
+   addRecommendation(...recommendations: string[]) {
+      recommendations.forEach((recommendation: string) => {
+         this.props.defaultRecommendation.push(recommendation);
+      });
+      this.validate();
    }
    public validate(): void {
       this._isValid = false;

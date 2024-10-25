@@ -1,6 +1,7 @@
 import { AggregateID } from "@shared";
 import { ICurrentGoal } from "./value-objects/CurrentGoal";
 import { IMedicalCondition } from "./entities/MedicalCondition";
+import { HealthMetrics } from "./value-objects/HealthMetrics";
 
 export interface CreatePatientProfilProps {
    patientId: AggregateID;
@@ -11,6 +12,10 @@ export interface CreatePatientProfilProps {
    physicalActivityLevel: "Sedentary" | "Lightly Active" | "Moderately Active" | "Very Active" | "Extremely Active";
    currrentGoal?: ICurrentGoal;
    medicalCondition: CreateMedicalConditionProps[];
+   anthropomethricMeasure: { [measureCode: string]: HealthMetrics };
+   bodyComposition: { [measureCode: string]: HealthMetrics };
+   medicalAnalyses: { [measureCode: string]: HealthMetrics };
+   
 }
 export interface CreateMedicalConditionProps extends Omit<IMedicalCondition, "severity"> {
    severity: "light" | "moderate" | "severe";

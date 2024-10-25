@@ -6,7 +6,9 @@ import { IMedicalCondition, MedicalCondition } from "./MedicalCondition";
 import { CurrentGoal, ICurrentGoal } from "../value-objects/CurrentGoal";
 import { CreateMedicalConditionProps, CreatePatientProfilProps } from "../types";
 import { PatientApi } from "@patientManager/application/api";
+import { HealthMetrics, IHealthMetrics } from "../value-objects/HealthMetrics";
 
+// sa reste les Measurement a mettre dans le patientProfil
 export interface IPatientProfil {
    patientId: AggregateID;
    gender: Gender;
@@ -14,6 +16,9 @@ export interface IPatientProfil {
    height: Height;
    weight: Weight;
    physicalActivityLevel: PhysicalActivityLevel;
+   anthropomethricMeasure: { [measureCode: string]: HealthMetrics };
+   bodyComposition: { [measureCode: string]: HealthMetrics };
+   medicalAnalyses: { [measureCode: string]: HealthMetrics };
    medicalCondition: MedicalCondition[];
    currentGoal: CurrentGoal;
 }
@@ -83,6 +88,35 @@ export class PatientProfil extends Entity<IPatientProfil> {
    set currentGoal(currentGoal: CurrentGoal) {
       this.props.currentGoal = currentGoal;
    }
+   addAnthropometricMeasure(healthMetrics:HealthMetrics){
+      this.props.anthropomethricMeasure[healthMetrics.unpack().code] = healthMetrics;
+   }
+   addBodyCompositionMeasure(healthMetrics: HealthMetrics){
+      return this.props.bodyComposition[healthMetrics.unpack().code] = healthMetrics;
+   }
+   addMedicalAnalysesMeasure(healthMetrics: HealthMetrics){
+      this.props.medicalAnalyses[healthMetrics.unpack().code] = healthMetrics;
+   }
+   getAnthropometricMeasure(measureCode:string):IHealthMetrics {
+      return this.props.anthropomethricMeasure[measureCode]?.unpack();
+   }
+   getBodyCompositionMeasure(measureCode: string):IHealthMetrics {
+      return this.props.bodyComposition[measureCode]?.unpack();
+   }
+   getMedicalAnalysesMeasure(measureCode: string):IHealthMetrics {
+      return this.props.medicalAnalyses[measureCode]?.unpack();
+   }
+   getAnthropometricMeasureValue(measureCode:string): number|undefined {
+return this.props.anthropomethricMeasure[measureCode]?.unpack().value;
+   } 
+   getBodyCompositionMeasureValue(measureCode: string): number|undefined { 
+      return this.props.bodyComposition[measureCode]?.unpack().value;
+   }
+   getMedicalAnalysesMeasureValue(measureCode: string): number|undefined {
+      return this.props.medicalAnalyses[measureCode]?.unpack().value;
+   }
+
+
    addMedicalCondition(...medicalConditions: MedicalCondition[]) {
       medicalConditions.forEach((value: MedicalCondition) => {
          const index = this.props.medicalCondition.findIndex((val: MedicalCondition) => val.equals(value));
@@ -124,6 +158,9 @@ export class PatientProfil extends Entity<IPatientProfil> {
                weight: weightResult.val,
                currentGoal: currentGoalResult.val,
                medicalCondition: medicalConditionResult.map((medicalCondResult: Result<MedicalCondition>) => medicalCondResult.val),
+               anthropomethricMeasure: createPatientProfilProps.anthropomethricMeasure,
+               bodyComposition: createPatientProfilProps.bodyComposition,
+               medicalAnalyses: createPatientProfilProps.medicalAnalyses,
             },
          });
          return Result.ok<PatientProfil>(patientProfil);
