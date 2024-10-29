@@ -1,13 +1,13 @@
 import { EmptyStringError, Entity, ExceptionBase, Guard, MedicalConditionSeverity, Result, ValueObject } from "@shared";
 import { CreateMedicalConditionProps } from "../types";
- /**
-  * Il existe deux type de recommandation pour une condition medicale , nous avons ceux qui concerne les besoins nutritionel et ceux concernant  l'alimentation   
-  * Mais dans ce bounded context , nous accepterons uniquement les recommandation concernant les besoins on tiendra compte des autres types de recommandation dans dáutre contexte
-  * Pour ce contexte, nous devons ajouter un champ supplémentaire pour stocker les autres informations concernant la condition médicale comme par exemple la durée de l'exposition à la condition, les symptômes spécifiques, etc...
-  * Ce champ est un objet avec des clés et des valeurs qui peuvent être de n'importe quel type, il est donc important de déclarer le type des valeurs pour que TypeScript puis
-  */
+/**
+ * Il existe deux type de recommandation pour une condition medicale , nous avons ceux qui concerne les besoins nutritionel et ceux concernant  l'alimentation
+ * Mais dans ce bounded context , nous accepterons uniquement les recommandation concernant les besoins on tiendra compte des autres types de recommandation dans dáutre contexte
+ * Pour ce contexte, nous devons ajouter un champ supplémentaire pour stocker les autres informations concernant la condition médicale comme par exemple la durée de l'exposition à la condition, les symptômes spécifiques, etc...
+ * Ce champ est un objet avec des clés et des valeurs qui peuvent être de n'importe quel type, il est donc important de déclarer le type des valeurs pour que TypeScript puis
+ */
 
- /**
+/**
   * La recommandation ici concerne les besoins 
   * caracteriser par une condition qui doit etre respecter avant l'application de la recommandation
   * la recomandation {
@@ -46,6 +46,10 @@ export class MedicalCondition extends Entity<IMedicalCondition> {
    }
    set recommandation(recommandations: string[]) {
       this.props.recommendation = recommandations;
+      this.validate();
+   }
+   addOrdersInformations(informationName: string, informationValue: any) {
+      this.props.otherInformation[informationName] = informationValue;
       this.validate();
    }
    public validate(): void {

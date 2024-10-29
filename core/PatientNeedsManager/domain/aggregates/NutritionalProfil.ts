@@ -1,5 +1,5 @@
 import { AggregateRoot } from "@shared";
-import { PatientProfil } from "../entities/PatientProfil";
+import { PatientProfil } from "./PatientProfil";
 
 export interface INutritionalProfil {
    patientProfil: PatientProfil;

@@ -1,6 +1,6 @@
 import SmartCalc from "smartcal";
 import { Macronutrients, NutrientNeedsCalculationModel, PatientNeedsModel } from "../entities/PatientNeedsModel";
-import { PatientProfil } from "../entities/PatientProfil";
+import { PatientProfil } from "../aggregates/PatientProfil";
 import { IDataComposerService } from "./interfaces/DataComposerService";
 import { INutritionalNeedsCalculator } from "./interfaces/NutritionalNeedsCalculator";
 import { AggregateID } from "@/core/shared";

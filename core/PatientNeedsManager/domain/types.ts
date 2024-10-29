@@ -15,8 +15,12 @@ export interface CreatePatientProfilProps {
    anthropomethricMeasure: { [measureCode: string]: HealthMetrics };
    bodyComposition: { [measureCode: string]: HealthMetrics };
    medicalAnalyses: { [measureCode: string]: HealthMetrics };
-   
+   otherInformations: { [infoName: string]: any };
 }
+export type CreatePatientDataVariable = {
+   patientId: AggregateID;
+   variables: { [variableName: string]: string };
+};
 export interface CreateMedicalConditionProps extends Omit<IMedicalCondition, "severity"> {
    severity: "light" | "moderate" | "severe";
 }
