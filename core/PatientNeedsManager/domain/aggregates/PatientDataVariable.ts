@@ -1,4 +1,4 @@
-import { AggregateID, AggregateRoot, EmptyStringError, ExceptionBase, Result } from "@/core/shared";
+import { AggregateID, AggregateRoot, EmptyStringError, ExceptionBase, InvalidReference, NotFoundException, Result } from "@/core/shared";
 import { CreatePatientDataVariable } from "../types";
 
 /**
@@ -18,6 +18,11 @@ export class PatientDataVariable extends AggregateRoot<IPatientDataVariable> {
    }
    updateVariable(variableName: string, value: string): void {
       this.props.variables[variableName] = value;
+   }
+   getVariableByName(variableName: string): [variableName: string, variablePath: string] {
+      const variable = this.props.variables[variableName];
+      if (variable) return [variableName, variable]; // Si la variable existe, on la retourne.
+      throw new NotFoundException("La variable " + variableName + " n'est pas definie.");
    }
    deleteVariable(variableName: string): void {
       if (this.props.variables.hasOwnProperty(variableName)) delete this.props.variables[variableName];

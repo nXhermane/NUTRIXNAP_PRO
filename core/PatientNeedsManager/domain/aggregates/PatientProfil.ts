@@ -92,17 +92,25 @@ export class PatientProfil extends AggregateRoot<IPatientProfil> {
    set physicalActivityLevel(physicalActivityLevel: "Sedentary" | "Lightly Active" | "Moderately Active" | "Very Active" | "Extremely Active") {
       this.props.physicalActivityLevel = physicalActivityLevel as PhysicalActivityLevel;
    }
-   get anthropomethricMeasure(): IHealthMetrics[] {
-      return Object.values(this.props.anthropomethricMeasure).map((measurement) => measurement.unpack());
+
+   get anthropomethricMeasure(): { [measureCode: string]: IHealthMetrics } {
+      const anthropometricMeasure: { [measureCode: string]: IHealthMetrics } = {};
+      for (const [key, measurement] of Object.entries(this.props.anthropomethricMeasure)) {
+         anthropometricMeasure[key as string] = measurement.unpack();
+      }
+      return anthropometricMeasure;
    }
-   get bodyCompositionMeasure(): IHealthMetrics[] {
-      return Object.values(this.props.bodyComposition).map((measurement) => measurement.unpack());
+   get bodyCompositionMeasure(): { [measureCode: string]: IHealthMetrics } {
+      return Object.fromEntries(Object.values(this.props.bodyComposition).map((measurement) => [measurement.unpack().code, measurement.unpack()]));
    }
-   get medicalAnalysesMeasure(): IHealthMetrics[] {
-      return Object.values(this.props.medicalAnalyses).map((measurement) => measurement.unpack());
+   get medicalAnalysesMeasure(): { [measureCode: string]: IHealthMetrics } {
+      return Object.fromEntries(Object.values(this.props.medicalAnalyses).map((measurement) => [measurement.unpack().code, measurement.unpack()]));
    }
-   get medicalCondition(): (IMedicalCondition & BaseEntityProps)[] {
-      return Object.values(this.props.medicalCondition).map((value: MedicalCondition) => value.getProps());
+   get medicalCondition(): { [medicalRecordId: AggregateID]: IMedicalCondition & BaseEntityProps } {
+      return Object.fromEntries(Object.values(this.props.medicalCondition).map((value: MedicalCondition) => [value.id, value.getProps()]));
+   }
+   get medicalConditionNames(): string[] {
+      return Object.values(this.props.medicalCondition).map((measurement) => measurement.name);
    }
    get currentGoal(): ICurrentGoal {
       return this.props.currentGoal.unpack();
@@ -199,6 +207,18 @@ export class PatientProfil extends AggregateRoot<IPatientProfil> {
          }),
       );
    }
+   addOtherInformations(informationName: string, informationValue: any) {
+      this.props.otherInformations[informationName] = informationValue;
+      this.validate();
+      this.addDomainEvent(
+         new MeasurementAddedtoPatientProfilEvent({
+            patientProfilId: this.id,
+            measureName: informationName,
+            measurePath: combinePath(invariablePath.patientProfilPath, invariablePath.patientProfilOtherInformationsPath(informationName)),
+         }),
+      );
+   }
+
    updateMedicalConditionName(medicalConditionId: AggregateID, name: string) {
       const mediacalCondition = this.props.medicalCondition[medicalConditionId];
       if (mediacalCondition) {
@@ -267,6 +287,18 @@ export class PatientProfil extends AggregateRoot<IPatientProfil> {
             new MeasurementDeletedFromPatientProfilEvent({
                patientProfilId: this.id,
                measureName: measure.unpack().name,
+            }),
+         );
+      }
+   }
+   removeOtherInformationOnPatientProfil(informationName: string) {
+      if (this.props.otherInformations[informationName]) {
+         delete this.props.otherInformations[informationName];
+         this.validate();
+         this.addDomainEvent(
+            new MeasurementDeletedFromPatientProfilEvent({
+               patientProfilId: this.id,
+               measureName: informationName,
             }),
          );
       }
