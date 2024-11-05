@@ -8,10 +8,12 @@ export interface INeedsRecommendation<T> {
    nutrientTagName: string;
    desciption: string;
    data: T;
+
 }
 export type NutrientNeedsValue = { value: number; unit: string };
+export type NeedsRecommendationContext = { [variableName: string]: string }
 export abstract class NeedsRecommendation<T> extends ValueObject<INeedsRecommendation<T>> {
-   abstract apply(nutrientBasicValue: NutrientNeedsValue): NutrientNeedsValue;
+   abstract apply(nutrientBasicValue: NutrientNeedsValue,context: NeedsRecommendationContext): NutrientNeedsValue;
    protected validate(props: INeedsRecommendation<T>): void {
       if (Guard.isEmpty(props.nutrientTagName).succeeded) throw new EmptyStringError("Le Nutriment que vous recommender doit etre indiquer.");
       if (!Object.values(RecommendationPriority).includes(props.priority))

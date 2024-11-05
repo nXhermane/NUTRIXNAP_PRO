@@ -1,11 +1,11 @@
-import { NeedsRecommendation, NutrientNeedsValue } from "./NeedsRecommendation";
+import { NeedsRecommendation, NeedsRecommendationContext, NutrientNeedsValue } from "./NeedsRecommendation";
 
 export interface INeedsRecommendationByRelativity {
-    percentage:number 
+    percentage: number
 }
 export class NeedsRecommendationByRelativity extends NeedsRecommendation<INeedsRecommendationByRelativity> {
-    apply(nutrientBasicValue: NutrientNeedsValue): NutrientNeedsValue {
+    apply(nutrientBasicValue: NutrientNeedsValue, conext: NeedsRecommendationContext): NutrientNeedsValue {
         throw new Error("Method not implemented.");
     }
-    
+
 }
