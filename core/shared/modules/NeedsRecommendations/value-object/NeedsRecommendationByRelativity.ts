@@ -4,8 +4,11 @@ export interface INeedsRecommendationByRelativity {
     percentage: number
 }
 export class NeedsRecommendationByRelativity extends NeedsRecommendation<INeedsRecommendationByRelativity> {
-    apply(nutrientBasicValue: NutrientNeedsValue, conext: NeedsRecommendationContext): NutrientNeedsValue {
-        throw new Error("Method not implemented.");
+    protected _apply(nutrientBasicValue: NutrientNeedsValue, conext: NeedsRecommendationContext): NutrientNeedsValue {
+        const value = nutrientBasicValue.value * this.props.data.percentage
+        return {
+            value, unit: nutrientBasicValue.unit
+        }
     }
 
 }

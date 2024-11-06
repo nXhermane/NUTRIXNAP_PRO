@@ -7,6 +7,7 @@ import {
    NOT_FOUND,
    AUTHORIZATION_ERROR,
    CREATION_FAILED,
+   INVALID_RESULT,
 } from "./exception.code";
 import { ExceptionBase } from "./exception.base";
 
@@ -131,4 +132,11 @@ export class ObjectCreationError extends ExceptionBase {
       super(msg);
    }
    readonly code = CREATION_FAILED;
+}
+export class InvalidResultError extends ExceptionBase {
+   static readonly message = "The process returned an invalid result"
+   constructor(msg = InvalidResultError.message) {
+      super(msg);
+   }
+   readonly code = INVALID_RESULT
 }

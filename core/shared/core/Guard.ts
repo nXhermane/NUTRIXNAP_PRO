@@ -72,7 +72,7 @@ export class Guard {
 
    public static isOneOf(value: any, validValues: any[], argumentName: string): IGuardResult {
       let isValid = false;
-      for (let validValue of validValues) {
+      for (const validValue of validValues) {
          if (value === validValue) {
             isValid = true;
          }
@@ -113,5 +113,9 @@ export class Guard {
    public static isString(value: any): IGuardResult {
       const isString = typeof value === "string";
       return isString ? { succeeded: true } : { succeeded: false };
+   }
+   public static isNumber(value: any): IGuardResult {
+      const isNumber = typeof value === "number";
+      return isNumber ? { succeeded: true } : { succeeded: false };
    }
 }
