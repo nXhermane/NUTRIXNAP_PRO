@@ -26,7 +26,7 @@ export interface INeedsRecommendation<T> {
 }
 export type NutrientNeedsValue = { value: number; unit: string };
 export type NeedsRecommendationContext = { [variableName: string]: any }
-export abstract class NeedsRecommendation<T> extends ValueObject<INeedsRecommendation<T>> {
+export abstract class NeedsRecommendation<T = any> extends ValueObject<INeedsRecommendation<T>> {
    /**
     * Il fait la composition des tables de mappages des variables utilisées dans la recommandation 
     * @returns - Object {[variableAlias: string]: variableName|| variableValue} 

@@ -7,6 +7,7 @@ import {
    Gender,
    Guard,
    InvalidReference,
+   NeedsRecommendation,
    PhysicalActivityLevel,
    Result,
 } from "@shared";
@@ -238,7 +239,7 @@ export class PatientProfil extends AggregateRoot<IPatientProfil> {
       this.validate();
    }
 
-   addRecommendationToMedicalCondition(medicalConditionId: AggregateID, recommendations: string[]) {
+   addRecommendationToMedicalCondition(medicalConditionId: AggregateID, recommendations: NeedsRecommendation[]) {
       const mediacalCondition = this.props.medicalCondition[medicalConditionId];
       if (mediacalCondition) {
          mediacalCondition.addRecommandation(...recommendations);

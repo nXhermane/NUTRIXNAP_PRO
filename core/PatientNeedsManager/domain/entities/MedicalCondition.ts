@@ -1,5 +1,6 @@
-import { EmptyStringError, Entity, ExceptionBase, Guard, MedicalConditionSeverity, Result, ValueObject } from "@shared";
+import { EmptyStringError, Entity, ExceptionBase, Guard, INeedsRecommendation, MedicalConditionSeverity, NeedsRecommendation, Result, ValueObject } from "@shared";
 import { CreateMedicalConditionProps } from "../types";
+import { HealthIndicator } from "../value-objects/HealthIndicator";
 /**
  * Il existe deux type de recommandation pour une condition medicale , nous avons ceux qui concerne les besoins nutritionel et ceux concernant  l'alimentation
  * Mais dans ce bounded context , nous accepterons uniquement les recommandation concernant les besoins on tiendra compte des autres types de recommandation dans dáutre contexte
@@ -15,12 +16,16 @@ import { CreateMedicalConditionProps } from "../types";
    par rapport au macronutriment 
    pAR RApport au micronutriment } 
  }
+
+
+  * TODO : je dois ajouter quelque chose d'interessant au medical Condition , les pathologies ont tous des biomarqueurs a surveillers donc interger l'ajout de biomarqueur va permetre ;la prise en charge d'execution d'action en cas de modification des biomarqueurs
   */
 export interface IMedicalCondition {
    name: string;
    severity: MedicalConditionSeverity;
-   recommendation: string[]; // TODO: the type of recommandation can be define and implement later
+   recommendations: NeedsRecommendation[];
    otherInformation: { [key: string]: any };
+   healthIndicators: HealthIndicator[]
 }
 
 export class MedicalCondition extends Entity<IMedicalCondition> {
@@ -37,15 +42,23 @@ export class MedicalCondition extends Entity<IMedicalCondition> {
    set severity(value: "light" | "moderate" | "severe") {
       this.props.severity = value as MedicalConditionSeverity;
    }
-   get recommendation(): string[] {
-      return this.props.recommendation;
+   get recommendation(): INeedsRecommendation<any>[] {
+      return this.props.recommendations.map(recommendation => recommendation.unpack());
    }
-   addRecommandation(...recommandations: string[]) {
-      this.props.recommendation.push(...recommandations);
+   addRecommandation(...recommandations: NeedsRecommendation[]) {
+      this.props.recommendations.push(...recommandations);
       this.validate();
    }
-   set recommandation(recommandations: string[]) {
-      this.props.recommendation = recommandations;
+   set recommandation(recommandations: NeedsRecommendation[]) {
+      this.props.recommendations = recommandations;
+      this.validate();
+   }
+   addHealthIndicator(healthIndicator: HealthIndicator): void {
+      this.props.healthIndicators.push(healthIndicator);
+      this.validate();
+   }
+   set healthIndicators(healthIndicators: HealthIndicator[]) {
+      this.props.healthIndicators = healthIndicators;
       this.validate();
    }
    addOrdersInformations(informationName: string, informationValue: any) {
@@ -59,12 +72,17 @@ export class MedicalCondition extends Entity<IMedicalCondition> {
    }
    static create(props: CreateMedicalConditionProps): Result<MedicalCondition> {
       try {
+         const healthIndicators = props.healthIndicators.map(HealthIndicator.create)
+         if (Result.combine(healthIndicators).isFailure) {
+            return Result.fail<MedicalCondition>("Erreur lors de la création des indicateurs de santé");
+         }
          const medicalCond = new MedicalCondition({
             props: {
                name: props.name,
                severity: props.severity as MedicalConditionSeverity,
-               recommendation: props.recommendation,
+               recommendations: props.recommendations,
                otherInformation: props.otherInformation,
+               healthIndicators: healthIndicators.map(healthIndicatorResult => healthIndicatorResult.val)
             },
          });
          return Result.ok<MedicalCondition>(medicalCond);

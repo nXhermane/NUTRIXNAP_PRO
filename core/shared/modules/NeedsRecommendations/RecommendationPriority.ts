@@ -1,7 +1,16 @@
+/**
+ * Hiérarchie des priorités (du plus au moins prioritaire) pour les recommandations:
+ * VITAL : Recommandations liées à la survie immédiate (allergies sévères)
+ * CRITIQUE : Conditions médicales graves (insuffisance rénale sévère)
+ * IMPORTANT : Conditions significatives mais non critiques 
+ * STANDARD : Recommandations de base
+ * PREFERENCE : Préférences personnelles du patient
+ */
+
 export enum RecommendationPriority {
-   VITAL = 1,
-   CRITIQUE = 2,
-   IMPORTANT = 3,
-   STANDARD = 4,
-   PREFERENCE = 5,
+   VITAL,
+   CRITIQUE,
+   IMPORTANT,
+   STANDARD,
+   PREFERENCE,
 }

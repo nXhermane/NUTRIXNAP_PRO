@@ -2,6 +2,7 @@ import { AggregateID } from "@shared";
 import { ICurrentGoal } from "./value-objects/CurrentGoal";
 import { IMedicalCondition } from "./entities/MedicalCondition";
 import { HealthMetrics } from "./value-objects/HealthMetrics";
+import { IHealthIndicator } from "./value-objects/HealthIndicator";
 
 export interface CreatePatientProfilProps {
    patientId: AggregateID;
@@ -21,8 +22,9 @@ export type CreatePatientDataVariable = {
    patientId: AggregateID;
    variables: { [variableName: string]: string };
 };
-export interface CreateMedicalConditionProps extends Omit<IMedicalCondition, "severity"> {
+export interface CreateMedicalConditionProps extends Omit<IMedicalCondition, "severity"| "healthIndicators"> {
    severity: "light" | "moderate" | "severe";
+   healthIndicators: IHealthIndicator[]
 }
 
 export type CreateIntakeDataProps = {
