@@ -4,3 +4,4 @@ export * from './value-object/NeedsRecommendationByFormular'
 export * from './value-object/NeedsRecommendationByInterval'
 export * from './value-object/NeedsRecommendationByRelativity'
 export * from './value-object/NeedsRecommendationBySubtution'
+export * from "./value-object/HealthIndicator"

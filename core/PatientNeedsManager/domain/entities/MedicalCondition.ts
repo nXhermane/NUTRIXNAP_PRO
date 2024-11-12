@@ -1,6 +1,5 @@
-import { EmptyStringError, Entity, ExceptionBase, Guard, INeedsRecommendation, MedicalConditionSeverity, NeedsRecommendation, Result, ValueObject } from "@shared";
+import { EmptyStringError, Entity, ExceptionBase, Guard, HealthIndicator, INeedsRecommendation, MedicalConditionSeverity, NeedsRecommendation, Result, ValueObject } from "@shared";
 import { CreateMedicalConditionProps } from "../types";
-import { HealthIndicator } from "../value-objects/HealthIndicator";
 /**
  * Il existe deux type de recommandation pour une condition medicale , nous avons ceux qui concerne les besoins nutritionel et ceux concernant  l'alimentation
  * Mais dans ce bounded context , nous accepterons uniquement les recommandation concernant les besoins on tiendra compte des autres types de recommandation dans dáutre contexte

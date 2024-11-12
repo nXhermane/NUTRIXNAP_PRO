@@ -1,8 +1,8 @@
-import { AggregateID, IDomainEvent } from "@/core/shared";
+import { AggregateID, IDomainEvent, NeedsRecommendation } from "@/core/shared";
 
 export interface MedicalConditionRecommendationAddedObject {
    medicalConditionId: AggregateID;
-   recommendations: string[];
+   recommendations: NeedsRecommendation[];
 }
 export class MedicalConditionRecommendationAddedEvent implements IDomainEvent {
    dateTimeOccurred: Date;

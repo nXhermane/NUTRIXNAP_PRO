@@ -25,7 +25,7 @@ export interface INeedsRecommendation<T> {
 
 }
 export type NutrientNeedsValue = { value: number; unit: string };
-export type NeedsRecommendationContext = { [variableName: string]: any }
+export type NeedsRecommendationContext = { [variableName: string]: any } & { currentDate: CDate }
 export abstract class NeedsRecommendation<T = any> extends ValueObject<INeedsRecommendation<T>> {
    /**
     * Il fait la composition des tables de mappages des variables utilisées dans la recommandation 
@@ -46,7 +46,7 @@ export abstract class NeedsRecommendation<T = any> extends ValueObject<INeedsRec
          if (expressionEvaluationResult != 0) return nutrientBasicValue
       }
       if (this.props.startDate && this.props.endDate) {
-         const currentDate = new CDate()
+         const currentDate = context.currentDate
          if (currentDate.isAfter(this.props.startDate) || currentDate.isBefore(this.props.endDate)) return nutrientBasicValue
       }
       return this._apply(nutrientBasicValue, context)
