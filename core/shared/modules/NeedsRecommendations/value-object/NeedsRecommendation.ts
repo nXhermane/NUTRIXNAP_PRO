@@ -61,4 +61,6 @@ export abstract class NeedsRecommendation<T = any> extends ValueObject<INeedsRec
          if (!props.startDate?.isBefore(props.endDate as CDate)) throw new ArgumentOutOfRangeException("La date de début d'application de la recommandation doit être avant la date de fin. ")
       }
    }
+
+   
 }

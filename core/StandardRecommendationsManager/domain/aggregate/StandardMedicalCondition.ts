@@ -1,8 +1,9 @@
-import { AggregateRoot, EmptyStringError, Guard, HealthIndicator, NeedsRecommendation } from "@/core/shared";
+import { AggregateRoot, EmptyStringError, ExceptionBase, Guard, HealthIndicator, NeedsRecommendation, Result } from "@/core/shared";
 import SmartCalc from "smartcal";
 import { MedicalConditionRecommendationAddedEvent } from "../events/MedicalConditionRecommendationAddedEvent";
 import { MedicalConditionRecommendationRemovedEvent } from "../events/MedicalConditionRecommendationRemovedEvent";
 import { MedicalConditionHealthIndicatorAddedEvent } from "../events/MedicalConditionHealthIndicatorAddedEvent";
+import { CreateStandardMedicalConditionProps } from "../types";
 
 export type StandardMedicalConditionCriteria = {
    expression: string;
@@ -30,6 +31,13 @@ export class StandardMedicalCondition extends AggregateRoot<IStandardMedicalCond
    }
    set criteria(criteria: StandardMedicalConditionCriteria) {
       this.props.criteria = criteria;
+      this.validate();
+   }
+   get description(): string {
+      return this.props.description;
+   }
+   set description(description: string) {
+      this.props.description = description;
       this.validate();
    }
 
@@ -92,5 +100,29 @@ export class StandardMedicalCondition extends AggregateRoot<IStandardMedicalCond
       this._isValid = false;
       if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError("Le nom d'une condition medicale ne doit pas être vide.");
       this._isValid = true;
+   }
+   static create(createStandardMedicalConditionProps: CreateStandardMedicalConditionProps): Result<StandardMedicalCondition> {
+      try {
+         const healthIndicators = createStandardMedicalConditionProps.healthIndicators.map((healthIndicator) => HealthIndicator.create(healthIndicator))
+         const healthIndicatorResult = Result.combine(healthIndicators)
+         if (healthIndicatorResult.isFailure) return Result.fail<StandardMedicalCondition>(healthIndicatorResult.err)
+         const standardMedicalCondition = new StandardMedicalCondition({
+            props: {
+               name: createStandardMedicalConditionProps.name,
+               criteria: createStandardMedicalConditionProps.criteria,
+               healthIndicators: healthIndicators.map(healthIndicator => healthIndicator.val),
+               defaultRecommendation: createStandardMedicalConditionProps.defaultRecommendation,
+               description: createStandardMedicalConditionProps.description
+            }
+         })
+         return Result.ok<StandardMedicalCondition>(standardMedicalCondition)
+      }
+      catch (error) {
+         return error instanceof ExceptionBase
+            ? Result.fail<StandardMedicalCondition>(`[${error.code}]:${error.message}`)
+            : Result.fail<StandardMedicalCondition>(`Erreur inattendue. ${StandardMedicalCondition?.constructor.name}`);
+
+      }
+
    }
 }
