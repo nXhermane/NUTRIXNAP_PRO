@@ -1,18 +1,10 @@
-import { IHealthIndicator, ITimeframe } from "@/core/shared";
+import { IHealthIndicator, ITimeframe, NeedsRecommendationDto } from "@/core/shared";
 import { RecommendationPriority } from "@/core/shared/modules/NeedsRecommendations/RecommendationPriority";
 export interface Timestamps {
     createdAt: string;
     updatedAt: string;
 }
-export type RecommendationPersistenceType = {
-    priority: RecommendationPriority;
-    nutrientTagName: string;
-    desciption: string;
-    data: any;
-    startDate?: string
-    endDate?: string;
-    condition?: ExpressionPersistenceType
-}
+
 
 export type ExpressionPersistenceType = {
     expression: string;
@@ -24,14 +16,14 @@ export interface StandardMedicalConditionPersistenceType extends Timestamps {
     name: string;
     description: string;
     criteria: ExpressionPersistenceType;
-    recommendations: RecommendationPersistenceType[];
+    recommendations: NeedsRecommendationDto[];
     healthIndicators: IHealthIndicator[]
 }
 export interface StandardObjectivePersistenceType extends Timestamps {
     id: string;
     name: string;
     type: "General" | "Measure"
-    recommendations: RecommendationPersistenceType[]
+    recommendations: NeedsRecommendationDto[]
     timeframe: ITimeframe;
     measureCode?: string;
     initialValue?: number // Valeur initiale standard

@@ -1,5 +1,5 @@
 import SmartCalc from "smartcal";
-import { NeedsRecommendation, NeedsRecommendationContext, NutrientNeedsValue } from "./NeedsRecommendation";
+import { INeedsRecommendation, NeedsRecommendation, NeedsRecommendationContext, NutrientNeedsValue } from "./NeedsRecommendation";
 import { Guard } from "@/core/shared/core";
 import { InvalidResultError } from "@/core/shared/exceptions";
 
@@ -9,6 +9,12 @@ export interface INeedsRecommendationByFormular {
     unit: string
 }
 export class NeedsRecommendationByFormular extends NeedsRecommendation<INeedsRecommendationByFormular> {
+    constructor(props: INeedsRecommendation<INeedsRecommendationByFormular>) {
+        super({
+          ...props,
+          type: "Formular",
+        })
+      }
     getVariableTable(): { [key: string]: string | number; } {
         const conditionVariableTable = super.getVariableTable()
         const formularVariableTable = this.props.data.variables

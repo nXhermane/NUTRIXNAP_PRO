@@ -11,6 +11,12 @@ export interface INeedsRecommendationByInterval {
 }
 
 export class NeedsRecommendationByInterval extends NeedsRecommendation<INeedsRecommendationByInterval> {
+    constructor(props: INeedsRecommendation<INeedsRecommendationByInterval>) {
+        super({
+            ...props,
+            type: "Interval"
+        })
+    }
     protected _apply(nutrientBasicValue: NutrientNeedsValue, context: NeedsRecommendationContext): NutrientNeedsValue {
         if (this.props.data.min != null) {
             const nutrientBaseValueIsLowerToMinValue = nutrientBasicValue.value < this.props.data.min

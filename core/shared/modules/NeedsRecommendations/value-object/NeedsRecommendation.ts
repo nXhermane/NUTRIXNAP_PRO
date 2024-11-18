@@ -22,6 +22,7 @@ export interface INeedsRecommendation<T> {
     * this condition is optional , je l'ai implementé afin d'éviter la creation d'une autre type de recommendation 
     */
    condition?: Condition;
+   type: "Formular"|"Exclusion"| "Interval"| "Substitution"| "Relativity"
 
 }
 export type NutrientNeedsValue = { value: number; unit: string };

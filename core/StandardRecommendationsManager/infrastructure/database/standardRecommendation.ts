@@ -1,8 +1,10 @@
-import { IHealthIndicator, ITimeframe } from "@/core/shared";
+import { IHealthIndicator, ITimeframe, NeedsRecommendationDto } from "@/core/shared";
 import { RecommendationPriority } from "@/core/shared/modules/NeedsRecommendations/RecommendationPriority";
 import { sql } from "drizzle-orm";
 import { integer, numeric, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { ExpressionPersistenceType, RecommendationPersistenceType } from "../types";
+import { ExpressionPersistenceType, } from "../types";
+type RecommendationPersistenceType = NeedsRecommendationDto
+
 
 export const standardObjectives = sqliteTable("standard_obejctived", {
     id: text("id").primaryKey(),
