@@ -1,4 +1,4 @@
-import { HealthIndicator, IHealthIndicator, Mapper, NeedsRecommendation, NeedsRecommendationDto } from "@/core/shared";
+import { HealthIndicator, IHealthIndicator, Mapper, NeedsRecommendation, NeedsRecommendationDto, NeedsRecommendationMapper } from "@/core/shared";
 import { StandardMedicalCondition } from "../../domain/aggregate/StandardMedicalCondition";
 import { StandardMedicalConditionDto } from "../dtos/StandardMedicalCondititonDto";
 import { StandardMedicalConditionPersistenceType } from "../types";
@@ -11,11 +11,11 @@ export class StandardMedicalConditionMapper implements Mapper<StandardMedicalCon
             name: entity.name,
             description: entity.description,
             criteria: entity.criteria,
-            recommendations: entity.defaultRecommendation.map(recommendation => recommendation.unpack()),
-            healthIndicators: entity.healthIndicators.map(healthIndicator => healthIndicator.unpack()),
+            recommendations: entity.getRecommendations().map(recommendation => NeedsRecommendationMapper.toDto(recommendation)),
+            healthIndicators: entity.healthIndicators,
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt,
-        } as StandardMedicalConditionPersistenceType;
+        };
     }
     toDomain(record: StandardMedicalConditionPersistenceType): StandardMedicalCondition {
         const recommendationsResult = record.recommendations.map((recommendation: NeedsRecommendationDto) => NeedsRecommendationFactory.create(recommendation))
@@ -36,7 +36,15 @@ export class StandardMedicalConditionMapper implements Mapper<StandardMedicalCon
         return standardMedicalCondition
     }
     toResponse(entity: StandardMedicalCondition): StandardMedicalConditionDto {
-        throw new Error("Method not implemented.");
+        return {
+            id: entity.id,
+            name: entity.name,
+            description: entity.description,
+            criteria: entity.criteria,
+            recommendations: entity.getRecommendations().map(recommendation=> NeedsRecommendationMapper.toDto(recommendation)),
+            healthIndicators: entity.healthIndicators,
+        }
     }
+
 
 }

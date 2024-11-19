@@ -1,4 +1,4 @@
-import { AggregateRoot, EmptyStringError, ExceptionBase, Guard, HealthIndicator, NeedsRecommendation, Result } from "@/core/shared";
+import { AggregateRoot, EmptyStringError, ExceptionBase, Guard, HealthIndicator, IHealthIndicator, INeedsRecommendation, NeedsRecommendation, Result } from "@/core/shared";
 import SmartCalc from "smartcal";
 import { MedicalConditionRecommendationAddedEvent } from "../events/MedicalConditionRecommendationAddedEvent";
 import { MedicalConditionRecommendationRemovedEvent } from "../events/MedicalConditionRecommendationRemovedEvent";
@@ -41,11 +41,14 @@ export class StandardMedicalCondition extends AggregateRoot<IStandardMedicalCond
       this.validate();
    }
 
-   get defaultRecommendation(): NeedsRecommendation[] {
-      return this.props.defaultRecommendation;
+   get defaultRecommendation(): INeedsRecommendation<any>[] {
+      return this.props.defaultRecommendation.map(recommendation => recommendation.unpack());
    }
-   get healthIndicators(): HealthIndicator[] {
-      return this.props.healthIndicators
+   getRecommendations(): NeedsRecommendation[] {
+      return this.props.defaultRecommendation
+   }
+   get healthIndicators(): IHealthIndicator[] {
+      return this.props.healthIndicators.map(healthIndicator => healthIndicator.unpack())
    }
    addHealthIndicator(healthIndicator: HealthIndicator) {
       this.props.healthIndicators.push(healthIndicator);

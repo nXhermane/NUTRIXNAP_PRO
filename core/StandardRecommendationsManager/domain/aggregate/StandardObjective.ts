@@ -1,4 +1,4 @@
-import { AggregateRoot, EmptyStringError, ExceptionBase, Guard, ITimeframe, NeedsRecommendation, NegativeValueError, ObjectiveStatus, ObjectiveType, Result, Timeframe } from "@/core/shared";
+import { AggregateRoot, EmptyStringError, ExceptionBase, Guard, INeedsRecommendation, ITimeframe, NeedsRecommendation, NegativeValueError, ObjectiveStatus, ObjectiveType, Result, Timeframe } from "@/core/shared";
 import { CreateStandardObjectiveProps } from "../types";
 import { ObjectiveRecommendationAddedEvent } from "../events/ObjectiveRecommendationAddedEvent";
 import { ObjectiveRecommendationRemovedEvent } from "../events/ObjectiveRecommendationRemovedEvent";
@@ -100,6 +100,10 @@ export class StandardObjective extends AggregateRoot<IStandardObjective> {
         this.props.timeframe = timeframe
         this.validate()
     }
+    get defaultRecommendations(): INeedsRecommendation<any>[] {
+        return this.props.defaultRecommendation.map(recommendation=>recommendation.unpack())
+    }
+    
     getRecommendations(): NeedsRecommendation[] {
         return this.props.defaultRecommendation
     }

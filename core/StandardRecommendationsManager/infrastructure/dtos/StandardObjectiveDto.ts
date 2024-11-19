@@ -1,11 +1,11 @@
-import { AggregateID, ITimeframe } from "@/core/shared";
-import { RecommendationPersistenceType } from "../types";
+import { AggregateID, ITimeframe, NeedsRecommendationDto } from "@/core/shared";
+
 
 export interface StandardObjectiveDto {
     id: AggregateID;
     name: string;
     type: "General"| "Measure"
-    recommendations: RecommendationPersistenceType[]
+    recommendations: NeedsRecommendationDto[]
     timeframe: ITimeframe;
     measureCode?: string;
     initialValue?: number // Valeur initiale standard

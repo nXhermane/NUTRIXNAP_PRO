@@ -1,11 +1,11 @@
-import { AggregateID, IHealthIndicator } from "@/core/shared";
-import { ExpressionPersistenceType, RecommendationPersistenceType } from "../types";
+import { AggregateID, IHealthIndicator, NeedsRecommendationDto } from "@/core/shared";
+import { ExpressionPersistenceType,  } from "../types";
 
 export interface StandardMedicalConditionDto {
     id: AggregateID
     name: string;
     description: string;
     criteria: ExpressionPersistenceType;
-    recommendations: RecommendationPersistenceType[];
+    recommendations: NeedsRecommendationDto[];
     healthIndicators: IHealthIndicator[]
 }

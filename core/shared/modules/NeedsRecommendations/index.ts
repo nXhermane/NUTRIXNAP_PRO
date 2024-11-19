@@ -7,3 +7,4 @@ export * from './value-object/NeedsRecommendationBySubstitution'
 export * from "./value-object/HealthIndicator"
 export * from "./dtos/NeedsRecommendationDto"
 export * from "./factories/NeedsRecommendationFactory"
+export * from "./mappers/NeedsRecommendationMappers"
